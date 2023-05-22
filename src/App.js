@@ -125,7 +125,6 @@ function App() {
       <div>
         <form>
           <input autoComplete="off" id="title" name="title" type="text" value={title} onChange={titleChange} />
-          <input autoComplete="off" id="description" name="description" type="text" value={description} onChange={desccriptionChange} />
           <button type="submit" onClick={saveTopic}>저장!!!</button>
           <button onClick={updateTopic}>수정</button>
           <button onClick={deleteTopic}>삭제</button>
