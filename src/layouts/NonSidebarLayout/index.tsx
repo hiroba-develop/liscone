@@ -1,8 +1,8 @@
-import { Box, alpha, lighten, useTheme } from '@mui/material';
-import { FC, ReactNode } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Box, alpha, lighten, useTheme } from "@mui/material";
+import { FC, ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 
-import Header from './Header';
+import Header from "./Header";
 
 interface NonSidebarLayoutProps {
   children?: ReactNode;
@@ -16,16 +16,16 @@ const NonSidebarLayout: FC<NonSidebarLayoutProps> = () => {
       <Box
         sx={{
           flex: 1,
-          height: '100%',
+          height: "100%",
 
-          '.MuiPageTitle-wrapper': {
+          ".MuiPageTitle-wrapper": {
             background:
-              theme.palette.mode === 'dark'
+              theme.palette.mode === "dark"
                 ? theme.colors.alpha.trueWhite[5]
                 : theme.colors.alpha.white[50],
             marginBottom: `${theme.spacing(4)}`,
             boxShadow:
-              theme.palette.mode === 'dark'
+              theme.palette.mode === "dark"
                 ? `0 1px 0 ${alpha(
                     lighten(theme.colors.primary.main, 0.7),
                     0.15
@@ -36,21 +36,18 @@ const NonSidebarLayout: FC<NonSidebarLayoutProps> = () => {
                   )}, 0px 5px 12px -4px ${alpha(
                     theme.colors.alpha.black[100],
                     0.05
-                  )}`
-          }
+                  )}`,
+          },
         }}
       >
         <Header />
         <Box
           sx={{
-            position: 'relative',
+            position: "relative",
             zIndex: 5,
-            display: 'block',
+            display: "block",
             flex: 1,
             pt: `${theme.header.height}`,
-            [theme.breakpoints.up('lg')]: {
-              ml: `${theme.sidebar.width}`
-            }
           }}
         >
           <Box display="block">

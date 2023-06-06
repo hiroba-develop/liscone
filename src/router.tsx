@@ -2,7 +2,6 @@ import { Suspense, lazy } from "react";
 import { RouteObject } from "react-router";
 import { Navigate } from "react-router-dom";
 
-import BaseLayout from "src/layouts/BaseLayout";
 import SidebarLayout from "src/layouts/SidebarLayout";
 
 import SuspenseLoader from "src/components/SuspenseLoader";
@@ -16,8 +15,6 @@ const Loader = (Component) => (props) =>
   );
 
 // Pages
-
-const Overview = Loader(lazy(() => import("src/content/overview")));
 
 // Dashboards
 
