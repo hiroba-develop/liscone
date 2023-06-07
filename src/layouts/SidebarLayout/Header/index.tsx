@@ -1,27 +1,8 @@
-import { useContext } from 'react';
-
-import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
-import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
-import {
-  Box,
-  Divider,
-  IconButton,
-  Stack,
-  Tooltip,
-  alpha,
-  lighten,
-  styled,
-  useTheme
-} from '@mui/material';
-import { SidebarContext } from 'src/contexts/SidebarContext';
-
-import HeaderButtons from './Buttons';
-import HeaderMenu from './Menu';
-import HeaderUserbox from './Userbox';
+import { Box, alpha, lighten, styled, useTheme } from "@mui/material";
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
-        height: ${theme.header.height};
+        height: 64px;
         color: ${theme.header.textColor};
         padding: ${theme.spacing(0, 2)};
         right: 0;
@@ -35,7 +16,6 @@ const HeaderWrapper = styled(Box)(
 );
 
 function Header() {
-  const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
   const theme = useTheme();
 
   return (
@@ -44,7 +24,7 @@ function Header() {
       alignItems="center"
       sx={{
         boxShadow:
-          theme.palette.mode === 'dark'
+          theme.palette.mode === "dark"
             ? `0 1px 0 ${alpha(
                 lighten(theme.colors.primary.main, 0.7),
                 0.15
@@ -55,37 +35,14 @@ function Header() {
               )}, 0px 5px 22px -4px ${alpha(
                 theme.colors.alpha.black[100],
                 0.1
-              )}`
+              )}`,
       }}
     >
-      <Stack
-        direction="row"
-        divider={<Divider orientation="vertical" flexItem />}
-        alignItems="center"
-        spacing={2}
-      >
-        <HeaderMenu />
-      </Stack>
-      <Box display="flex" alignItems="center">
-        <HeaderButtons />
-        <HeaderUserbox />
-        <Box
-          component="span"
-          sx={{
-            ml: 2,
-            display: { lg: 'none', xs: 'inline-block' }
-          }}
-        >
-          <Tooltip arrow title="Toggle Menu">
-            <IconButton color="primary" onClick={toggleSidebar}>
-              {!sidebarToggle ? (
-                <MenuTwoToneIcon fontSize="small" />
-              ) : (
-                <CloseTwoToneIcon fontSize="small" />
-              )}
-            </IconButton>
-          </Tooltip>
-        </Box>
+      <Box>
+        <img src="/static/images/logo/lisconne-logo.svg" alt="lisconne-logo" />
+      </Box>
+      <Box alignItems="left">
+        <button>ログアウト</button>
       </Box>
     </HeaderWrapper>
   );
