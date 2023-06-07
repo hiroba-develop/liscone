@@ -1,4 +1,4 @@
-import { Box, alpha, lighten, styled, useTheme } from "@mui/material";
+import { Box, Button, alpha, lighten, styled, useTheme } from "@mui/material";
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -15,6 +15,11 @@ const HeaderWrapper = styled(Box)(
 `
 );
 
+const ButtonWrapper = styled(Button)(
+  ({ theme }) => `
+        color: white;
+  `
+);
 function Header() {
   const theme = useTheme();
 
@@ -42,7 +47,10 @@ function Header() {
         <img src="/static/images/logo/lisconne-logo.svg" alt="lisconne-logo" />
       </Box>
       <Box alignItems="left">
-        <button>ログアウト</button>
+        <ButtonWrapper href="#text-buttons">
+          <img src="/static/images/Vector.svg" alt="vector" />
+          　ログアウト
+        </ButtonWrapper>
       </Box>
     </HeaderWrapper>
   );
