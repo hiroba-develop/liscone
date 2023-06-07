@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext } from "react";
 
 import {
   ListSubheader,
@@ -7,30 +7,30 @@ import {
   List,
   styled,
   Button,
-  ListItem
-} from '@mui/material';
-import { NavLink as RouterLink } from 'react-router-dom';
-import { SidebarContext } from 'src/contexts/SidebarContext';
+  ListItem,
+} from "@mui/material";
+import { NavLink as RouterLink } from "react-router-dom";
+import { SidebarContext } from "src/contexts/SidebarContext";
 
-import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
-import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
-import MmsTwoToneIcon from '@mui/icons-material/MmsTwoTone';
-import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
-import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
-import BallotTwoToneIcon from '@mui/icons-material/BallotTwoTone';
-import BeachAccessTwoToneIcon from '@mui/icons-material/BeachAccessTwoTone';
-import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone';
-import FilterVintageTwoToneIcon from '@mui/icons-material/FilterVintageTwoTone';
-import HowToVoteTwoToneIcon from '@mui/icons-material/HowToVoteTwoTone';
-import LocalPharmacyTwoToneIcon from '@mui/icons-material/LocalPharmacyTwoTone';
-import RedeemTwoToneIcon from '@mui/icons-material/RedeemTwoTone';
-import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
-import TrafficTwoToneIcon from '@mui/icons-material/TrafficTwoTone';
-import CheckBoxTwoToneIcon from '@mui/icons-material/CheckBoxTwoTone';
-import ChromeReaderModeTwoToneIcon from '@mui/icons-material/ChromeReaderModeTwoTone';
-import WorkspacePremiumTwoToneIcon from '@mui/icons-material/WorkspacePremiumTwoTone';
-import CameraFrontTwoToneIcon from '@mui/icons-material/CameraFrontTwoTone';
-import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
+import DesignServicesTwoToneIcon from "@mui/icons-material/DesignServicesTwoTone";
+import BrightnessLowTwoToneIcon from "@mui/icons-material/BrightnessLowTwoTone";
+import MmsTwoToneIcon from "@mui/icons-material/MmsTwoTone";
+import TableChartTwoToneIcon from "@mui/icons-material/TableChartTwoTone";
+import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
+import BallotTwoToneIcon from "@mui/icons-material/BallotTwoTone";
+import BeachAccessTwoToneIcon from "@mui/icons-material/BeachAccessTwoTone";
+import EmojiEventsTwoToneIcon from "@mui/icons-material/EmojiEventsTwoTone";
+import FilterVintageTwoToneIcon from "@mui/icons-material/FilterVintageTwoTone";
+import HowToVoteTwoToneIcon from "@mui/icons-material/HowToVoteTwoTone";
+import LocalPharmacyTwoToneIcon from "@mui/icons-material/LocalPharmacyTwoTone";
+import RedeemTwoToneIcon from "@mui/icons-material/RedeemTwoTone";
+import SettingsTwoToneIcon from "@mui/icons-material/SettingsTwoTone";
+import TrafficTwoToneIcon from "@mui/icons-material/TrafficTwoTone";
+import CheckBoxTwoToneIcon from "@mui/icons-material/CheckBoxTwoTone";
+import ChromeReaderModeTwoToneIcon from "@mui/icons-material/ChromeReaderModeTwoTone";
+import WorkspacePremiumTwoToneIcon from "@mui/icons-material/WorkspacePremiumTwoTone";
+import CameraFrontTwoToneIcon from "@mui/icons-material/CameraFrontTwoTone";
+import DisplaySettingsTwoToneIcon from "@mui/icons-material/DisplaySettingsTwoTone";
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -46,7 +46,7 @@ const MenuWrapper = styled(Box)(
       text-transform: uppercase;
       font-weight: bold;
       font-size: ${theme.typography.pxToRem(12)};
-      color: ${theme.colors.alpha.trueWhite[50]};
+      color: #66788A;
       padding: ${theme.spacing(0, 2.5)};
       line-height: 1.4;
     }
@@ -69,13 +69,13 @@ const SubMenuWrapper = styled(Box)(
             font-size: ${theme.typography.pxToRem(10)};
             font-weight: bold;
             text-transform: uppercase;
-            color: ${theme.palette.primary.contrastText};
+            color: #66788A;
           }
         }
     
         .MuiButton-root {
           display: flex;
-          color: ${theme.colors.alpha.trueWhite[70]};
+          color: #66788A;
           background-color: transparent;
           width: 100%;
           justify-content: flex-start;
@@ -83,7 +83,7 @@ const SubMenuWrapper = styled(Box)(
 
           .MuiButton-startIcon,
           .MuiButton-endIcon {
-            transition: ${theme.transitions.create(['color'])};
+            transition: ${theme.transitions.create(["color"])};
 
             .MuiSvgIcon-root {
               font-size: inherit;
@@ -92,13 +92,13 @@ const SubMenuWrapper = styled(Box)(
           }
 
           .MuiButton-startIcon {
-            color: ${theme.colors.alpha.trueWhite[30]};
+            color: #66788A;
             font-size: ${theme.typography.pxToRem(20)};
             margin-right: ${theme.spacing(1)};
           }
           
           .MuiButton-endIcon {
-            color: ${theme.colors.alpha.trueWhite[50]};
+            color: #66788A;
             margin-left: auto;
             opacity: .8;
             font-size: ${theme.typography.pxToRem(20)};
@@ -106,12 +106,12 @@ const SubMenuWrapper = styled(Box)(
 
           &.active,
           &:hover {
-            background-color: ${alpha(theme.colors.alpha.trueWhite[100], 0.06)};
-            color: ${theme.colors.alpha.trueWhite[100]};
+            background-color: #F6F6FA;
+            color: #66788A;
 
             .MuiButton-startIcon,
             .MuiButton-endIcon {
-              color: ${theme.colors.alpha.trueWhite[100]};
+              color: #66788A;
             }
           }
         }
@@ -147,8 +147,8 @@ const SubMenuWrapper = styled(Box)(
                 background: ${theme.colors.alpha.trueWhite[100]};
                 opacity: 0;
                 transition: ${theme.transitions.create([
-                  'transform',
-                  'opacity'
+                  "transform",
+                  "opacity",
                 ])};
                 width: 6px;
                 height: 6px;

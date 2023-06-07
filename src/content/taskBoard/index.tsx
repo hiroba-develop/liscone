@@ -27,7 +27,7 @@ const MainContent = styled(Box)(
 `
 );
 
-function signIn() {
+function taskBoard() {
   //
   function init() {
     // ... ajax콜을 통해 응답데이터로 topicudpate
@@ -110,4 +110,4 @@ function signIn() {
   );
 }
 
-export default signIn;
+export default taskBoard;
