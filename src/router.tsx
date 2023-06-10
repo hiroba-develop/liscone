@@ -74,6 +74,8 @@ const StatusMaintenance = Loader(
 
 const SignIn = Loader(lazy(() => import("src/content/signIn")));
 
+const ChangePassword = Loader(lazy(() => import("src/content/changePassword")));
+
 // TaskBoard
 
 const TaskBoard = Loader(lazy(() => import("src/content/taskBoard")));
@@ -151,6 +153,10 @@ const routes: RouteObject[] = [
       {
         path: "signUp",
         element: <SignIn />,
+      },
+      {
+        path: "changePassword",
+        element: <ChangePassword />,
       },
     ],
   },
