@@ -96,11 +96,12 @@ function signIn() {
                   size="large"
                   variant="contained"
                   onClick={init}
+                  href="/task/taskList"
                 >
                   ログイン
                 </Button>
               </FormControl>
-              <Link to="account/changePassword">
+              <Link to="/account/changePassword">
                 <Typography marginTop="30px" variant="body2">
                   パスワードをお忘れの方はこちら
                 </Typography>

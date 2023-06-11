@@ -37,7 +37,7 @@ const Message = styled(Typography)(
 `
 );
 
-function signIn() {
+function changePassword() {
   return (
     <>
       <Helmet>
@@ -97,4 +97,4 @@ function signIn() {
   );
 }
 
-export default signIn;
+export default changePassword;

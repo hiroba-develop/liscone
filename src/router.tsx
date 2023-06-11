@@ -17,13 +17,6 @@ const Loader = (Component) => (props) =>
 // Pages
 
 // Applications
-
-const Messenger = Loader(
-  lazy(() => import("src/content/applications/Messenger"))
-);
-const Transactions = Loader(
-  lazy(() => import("src/content/applications/Transactions"))
-);
 const UserProfile = Loader(
   lazy(() => import("src/content/applications/Users/profile"))
 );
@@ -71,14 +64,11 @@ const StatusMaintenance = Loader(
 );
 
 // Sign
-
 const SignIn = Loader(lazy(() => import("src/content/signIn")));
-
 const ChangePassword = Loader(lazy(() => import("src/content/changePassword")));
 
-// TaskBoard
-
-const TaskBoard = Loader(lazy(() => import("src/content/taskBoard")));
+// TaskList
+const TaskList = Loader(lazy(() => import("src/content/taskList")));
 
 const routes: RouteObject[] = [
   {
@@ -125,20 +115,12 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: "taskBoard",
+    path: "task",
     element: <SidebarLayout />,
     children: [
       {
-        path: "",
-        element: <Navigate to="taskBoard" replace />,
-      },
-      {
-        path: "taskBoard",
-        element: <TaskBoard />,
-      },
-      {
-        path: "messenger",
-        element: <Messenger />,
+        path: "taskList",
+        element: <TaskList />,
       },
     ],
   },
@@ -148,10 +130,6 @@ const routes: RouteObject[] = [
     children: [
       {
         path: "signIn",
-        element: <SignIn />,
-      },
-      {
-        path: "signUp",
         element: <SignIn />,
       },
       {
@@ -167,10 +145,6 @@ const routes: RouteObject[] = [
       {
         path: "",
         element: <Navigate to="transactions" replace />,
-      },
-      {
-        path: "transactions",
-        element: <Transactions />,
       },
       {
         path: "profile",
