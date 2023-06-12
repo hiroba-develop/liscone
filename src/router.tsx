@@ -17,6 +17,7 @@ const Loader = (Component) => (props) =>
 
 // Sign
 const SignIn = Loader(lazy(() => import("src/content/signIn")));
+const ChangePassword = Loader(lazy(() => import("src/content/changePassword")));
 
 // Applications
 const DashBoard = Loader( lazy(() => import("src/content/applications/DashBoard")) );

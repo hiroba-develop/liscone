@@ -3,15 +3,12 @@ import {
   Box,
   Button,
   Card,
-  Checkbox,
   Container,
   FormControl,
-  FormControlLabel,
   TextField,
   Typography,
 } from "@mui/material";
 import { Helmet } from "react-helmet-async";
-
 import { styled } from "@mui/material/styles";
 
 const MainContent = styled(Box)(
@@ -27,49 +24,37 @@ const MainContent = styled(Box)(
 `
 );
 
-function taskBoard() {
-  //
-  function init() {
-    // ... ajax콜을 통해 응답데이터로 topicudpate
-    fetch(`http://localhost:3001/board`, {
-      method: "GET", // *GET, POST, PUT, DELETE, etc.
-      // mode: 'no-cors', // no-cors, cors, *same-origin
-      //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      headers: {
-        "Content-Type": "application/json",
-      },
-      //redirect: 'follow', // manual, *follow, error
-      // referrer: 'no-referrer', // no-referrer, *client
-      //body: JSON.stringify(data), // body data type must match "Content-Type" header
-    })
-      .then(async (response) => {
-        let datas = await response.json();
-        console.log("뿌려준 데이터:::::", datas);
-      })
-      .catch((err) => {
-        console.log("에러메시지:::::", err);
-      });
-  }
+const Message = styled(Typography)(
+  ({ theme }) => `
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;  
+  letter-spacing: -0.06px;  
+  color: #212529;
+  text-align: left;
+`
+);
 
+function changePassword() {
   return (
     <>
       <Helmet>
-        <title>LisCone ログイン</title>
+        <title>パスワード初期変更画面</title>
       </Helmet>
       <MainContent>
         <Container maxWidth="sm">
           <Card sx={{ textAlign: "center", mt: 3, p: 4 }}>
             <Box component="form" noValidate sx={{ mt: 3 }}>
-              <Typography marginBottom="30px" display="flex" variant="h3">
-                ログイン
-              </Typography>
               <FormControl component="fieldset" variant="standard" fullWidth>
                 <Box
                   marginBottom="30px"
-                  gap="30px"
+                  gap="10px"
                   display="flex"
                   flexDirection="column"
                 >
+                  <Message>メールアドレス</Message>
                   <TextField
                     autoFocus
                     label="メールアドレス"
@@ -77,31 +62,33 @@ function taskBoard() {
                     variant="outlined"
                     name="email"
                   />
-
+                  <Message paddingTop="20px">仮パスワード</Message>
                   <TextField
                     label="パスワード"
                     type="password"
-                    autoComplete="current-password"
-                    variant="outlined"
-                    name="password"
+                    name="tmp_password"
                   />
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="ログイン情報を保存する"
+                  <Message paddingTop="20px">パスワード</Message>
+                  <TextField
+                    label="パスワード"
+                    type="password"
+                    name="new_password"
+                  />
+                  <TextField
+                    label="パスワード（確認）"
+                    type="password"
+                    name="new_password_cfm"
                   />
                 </Box>
                 <Button
                   type="submit"
                   size="large"
                   variant="contained"
-                  onClick={init}
+                  // onClick={init}
                 >
-                  ログイン
+                  パスワード変更
                 </Button>
               </FormControl>
-              <Typography marginTop="30px" variant="body2">
-                パスワードをお忘れの方はこちら
-              </Typography>
             </Box>
           </Card>
         </Container>
@@ -110,4 +97,4 @@ function taskBoard() {
   );
 }
 
-export default taskBoard;
+export default changePassword;

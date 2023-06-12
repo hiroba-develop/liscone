@@ -1,15 +1,12 @@
-export type CryptoOrderStatus = 'completed' | 'pending' | 'failed';
+export type CryptoOrderStatus = "completed" | "pending" | "failed";
+export type CurrentStatus = "本日期限" | "完了" | "未完了";
 
 export interface CryptoOrder {
   id: string;
-  status: CryptoOrderStatus;
-  orderDetails: string;
-  orderDate: number;
-  orderID: string;
-  sourceName: string;
-  sourceDesc: string;
-  amountCrypto: number;
-  amount: number;
-  cryptoCurrency: string;
-  currency: string;
+  tradingStatus: CurrentStatus;
+  task: string;
+  deadline: string;
+  comName: string;
+  comManager: string;
+  comTelephone: string;
 }

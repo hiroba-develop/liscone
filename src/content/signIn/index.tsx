@@ -13,6 +13,7 @@ import {
 import { Helmet } from "react-helmet-async";
 
 import { styled } from "@mui/material/styles";
+import { Link } from "react-router-dom";
 
 const MainContent = styled(Box)(
   ({ theme }) => `
@@ -95,13 +96,16 @@ function signIn() {
                   size="large"
                   variant="contained"
                   onClick={init}
+                  href="/task/taskList"
                 >
                   ログイン
                 </Button>
               </FormControl>
-              <Typography marginTop="30px" variant="body2">
-                パスワードをお忘れの方はこちら
-              </Typography>
+              <Link to="/account/changePassword">
+                <Typography marginTop="30px" variant="body2">
+                  パスワードをお忘れの方はこちら
+                </Typography>
+              </Link>
             </Box>
           </Card>
         </Container>
