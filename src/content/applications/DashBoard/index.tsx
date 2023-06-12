@@ -4,7 +4,7 @@ import Footer from 'src/components/Footer';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 // import PageHeader from './PageHeader';
 
-// import RecentOrders from './RecentOrders';
+import RecentOrders from './ListData';
 
 function DashBoard() {
 
@@ -13,9 +13,6 @@ function DashBoard() {
       <Helmet>
         <title>DashBoard</title>
       </Helmet>
-      <PageTitleWrapper>
-        ## PageHeader
-      </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
           container
@@ -25,7 +22,7 @@ function DashBoard() {
           spacing={3}
         >
           <Grid item xs={12}>
-          DashBoard
+          <RecentOrders />
           </Grid>
         </Grid>
       </Container>
