@@ -1,13 +1,13 @@
 import { Card } from '@mui/material';
 import { TaskList } from 'src/models/task_list';
-import RecentOrdersTable from './TaskListsTable';
-import { subDays } from 'date-fns';
+import TaskListsTable from './TaskListsTable';
 
-function RecentOrders() {
+
+function TaskLists() {
   const taskLists: TaskList[] = [
     {
       id: '1',
-      status: 'Completed',
+      status: 'completed',
       task: 'task001',      
       dueDate: new Date().getTime(),      
       companyToCall: 'company to call',
@@ -17,7 +17,7 @@ function RecentOrders() {
     },
     {
       id: '2',
-      status: 'Completed',
+      status: 'completed',
       task: 'task002',      
       dueDate: new Date().getTime(),      
       companyToCall: 'company to call',
@@ -27,7 +27,7 @@ function RecentOrders() {
     },
     {
       id: '3',
-      status: 'Failed',
+      status: 'failed',
       task: 'task003',      
       dueDate: new Date().getTime(),      
       companyToCall: 'company to call',
@@ -37,7 +37,7 @@ function RecentOrders() {
     },
     {
       id: '4',
-      status: 'Failed',
+      status: 'failed',
       task: 'task004',      
       dueDate: new Date().getTime(),      
       companyToCall: 'company to call',
@@ -47,7 +47,7 @@ function RecentOrders() {
     },
     {
       id: '5',
-      status: 'Pending',
+      status: 'pending',
       task: 'task005',      
       dueDate: new Date().getTime(),      
       companyToCall: 'company to call',
@@ -57,7 +57,7 @@ function RecentOrders() {
     },
     {
       id: '6',
-      status: 'Failed',
+      status: 'failed',
       task: 'task006',      
       dueDate: new Date().getTime(),      
       companyToCall: 'company to call',
@@ -67,7 +67,7 @@ function RecentOrders() {
     },
     {
       id: '7',
-      status: 'Failed',
+      status: 'failed',
       task: 'task007',      
       dueDate: new Date().getTime(),      
       companyToCall: 'company to call',
@@ -77,7 +77,7 @@ function RecentOrders() {
     },
     {
       id: '8',
-      status: 'Failed',
+      status: 'failed',
       task: 'task008',      
       dueDate: new Date().getTime(),      
       companyToCall: 'company to call',
@@ -87,7 +87,7 @@ function RecentOrders() {
     },
     {
       id: '9',
-      status: 'Completed',
+      status: 'completed',
       task: 'task009',      
       dueDate: new Date().getTime(),      
       companyToCall: 'company to call',
@@ -97,7 +97,7 @@ function RecentOrders() {
     },
     {
       id: '10',
-      status: 'Completed',
+      status: 'completed',
       task: 'task010',      
       dueDate: new Date().getTime(),      
       companyToCall: 'company to call',
@@ -109,9 +109,9 @@ function RecentOrders() {
 
   return (
     <Card>
-      <RecentOrdersTable taskLists={taskLists} />
+      <TaskListsTable taskLists={taskLists} />
     </Card>
   );
 }
 
-export default RecentOrders;
+export default TaskLists;

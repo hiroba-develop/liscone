@@ -26,49 +26,45 @@ import {
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import { TaskList, TaskStatus } from 'src/models/task_list'
+import { CompanyList, CompanyListStatus } from 'src/models/company_list'
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 
-interface TaskListsProps {
+interface CompanyListsProps {
   className?: string;
-  taskLists: TaskList[];
+  companyLists: CompanyList[];
 }
 
 interface Filters {
-  status?: TaskStatus;
+  status?: CompanyListStatus;
 }
 
-const getStatusLabel = (taskStatus: TaskStatus): JSX.Element => {
+const getStatusLabel = (companyListStatus: CompanyListStatus): JSX.Element => {
   const map = {
-    failed: {
-      text: 'failed',
+    listed: {
+      text: '上場',
       color: 'error'
     },
-    completed: {
-      text: 'completed',
-      color: 'success'
-    },
-    pending: {
-      text: 'pending',
-      color: 'warning'
+    unlisted: {
+      text: '未上場',
+      color: 'black'
     }
   };
 
-  const { text, color }: any = map[taskStatus];
+  const { text, color }: any = map[companyListStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (
-  taskLists: TaskList[],
+  companyLists: CompanyList[],
   filters: Filters
-): TaskList[] => {
-  return taskLists.filter((taskList) => {
+): CompanyList[] => {
+  return companyLists.filter((companyLists) => {
     let matches = true;
 
-    if (filters.status && taskList.status !== filters.status) {
+    if (filters.status && companyLists.listing !== filters.status) {
       matches = false;
     }
 
@@ -77,18 +73,18 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  taskLists: TaskList[],
+  companyLists: CompanyList[],
   page: number,
   limit: number
-): TaskList[] => {
-  return taskLists.slice(page * limit, page * limit + limit);
+): CompanyList[] => {
+  return companyLists.slice(page * limit, page * limit + limit);
 };
 
-const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
-  const [selectedTaskLists, setSelectedTaskLists] = useState<string[]>(
+const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
+  const [selectedCompanyLists, setSelectedCompanyLists] = useState<string[]>(
     []
   );
-  const selectedBulkActions = selectedTaskLists.length > 0;
+  const selectedBulkActions = selectedCompanyLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
@@ -101,16 +97,12 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
       name: 'All'
     },
     {
-      id: 'completed',
-      name: 'completed'
+      id: 'listed',
+      name: 'listed'
     },
     {
-      id: 'pending',
-      name: 'pending'
-    },
-    {
-      id: 'failed',
-      name: 'failed'
+      id: 'unlisted',
+      name: 'unlisted'
     }
   ];
 
@@ -127,28 +119,28 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
     }));
   };
 
-  const handleSelectAllTaskLists = (
+  const handleSelectAllCompanyLists = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedTaskLists(
+    setSelectedCompanyLists(
       event.target.checked
-        ? taskLists.map((taskList) => taskList.id)
+        ? companyLists.map((companyList) => companyList.id)
         : []
     );
   };
 
-  const handleSelectOneTaskList = (
+  const handleSelectOneCompanyList = (
     event: ChangeEvent<HTMLInputElement>,
-    taskListId: string
+    companyListId: string
   ): void => {
-    if (!selectedTaskLists.includes(taskListId)) {
-      setSelectedTaskLists((prevSelected) => [
+    if (!selectedCompanyLists.includes(companyListId)) {
+      setSelectedCompanyLists((prevSelected) => [
         ...prevSelected,
-        taskListId
+        companyListId
       ]);
     } else {
-      setSelectedTaskLists((prevSelected) =>
-        prevSelected.filter((id) => id !== taskListId)
+      setSelectedCompanyLists((prevSelected) =>
+        prevSelected.filter((id) => id !== companyListId)
       );
     }
   };
@@ -161,17 +153,17 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredTaskLists = applyFilters(taskLists, filters);
-  const paginatedTaskLists = applyPagination(
-    filteredTaskLists,
+  const filteredCompanyLists = applyFilters(companyLists, filters);
+  const paginatedCompanyLists = applyPagination(
+    filteredCompanyLists,
     page,
     limit
   );
-  const selectedSomeTaskLists =
-    selectedTaskLists.length > 0 &&
-    selectedTaskLists.length < taskLists.length;
-  const selectedAllTaskLists =
-    selectedTaskLists.length === taskLists.length;
+  const selectedSomeCompanyLists =
+    selectedCompanyLists.length > 0 &&
+    selectedCompanyLists.length < companyLists.length;
+  const selectedAllCompanyLists =
+  selectedCompanyLists.length === companyLists.length;
   const theme = useTheme();
 
   return (
@@ -186,7 +178,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
           action={
             <Box width={150}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>ステータス</InputLabel>
+                <InputLabel>Status</InputLabel>
                 <Select
                   value={filters.status || 'all'}
                   onChange={handleStatusChange}
@@ -202,7 +194,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
               </FormControl>
             </Box>
           }
-          title="タスク"
+          title="絞り込み"
         />
       )}
       <Divider />
@@ -213,40 +205,45 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  //checked={selectedAllTaskLists}
-                  indeterminate={selectedSomeTaskLists}
-                  //onChange={handleSelectAllTaskLists}
+                  //checked={selectedAllCompanyLists}
+                  indeterminate={selectedSomeCompanyLists}
+                  //onChange={handleSelectAllCompanyLists}
                 />
               </TableCell>
-              <TableCell align="center">ステータス</TableCell>
-              <TableCell align="center">タスク</TableCell>
-              <TableCell align="center">期日</TableCell>
-              <TableCell align="center">架電先企業</TableCell>
-              <TableCell align="center">架電先担当</TableCell>
-              <TableCell align="center">電話番号</TableCell>
-              <TableCell align="center">コメント</TableCell>
-              <TableCell align="center">行動</TableCell>
+              <TableCell align="center">法人番号</TableCell>
+              <TableCell align="center">会社名・法人名</TableCell>
+              <TableCell align="center">業種</TableCell>
+              <TableCell align="center">郵便番号</TableCell>
+              <TableCell align="center">本社住所</TableCell>
+              <TableCell align="center">代表電話番号</TableCell>
+              <TableCell align="center">代表者名</TableCell>
+              <TableCell align="center">Webサイト</TableCell>
+              <TableCell align="center">売上</TableCell>
+              <TableCell align="center">従業員数</TableCell>
+              <TableCell align="center">設立</TableCell>
+              <TableCell align="center">資本金</TableCell>
+              <TableCell align="center">上場</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedTaskLists.map((taskList) => {
-              const isTaskListSelected = selectedTaskLists.includes(
-                taskList.id
+            {paginatedCompanyLists.map((companyList) => {
+              const isCompanyListSelected = selectedCompanyLists.includes(
+                companyList.id
               );
               return (
                 <TableRow
                   hover
-                  key={taskList.id}
-                  //selected={isTaskListSelected}
+                  key={companyList.id}
+                  //selected={isCompanyListSelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      // checked={isTaskListSelected}
+                      //checked={isCompanyListSelected}
                       // onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                      //   handleSelectOneTaskList(event, taskList.id)
+                      //   handleSelectOneCompanyList(event, companyList.id)
                       // }
-                      value={isTaskListSelected}
+                      value={isCompanyListSelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -257,7 +254,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(taskList.status)}
+                      {companyList.companyNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -268,7 +265,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {taskList.task}
+                      {companyList.companyName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -279,7 +276,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {format(taskList.dueDate, 'MMMM dd yyyy')}
+                      {companyList.industry}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -290,13 +287,10 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {taskList.companyToCall}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {taskList.companyToCall}
+                      {companyList.postNumber}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell>
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -304,10 +298,10 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {taskList.chargeOfCalling}                      
+                      {companyList.headOfficeAddress}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell>
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -315,10 +309,10 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {taskList.phoneNumber}                      
+                      {companyList.representativeNumber}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell>
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -326,9 +320,76 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {taskList.comment}                      
+                      {companyList.representativeName}
                     </Typography>
                   </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {companyList.website}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {companyList.earnings}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {companyList.numberOfEmployees}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {companyList.established}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {companyList.capital}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                    {getStatusLabel(companyList.listing)}
+                    </Typography>
+                  </TableCell>
+{/* 
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
                       <IconButton
@@ -357,6 +418,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       </IconButton>
                     </Tooltip>
                   </TableCell>
+                   */}
                 </TableRow>
               );
             })}
@@ -366,7 +428,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredTaskLists.length}
+          count={filteredCompanyLists.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -378,12 +440,12 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
   );
 };
 
-TaskLists.propTypes = {
-  taskLists: PropTypes.array.isRequired
+CompanyLists.propTypes = {
+  companyLists: PropTypes.array.isRequired
 };
 
-TaskLists.defaultProps = {
-  taskLists: []
+CompanyLists.defaultProps = {
+  companyLists: []
 };
 
-export default TaskLists;
+export default CompanyLists;

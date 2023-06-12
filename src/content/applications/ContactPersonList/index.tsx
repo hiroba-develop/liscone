@@ -4,18 +4,15 @@ import Footer from 'src/components/Footer';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 // import PageHeader from './PageHeader';
 
-// import RecentOrders from './RecentOrders';
+import RecentOrders from './ListData';
 
-function ContactPersonList() {
+function DashBoard() {
 
   return (
     <>
       <Helmet>
-        <title>ContactPersonList</title>
+        <title>担当者リスト作成</title>
       </Helmet>
-      <PageTitleWrapper>
-        ## PageHeader
-      </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
           container
@@ -24,8 +21,8 @@ function ContactPersonList() {
           alignItems="stretch"
           spacing={3}
         >
-          <Grid item xs={12}>
-          ContactPersonList
+          <Grid item xs={16}>
+          <RecentOrders />
           </Grid>
         </Grid>
       </Container>
@@ -34,4 +31,4 @@ function ContactPersonList() {
   );
 }
 
-export default ContactPersonList;
+export default DashBoard;

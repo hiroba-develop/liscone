@@ -26,49 +26,45 @@ import {
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import { TaskList, TaskStatus } from 'src/models/task_list'
+import { ContactList, ContactListRoles } from 'src/models/contact_list'
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 
-interface TaskListsProps {
+interface ContactListsProps {
   className?: string;
-  taskLists: TaskList[];
+  contactLists: ContactList[];
 }
 
 interface Filters {
-  status?: TaskStatus;
+  status?: ContactListRoles;
 }
 
-const getStatusLabel = (taskStatus: TaskStatus): JSX.Element => {
+const getStatusLabel = (contactListRoles: ContactListRoles): JSX.Element => {
   const map = {
-    failed: {
-      text: 'failed',
+    marketing: {
+      text: 'マーケティング',
       color: 'error'
     },
-    completed: {
-      text: 'completed',
-      color: 'success'
-    },
-    pending: {
-      text: 'pending',
-      color: 'warning'
+    sales: {
+      text: '営業',
+      color: 'warn'
     }
   };
 
-  const { text, color }: any = map[taskStatus];
+  const { text, color }: any = map[contactListRoles];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (
-  taskLists: TaskList[],
+  contactList: ContactList[],
   filters: Filters
-): TaskList[] => {
-  return taskLists.filter((taskList) => {
+): ContactList[] => {
+  return contactList.filter((contactList) => {
     let matches = true;
 
-    if (filters.status && taskList.status !== filters.status) {
+    if (filters.status && contactList.role !== filters.status) {
       matches = false;
     }
 
@@ -77,18 +73,18 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  taskLists: TaskList[],
+  companyLists: ContactList[],
   page: number,
   limit: number
-): TaskList[] => {
-  return taskLists.slice(page * limit, page * limit + limit);
+): ContactList[] => {
+  return companyLists.slice(page * limit, page * limit + limit);
 };
 
-const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
-  const [selectedTaskLists, setSelectedTaskLists] = useState<string[]>(
+const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
+  const [selectedContactLists, setSelectedContactLists] = useState<string[]>(
     []
   );
-  const selectedBulkActions = selectedTaskLists.length > 0;
+  const selectedBulkActions = selectedContactLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
@@ -98,19 +94,15 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
   const statusOptions = [
     {
       id: 'all',
-      name: 'All'
+      name: 'all'
     },
     {
-      id: 'completed',
-      name: 'completed'
+      id: 'marketing',
+      name: 'marketing'
     },
     {
-      id: 'pending',
-      name: 'pending'
-    },
-    {
-      id: 'failed',
-      name: 'failed'
+      id: 'sales',
+      name: 'sales'
     }
   ];
 
@@ -127,28 +119,28 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
     }));
   };
 
-  const handleSelectAllTaskLists = (
+  const handleSelectAllContactLists = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedTaskLists(
+    setSelectedContactLists(
       event.target.checked
-        ? taskLists.map((taskList) => taskList.id)
+        ? contactLists.map((contactList) => contactList.id)
         : []
     );
   };
 
-  const handleSelectOneTaskList = (
+  const handleSelectOneContactList = (
     event: ChangeEvent<HTMLInputElement>,
-    taskListId: string
+    contactListId: string
   ): void => {
-    if (!selectedTaskLists.includes(taskListId)) {
-      setSelectedTaskLists((prevSelected) => [
+    if (!selectedContactLists.includes(contactListId)) {
+      setSelectedContactLists((prevSelected) => [
         ...prevSelected,
-        taskListId
+        contactListId
       ]);
     } else {
-      setSelectedTaskLists((prevSelected) =>
-        prevSelected.filter((id) => id !== taskListId)
+      setSelectedContactLists((prevSelected) =>
+        prevSelected.filter((id) => id !== contactListId)
       );
     }
   };
@@ -161,17 +153,17 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredTaskLists = applyFilters(taskLists, filters);
-  const paginatedTaskLists = applyPagination(
-    filteredTaskLists,
+  const filteredContactLists = applyFilters(contactLists, filters);
+  const paginatedContactLists = applyPagination(
+    filteredContactLists,
     page,
     limit
   );
-  const selectedSomeTaskLists =
-    selectedTaskLists.length > 0 &&
-    selectedTaskLists.length < taskLists.length;
-  const selectedAllTaskLists =
-    selectedTaskLists.length === taskLists.length;
+  const selectedSomeContactLists =
+    selectedContactLists.length > 0 &&
+    selectedContactLists.length < contactLists.length;
+  const selectedAllContactLists =
+  selectedContactLists.length === contactLists.length;
   const theme = useTheme();
 
   return (
@@ -186,7 +178,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
           action={
             <Box width={150}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>ステータス</InputLabel>
+                <InputLabel>Status</InputLabel>
                 <Select
                   value={filters.status || 'all'}
                   onChange={handleStatusChange}
@@ -202,7 +194,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
               </FormControl>
             </Box>
           }
-          title="タスク"
+          title="絞り込み"
         />
       )}
       <Divider />
@@ -213,40 +205,37 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  //checked={selectedAllTaskLists}
-                  indeterminate={selectedSomeTaskLists}
-                  //onChange={handleSelectAllTaskLists}
+                  //checked={selectedAllCompanyLists}
+                  indeterminate={selectedSomeContactLists}
+                  //onChange={handleSelectAllCompanyLists}
                 />
               </TableCell>
-              <TableCell align="center">ステータス</TableCell>
-              <TableCell align="center">タスク</TableCell>
-              <TableCell align="center">期日</TableCell>
-              <TableCell align="center">架電先企業</TableCell>
-              <TableCell align="center">架電先担当</TableCell>
-              <TableCell align="center">電話番号</TableCell>
-              <TableCell align="center">コメント</TableCell>
-              <TableCell align="center">行動</TableCell>
+              <TableCell align="center">会社名・法人名</TableCell>
+              <TableCell align="center">役職</TableCell>
+              <TableCell align="center">氏名</TableCell>
+              <TableCell align="center">アカウントソース</TableCell>
+              <TableCell align="center">プロフィールリンク</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedTaskLists.map((taskList) => {
-              const isTaskListSelected = selectedTaskLists.includes(
-                taskList.id
+            {paginatedContactLists.map((contactList) => {
+              const isContactListSelected = selectedContactLists.includes(
+                contactList.id
               );
               return (
                 <TableRow
                   hover
-                  key={taskList.id}
-                  //selected={isTaskListSelected}
+                  key={contactList.id}
+                  //selected={isContactListSelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      // checked={isTaskListSelected}
+                      //checked={isContactListSelected}
                       // onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                      //   handleSelectOneTaskList(event, taskList.id)
+                      //   handleSelectOneContactList(event, contactList.id)
                       // }
-                      value={isTaskListSelected}
+                      value={isContactListSelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -257,7 +246,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(taskList.status)}
+                      {contactList.companyName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -268,7 +257,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {taskList.task}
+                      {getStatusLabel(contactList.role)}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -279,7 +268,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {format(taskList.dueDate, 'MMMM dd yyyy')}
+                      {contactList.familyName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -290,13 +279,10 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {taskList.companyToCall}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {taskList.companyToCall}
+                      {contactList.accountSource}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell>
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -304,31 +290,10 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {taskList.chargeOfCalling}                      
+                      {contactList.profileLink}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {taskList.phoneNumber}                      
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {taskList.comment}                      
-                    </Typography>
-                  </TableCell>
+                  {/* 
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
                       <IconButton
@@ -357,6 +322,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       </IconButton>
                     </Tooltip>
                   </TableCell>
+                   */}
                 </TableRow>
               );
             })}
@@ -366,7 +332,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredTaskLists.length}
+          count={filteredContactLists.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -378,12 +344,12 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
   );
 };
 
-TaskLists.propTypes = {
-  taskLists: PropTypes.array.isRequired
+ContactLists.propTypes = {
+  contactLists: PropTypes.array.isRequired
 };
 
-TaskLists.defaultProps = {
-  taskLists: []
+ContactLists.defaultProps = {
+  contactLists: []
 };
 
-export default TaskLists;
+export default ContactLists;

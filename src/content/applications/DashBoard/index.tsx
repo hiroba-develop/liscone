@@ -4,7 +4,7 @@ import Footer from 'src/components/Footer';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 // import PageHeader from './PageHeader';
 
-import RecentOrders from './ListData';
+import TaskLists from './ListData';
 
 function DashBoard() {
 
@@ -21,8 +21,8 @@ function DashBoard() {
           alignItems="stretch"
           spacing={3}
         >
-          <Grid item xs={12}>
-          <RecentOrders />
+          <Grid item xs={16}>
+          <TaskLists />
           </Grid>
         </Grid>
       </Container>
