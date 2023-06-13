@@ -4,18 +4,15 @@ import Footer from 'src/components/Footer';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 // import PageHeader from './PageHeader';
 
-// import RecentOrders from './RecentOrders';
+import ListData from './ActionData';
 
-function ActionLog() {
+function Lists() {
 
   return (
     <>
       <Helmet>
-        <title>ActionLog</title>
+        <title>行動ログ</title>
       </Helmet>
-      <PageTitleWrapper>
-        ## PageHeader
-      </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
           container
@@ -24,8 +21,8 @@ function ActionLog() {
           alignItems="stretch"
           spacing={3}
         >
-          <Grid item xs={12}>
-          ActionLog
+          <Grid item xs={16}>
+          <ListData />
           </Grid>
         </Grid>
       </Container>
@@ -34,4 +31,4 @@ function ActionLog() {
   );
 }
 
-export default ActionLog;
+export default Lists;
