@@ -11,7 +11,7 @@ function DashBoard() {
   return (
     <>
       <Helmet>
-        <title>DashBoard</title>
+        <title>ダッシュボード</title>
       </Helmet>
       <Container maxWidth="lg">
         <Grid
