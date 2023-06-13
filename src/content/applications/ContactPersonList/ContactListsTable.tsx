@@ -94,15 +94,15 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
   const statusOptions = [
     {
       id: 'all',
-      name: 'all'
+      name: 'All'
     },
     {
       id: 'marketing',
-      name: 'marketing'
+      name: 'マーケティング'
     },
     {
       id: 'sales',
-      name: 'sales'
+      name: '営業'
     }
   ];
 
@@ -178,7 +178,7 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
           action={
             <Box width={150}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
+                <InputLabel>役職</InputLabel>
                 <Select
                   value={filters.status || 'all'}
                   onChange={handleStatusChange}
