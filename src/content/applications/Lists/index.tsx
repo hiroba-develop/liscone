@@ -4,18 +4,15 @@ import Footer from 'src/components/Footer';
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 // import PageHeader from './PageHeader';
 
-// import RecentOrders from './RecentOrders';
+import ListData from './ListData';
 
 function Lists() {
 
   return (
     <>
       <Helmet>
-        <title>Lists</title>
+        <title>リスト一覧</title>
       </Helmet>
-      <PageTitleWrapper>
-        ## PageHeader
-      </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
           container
@@ -24,8 +21,8 @@ function Lists() {
           alignItems="stretch"
           spacing={3}
         >
-          <Grid item xs={12}>
-          Lists
+          <Grid item xs={16}>
+          <ListData />
           </Grid>
         </Grid>
       </Container>
