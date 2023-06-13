@@ -123,19 +123,19 @@ const routes: RouteObject[] = [
       },
     ],
   },
-  {
-    path: "setting",
-    element: <SidebarLayout />,
-    children: [
-      {
-        path: "",
-        element: <Navigate to="setting" replace />,
-      },
-      {
-        path: "setting",
-        element: <Setting />,
-      },
-    ],
-  },
+  // {
+  //   path: "setting",
+  //   element: <SidebarLayout />,
+  //   children: [
+  //     {
+  //       path: "",
+  //       element: <Navigate to="setting" replace />,
+  //     },
+  //     {
+  //       path: "setting",
+  //       element: <Setting />,
+  //     },
+  //   ],
+  // },
 ];
 export default routes;

@@ -255,7 +255,7 @@ function SidebarMenu() {
                   行動ログ
                 </Button>
               </ListItem>
-              <ListItem component="div">
+              {/* <ListItem component="div">
                 <Button
                   disableRipple
                   component={RouterLink}
@@ -265,7 +265,7 @@ function SidebarMenu() {
                 >
                   設定
                 </Button>
-              </ListItem>
+              </ListItem> */}
             </List>
           </SubMenuWrapper>
         </List>
