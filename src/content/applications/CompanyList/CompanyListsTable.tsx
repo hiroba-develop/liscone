@@ -98,11 +98,11 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
     },
     {
       id: 'listed',
-      name: 'listed'
+      name: '上場'
     },
     {
       id: 'unlisted',
-      name: 'unlisted'
+      name: '未上場'
     }
   ];
 
@@ -178,7 +178,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
           action={
             <Box width={150}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
+                <InputLabel>上場</InputLabel>
                 <Select
                   value={filters.status || 'all'}
                   onChange={handleStatusChange}

@@ -93,7 +93,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
   const statusOptions = [
     {
       id: 'all',
-      name: 'all'
+      name: 'All'
     },
     {
       id: 'contactlist',
@@ -177,7 +177,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
           action={
             <Box width={150}>
               <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
+                <InputLabel>リスト種類</InputLabel>
                 <Select
                   value={filters.status || 'all'}
                   onChange={handleStatusChange}
