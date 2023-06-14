@@ -1,34 +1,30 @@
-import { FC, ChangeEvent, useState } from 'react';
+import { ChangeEvent, FC, useState } from "react";
 
-import PropTypes from 'prop-types';
 import {
-  Tooltip,
-  Divider,
   Box,
+  Card,
+  CardHeader,
+  Checkbox,
+  Divider,
   FormControl,
   InputLabel,
-  Card,
-  Checkbox,
-  IconButton,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TablePagination,
   TableRow,
-  TableContainer,
-  Select,
-  MenuItem,
   Typography,
   useTheme,
-  CardHeader
-} from '@mui/material';
+} from "@mui/material";
+import PropTypes from "prop-types";
 
-import Label from 'src/components/Label';
-import { ActionList, ActionListStatus } from 'src/models/action_list'
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import BulkActions from './BulkActions';
+import Label from "src/components/Label";
+import { ActionList, ActionListStatus } from "src/models/action_list";
+import BulkActions from "./BulkActions";
 
 interface ActionListsProps {
   className?: string;
@@ -42,9 +38,9 @@ interface Filters {
 const getStatusLabel = (actionListStatus: ActionListStatus): JSX.Element => {
   const map = {
     recall: {
-      text: 'recall',
-      color: 'error'
-    }
+      text: "recall",
+      color: "error",
+    },
   };
 
   const { text, color }: any = map[actionListStatus];
@@ -76,37 +72,35 @@ const applyPagination = (
 };
 
 const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
-  const [selectedActionLists, setSelectedActionLists] = useState<string[]>(
-    []
-  );
+  const [selectedActionLists, setSelectedActionLists] = useState<string[]>([]);
   const selectedBulkActions = selectedActionLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
-    status: null
+    status: null,
   });
 
   const statusOptions = [
     {
-      id: 'all',
-      name: 'All'
+      id: "all",
+      name: "All",
     },
     {
-      id: 'recall',
-      name: 'recall'
-    }
+      id: "recall",
+      name: "recall",
+    },
   ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
 
-    if (e.target.value !== 'all') {
+    if (e.target.value !== "all") {
       value = e.target.value;
     }
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      status: value
+      status: value,
     }));
   };
 
@@ -114,9 +108,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
     event: ChangeEvent<HTMLInputElement>
   ): void => {
     setSelectedActionLists(
-      event.target.checked
-        ? actionLists.map((actionList) => actionList.id)
-        : []
+      event.target.checked ? actionLists.map((actionList) => actionList.id) : []
     );
   };
 
@@ -125,10 +117,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
     actionListId: string
   ): void => {
     if (!selectedActionLists.includes(actionListId)) {
-      setSelectedActionLists((prevSelected) => [
-        ...prevSelected,
-        actionListId
-      ]);
+      setSelectedActionLists((prevSelected) => [...prevSelected, actionListId]);
     } else {
       setSelectedActionLists((prevSelected) =>
         prevSelected.filter((id) => id !== actionListId)
@@ -154,7 +143,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
     selectedActionLists.length > 0 &&
     selectedActionLists.length < actionLists.length;
   const selectedAllActionLists =
-  selectedActionLists.length === actionLists.length;
+    selectedActionLists.length === actionLists.length;
   const theme = useTheme();
 
   return (
@@ -171,7 +160,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>リスト種類</InputLabel>
                 <Select
-                  value={filters.status || 'all'}
+                  value={filters.status || "all"}
                   onChange={handleStatusChange}
                   label="Status"
                   autoWidth
@@ -396,11 +385,11 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
 };
 
 ActionLists.propTypes = {
-  actionLists: PropTypes.array.isRequired
+  actionLists: PropTypes.array.isRequired,
 };
 
 ActionLists.defaultProps = {
-  actionLists: []
+  actionLists: [],
 };
 
 export default ActionLists;

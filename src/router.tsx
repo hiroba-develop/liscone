@@ -137,7 +137,7 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: "actionLog",
+    path: "action",
     element: <SidebarLayout />,
     children: [
       {

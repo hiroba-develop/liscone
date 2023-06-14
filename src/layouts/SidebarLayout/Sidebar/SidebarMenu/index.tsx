@@ -161,14 +161,7 @@ function SidebarMenu() {
   return (
     <>
       <MenuWrapper>
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Menu
-            </ListSubheader>
-          }
-        >
+        <List component="div">
           <SubMenuWrapper>
             <List component="div">
               <ListItem component="div">
@@ -219,7 +212,9 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/salesTask"
-                  startIcon={<CheckBoxTwoToneIcon />}
+                  startIcon={
+                    <img src="/static/images/salesList.svg" alt="salesList" />
+                  }
                 >
                   リスト一覧
                 </Button>
@@ -231,7 +226,7 @@ function SidebarMenu() {
                   onClick={closeSidebar}
                   to="/reports"
                   startIcon={
-                    <img src="/static/images/salesList.svg" alt="salesList" />
+                    <img src="/static/images/report.svg" alt="report" />
                   }
                 >
                   レポート
@@ -242,9 +237,9 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/actionLog"
+                  to="/action"
                   startIcon={
-                    <img src="/static/images/report.svg" alt="report" />
+                    <img src="/static/images/actionLog.svg" alt="actionLog" />
                   }
                 >
                   行動ログ
