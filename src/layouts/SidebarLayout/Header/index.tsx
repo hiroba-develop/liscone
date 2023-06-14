@@ -48,7 +48,7 @@ function Header() {
       </Box>
       <Box alignItems="left">
         <ButtonWrapper href="#text-buttons">
-          <img src="/static/images/Vector.svg" alt="vector" />
+          <img src="/static/images/logout.svg" alt="vector" />
           　ログアウト
         </ButtonWrapper>
       </Box>

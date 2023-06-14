@@ -14,19 +14,26 @@ const Loader = (Component) => (props) =>
     </Suspense>
   );
 
-
 // Sign
 const SignIn = Loader(lazy(() => import("src/content/signIn")));
 const ChangePassword = Loader(lazy(() => import("src/content/changePassword")));
 
 // Applications
-const DashBoard = Loader( lazy(() => import("src/content/applications/DashBoard")) );
-const ActionLog = Loader( lazy(() => import("src/content/applications/ActionLog")) );
-const CompanyList = Loader( lazy(() => import("src/content/applications/CompanyList")) );
-const ContactPersonList = Loader( lazy(() => import("src/content/applications/ContactPersonList")) );
-const Lists = Loader( lazy(() => import("src/content/applications/Lists")) );
-const Reports = Loader( lazy(() => import("src/content/applications/Reports")) );
-const Setting = Loader( lazy(() => import("src/content/applications/Setting")) );
+const DashBoard = Loader(
+  lazy(() => import("src/content/applications/DashBoard"))
+);
+const ActionLog = Loader(
+  lazy(() => import("src/content/applications/ActionLog"))
+);
+const CompanyList = Loader(
+  lazy(() => import("src/content/applications/CompanyList"))
+);
+const ContactPersonList = Loader(
+  lazy(() => import("src/content/applications/ContactPersonList"))
+);
+const Lists = Loader(lazy(() => import("src/content/applications/Lists")));
+const Reports = Loader(lazy(() => import("src/content/applications/Reports")));
+const Setting = Loader(lazy(() => import("src/content/applications/Setting")));
 
 const routes: RouteObject[] = [
   {
@@ -34,9 +41,9 @@ const routes: RouteObject[] = [
     element: <NonSidebarLayout />,
     children: [
       {
-        path: "/",
+        path: "",
         element: <SignIn />,
-      }
+      },
     ],
   },
   {

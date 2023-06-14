@@ -1,34 +1,29 @@
-import { FC, ChangeEvent, useState } from 'react';
+import { ChangeEvent, FC, useState } from "react";
 
-import PropTypes from 'prop-types';
 import {
-  Tooltip,
-  Divider,
   Box,
+  Card,
+  CardHeader,
+  Checkbox,
+  Divider,
   FormControl,
   InputLabel,
-  Card,
-  Checkbox,
-  IconButton,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TablePagination,
   TableRow,
-  TableContainer,
-  Select,
-  MenuItem,
   Typography,
-  useTheme,
-  CardHeader
-} from '@mui/material';
+} from "@mui/material";
+import PropTypes from "prop-types";
 
-import Label from 'src/components/Label';
-import { ListList, ListListStatus } from 'src/models/list_list'
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import BulkActions from './BulkActions';
+import Label from "src/components/Label";
+import { ListList, ListListStatus } from "src/models/list_list";
+import BulkActions from "./BulkActions";
 
 interface ListListsProps {
   className?: string;
@@ -42,13 +37,13 @@ interface Filters {
 const getStatusLabel = (listListStatus: ListListStatus): JSX.Element => {
   const map = {
     contactlist: {
-      text: 'contactlist',
-      color: 'error'
+      text: "contactlist",
+      color: "error",
     },
     companylist: {
-      text: 'companylist',
-      color: 'warn'
-    }
+      text: "companylist",
+      color: "warn",
+    },
   };
 
   const { text, color }: any = map[listListStatus];
@@ -56,10 +51,7 @@ const getStatusLabel = (listListStatus: ListListStatus): JSX.Element => {
   return <Label color={color}>{text}</Label>;
 };
 
-const applyFilters = (
-  listList: ListList[],
-  filters: Filters
-): ListList[] => {
+const applyFilters = (listList: ListList[], filters: Filters): ListList[] => {
   return listList.filter((listList) => {
     let matches = true;
 
@@ -80,41 +72,39 @@ const applyPagination = (
 };
 
 const ListLists: FC<ListListsProps> = ({ listLists }) => {
-  const [selectedListLists, setSelectedListLists] = useState<string[]>(
-    []
-  );
+  const [selectedListLists, setSelectedListLists] = useState<string[]>([]);
   const selectedBulkActions = selectedListLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
-    status: null
+    status: null,
   });
 
   const statusOptions = [
     {
-      id: 'all',
-      name: 'All'
+      id: "all",
+      name: "All",
     },
     {
-      id: 'contactlist',
-      name: 'contactlist'
+      id: "contactlist",
+      name: "contactlist",
     },
     {
-      id: 'companylist',
-      name: 'companylist'
-    }
+      id: "companylist",
+      name: "companylist",
+    },
   ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
 
-    if (e.target.value !== 'all') {
+    if (e.target.value !== "all") {
       value = e.target.value;
     }
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      status: value
+      status: value,
     }));
   };
 
@@ -122,9 +112,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
     event: ChangeEvent<HTMLInputElement>
   ): void => {
     setSelectedListLists(
-      event.target.checked
-        ? listLists.map((listList) => listList.id)
-        : []
+      event.target.checked ? listLists.map((listList) => listList.id) : []
     );
   };
 
@@ -133,10 +121,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
     listListId: string
   ): void => {
     if (!selectedListLists.includes(listListId)) {
-      setSelectedListLists((prevSelected) => [
-        ...prevSelected,
-        listListId
-      ]);
+      setSelectedListLists((prevSelected) => [...prevSelected, listListId]);
     } else {
       setSelectedListLists((prevSelected) =>
         prevSelected.filter((id) => id !== listListId)
@@ -153,17 +138,9 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
   };
 
   const filteredListLists = applyFilters(listLists, filters);
-  const paginatedListLists = applyPagination(
-    filteredListLists,
-    page,
-    limit
-  );
+  const paginatedListLists = applyPagination(filteredListLists, page, limit);
   const selectedSomeListLists =
-    selectedListLists.length > 0 &&
-    selectedListLists.length < listLists.length;
-  const selectedAllListLists =
-  selectedListLists.length === listLists.length;
-  const theme = useTheme();
+    selectedListLists.length > 0 && selectedListLists.length < listLists.length;
 
   return (
     <Card>
@@ -179,7 +156,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>リスト種類</InputLabel>
                 <Select
-                  value={filters.status || 'all'}
+                  value={filters.status || "all"}
                   onChange={handleStatusChange}
                   label="Status"
                   autoWidth
@@ -404,11 +381,11 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
 };
 
 ListLists.propTypes = {
-  listLists: PropTypes.array.isRequired
+  listLists: PropTypes.array.isRequired,
 };
 
 ListLists.defaultProps = {
-  listLists: []
+  listLists: [],
 };
 
 export default ListLists;

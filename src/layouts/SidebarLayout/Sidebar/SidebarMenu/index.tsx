@@ -11,25 +11,7 @@ import {
 import { NavLink as RouterLink } from "react-router-dom";
 import { SidebarContext } from "src/contexts/SidebarContext";
 
-import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
-import BallotTwoToneIcon from "@mui/icons-material/BallotTwoTone";
-import BeachAccessTwoToneIcon from "@mui/icons-material/BeachAccessTwoTone";
-import BrightnessLowTwoToneIcon from "@mui/icons-material/BrightnessLowTwoTone";
-import CameraFrontTwoToneIcon from "@mui/icons-material/CameraFrontTwoTone";
 import CheckBoxTwoToneIcon from "@mui/icons-material/CheckBoxTwoTone";
-import ChromeReaderModeTwoToneIcon from "@mui/icons-material/ChromeReaderModeTwoTone";
-import DesignServicesTwoToneIcon from "@mui/icons-material/DesignServicesTwoTone";
-import DisplaySettingsTwoToneIcon from "@mui/icons-material/DisplaySettingsTwoTone";
-import EmojiEventsTwoToneIcon from "@mui/icons-material/EmojiEventsTwoTone";
-import FilterVintageTwoToneIcon from "@mui/icons-material/FilterVintageTwoTone";
-import HowToVoteTwoToneIcon from "@mui/icons-material/HowToVoteTwoTone";
-import LocalPharmacyTwoToneIcon from "@mui/icons-material/LocalPharmacyTwoTone";
-import MmsTwoToneIcon from "@mui/icons-material/MmsTwoTone";
-import RedeemTwoToneIcon from "@mui/icons-material/RedeemTwoTone";
-import SettingsTwoToneIcon from "@mui/icons-material/SettingsTwoTone";
-import TableChartTwoToneIcon from "@mui/icons-material/TableChartTwoTone";
-import TrafficTwoToneIcon from "@mui/icons-material/TrafficTwoTone";
-import WorkspacePremiumTwoToneIcon from "@mui/icons-material/WorkspacePremiumTwoTone";
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -195,7 +177,9 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/dashBoard"
-                  startIcon={<BallotTwoToneIcon />}
+                  startIcon={
+                    <img src="/static/images/dashboard.svg" alt="dashboard" />
+                  }
                 >
                   ダッシュボード
                 </Button>
@@ -206,7 +190,12 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/companyList"
-                  startIcon={<ChromeReaderModeTwoToneIcon />}
+                  startIcon={
+                    <img
+                      src="/static/images/companyList.svg"
+                      alt="companyList"
+                    />
+                  }
                 >
                   企業リスト作成
                 </Button>
@@ -217,7 +206,9 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/contactPersonList"
-                  startIcon={<AccountCircleTwoToneIcon />}
+                  startIcon={
+                    <img src="/static/images/staffList.svg" alt="staffList" />
+                  }
                 >
                   担当者リスト作成
                 </Button>
@@ -239,7 +230,9 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/reports"
-                  startIcon={<DesignServicesTwoToneIcon />}
+                  startIcon={
+                    <img src="/static/images/salesList.svg" alt="salesList" />
+                  }
                 >
                   レポート
                 </Button>
@@ -250,7 +243,9 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/actionLog"
-                  startIcon={<BallotTwoToneIcon />}
+                  startIcon={
+                    <img src="/static/images/report.svg" alt="report" />
+                  }
                 >
                   行動ログ
                 </Button>
