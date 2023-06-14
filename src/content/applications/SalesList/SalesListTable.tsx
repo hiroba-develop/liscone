@@ -22,19 +22,19 @@ import {
 import PropTypes from "prop-types";
 
 import Label from "src/components/Label";
-import { ListList, ListListStatus } from "src/models/list_list";
+import { SalesList, SalesListStatus } from "src/models/sales_list";
 import BulkActions from "./BulkActions";
 
-interface ListListsProps {
+interface SalesListsProps {
   className?: string;
-  listLists: ListList[];
+  salesList: SalesList[];
 }
 
 interface Filters {
-  status?: ListListStatus;
+  status?: SalesListStatus;
 }
 
-const getStatusLabel = (listListStatus: ListListStatus): JSX.Element => {
+const getStatusLabel = (salesListStatus: SalesListStatus): JSX.Element => {
   const map = {
     contactlist: {
       text: "contactlist",
@@ -46,16 +46,19 @@ const getStatusLabel = (listListStatus: ListListStatus): JSX.Element => {
     },
   };
 
-  const { text, color }: any = map[listListStatus];
+  const { text, color }: any = map[salesListStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
-const applyFilters = (listList: ListList[], filters: Filters): ListList[] => {
-  return listList.filter((listList) => {
+const applyFilters = (
+  salesList: SalesList[],
+  filters: Filters
+): SalesList[] => {
+  return salesList.filter((salesList) => {
     let matches = true;
 
-    if (filters.status && listList.listType !== filters.status) {
+    if (filters.status && salesList.listType !== filters.status) {
       matches = false;
     }
 
@@ -64,16 +67,16 @@ const applyFilters = (listList: ListList[], filters: Filters): ListList[] => {
 };
 
 const applyPagination = (
-  listLists: ListList[],
+  salesLists: SalesList[],
   page: number,
   limit: number
-): ListList[] => {
-  return listLists.slice(page * limit, page * limit + limit);
+): SalesList[] => {
+  return salesLists.slice(page * limit, page * limit + limit);
 };
 
-const ListLists: FC<ListListsProps> = ({ listLists }) => {
-  const [selectedListLists, setSelectedListLists] = useState<string[]>([]);
-  const selectedBulkActions = selectedListLists.length > 0;
+const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
+  const [selectedSalesLists, setSelectedListLists] = useState<string[]>([]);
+  const selectedBulkActions = selectedSalesLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
@@ -112,19 +115,19 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
     event: ChangeEvent<HTMLInputElement>
   ): void => {
     setSelectedListLists(
-      event.target.checked ? listLists.map((listList) => listList.id) : []
+      event.target.checked ? salesLists.map((salesList) => salesList.id) : []
     );
   };
 
   const handleSelectOneListList = (
     event: ChangeEvent<HTMLInputElement>,
-    listListId: string
+    salesListId: string
   ): void => {
-    if (!selectedListLists.includes(listListId)) {
-      setSelectedListLists((prevSelected) => [...prevSelected, listListId]);
+    if (!selectedSalesLists.includes(salesListId)) {
+      setSelectedListLists((prevSelected) => [...prevSelected, salesListId]);
     } else {
       setSelectedListLists((prevSelected) =>
-        prevSelected.filter((id) => id !== listListId)
+        prevSelected.filter((id) => id !== salesListId)
       );
     }
   };
@@ -137,10 +140,11 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredListLists = applyFilters(listLists, filters);
-  const paginatedListLists = applyPagination(filteredListLists, page, limit);
-  const selectedSomeListLists =
-    selectedListLists.length > 0 && selectedListLists.length < listLists.length;
+  const filteredSalesList = applyFilters(salesLists, filters);
+  const paginatedSalesLists = applyPagination(filteredSalesList, page, limit);
+  const selectedSomeSalesLists =
+    selectedSalesLists.length > 0 &&
+    selectedSalesLists.length < salesLists.length;
 
   return (
     <Card>
@@ -182,7 +186,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                 <Checkbox
                   color="primary"
                   //checked={selectedAllCompanyLists}
-                  indeterminate={selectedSomeListLists}
+                  indeterminate={selectedSomeSalesLists}
                   //onChange={handleSelectAllCompanyLists}
                 />
               </TableCell>
@@ -199,14 +203,14 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedListLists.map((listList) => {
-              const isListListSelected = selectedListLists.includes(
-                listList.id
+            {paginatedSalesLists.map((salesList) => {
+              const isSalesListSelected = selectedSalesLists.includes(
+                salesList.id
               );
               return (
                 <TableRow
                   hover
-                  key={listList.id}
+                  key={salesList.id}
                   //selected={isListListSelected}
                 >
                   <TableCell padding="checkbox">
@@ -216,7 +220,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                       // onChange={(event: ChangeEvent<HTMLInputElement>) =>
                       //   handleSelectOneListtList(event, listList.id)
                       // }
-                      value={isListListSelected}
+                      value={isSalesListSelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -227,7 +231,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {listList.listName}
+                      {salesList.listName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -238,7 +242,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {listList.createdDate}
+                      {salesList.createdDate}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -249,7 +253,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {listList.counter}
+                      {salesList.counter}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -260,7 +264,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {listList.digestionNumber}
+                      {salesList.digestionNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -271,7 +275,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {listList.negotiation}
+                      {salesList.negotiation}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -282,7 +286,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {listList.project}
+                      {salesList.project}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -293,7 +297,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {listList.orderDate}
+                      {salesList.orderDate}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -304,7 +308,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {listList.yomi}
+                      {salesList.yomi}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -315,7 +319,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {listList.user}
+                      {salesList.user}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -326,7 +330,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(listList.listType)}
+                      {getStatusLabel(salesList.listType)}
                     </Typography>
                   </TableCell>
                   {/* 
@@ -368,7 +372,7 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredListLists.length}
+          count={filteredSalesList.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -380,12 +384,12 @@ const ListLists: FC<ListListsProps> = ({ listLists }) => {
   );
 };
 
-ListLists.propTypes = {
-  listLists: PropTypes.array.isRequired,
+SalesLists.propTypes = {
+  salesList: PropTypes.array.isRequired,
 };
 
-ListLists.defaultProps = {
-  listLists: [],
+SalesLists.defaultProps = {
+  salesList: [],
 };
 
-export default ListLists;
+export default SalesLists;

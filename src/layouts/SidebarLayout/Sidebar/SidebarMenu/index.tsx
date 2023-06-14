@@ -176,7 +176,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/dashBoard"
+                  to="/task"
                   startIcon={
                     <img src="/static/images/dashboard.svg" alt="dashboard" />
                   }
@@ -189,7 +189,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/companyList"
+                  to="/company"
                   startIcon={
                     <img
                       src="/static/images/companyList.svg"
@@ -205,7 +205,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/contactPersonList"
+                  to="/staff"
                   startIcon={
                     <img src="/static/images/staffList.svg" alt="staffList" />
                   }
@@ -218,7 +218,7 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/lists"
+                  to="/salesTask"
                   startIcon={<CheckBoxTwoToneIcon />}
                 >
                   リスト一覧

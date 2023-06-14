@@ -28,10 +28,12 @@ const ActionLog = Loader(
 const CompanyList = Loader(
   lazy(() => import("src/content/applications/CompanyList"))
 );
-const ContactPersonList = Loader(
-  lazy(() => import("src/content/applications/ContactPersonList"))
+const StaffList = Loader(
+  lazy(() => import("src/content/applications/StaffList"))
 );
-const Lists = Loader(lazy(() => import("src/content/applications/Lists")));
+const SalesList = Loader(
+  lazy(() => import("src/content/applications/SalesList"))
+);
 const Reports = Loader(lazy(() => import("src/content/applications/Reports")));
 const Setting = Loader(lazy(() => import("src/content/applications/Setting")));
 
@@ -47,7 +49,25 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: "dashBoard",
+    path: "account",
+    element: <NonSidebarLayout />,
+    children: [
+      {
+        path: "",
+        element: <Navigate to="signIn" replace />,
+      },
+      {
+        path: "signIn",
+        element: <SignIn />,
+      },
+      {
+        path: "changePassword",
+        element: <ChangePassword />,
+      },
+    ],
+  },
+  {
+    path: "task",
     element: <SidebarLayout />,
     children: [
       {
@@ -61,7 +81,7 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: "companyList",
+    path: "company",
     element: <SidebarLayout />,
     children: [
       {
@@ -75,30 +95,30 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: "contactPersonList",
+    path: "staff",
     element: <SidebarLayout />,
     children: [
       {
         path: "",
-        element: <Navigate to="contactPersonList" replace />,
+        element: <Navigate to="staffList" replace />,
       },
       {
-        path: "contactPersonList",
-        element: <ContactPersonList />,
+        path: "staffList",
+        element: <StaffList />,
       },
     ],
   },
   {
-    path: "lists",
+    path: "salesTask",
     element: <SidebarLayout />,
     children: [
       {
         path: "",
-        element: <Navigate to="lists" replace />,
+        element: <Navigate to="salesList" replace />,
       },
       {
-        path: "lists",
-        element: <Lists />,
+        path: "salesList",
+        element: <SalesList />,
       },
     ],
   },

@@ -1,70 +1,64 @@
-import { FC, ChangeEvent, useState } from 'react';
-import { format } from 'date-fns';
-import numeral from 'numeral';
-import PropTypes from 'prop-types';
 import {
-  Tooltip,
-  Divider,
   Box,
+  Card,
+  CardHeader,
+  Checkbox,
+  Divider,
   FormControl,
   InputLabel,
-  Card,
-  Checkbox,
-  IconButton,
+  MenuItem,
+  Select,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TablePagination,
   TableRow,
-  TableContainer,
-  Select,
-  MenuItem,
   Typography,
   useTheme,
-  CardHeader
-} from '@mui/material';
+} from "@mui/material";
+import PropTypes from "prop-types";
+import { ChangeEvent, FC, useState } from "react";
 
-import Label from 'src/components/Label';
-import { ContactList, ContactListRoles } from 'src/models/contact_list'
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import BulkActions from './BulkActions';
+import Label from "src/components/Label";
+import { StaffList, StaffListRoles } from "src/models/staff_list";
+import BulkActions from "./BulkActions";
 
-interface ContactListsProps {
+interface StaffListsProps {
   className?: string;
-  contactLists: ContactList[];
+  staffLists: StaffList[];
 }
 
 interface Filters {
-  status?: ContactListRoles;
+  status?: StaffListRoles;
 }
 
-const getStatusLabel = (contactListRoles: ContactListRoles): JSX.Element => {
+const getStatusLabel = (staffListRoles: StaffListRoles): JSX.Element => {
   const map = {
     marketing: {
-      text: 'マーケティング',
-      color: 'error'
+      text: "マーケティング",
+      color: "error",
     },
     sales: {
-      text: '営業',
-      color: 'warn'
-    }
+      text: "営業",
+      color: "warn",
+    },
   };
 
-  const { text, color }: any = map[contactListRoles];
+  const { text, color }: any = map[staffListRoles];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (
-  contactList: ContactList[],
+  staffList: StaffList[],
   filters: Filters
-): ContactList[] => {
-  return contactList.filter((contactList) => {
+): StaffList[] => {
+  return staffList.filter((staffList) => {
     let matches = true;
 
-    if (filters.status && contactList.role !== filters.status) {
+    if (filters.status && staffList.role !== filters.status) {
       matches = false;
     }
 
@@ -73,74 +67,67 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  companyLists: ContactList[],
+  companyLists: StaffList[],
   page: number,
   limit: number
-): ContactList[] => {
+): StaffList[] => {
   return companyLists.slice(page * limit, page * limit + limit);
 };
 
-const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
-  const [selectedContactLists, setSelectedContactLists] = useState<string[]>(
-    []
-  );
-  const selectedBulkActions = selectedContactLists.length > 0;
+const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
+  const [selectedStaffLists, setSelectedStaffLists] = useState<string[]>([]);
+  const selectedBulkActions = selectedStaffLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
-    status: null
+    status: null,
   });
 
   const statusOptions = [
     {
-      id: 'all',
-      name: 'All'
+      id: "all",
+      name: "All",
     },
     {
-      id: 'marketing',
-      name: 'マーケティング'
+      id: "marketing",
+      name: "マーケティング",
     },
     {
-      id: 'sales',
-      name: '営業'
-    }
+      id: "sales",
+      name: "営業",
+    },
   ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
 
-    if (e.target.value !== 'all') {
+    if (e.target.value !== "all") {
       value = e.target.value;
     }
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      status: value
+      status: value,
     }));
   };
 
-  const handleSelectAllContactLists = (
+  const handleSelectAllStaffLists = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedContactLists(
-      event.target.checked
-        ? contactLists.map((contactList) => contactList.id)
-        : []
+    setSelectedStaffLists(
+      event.target.checked ? staffLists.map((staffList) => staffList.id) : []
     );
   };
 
-  const handleSelectOneContactList = (
+  const handleSelectOneStaffList = (
     event: ChangeEvent<HTMLInputElement>,
-    contactListId: string
+    staffListId: string
   ): void => {
-    if (!selectedContactLists.includes(contactListId)) {
-      setSelectedContactLists((prevSelected) => [
-        ...prevSelected,
-        contactListId
-      ]);
+    if (!selectedStaffLists.includes(staffListId)) {
+      setSelectedStaffLists((prevSelected) => [...prevSelected, staffListId]);
     } else {
-      setSelectedContactLists((prevSelected) =>
-        prevSelected.filter((id) => id !== contactListId)
+      setSelectedStaffLists((prevSelected) =>
+        prevSelected.filter((id) => id !== staffListId)
       );
     }
   };
@@ -153,17 +140,12 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredContactLists = applyFilters(contactLists, filters);
-  const paginatedContactLists = applyPagination(
-    filteredContactLists,
-    page,
-    limit
-  );
-  const selectedSomeContactLists =
-    selectedContactLists.length > 0 &&
-    selectedContactLists.length < contactLists.length;
-  const selectedAllContactLists =
-  selectedContactLists.length === contactLists.length;
+  const filteredStaffLists = applyFilters(staffLists, filters);
+  const paginatedStaffLists = applyPagination(filteredStaffLists, page, limit);
+  const selectedSomeStaffLists =
+    selectedStaffLists.length > 0 &&
+    selectedStaffLists.length < staffLists.length;
+  const selectedAllStaffLists = selectedStaffLists.length === staffLists.length;
   const theme = useTheme();
 
   return (
@@ -180,7 +162,7 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>役職</InputLabel>
                 <Select
-                  value={filters.status || 'all'}
+                  value={filters.status || "all"}
                   onChange={handleStatusChange}
                   label="Status"
                   autoWidth
@@ -206,7 +188,7 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
                 <Checkbox
                   color="primary"
                   //checked={selectedAllCompanyLists}
-                  indeterminate={selectedSomeContactLists}
+                  indeterminate={selectedSomeStaffLists}
                   //onChange={handleSelectAllCompanyLists}
                 />
               </TableCell>
@@ -218,24 +200,24 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedContactLists.map((contactList) => {
-              const isContactListSelected = selectedContactLists.includes(
-                contactList.id
+            {paginatedStaffLists.map((staffList) => {
+              const isStaffListSelected = selectedStaffLists.includes(
+                staffList.id
               );
               return (
                 <TableRow
                   hover
-                  key={contactList.id}
-                  //selected={isContactListSelected}
+                  key={staffList.id}
+                  //selected={isStaffListSelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      //checked={isContactListSelected}
+                      //checked={isStaffListSelected}
                       // onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                      //   handleSelectOneContactList(event, contactList.id)
+                      //   handleSelectOneStaffList(event, staffList.id)
                       // }
-                      value={isContactListSelected}
+                      value={isStaffListSelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -246,7 +228,7 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {contactList.companyName}
+                      {staffList.companyName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -257,7 +239,7 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(contactList.role)}
+                      {getStatusLabel(staffList.role)}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -268,7 +250,7 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {contactList.familyName}
+                      {staffList.familyName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -279,7 +261,7 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {contactList.accountSource}
+                      {staffList.accountSource}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -290,7 +272,7 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {contactList.profileLink}
+                      {staffList.profileLink}
                     </Typography>
                   </TableCell>
                   {/* 
@@ -332,7 +314,7 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredContactLists.length}
+          count={filteredStaffLists.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -344,12 +326,12 @@ const ContactLists: FC<ContactListsProps> = ({ contactLists }) => {
   );
 };
 
-ContactLists.propTypes = {
-  contactLists: PropTypes.array.isRequired
+StaffLists.propTypes = {
+  staffLists: PropTypes.array.isRequired,
 };
 
-ContactLists.defaultProps = {
-  contactLists: []
+StaffLists.defaultProps = {
+  staffLists: [],
 };
 
-export default ContactLists;
+export default StaffLists;

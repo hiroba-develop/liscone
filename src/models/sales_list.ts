@@ -1,6 +1,6 @@
-export type ListListStatus = 'contactlist' | 'companylist';
+export type SalesListStatus = "contactlist" | "companylist";
 
-export interface ListList {
+export interface SalesList {
   id: string;
   listName: string;
   createdDate: string;
@@ -11,5 +11,5 @@ export interface ListList {
   orderDate: string;
   yomi: string;
   user: string;
-  listType: ListListStatus;
+  listType: SalesListStatus;
 }
