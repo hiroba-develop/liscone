@@ -18,6 +18,10 @@ const Loader = (Component) => (props) =>
 const SignIn = Loader(lazy(() => import("src/content/signIn")));
 const ChangePassword = Loader(lazy(() => import("src/content/changePassword")));
 
+const Transactions = Loader(
+  lazy(() => import("src/content/applications/Transactions"))
+);
+
 // Applications
 const DashBoard = Loader(
   lazy(() => import("src/content/applications/DashBoard"))
@@ -35,7 +39,7 @@ const SalesList = Loader(
   lazy(() => import("src/content/applications/SalesList"))
 );
 const Reports = Loader(lazy(() => import("src/content/applications/Reports")));
-const Setting = Loader(lazy(() => import("src/content/applications/Setting")));
+// const Setting = Loader(lazy(() => import("src/content/applications/Setting")));
 
 const routes: RouteObject[] = [
   {
@@ -147,6 +151,20 @@ const routes: RouteObject[] = [
       {
         path: "actionLog",
         element: <ActionLog />,
+      },
+    ],
+  },
+  {
+    path: "transactions",
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: "",
+        element: <Navigate to="transactions" replace />,
+      },
+      {
+        path: "transactions",
+        element: <Transactions />,
       },
     ],
   },
