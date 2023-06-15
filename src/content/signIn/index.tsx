@@ -96,7 +96,7 @@ function signIn() {
                   size="large"
                   variant="contained"
                   onClick={init}
-                  href="/task/taskList"
+                  href="/task/dashboard"
                 >
                   ログイン
                 </Button>

@@ -47,7 +47,7 @@ function Header() {
         <img src="/static/images/logo/lisconne-logo.svg" alt="lisconne-logo" />
       </Box>
       <Box alignItems="left">
-        <ButtonWrapper href="#text-buttons">
+        <ButtonWrapper href="/">
           <img src="/static/images/logout.svg" alt="vector" />
           　ログアウト
         </ButtonWrapper>
