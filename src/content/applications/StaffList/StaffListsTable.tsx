@@ -24,6 +24,7 @@ import { ChangeEvent, FC, useState } from "react";
 import Label from "src/components/Label";
 import { StaffList, StaffListRoles } from "src/models/staff_list";
 import BulkActions from "./BulkActions";
+import TaskLog from "../PopUp/TaskLog";
 
 interface StaffListsProps {
   className?: string;
@@ -148,6 +149,9 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
   const selectedAllStaffLists = selectedStaffLists.length === staffLists.length;
   const theme = useTheme();
 
+  const [taskLogOpen, setTaskLogOpen] = useState(false);
+  const editTaskLogOpen = () => setTaskLogOpen(true);
+
   return (
     <Card>
       {selectedBulkActions && (
@@ -227,10 +231,16 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap
+                      onClick={editTaskLogOpen}
+                      sx={{ textDecoration: "underline" }}
                     >
                       {staffList.companyName}
                     </Typography>
                   </TableCell>
+                  <TaskLog
+                    taskLogOpen={taskLogOpen}
+                    setTaskLogOpen={setTaskLogOpen}
+                  />
                   <TableCell>
                     <Typography
                       variant="body1"

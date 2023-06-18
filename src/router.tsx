@@ -38,6 +38,9 @@ const StaffList = Loader(
 const SalesList = Loader(
   lazy(() => import("src/content/applications/SalesList"))
 );
+const SalesListDetails = Loader(
+  lazy(() => import("src/content/applications/SalesListDetails"))
+);
 const Reports = Loader(lazy(() => import("src/content/applications/Reports")));
 // const Setting = Loader(lazy(() => import("src/content/applications/Setting")));
 
@@ -123,6 +126,10 @@ const routes: RouteObject[] = [
       {
         path: "salesList",
         element: <SalesList />,
+      },
+      {
+        path: "salesListDetails",
+        element: <SalesListDetails />,
       },
     ],
   },

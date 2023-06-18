@@ -1,6 +1,5 @@
 import { FC, ChangeEvent, useState } from "react";
 import { format } from "date-fns";
-import numeral from "numeral";
 import PropTypes from "prop-types";
 import {
   Tooltip,
@@ -23,8 +22,6 @@ import {
   Typography,
   useTheme,
   CardHeader,
-  Modal,
-  Button,
 } from "@mui/material";
 
 import Label from "src/components/Label";
@@ -32,11 +29,7 @@ import { TaskList, TaskStatus } from "src/models/task_list";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import BulkActions from "./BulkActions";
-import CloseIcon from "@mui/icons-material/Close";
-// import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import TaskUpdate from "../PopUp/TaskUpdate";
 
 interface TaskListsProps {
   className?: string;
@@ -165,32 +158,8 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
   const selectedAllTaskLists = selectedTaskLists.length === taskLists.length;
   const theme = useTheme();
 
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const editHandleOpen = () => setEditModalOpen(true);
-  const editHandleClose = () => setEditModalOpen(false);
-  const editModal = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    bgcolor: "background.paper",
-    boxShadow: 0,
-    p: 20,
-    minWidth: 685,
-    minHeight: 400,
-    width: "auto",
-  };
-  const editModalTitle = {
-    position: "absolute",
-    top: "0",
-    left: "0",
-    width: "100%",
-    color: "white",
-    bgcolor: "#66788A",
-    py: 1,
-    pl: 2,
-    fontSize: 20,
-  };
+  const [taskUpdateOpen, setTaskUpdateOpen] = useState(false);
+  const editTaskUpdateOpen = () => setTaskUpdateOpen(true);
 
   return (
     <Card>
@@ -358,7 +327,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                         }}
                         color="inherit"
                         size="small"
-                        onClick={editHandleOpen}
+                        onClick={editTaskUpdateOpen}
                       >
                         <EditTwoToneIcon fontSize="small" />
                       </IconButton>
@@ -375,83 +344,10 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                         <DeleteTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    <Modal open={editModalOpen} onClose={editHandleClose}>
-                      <Box sx={editModal}>
-                        <Typography sx={editModalTitle}>
-                          タスクを更新
-                        </Typography>
-                        <Box
-                          sx={{
-                            position: "absolute",
-                            top: "0",
-                            right: "0",
-                            textAlign: "right",
-                            color: "white",
-                          }}
-                        >
-                          <IconButton onClick={editHandleClose}>
-                            <CloseIcon sx={{ color: "white" }} />
-                          </IconButton>
-                        </Box>
-                        <Box
-                          sx={{
-                            position: "absolute",
-                            top: "20%",
-                            right: "5%",
-                          }}
-                        >
-                          <Button type="submit" variant="contained">
-                            タスクを更新
-                          </Button>
-                        </Box>
-                        <Box
-                          sx={{
-                            position: "absolute",
-                            top: "40%",
-                            left: "5%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          次回アクション：
-                        </Box>
-                        <Box
-                          sx={{
-                            position: "absolute",
-                            top: "37.5%",
-                            left: "30%",
-                            fontSize: "20px",
-                            minWidth: 150,
-                            size: "small",
-                          }}
-                        >
-                          <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">
-                              次回アクション
-                            </InputLabel>
-                            <Select>
-                              <MenuItem value={"ActionA"}>アクションA</MenuItem>
-                              <MenuItem value={"ActionB"}>アクションB</MenuItem>
-                              <MenuItem value={"ActionC"}>アクションC</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </Box>
-                        <Box
-                          sx={{
-                            position: "absolute",
-                            top: "40%",
-                            left: "5%",
-                            fontSize: "20px",
-                          }}
-                        >
-                          {/* npm install @mui/x-date-pickersがインストールできない */}
-                          {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={["DatePicker"]}>
-                              <DatePicker label="Basic date picker" />
-                            </DemoContainer>
-                          </LocalizationProvider> */}
-                        </Box>
-                      </Box>
-                    </Modal>
+                    <TaskUpdate
+                      taskUpdateOpen={taskUpdateOpen}
+                      setTaskUpdateOpen={setTaskUpdateOpen}
+                    />
                   </TableCell>
                 </TableRow>
               );

@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Card,
@@ -145,6 +145,7 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
   const selectedSomeSalesLists =
     selectedSalesLists.length > 0 &&
     selectedSalesLists.length < salesLists.length;
+  const navigate = useNavigate();
 
   return (
     <Card>
@@ -230,6 +231,8 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap
+                      onClick={() => navigate("/salesTask/salesListDetails")}
+                      sx={{ textDecoration: "underline" }}
                     >
                       {salesList.listName}
                     </Typography>

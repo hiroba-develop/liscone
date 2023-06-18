@@ -1,7 +1,7 @@
-import { FC, ChangeEvent, useState } from 'react';
-import { format } from 'date-fns';
-import numeral from 'numeral';
-import PropTypes from 'prop-types';
+import { FC, ChangeEvent, useState } from "react";
+import { format } from "date-fns";
+import numeral from "numeral";
+import PropTypes from "prop-types";
 import {
   Tooltip,
   Divider,
@@ -22,14 +22,13 @@ import {
   MenuItem,
   Typography,
   useTheme,
-  CardHeader
-} from '@mui/material';
+  CardHeader,
+} from "@mui/material";
 
-import Label from 'src/components/Label';
-import { CompanyList, CompanyListStatus } from 'src/models/company_list'
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import BulkActions from './BulkActions';
+import Label from "src/components/Label";
+import { CompanyList, CompanyListStatus } from "src/models/company_list";
+import BulkActions from "./BulkActions";
+import TaskLog from "../PopUp/TaskLog";
 
 interface CompanyListsProps {
   className?: string;
@@ -43,13 +42,13 @@ interface Filters {
 const getStatusLabel = (companyListStatus: CompanyListStatus): JSX.Element => {
   const map = {
     listed: {
-      text: '上場',
-      color: 'error'
+      text: "上場",
+      color: "error",
     },
     unlisted: {
-      text: '未上場',
-      color: 'black'
-    }
+      text: "未上場",
+      color: "black",
+    },
   };
 
   const { text, color }: any = map[companyListStatus];
@@ -88,34 +87,34 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
-    status: null
+    status: null,
   });
 
   const statusOptions = [
     {
-      id: 'all',
-      name: 'All'
+      id: "all",
+      name: "All",
     },
     {
-      id: 'listed',
-      name: '上場'
+      id: "listed",
+      name: "上場",
     },
     {
-      id: 'unlisted',
-      name: '未上場'
-    }
+      id: "unlisted",
+      name: "未上場",
+    },
   ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
 
-    if (e.target.value !== 'all') {
+    if (e.target.value !== "all") {
       value = e.target.value;
     }
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      status: value
+      status: value,
     }));
   };
 
@@ -136,7 +135,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
     if (!selectedCompanyLists.includes(companyListId)) {
       setSelectedCompanyLists((prevSelected) => [
         ...prevSelected,
-        companyListId
+        companyListId,
       ]);
     } else {
       setSelectedCompanyLists((prevSelected) =>
@@ -163,8 +162,11 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
     selectedCompanyLists.length > 0 &&
     selectedCompanyLists.length < companyLists.length;
   const selectedAllCompanyLists =
-  selectedCompanyLists.length === companyLists.length;
+    selectedCompanyLists.length === companyLists.length;
   const theme = useTheme();
+
+  const [taskLogOpen, setTaskLogOpen] = useState(false);
+  const editTaskLogOpen = () => setTaskLogOpen(true);
 
   return (
     <Card>
@@ -180,7 +182,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>上場</InputLabel>
                 <Select
-                  value={filters.status || 'all'}
+                  value={filters.status || "all"}
                   onChange={handleStatusChange}
                   label="Status"
                   autoWidth
@@ -205,9 +207,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  //checked={selectedAllCompanyLists}
                   indeterminate={selectedSomeCompanyLists}
-                  //onChange={handleSelectAllCompanyLists}
                 />
               </TableCell>
               <TableCell align="center">法人番号</TableCell>
@@ -264,10 +264,16 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap
+                      onClick={editTaskLogOpen}
+                      sx={{ textDecoration: "underline" }}
                     >
                       {companyList.companyName}
                     </Typography>
                   </TableCell>
+                  <TaskLog
+                    taskLogOpen={taskLogOpen}
+                    setTaskLogOpen={setTaskLogOpen}
+                  />
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -386,10 +392,10 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                    {getStatusLabel(companyList.listing)}
+                      {getStatusLabel(companyList.listing)}
                     </Typography>
                   </TableCell>
-{/* 
+                  {/* 
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
                       <IconButton
@@ -441,11 +447,11 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
 };
 
 CompanyLists.propTypes = {
-  companyLists: PropTypes.array.isRequired
+  companyLists: PropTypes.array.isRequired,
 };
 
 CompanyLists.defaultProps = {
-  companyLists: []
+  companyLists: [],
 };
 
 export default CompanyLists;
