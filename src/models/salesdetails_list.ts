@@ -1,15 +1,18 @@
-export type SalesListStatus = "contactlist" | "companylist";
-
 export interface SalesDetailsList {
   id: string;
-  listName: string;
-  createdDate: string;
-  counter: number;
-  digestionNumber: number;
-  negotiation: string;
-  project: string;
-  orderDate: string;
-  yomi: string;
-  user: string;
-  listType: SalesListStatus;
+  corporateNumber: string;
+  corporationName: string;
+  businessCategory: string;
+  zipCode: string;
+  address: string;
+  representativePhoneNumber: string;
+  representativeName: string;
+  homePage: string;
+  salesAmount: string;
+  employeeNumber: string;
+  establishmentYear: string;
+  capitalStock: string;
+  listingStatus: string;
+  actionLog: string;
+  transactionStatus: string;
 }

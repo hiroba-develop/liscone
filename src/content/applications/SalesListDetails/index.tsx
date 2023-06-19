@@ -1,7 +1,9 @@
-import { Container, Grid } from "@mui/material";
+import { Container, Button } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 import ListDetailsData from "./ListDetailsData";
+import ListReferenceData from "./ListReferenceData";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 function Lists(props) {
   return (
@@ -10,17 +12,20 @@ function Lists(props) {
         <title>リスト詳細</title>
       </Helmet>
       <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="stretch"
-          spacing={3}
+        <Button
+          sx={{
+            position: "absolute",
+            top: "10%",
+            left: "0%",
+            color: "black",
+          }}
+          href="/salesTask/salesList"
         >
-          <Grid item xs={16}>
-            <ListDetailsData />
-          </Grid>
-        </Grid>
+          <ArrowBackIosNewIcon />
+          　戻る
+        </Button>
+        <ListReferenceData />
+        <ListDetailsData />
       </Container>
       <Footer />
     </>
