@@ -7,6 +7,8 @@ import {
   Container,
   FormControl,
   FormControlLabel,
+  FormLabel,
+  OutlinedInput,
   TextField,
   Typography,
 } from "@mui/material";
@@ -14,6 +16,7 @@ import { Helmet } from "react-helmet-async";
 
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
+import { ChangeEvent, useState } from "react";
 
 const MainContent = styled(Box)(
   ({ theme }) => `
@@ -27,9 +30,57 @@ const MainContent = styled(Box)(
     justify-content: center;
 `
 );
+const InputContainer = styled(Box)(() => ({
+  display: "flex",
+  flexDirection: "column",
+  marginBottom: 24,
+}));
+
+const CustomButton = styled(Button)(() => ({
+  display: "flex",
+  justifyContent: "center",
+  background: "#109DBC",
+  height: 58,
+  color: "white",
+  "&:disabled": {
+    background: "#E6E6E6",
+    color: "#A3A3A3",
+  },
+}));
+
+type InputType = "userId" | "userPw";
 
 function signIn() {
-  //
+  const [isSnackBarError, setIsTextError] = useState(false);
+  const [auth, setAuth] = useState({
+    userId: "",
+    userPw: "",
+  });
+
+  const onChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    inputType: InputType
+  ) => {
+    e.preventDefault();
+    const { value } = e.target;
+
+    if (inputType === "userId") {
+      setAuth((oldAuth) => {
+        return {
+          ...oldAuth,
+          userId: value,
+        };
+      });
+    } else {
+      setAuth((oldAuth) => {
+        return {
+          ...oldAuth,
+          userPw: value,
+        };
+      });
+    }
+  };
+
   function init() {
     // ... ajax콜을 통해 응답데이터로 topicudpate
     fetch(`http://localhost:3001/board`, {
@@ -64,43 +115,50 @@ function signIn() {
               <Typography marginBottom="30px" display="flex" variant="h3">
                 ログイン
               </Typography>
-              <FormControl component="fieldset" variant="standard" fullWidth>
-                <Box
-                  marginBottom="30px"
-                  gap="30px"
-                  display="flex"
-                  flexDirection="column"
-                >
-                  <TextField
-                    autoFocus
-                    label="メールアドレス"
+              <Box component={"form"}>
+                <InputContainer>
+                  <OutlinedInput
                     type="text"
-                    variant="outlined"
-                    name="email"
+                    placeholder="メールアドレス"
+                    value={auth.userId}
+                    onChange={(e) => onChange(e, "userId")}
+                    endAdornment={auth.userId.length > 0}
                   />
+                  {isSnackBarError && (
+                    <Typography
+                      sx={{
+                        color: "#E63A2E",
+                        mt: 2,
+                        ml: 4,
+                      }}
+                    >
+                      아이디를 확인해주세요
+                    </Typography>
+                  )}
+                </InputContainer>
 
-                  <TextField
-                    label="パスワード"
+                <InputContainer>
+                  <OutlinedInput
                     type="password"
-                    autoComplete="current-password"
-                    variant="outlined"
-                    name="password"
+                    placeholder="パスワード"
+                    value={auth.userPw}
+                    onChange={(e) => onChange(e, "userPw")}
+                    endAdornment={auth.userPw.length > 0}
                   />
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="ログイン情報を保存する"
-                  />
+                </InputContainer>
+
+                <Box>
+                  <CustomButton
+                    type="submit"
+                    fullWidth
+                    disabled={
+                      !(auth.userId.length > 0 && auth.userPw.length > 0)
+                    }
+                  >
+                    <Typography>ログイン</Typography>
+                  </CustomButton>
                 </Box>
-                <Button
-                  type="submit"
-                  size="large"
-                  variant="contained"
-                  onClick={init}
-                  href="/task/dashboard"
-                >
-                  ログイン
-                </Button>
-              </FormControl>
+              </Box>
               <Link to="/account/changePassword">
                 <Typography marginTop="30px" variant="body2">
                   パスワードをお忘れの方はこちら
