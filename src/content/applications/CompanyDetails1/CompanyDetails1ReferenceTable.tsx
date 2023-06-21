@@ -1,8 +1,6 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import {
   Card,
-  CardHeader,
-  Divider,
   Table,
   TableBody,
   TableCell,
@@ -12,223 +10,159 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-
-import Label from "src/components/Label";
-import { SalesList, SalesListStatus } from "src/models/sales_list";
+import { SalesDetailsList } from "src/models/salesdetails_list";
 
 interface SalesListsProps {
   className?: string;
-  salesList: SalesList[];
+  companydetails1referenceList: SalesDetailsList[];
 }
-
-interface Filters {
-  status?: SalesListStatus;
-}
-
-const getStatusLabel = (salesListStatus: SalesListStatus): JSX.Element => {
-  const map = {
-    contactlist: {
-      text: "contactlist",
-      color: "error",
-    },
-    companylist: {
-      text: "companylist",
-      color: "warn",
-    },
-  };
-
-  const { text, color }: any = map[salesListStatus];
-
-  return <Label color={color}>{text}</Label>;
-};
 
 const applyFilters = (
-  salesList: SalesList[],
-  filters: Filters
-): SalesList[] => {
-  return salesList.filter((salesList) => {
+  companydetails1referenceList: SalesDetailsList[]
+): SalesDetailsList[] => {
+  return companydetails1referenceList.filter((companydetails1referenceList) => {
     let matches = true;
-
-    if (filters.status && salesList.listType !== filters.status) {
-      matches = false;
-    }
-
     return matches;
   });
 };
 
 const applyPagination = (
-  salesLists: SalesList[],
+  salesLists: SalesDetailsList[],
   page: number,
   limit: number
-): SalesList[] => {
+): SalesDetailsList[] => {
   return salesLists.slice(page * limit, page * limit + limit);
 };
 
-const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
-  const [selectedSalesLists, setSelectedListLists] = useState<string[]>([]);
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(5);
-  const [filters, setFilters] = useState<Filters>({
-    status: null,
-  });
+const SalesLists: FC<SalesListsProps> = ({
+  companydetails1referenceList: salesDetailsLists,
+}) => {
+  const page: number = 0;
+  const limit: number = 5;
 
-  const statusOptions = [
-    {
-      id: "all",
-      name: "All",
-    },
-    {
-      id: "contactlist",
-      name: "contactlist",
-    },
-    {
-      id: "companylist",
-      name: "companylist",
-    },
-  ];
-
-  const filteredSalesList = applyFilters(salesLists, filters);
+  const filteredSalesList = applyFilters(salesDetailsLists);
   const paginatedSalesLists = applyPagination(filteredSalesList, page, limit);
-  const selectedSomeSalesLists =
-    selectedSalesLists.length > 0 &&
-    selectedSalesLists.length < salesLists.length;
 
   return (
     <Card>
-      <CardHeader title="リスト一覧" />
-      <Divider />
       <TableContainer>
         <Table>
           <TableHead>
-            <TableRow>
-              <TableCell align="center">リスト名</TableCell>
-              <TableCell align="center">作成日</TableCell>
-              <TableCell align="center">件数</TableCell>
-              <TableCell align="center">消化数</TableCell>
-              <TableCell align="center">商談化</TableCell>
-              <TableCell align="center">案件化</TableCell>
-              <TableCell align="center">受注率</TableCell>
-              <TableCell align="center">ヨミ</TableCell>
-              <TableCell align="center">ユーザー</TableCell>
-              <TableCell align="center">リスト種類</TableCell>
+            <TableRow sx={{ bgcolor: "background.paper" }}>
+              <TableCell align="center">法人番号</TableCell>
+              <TableCell align="center">業種</TableCell>
+              <TableCell align="center">郵便番号</TableCell>
+              <TableCell align="center">本社住所</TableCell>
+              <TableCell align="center">代表者名</TableCell>
+              <TableCell align="center">売上</TableCell>
+              <TableCell align="center">従業員数</TableCell>
+              <TableCell align="center">設立</TableCell>
+              <TableCell align="center">資本金</TableCell>
+              <TableCell align="center">上場</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedSalesLists.map((salesList) => {
-              const isSalesListSelected = selectedSalesLists.includes(
-                salesList.id
-              );
+            {paginatedSalesLists.map((SalesDetailsList) => {
               return (
-                <TableRow hover key={salesList.id}>
+                <TableRow hover key={SalesDetailsList.id}>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {salesList.listName}
+                      {SalesDetailsList.corporateNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {salesList.createdDate}
+                      {SalesDetailsList.businessCategory}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {salesList.counter}
+                      {SalesDetailsList.zipCode}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {salesList.digestionNumber}
+                      {SalesDetailsList.address}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {salesList.negotiation}
+                      {SalesDetailsList.representativeName}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {salesList.project}
+                      {SalesDetailsList.salesAmount}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {salesList.orderDate}
+                      {SalesDetailsList.employeeNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {salesList.yomi}
+                      {SalesDetailsList.establishmentYear}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {salesList.user}
+                      {SalesDetailsList.capitalStock}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(salesList.listType)}
+                      {SalesDetailsList.listingStatus}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -242,11 +176,11 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
 };
 
 SalesLists.propTypes = {
-  salesList: PropTypes.array.isRequired,
+  companydetails1referenceList: PropTypes.array.isRequired,
 };
 
 SalesLists.defaultProps = {
-  salesList: [],
+  companydetails1referenceList: [],
 };
 
 export default SalesLists;

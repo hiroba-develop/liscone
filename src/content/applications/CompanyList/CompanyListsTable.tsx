@@ -1,16 +1,12 @@
 import { FC, ChangeEvent, useState } from "react";
-import { format } from "date-fns";
-import numeral from "numeral";
 import PropTypes from "prop-types";
 import {
-  Tooltip,
   Divider,
   Box,
   FormControl,
   InputLabel,
   Card,
   Checkbox,
-  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -21,7 +17,6 @@ import {
   Select,
   MenuItem,
   Typography,
-  useTheme,
   CardHeader,
 } from "@mui/material";
 
@@ -29,6 +24,7 @@ import Label from "src/components/Label";
 import { CompanyList, CompanyListStatus } from "src/models/company_list";
 import BulkActions from "./BulkActions";
 import TaskLog from "../PopUp/TaskLog";
+import { useNavigate } from "react-router-dom";
 
 interface CompanyListsProps {
   className?: string;
@@ -80,9 +76,7 @@ const applyPagination = (
 };
 
 const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
-  const [selectedCompanyLists, setSelectedCompanyLists] = useState<string[]>(
-    []
-  );
+  const selectedCompanyLists: string[] = [];
   const selectedBulkActions = selectedCompanyLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
@@ -118,32 +112,6 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
     }));
   };
 
-  const handleSelectAllCompanyLists = (
-    event: ChangeEvent<HTMLInputElement>
-  ): void => {
-    setSelectedCompanyLists(
-      event.target.checked
-        ? companyLists.map((companyList) => companyList.id)
-        : []
-    );
-  };
-
-  const handleSelectOneCompanyList = (
-    event: ChangeEvent<HTMLInputElement>,
-    companyListId: string
-  ): void => {
-    if (!selectedCompanyLists.includes(companyListId)) {
-      setSelectedCompanyLists((prevSelected) => [
-        ...prevSelected,
-        companyListId,
-      ]);
-    } else {
-      setSelectedCompanyLists((prevSelected) =>
-        prevSelected.filter((id) => id !== companyListId)
-      );
-    }
-  };
-
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
   };
@@ -161,12 +129,11 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
   const selectedSomeCompanyLists =
     selectedCompanyLists.length > 0 &&
     selectedCompanyLists.length < companyLists.length;
-  const selectedAllCompanyLists =
-    selectedCompanyLists.length === companyLists.length;
-  const theme = useTheme();
 
   const [taskLogOpen, setTaskLogOpen] = useState(false);
   const editTaskLogOpen = () => setTaskLogOpen(true);
+
+  const navigate = useNavigate();
 
   return (
     <Card>
@@ -231,20 +198,9 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                 companyList.id
               );
               return (
-                <TableRow
-                  hover
-                  key={companyList.id}
-                  //selected={isCompanyListSelected}
-                >
+                <TableRow hover key={companyList.id}>
                   <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      //checked={isCompanyListSelected}
-                      // onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                      //   handleSelectOneCompanyList(event, companyList.id)
-                      // }
-                      value={isCompanyListSelected}
-                    />
+                    <Checkbox color="primary" value={isCompanyListSelected} />
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -253,6 +209,8 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap
+                      onClick={editTaskLogOpen}
+                      sx={{ textDecoration: "underline" }}
                     >
                       {companyList.companyNumber}
                     </Typography>
@@ -264,7 +222,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap
-                      onClick={editTaskLogOpen}
+                      onClick={() => navigate("/company/companyDetails1")}
                       sx={{ textDecoration: "underline" }}
                     >
                       {companyList.companyName}

@@ -111,27 +111,6 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
     }));
   };
 
-  const handleSelectAllListLists = (
-    event: ChangeEvent<HTMLInputElement>
-  ): void => {
-    setSelectedListLists(
-      event.target.checked ? salesLists.map((salesList) => salesList.id) : []
-    );
-  };
-
-  const handleSelectOneListList = (
-    event: ChangeEvent<HTMLInputElement>,
-    salesListId: string
-  ): void => {
-    if (!selectedSalesLists.includes(salesListId)) {
-      setSelectedListLists((prevSelected) => [...prevSelected, salesListId]);
-    } else {
-      setSelectedListLists((prevSelected) =>
-        prevSelected.filter((id) => id !== salesListId)
-      );
-    }
-  };
-
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
   };
@@ -146,10 +125,6 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
     selectedSalesLists.length > 0 &&
     selectedSalesLists.length < salesLists.length;
   const navigate = useNavigate();
-
-  const salesListDetails = () => {
-    navigate("/salesTask/salesListDetails");
-  };
 
   return (
     <Card>

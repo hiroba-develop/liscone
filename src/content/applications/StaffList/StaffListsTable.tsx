@@ -16,7 +16,6 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  useTheme,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { ChangeEvent, FC, useState } from "react";
@@ -25,6 +24,7 @@ import Label from "src/components/Label";
 import { StaffList, StaffListRoles } from "src/models/staff_list";
 import BulkActions from "./BulkActions";
 import TaskLog from "../PopUp/TaskLog";
+import { useNavigate } from "react-router-dom";
 
 interface StaffListsProps {
   className?: string;
@@ -76,7 +76,7 @@ const applyPagination = (
 };
 
 const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
-  const [selectedStaffLists, setSelectedStaffLists] = useState<string[]>([]);
+  const selectedStaffLists: string[] = [];
   const selectedBulkActions = selectedStaffLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
@@ -112,27 +112,6 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
     }));
   };
 
-  const handleSelectAllStaffLists = (
-    event: ChangeEvent<HTMLInputElement>
-  ): void => {
-    setSelectedStaffLists(
-      event.target.checked ? staffLists.map((staffList) => staffList.id) : []
-    );
-  };
-
-  const handleSelectOneStaffList = (
-    event: ChangeEvent<HTMLInputElement>,
-    staffListId: string
-  ): void => {
-    if (!selectedStaffLists.includes(staffListId)) {
-      setSelectedStaffLists((prevSelected) => [...prevSelected, staffListId]);
-    } else {
-      setSelectedStaffLists((prevSelected) =>
-        prevSelected.filter((id) => id !== staffListId)
-      );
-    }
-  };
-
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
   };
@@ -146,11 +125,11 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
   const selectedSomeStaffLists =
     selectedStaffLists.length > 0 &&
     selectedStaffLists.length < staffLists.length;
-  const selectedAllStaffLists = selectedStaffLists.length === staffLists.length;
-  const theme = useTheme();
 
   const [taskLogOpen, setTaskLogOpen] = useState(false);
   const editTaskLogOpen = () => setTaskLogOpen(true);
+
+  const navigate = useNavigate();
 
   return (
     <Card>
@@ -231,16 +210,12 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap
-                      onClick={editTaskLogOpen}
+                      onClick={() => navigate("/staff/staffDetails1")}
                       sx={{ textDecoration: "underline" }}
                     >
                       {staffList.companyName}
                     </Typography>
                   </TableCell>
-                  <TaskLog
-                    taskLogOpen={taskLogOpen}
-                    setTaskLogOpen={setTaskLogOpen}
-                  />
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -248,10 +223,16 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap
+                      onClick={editTaskLogOpen}
+                      sx={{ textDecoration: "underline" }}
                     >
                       {getStatusLabel(staffList.role)}
                     </Typography>
                   </TableCell>
+                  <TaskLog
+                    taskLogOpen={taskLogOpen}
+                    setTaskLogOpen={setTaskLogOpen}
+                  />
                   <TableCell>
                     <Typography
                       variant="body1"

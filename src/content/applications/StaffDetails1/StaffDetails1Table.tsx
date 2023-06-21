@@ -12,32 +12,52 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { SalesDetailsList } from "src/models/salesdetails_list";
+import {
+  StaffDetails1List,
+  StaffListStatus,
+} from "src/models/staffdetails1_list";
+import Label from "src/components/Label";
 
 interface SalesListsProps {
   className?: string;
-  salesDetailsList: SalesDetailsList[];
+  staffDetails1List: StaffDetails1List[];
 }
 
+const getStatusLabel = (staffListStatus: StaffListStatus): JSX.Element => {
+  const map = {
+    listed: {
+      text: "上場",
+      color: "error",
+    },
+    unlisted: {
+      text: "未上場",
+      color: "black",
+    },
+  };
+  const { text, color }: any = map[staffListStatus];
+
+  return <Label color={color}>{text}</Label>;
+};
+
 const applyFilters = (
-  salesDetailsList: SalesDetailsList[]
-): SalesDetailsList[] => {
-  return salesDetailsList.filter((salesDetailsList) => {
+  staffDetails1List: StaffDetails1List[]
+): StaffDetails1List[] => {
+  return staffDetails1List.filter((staffDetails1List) => {
     let matches = true;
     return matches;
   });
 };
 
 const applyPagination = (
-  salesLists: SalesDetailsList[],
+  salesLists: StaffDetails1List[],
   page: number,
   limit: number
-): SalesDetailsList[] => {
+): StaffDetails1List[] => {
   return salesLists.slice(page * limit, page * limit + limit);
 };
 
 const SalesLists: FC<SalesListsProps> = ({
-  salesDetailsList: salesDetailsLists,
+  staffDetails1List: salesDetailsLists,
 }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
@@ -72,177 +92,184 @@ const SalesLists: FC<SalesListsProps> = ({
               <TableCell align="center">設立</TableCell>
               <TableCell align="center">資本金</TableCell>
               <TableCell align="center">上場</TableCell>
-              <TableCell align="center">行動ログ</TableCell>
-              <TableCell align="center">取引ステータス</TableCell>
+              <TableCell align="center">スコア</TableCell>
+              <TableCell align="center">プライマリーメールアドレス</TableCell>
+              <TableCell align="center">取引ステージ</TableCell>
+              <TableCell align="center">商材</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedSalesLists.map((SalesDetailsList) => {
+            {paginatedSalesLists.map((StaffDetails1List) => {
               return (
-                <TableRow hover key={SalesDetailsList.id}>
+                <TableRow hover key={StaffDetails1List.id}>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporateNumber}
+                      {StaffDetails1List.companyNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporationName}
+                      {StaffDetails1List.companyName}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.businessCategory}
+                      {StaffDetails1List.industry}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.zipCode}
+                      {StaffDetails1List.postNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.address}
+                      {StaffDetails1List.headOfficeAddress}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.representativePhoneNumber}
+                      {StaffDetails1List.representativeNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.representativeName}
+                      {StaffDetails1List.representativeName}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.homePage}
+                      {StaffDetails1List.website}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.salesAmount}
+                      {StaffDetails1List.earnings}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.employeeNumber}
+                      {StaffDetails1List.numberOfEmployees}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.establishmentYear}
+                      {StaffDetails1List.established}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.capitalStock}
+                      {StaffDetails1List.capital}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.listingStatus}
+                      {getStatusLabel(StaffDetails1List.listing)}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.actionLog}
+                      {StaffDetails1List.score}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
-                      fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.transactionStatus}
+                      {StaffDetails1List.primaryMailAddress}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {StaffDetails1List.dealingsStage}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {StaffDetails1List.productName}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -267,11 +294,11 @@ const SalesLists: FC<SalesListsProps> = ({
 };
 
 SalesLists.propTypes = {
-  salesDetailsList: PropTypes.array.isRequired,
+  staffDetails1List: PropTypes.array.isRequired,
 };
 
 SalesLists.defaultProps = {
-  salesDetailsList: [],
+  staffDetails1List: [],
 };
 
 export default SalesLists;
