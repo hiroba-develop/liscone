@@ -138,20 +138,9 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                 staffList.id
               );
               return (
-                <TableRow
-                  hover
-                  key={staffList.id}
-                  //selected={isStaffListSelected}
-                >
+                <TableRow hover key={staffList.id}>
                   <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      //checked={isStaffListSelected}
-                      // onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                      //   handleSelectOneStaffList(event, staffList.id)
-                      // }
-                      value={isStaffListSelected}
-                    />
+                    <Checkbox color="primary" value={isStaffListSelected} />
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -210,36 +199,6 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                       {staffList.profileLink}
                     </Typography>
                   </TableCell>
-                  {/* 
-                  <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': {
-                            background: theme.colors.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <EditTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <DeleteTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                   */}
                 </TableRow>
               );
             })}

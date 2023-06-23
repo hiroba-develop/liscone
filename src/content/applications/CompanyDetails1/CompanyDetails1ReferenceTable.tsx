@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { SalesDetailsList } from "src/models/salesdetails_list";
+import { SalesDetailsList } from "src/models/sales_details_list";
 
 interface SalesListsProps {
   className?: string;

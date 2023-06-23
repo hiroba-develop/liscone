@@ -12,16 +12,16 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { CompanyDetails1List } from "src/models/companydetails1_list";
+import { CompanyDetailsList } from "src/models/company_details_list";
 
 interface SalesListsProps {
   className?: string;
-  companyDetails1List: CompanyDetails1List[];
+  companyDetails1List: CompanyDetailsList[];
 }
 
 const applyFilters = (
-  companyDetails1List: CompanyDetails1List[]
-): CompanyDetails1List[] => {
+  companyDetails1List: CompanyDetailsList[]
+): CompanyDetailsList[] => {
   return companyDetails1List.filter((companyDetails1List) => {
     let matches = true;
     return matches;
@@ -29,10 +29,10 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  salesLists: CompanyDetails1List[],
+  salesLists: CompanyDetailsList[],
   page: number,
   limit: number
-): CompanyDetails1List[] => {
+): CompanyDetailsList[] => {
   return salesLists.slice(page * limit, page * limit + limit);
 };
 
@@ -64,14 +64,12 @@ const SalesLists: FC<SalesListsProps> = ({
               <TableCell align="center">氏名</TableCell>
               <TableCell align="center">アカウントソース</TableCell>
               <TableCell align="center">プロフィールリンク</TableCell>
-              <TableCell align="center">スコア</TableCell>
-              <TableCell align="center">その他</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedSalesLists.map((CompanyDetails1List) => {
+            {paginatedSalesLists.map((CompanyDetailsList) => {
               return (
-                <TableRow hover key={CompanyDetails1List.id}>
+                <TableRow hover key={CompanyDetailsList.id}>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -79,7 +77,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {CompanyDetails1List.corporateNumber}
+                      {CompanyDetailsList.corporateNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -89,7 +87,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {CompanyDetails1List.jobPostion}
+                      {CompanyDetailsList.jobPostion}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -99,7 +97,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {CompanyDetails1List.staffName}
+                      {CompanyDetailsList.staffName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -109,7 +107,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {CompanyDetails1List.profileSourceType}
+                      {CompanyDetailsList.profileSourceType}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -119,27 +117,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {CompanyDetails1List.profileLink}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {CompanyDetails1List.score}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {CompanyDetails1List.otherInformation}
+                      {CompanyDetailsList.profileLink}
                     </Typography>
                   </TableCell>
                 </TableRow>

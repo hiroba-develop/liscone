@@ -1,5 +1,5 @@
 import { Card } from "@mui/material";
-import { SalesDetailsList } from "src/models/salesdetails_list";
+import { SalesDetailsList } from "src/models/sales_details_list";
 import ListListsTable from "./SalesListDetailsTable";
 
 function ListLists() {

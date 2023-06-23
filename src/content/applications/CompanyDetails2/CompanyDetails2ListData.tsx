@@ -1,6 +1,6 @@
 import { Card } from "@mui/material";
 import { CompanyDetailsList } from "src/models/company_details_list";
-import CompanyDetails1Table from "./CompanyDetails1Table";
+import CompanyDetails1Table from "./CompanyDetails2Table";
 
 function ListLists() {
   const listLists: CompanyDetailsList[] = [
@@ -22,11 +22,7 @@ function ListLists() {
     },
   ];
 
-  return (
-    <Card sx={{ mt: 5 }}>
-      <CompanyDetails1Table companyDetails1List={listLists} />
-    </Card>
-  );
+  return <CompanyDetails1Table companyDetails1List={listLists} />;
 }
 
 export default ListLists;

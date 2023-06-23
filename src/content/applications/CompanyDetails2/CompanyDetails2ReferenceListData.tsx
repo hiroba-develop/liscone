@@ -1,6 +1,6 @@
 import { Card } from "@mui/material";
 import { SalesDetailsList } from "src/models/sales_details_list";
-import CompanyDetails1ReferenceTable from "./CompanyDetails1ReferenceTable";
+import CompanyDetails1ReferenceTable from "./CompanyDetails2ReferenceTable";
 
 function ListLists() {
   const listLists: SalesDetailsList[] = [
@@ -25,9 +25,7 @@ function ListLists() {
   ];
 
   return (
-    <Card sx={{ mt: 5 }}>
-      <CompanyDetails1ReferenceTable companydetails1referenceList={listLists} />
-    </Card>
+    <CompanyDetails1ReferenceTable companydetails1referenceList={listLists} />
   );
 }
 

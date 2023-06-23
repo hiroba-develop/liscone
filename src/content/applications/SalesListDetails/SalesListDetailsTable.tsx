@@ -12,7 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { SalesDetailsList } from "src/models/salesdetails_list";
+import { useNavigate } from "react-router-dom";
+import { SalesDetailsList } from "src/models/sales_details_list";
 
 interface SalesListsProps {
   className?: string;
@@ -52,6 +53,8 @@ const SalesLists: FC<SalesListsProps> = ({
 
   const filteredSalesList = applyFilters(salesDetailsLists);
   const paginatedSalesLists = applyPagination(filteredSalesList, page, limit);
+
+  const navigate = useNavigate();
 
   return (
     <Card>
@@ -98,6 +101,11 @@ const SalesLists: FC<SalesListsProps> = ({
                       color="text.primary"
                       gutterBottom
                       noWrap
+                      // 「リスト詳細企業詳細」画面に遷移
+                      onClick={() => navigate("/salesTask/companyDetails2")}
+                      // 「リスト詳細担当者詳細」画面に遷移
+                      // onClick={() => navigate("/salesTask/staffDetails2")}
+                      sx={{ textDecoration: "underline" }}
                     >
                       {SalesDetailsList.corporationName}
                     </Typography>

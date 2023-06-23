@@ -13,14 +13,14 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import {
-  StaffDetails1List,
+  StaffDetailsList,
   StaffListStatus,
-} from "src/models/staffdetails1_list";
+} from "src/models/staff_details_list";
 import Label from "src/components/Label";
 
 interface SalesListsProps {
   className?: string;
-  staffDetails1List: StaffDetails1List[];
+  staffDetails1List: StaffDetailsList[];
 }
 
 const getStatusLabel = (staffListStatus: StaffListStatus): JSX.Element => {
@@ -40,8 +40,8 @@ const getStatusLabel = (staffListStatus: StaffListStatus): JSX.Element => {
 };
 
 const applyFilters = (
-  staffDetails1List: StaffDetails1List[]
-): StaffDetails1List[] => {
+  staffDetails1List: StaffDetailsList[]
+): StaffDetailsList[] => {
   return staffDetails1List.filter((staffDetails1List) => {
     let matches = true;
     return matches;
@@ -49,10 +49,10 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  salesLists: StaffDetails1List[],
+  salesLists: StaffDetailsList[],
   page: number,
   limit: number
-): StaffDetails1List[] => {
+): StaffDetailsList[] => {
   return salesLists.slice(page * limit, page * limit + limit);
 };
 
@@ -99,9 +99,9 @@ const SalesLists: FC<SalesListsProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedSalesLists.map((StaffDetails1List) => {
+            {paginatedSalesLists.map((StaffDetailsList) => {
               return (
-                <TableRow hover key={StaffDetails1List.id}>
+                <TableRow hover key={StaffDetailsList.id}>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -109,7 +109,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.companyNumber}
+                      {StaffDetailsList.companyNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -119,7 +119,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.companyName}
+                      {StaffDetailsList.companyName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -129,7 +129,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.industry}
+                      {StaffDetailsList.industry}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -139,7 +139,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.postNumber}
+                      {StaffDetailsList.postNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -149,7 +149,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.headOfficeAddress}
+                      {StaffDetailsList.headOfficeAddress}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -159,7 +159,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.representativeNumber}
+                      {StaffDetailsList.representativeNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -169,7 +169,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.representativeName}
+                      {StaffDetailsList.representativeName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -179,7 +179,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.website}
+                      {StaffDetailsList.website}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -189,7 +189,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.earnings}
+                      {StaffDetailsList.earnings}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -199,7 +199,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.numberOfEmployees}
+                      {StaffDetailsList.numberOfEmployees}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -209,7 +209,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.established}
+                      {StaffDetailsList.established}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -219,7 +219,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.capital}
+                      {StaffDetailsList.capital}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -229,7 +229,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(StaffDetails1List.listing)}
+                      {getStatusLabel(StaffDetailsList.listing)}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -239,7 +239,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.score}
+                      {StaffDetailsList.score}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -249,7 +249,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.primaryMailAddress}
+                      {StaffDetailsList.primaryMailAddress}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -259,7 +259,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.dealingsStage}
+                      {StaffDetailsList.dealingsStage}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -269,7 +269,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {StaffDetails1List.productName}
+                      {StaffDetailsList.productName}
                     </Typography>
                   </TableCell>
                 </TableRow>

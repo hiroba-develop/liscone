@@ -1,15 +1,9 @@
 import { ChangeEvent, FC, useState } from "react";
-
 import {
   Box,
   Card,
-  CardHeader,
   Checkbox,
   Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -18,13 +12,11 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  useTheme,
 } from "@mui/material";
 import PropTypes from "prop-types";
 
 import Label from "src/components/Label";
 import { ActionList, ActionListStatus } from "src/models/action_list";
-import BulkActions from "./BulkActions";
 
 interface ActionListsProps {
   className?: string;
@@ -73,57 +65,11 @@ const applyPagination = (
 
 const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
   const [selectedActionLists, setSelectedActionLists] = useState<string[]>([]);
-  const selectedBulkActions = selectedActionLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
     status: null,
   });
-
-  const statusOptions = [
-    {
-      id: "all",
-      name: "All",
-    },
-    {
-      id: "recall",
-      name: "recall",
-    },
-  ];
-
-  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    let value = null;
-
-    if (e.target.value !== "all") {
-      value = e.target.value;
-    }
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      status: value,
-    }));
-  };
-
-  const handleSelectAllActionLists = (
-    event: ChangeEvent<HTMLInputElement>
-  ): void => {
-    setSelectedActionLists(
-      event.target.checked ? actionLists.map((actionList) => actionList.id) : []
-    );
-  };
-
-  const handleSelectOneActionLists = (
-    event: ChangeEvent<HTMLInputElement>,
-    actionListId: string
-  ): void => {
-    if (!selectedActionLists.includes(actionListId)) {
-      setSelectedActionLists((prevSelected) => [...prevSelected, actionListId]);
-    } else {
-      setSelectedActionLists((prevSelected) =>
-        prevSelected.filter((id) => id !== actionListId)
-      );
-    }
-  };
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
@@ -142,41 +88,9 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
   const selectedSomeActionLists =
     selectedActionLists.length > 0 &&
     selectedActionLists.length < actionLists.length;
-  const selectedAllActionLists =
-    selectedActionLists.length === actionLists.length;
-  const theme = useTheme();
 
   return (
     <Card>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
-        <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>リスト種類</InputLabel>
-                <Select
-                  value={filters.status || "all"}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
-          title="絞り込み"
-        />
-      )}
       <Divider />
       <TableContainer>
         <Table>
@@ -185,9 +99,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  //checked={selectedAllCompanyLists}
                   indeterminate={selectedSomeActionLists}
-                  //onChange={handleSelectAllCompanyLists}
                 />
               </TableCell>
               <TableCell align="center">企業名</TableCell>
@@ -208,20 +120,9 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                 actionList.id
               );
               return (
-                <TableRow
-                  hover
-                  key={actionList.id}
-                  //selected={isActionListSelected}
-                >
+                <TableRow hover key={actionList.id}>
                   <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      //checked={isactionffListSelected}
-                      // onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                      //   handleSelectOneListtList(event, actionList.id)
-                      // }
-                      value={isActionListSelected}
-                    />
+                    <Checkbox color="primary" value={isActionListSelected} />
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -333,36 +234,6 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       {actionList.taskDeadline}
                     </Typography>
                   </TableCell>
-                  {/* 
-                  <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': {
-                            background: theme.colors.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <EditTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <DeleteTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                   */}
                 </TableRow>
               );
             })}

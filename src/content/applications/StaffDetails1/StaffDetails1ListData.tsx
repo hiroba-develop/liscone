@@ -1,9 +1,9 @@
 import { Card } from "@mui/material";
-import { StaffDetails1List } from "src/models/staffdetails1_list";
+import { StaffDetailsList } from "src/models/staff_details_list";
 import StaffDetails1Table from "./StaffDetails1Table";
 
 function ListLists() {
-  const listLists: StaffDetails1List[] = [
+  const listLists: StaffDetailsList[] = [
     {
       id: "1",
       companyNumber: "C0000000001",

@@ -1,6 +1,6 @@
 export type StaffListStatus = "listed" | "unlisted";
 
-export interface StaffDetails1List {
+export interface StaffDetailsList {
   id: string;
   companyNumber: string;
   companyName: string;

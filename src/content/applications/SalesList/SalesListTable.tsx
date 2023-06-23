@@ -75,7 +75,7 @@ const applyPagination = (
 };
 
 const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
-  const [selectedSalesLists, setSelectedListLists] = useState<string[]>([]);
+  const selectedSalesLists: string[] = [];
   const selectedBulkActions = selectedSalesLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);

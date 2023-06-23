@@ -1,7 +1,8 @@
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Box } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 // import PageHeader from './PageHeader';
+import Sort from "./Sort";
 
 import ListData from "./ActionData";
 
@@ -12,17 +13,10 @@ function Lists() {
         <title>行動ログ</title>
       </Helmet>
       <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="stretch"
-          spacing={3}
-        >
-          <Grid item xs={16}>
-            <ListData />
-          </Grid>
-        </Grid>
+        <Sort />
+        <Box sx={{ mt: 3 }}>
+          <ListData />
+        </Box>
       </Container>
       <Footer />
     </>
