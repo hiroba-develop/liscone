@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import {
   Divider,
   Box,
-  FormControl,
-  InputLabel,
   Card,
   Checkbox,
   Table,
@@ -14,17 +12,16 @@ import {
   TablePagination,
   TableRow,
   TableContainer,
-  Select,
-  MenuItem,
   Typography,
   CardHeader,
+  Button,
 } from "@mui/material";
 
 import Label from "src/components/Label";
 import { CompanyList, CompanyListStatus } from "src/models/company_list";
-import BulkActions from "./BulkActions";
 import TaskLog from "../PopUp/TaskLog";
 import { useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
 
 interface CompanyListsProps {
   className?: string;
@@ -77,40 +74,11 @@ const applyPagination = (
 
 const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
   const selectedCompanyLists: string[] = [];
-  const selectedBulkActions = selectedCompanyLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
     status: null,
   });
-
-  const statusOptions = [
-    {
-      id: "all",
-      name: "All",
-    },
-    {
-      id: "listed",
-      name: "上場",
-    },
-    {
-      id: "unlisted",
-      name: "未上場",
-    },
-  ];
-
-  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    let value = null;
-
-    if (e.target.value !== "all") {
-      value = e.target.value;
-    }
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      status: value,
-    }));
-  };
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
@@ -137,35 +105,17 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
 
   return (
     <Card>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
-        <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>上場</InputLabel>
-                <Select
-                  value={filters.status || "all"}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
-          title="絞り込み"
-        />
-      )}
+      <CardHeader
+        action={
+          <Box>
+            <Button variant="contained" onClick={editTaskLogOpen}>
+              <AddIcon />
+              　企業リストを作成
+            </Button>
+          </Box>
+        }
+      />
+      <TaskLog taskLogOpen={taskLogOpen} setTaskLogOpen={setTaskLogOpen} />
       <Divider />
       <TableContainer>
         <Table>
@@ -209,8 +159,6 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap
-                      onClick={editTaskLogOpen}
-                      sx={{ textDecoration: "underline" }}
                     >
                       {companyList.companyNumber}
                     </Typography>
@@ -228,10 +176,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       {companyList.companyName}
                     </Typography>
                   </TableCell>
-                  <TaskLog
-                    taskLogOpen={taskLogOpen}
-                    setTaskLogOpen={setTaskLogOpen}
-                  />
+
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -353,36 +298,6 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       {getStatusLabel(companyList.listing)}
                     </Typography>
                   </TableCell>
-                  {/* 
-                  <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': {
-                            background: theme.colors.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <EditTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <DeleteTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                   */}
                 </TableRow>
               );
             })}

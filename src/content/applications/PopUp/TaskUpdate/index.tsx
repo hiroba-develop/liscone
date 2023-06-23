@@ -94,9 +94,12 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen }) => {
             <FormControl fullWidth>
               <InputLabel>次回アクション</InputLabel>
               <Select>
-                <MenuItem value={"ActionA"}>アクションA</MenuItem>
-                <MenuItem value={"ActionB"}>アクションB</MenuItem>
-                <MenuItem value={"ActionC"}>アクションC</MenuItem>
+                <MenuItem value={"Call"}>架電</MenuItem>
+                <MenuItem value={"Mail"}>メール</MenuItem>
+                <MenuItem value={"WebinarInformation"}>ウェビナー案内</MenuItem>
+                <MenuItem value={"SendDocument"}>資料送付</MenuItem>
+                <MenuItem value={"FormSend"}>フォーム送信</MenuItem>
+                <MenuItem value={"Meeting"}>ミーティング</MenuItem>
               </Select>
             </FormControl>
           </Box>

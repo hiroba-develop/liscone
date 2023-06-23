@@ -5,7 +5,7 @@ import ListDetailsData from "./ListDetailsData";
 import ListReferenceData from "./ListReferenceData";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
-function Lists(props) {
+function Lists() {
   return (
     <>
       <Helmet>

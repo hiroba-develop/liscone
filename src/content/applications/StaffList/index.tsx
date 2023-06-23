@@ -1,9 +1,10 @@
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Box } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 // import PageHeader from './PageHeader';
 
 import RecentOrders from "./ListData";
+import Sort from "./Sort";
 
 function DashBoard() {
   return (
@@ -20,6 +21,9 @@ function DashBoard() {
           spacing={3}
         >
           <Grid item xs={16}>
+            <Box sx={{ mb: 3 }}>
+              <Sort />
+            </Box>
             <RecentOrders />
           </Grid>
         </Grid>

@@ -4,10 +4,6 @@ import {
   CardHeader,
   Checkbox,
   Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -16,15 +12,16 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  Button,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { ChangeEvent, FC, useState } from "react";
 
 import Label from "src/components/Label";
 import { StaffList, StaffListRoles } from "src/models/staff_list";
-import BulkActions from "./BulkActions";
 import TaskLog from "../PopUp/TaskLog";
 import { useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
 
 interface StaffListsProps {
   className?: string;
@@ -77,40 +74,11 @@ const applyPagination = (
 
 const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
   const selectedStaffLists: string[] = [];
-  const selectedBulkActions = selectedStaffLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
     status: null,
   });
-
-  const statusOptions = [
-    {
-      id: "all",
-      name: "All",
-    },
-    {
-      id: "marketing",
-      name: "マーケティング",
-    },
-    {
-      id: "sales",
-      name: "営業",
-    },
-  ];
-
-  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    let value = null;
-
-    if (e.target.value !== "all") {
-      value = e.target.value;
-    }
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      status: value,
-    }));
-  };
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
@@ -133,35 +101,17 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
 
   return (
     <Card>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
-        <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>役職</InputLabel>
-                <Select
-                  value={filters.status || "all"}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
-          title="絞り込み"
-        />
-      )}
+      <CardHeader
+        action={
+          <Box>
+            <Button variant="contained" onClick={editTaskLogOpen}>
+              <AddIcon />
+              　企業リストを作成
+            </Button>
+          </Box>
+        }
+      />
+      <TaskLog taskLogOpen={taskLogOpen} setTaskLogOpen={setTaskLogOpen} />
       <Divider />
       <TableContainer>
         <Table>
@@ -223,16 +173,10 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap
-                      onClick={editTaskLogOpen}
-                      sx={{ textDecoration: "underline" }}
                     >
                       {getStatusLabel(staffList.role)}
                     </Typography>
                   </TableCell>
-                  <TaskLog
-                    taskLogOpen={taskLogOpen}
-                    setTaskLogOpen={setTaskLogOpen}
-                  />
                   <TableCell>
                     <Typography
                       variant="body1"

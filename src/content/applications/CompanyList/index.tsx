@@ -1,30 +1,22 @@
-import { Container, Grid } from '@mui/material';
-import { Helmet } from 'react-helmet-async';
-import Footer from 'src/components/Footer';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
-// import PageHeader from './PageHeader';
-
-import RecentOrders from './ListData';
+import { Box, Container, Grid } from "@mui/material";
+import { Helmet } from "react-helmet-async";
+import Footer from "src/components/Footer";
+import RecentOrders from "./ListData";
+import Sort from "./Sort";
 
 function DashBoard() {
-
   return (
     <>
       <Helmet>
         <title>企業リスト作成</title>
       </Helmet>
-      <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="stretch"
-          spacing={3}
-        >
-          <Grid item xs={16}>
+      <Container>
+        <Box sx={{ mx: -8 }}>
+          <Sort />
+        </Box>
+        <Box sx={{ mt: 5, mx: -8 }}>
           <RecentOrders />
-          </Grid>
-        </Grid>
+        </Box>
       </Container>
       <Footer />
     </>
