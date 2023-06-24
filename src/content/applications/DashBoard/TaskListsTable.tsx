@@ -5,8 +5,6 @@ import {
   Tooltip,
   Divider,
   Box,
-  FormControl,
-  InputLabel,
   Card,
   Checkbox,
   IconButton,
@@ -17,19 +15,26 @@ import {
   TablePagination,
   TableRow,
   TableContainer,
-  Select,
-  MenuItem,
   Typography,
   useTheme,
   CardHeader,
+  Grid,
+  Autocomplete,
+  TextField,
+  Stack,
 } from "@mui/material";
-
 import Label from "src/components/Label";
-import { TaskList, TaskStatus } from "src/models/task_list";
+import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
-import BulkActions from "./BulkActions";
+
+import { TaskList, TaskStatus } from "src/models/task_list";
 import TaskUpdate from "../PopUp/TaskUpdate";
+import Sort from "./Sort";
 
 interface TaskListsProps {
   className?: string;
@@ -83,65 +88,11 @@ const applyPagination = (
 
 const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
   const [selectedTaskLists, setSelectedTaskLists] = useState<string[]>([]);
-  const selectedBulkActions = selectedTaskLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
     status: null,
   });
-
-  const statusOptions = [
-    {
-      id: "all",
-      name: "All",
-    },
-    {
-      id: "completed",
-      name: "completed",
-    },
-    {
-      id: "pending",
-      name: "pending",
-    },
-    {
-      id: "failed",
-      name: "failed",
-    },
-  ];
-
-  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    let value = null;
-
-    if (e.target.value !== "all") {
-      value = e.target.value;
-    }
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      status: value,
-    }));
-  };
-
-  const handleSelectAllTaskLists = (
-    event: ChangeEvent<HTMLInputElement>
-  ): void => {
-    setSelectedTaskLists(
-      event.target.checked ? taskLists.map((taskList) => taskList.id) : []
-    );
-  };
-
-  const handleSelectOneTaskList = (
-    event: ChangeEvent<HTMLInputElement>,
-    taskListId: string
-  ): void => {
-    if (!selectedTaskLists.includes(taskListId)) {
-      setSelectedTaskLists((prevSelected) => [...prevSelected, taskListId]);
-    } else {
-      setSelectedTaskLists((prevSelected) =>
-        prevSelected.filter((id) => id !== taskListId)
-      );
-    }
-  };
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
@@ -153,9 +104,6 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
 
   const filteredTaskLists = applyFilters(taskLists, filters);
   const paginatedTaskLists = applyPagination(filteredTaskLists, page, limit);
-  const selectedSomeTaskLists =
-    selectedTaskLists.length > 0 && selectedTaskLists.length < taskLists.length;
-  const selectedAllTaskLists = selectedTaskLists.length === taskLists.length;
   const theme = useTheme();
 
   const [taskUpdateOpen, setTaskUpdateOpen] = useState(false);
@@ -163,48 +111,21 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
 
   return (
     <Card>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
-        <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>ステータス</InputLabel>
-                <Select
-                  value={filters.status || "all"}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
-          title="タスク"
-        />
-      )}
+      <CardHeader
+        title={
+          <Typography fontWeight="bold" sx={{ fontSize: "20px" }}>
+            タスク
+          </Typography>
+        }
+        sx={{ mt: -2 }}
+        action={<Sort />}
+      />
       <Divider />
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  //checked={selectedAllTaskLists}
-                  indeterminate={selectedSomeTaskLists}
-                  //onChange={handleSelectAllTaskLists}
-                />
-              </TableCell>
+              <TableCell padding="checkbox">　</TableCell>
               <TableCell align="center">ステータス</TableCell>
               <TableCell align="center">タスク</TableCell>
               <TableCell align="center">期日</TableCell>
@@ -212,7 +133,9 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
               <TableCell align="center">架電先担当</TableCell>
               <TableCell align="center">電話番号</TableCell>
               <TableCell align="center">コメント</TableCell>
-              <TableCell align="center">行動</TableCell>
+              <TableCell align="center">完了</TableCell>
+              <TableCell align="center">編集</TableCell>
+              <TableCell align="center">削除</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -221,20 +144,9 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                 taskList.id
               );
               return (
-                <TableRow
-                  hover
-                  key={taskList.id}
-                  //selected={isTaskListSelected}
-                >
+                <TableRow hover key={taskList.id}>
                   <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      // checked={isTaskListSelected}
-                      // onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                      //   handleSelectOneTaskList(event, taskList.id)
-                      // }
-                      value={isTaskListSelected}
-                    />
+                    <Checkbox color="primary" value={isTaskListSelected} />
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -316,6 +228,9 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                       {taskList.comment}
                     </Typography>
                   </TableCell>
+                  <TableCell padding="checkbox">
+                    <Checkbox color="success" value={isTaskListSelected} />
+                  </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
                       <IconButton
@@ -332,6 +247,8 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
                         <EditTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
+                  </TableCell>
+                  <TableCell align="right">
                     <Tooltip title="Delete Order" arrow>
                       <IconButton
                         sx={{

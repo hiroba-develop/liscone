@@ -3,13 +3,8 @@ import { useNavigate } from "react-router-dom";
 import {
   Box,
   Card,
-  CardHeader,
   Checkbox,
   Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -23,7 +18,6 @@ import PropTypes from "prop-types";
 
 import Label from "src/components/Label";
 import { SalesList, SalesListStatus } from "src/models/sales_list";
-import BulkActions from "./BulkActions";
 
 interface SalesListsProps {
   className?: string;
@@ -76,40 +70,11 @@ const applyPagination = (
 
 const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
   const selectedSalesLists: string[] = [];
-  const selectedBulkActions = selectedSalesLists.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
     status: null,
   });
-
-  const statusOptions = [
-    {
-      id: "all",
-      name: "All",
-    },
-    {
-      id: "contactlist",
-      name: "contactlist",
-    },
-    {
-      id: "companylist",
-      name: "companylist",
-    },
-  ];
-
-  const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    let value = null;
-
-    if (e.target.value !== "all") {
-      value = e.target.value;
-    }
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      status: value,
-    }));
-  };
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
@@ -128,35 +93,6 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
 
   return (
     <Card>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
-        <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>リスト種類</InputLabel>
-                <Select
-                  value={filters.status || "all"}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
-          title="リスト一覧"
-        />
-      )}
       <Divider />
       <TableContainer>
         <Table>
@@ -165,9 +101,7 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  //checked={selectedAllCompanyLists}
                   indeterminate={selectedSomeSalesLists}
-                  //onChange={handleSelectAllCompanyLists}
                 />
               </TableCell>
               <TableCell align="center">リスト名</TableCell>
@@ -188,20 +122,9 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                 salesList.id
               );
               return (
-                <TableRow
-                  hover
-                  key={salesList.id}
-                  //selected={isListListSelected}
-                >
+                <TableRow hover key={salesList.id}>
                   <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      //checked={isListListSelected}
-                      // onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                      //   handleSelectOneListtList(event, listList.id)
-                      // }
-                      value={isSalesListSelected}
-                    />
+                    <Checkbox color="primary" value={isSalesListSelected} />
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -315,36 +238,6 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                       {getStatusLabel(salesList.listType)}
                     </Typography>
                   </TableCell>
-                  {/* 
-                  <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': {
-                            background: theme.colors.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <EditTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <DeleteTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                  </TableCell>
-                   */}
                 </TableRow>
               );
             })}
