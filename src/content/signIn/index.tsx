@@ -1,22 +1,31 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {
+  Alert,
+  AlertTitle,
   Box,
   Button,
   Card,
-  Checkbox,
   Container,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   OutlinedInput,
-  TextField,
+  Snackbar,
   Typography,
 } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 
 import { styled } from "@mui/material/styles";
-import { Link } from "react-router-dom";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import {
+  commonErrorCallback,
+  get,
+  post,
+  useWrapMuation,
+} from "src/utility/http/ApiService";
+import { config } from "src/utility/config/AppConfig";
+import { authAtom } from "src/utility/recoil/auth/Auth.atom";
+import { NavigatePath } from "src/utility/constants/NavigatePath";
+import ErrorIcon from "../applications/icon/ErrorIcon";
 
 const MainContent = styled(Box)(
   ({ theme }) => `
@@ -57,6 +66,36 @@ function signIn() {
     userPw: "",
   });
 
+  const setAuthState = useSetRecoilState(authAtom);
+
+  const navigate = useNavigate();
+
+  const { mutate, isError } = useWrapMuation<any, any>(
+    ["login"],
+    async (data) => {
+      const param = {
+        member_id: data.userId,
+        password: data.userPw,
+      };
+
+      return await post<any>(`${config().apiUrl}/members/login`, param);
+    },
+    {
+      onSuccess: (data) => {
+        setAuthState({
+          userId: data.member_id,
+          coId: data.company_code,
+        });
+
+        navigate(`/${NavigatePath.DASHBOARD}`);
+      },
+      onError: (error) => {
+        commonErrorCallback(error);
+        setIsTextError(true);
+      },
+    }
+  );
+
   const onChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     inputType: InputType
@@ -81,58 +120,81 @@ function signIn() {
     }
   };
 
-  function init() {
-    // ... ajax콜을 통해 응답데이터로 topicudpate
-    fetch(`http://localhost:3001/board`, {
-      method: "GET", // *GET, POST, PUT, DELETE, etc.
-      // mode: 'no-cors', // no-cors, cors, *same-origin
-      //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-      headers: {
-        "Content-Type": "application/json",
-      },
-      //redirect: 'follow', // manual, *follow, error
-      // referrer: 'no-referrer', // no-referrer, *client
-      //body: JSON.stringify(data), // body data type must match "Content-Type" header
-    })
-      .then(async (response) => {
-        let datas = await response.json();
-        console.log("뿌려준 데이터:::::", datas);
-      })
-      .catch((err) => {
-        console.log("에러메시지:::::", err);
-      });
-  }
+  const login = (e: FormEvent) => {
+    e.preventDefault();
+    mutate(auth);
+  };
 
   return (
     <>
+      {isError && (
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          open={isSnackBarError}
+          onClose={() => setIsTextError(false)}
+        >
+          <Alert
+            severity="error"
+            sx={{
+              display: "flex",
+              background: "#231F20",
+              borderRadius: 4,
+              padding: "16px 24px",
+            }}
+            iconMapping={{
+              error: <ErrorIcon fontSize="inherit" />,
+            }}
+          >
+            <AlertTitle>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "#FFFFFF",
+                }}
+              >
+                Error
+              </Typography>
+            </AlertTitle>
+            <Typography
+              variant="body2"
+              sx={{
+                color: "#FFFFFF",
+              }}
+            >
+              ログインできませんでした。
+            </Typography>
+          </Alert>
+        </Snackbar>
+      )}
       <Helmet>
         <title>LisCone ログイン</title>
       </Helmet>
       <MainContent>
         <Container maxWidth="sm">
-          <Card sx={{ textAlign: "center", mt: 3, p: 4 }}>
-            <Box component="form" noValidate sx={{ mt: 3 }}>
+          <Card sx={{ mt: 3, p: 4 }}>
+            <Box sx={{ mt: 3 }}>
               <Typography marginBottom="30px" display="flex" variant="h3">
                 ログイン
               </Typography>
-              <Box component={"form"}>
+              <Box component={"form"} onSubmit={(e) => login(e)}>
                 <InputContainer>
                   <OutlinedInput
                     type="text"
                     placeholder="メールアドレス"
                     value={auth.userId}
                     onChange={(e) => onChange(e, "userId")}
-                    endAdornment={auth.userId.length > 0}
                   />
                   {isSnackBarError && (
                     <Typography
                       sx={{
+                        textAlign: "left",
                         color: "#E63A2E",
-                        mt: 2,
-                        ml: 4,
                       }}
                     >
-                      아이디를 확인해주세요
+                      メールアドレスを確認してください。
                     </Typography>
                   )}
                 </InputContainer>
@@ -143,7 +205,6 @@ function signIn() {
                     placeholder="パスワード"
                     value={auth.userPw}
                     onChange={(e) => onChange(e, "userPw")}
-                    endAdornment={auth.userPw.length > 0}
                   />
                 </InputContainer>
 
@@ -160,7 +221,7 @@ function signIn() {
                 </Box>
               </Box>
               <Link to="/account/changePassword">
-                <Typography marginTop="30px" variant="body2">
+                <Typography textAlign="center" marginTop="30px" variant="body2">
                   パスワードをお忘れの方はこちら
                 </Typography>
               </Link>
