@@ -14,17 +14,16 @@ import { Helmet } from "react-helmet-async";
 
 import { styled } from "@mui/material/styles";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import { config } from "src/utility/config/AppConfig";
+import { NavigatePath } from "src/utility/constants/NavigatePath";
 import {
   commonErrorCallback,
-  get,
   post,
   useWrapMuation,
 } from "src/utility/http/ApiService";
-import { config } from "src/utility/config/AppConfig";
 import { authAtom } from "src/utility/recoil/auth/Auth.atom";
-import { NavigatePath } from "src/utility/constants/NavigatePath";
 import ErrorIcon from "../applications/icon/ErrorIcon";
 
 const MainContent = styled(Box)(
@@ -60,11 +59,18 @@ const CustomButton = styled(Button)(() => ({
 type InputType = "userId" | "userPw";
 
 function signIn() {
-  const [isSnackBarError, setIsTextError] = useState(false);
   const [auth, setAuth] = useState({
     userId: "",
     userPw: "",
+    coId: "",
+    errorMessage: "",
   });
+  const current = new Date();
+  const today = `${current.getFullYear()}-${
+    current.getMonth() < 10 ? "0" : ""
+  }${current.getMonth() + 1}-${
+    current.getDate() < 10 ? "0" : ""
+  }${current.getDate()}`;
 
   const setAuthState = useSetRecoilState(authAtom);
 
@@ -87,11 +93,20 @@ function signIn() {
           coId: data.company_code,
         });
 
-        navigate(`/${NavigatePath.DASHBOARD}`);
+        if (data.password_expired_day < today) {
+          navigate(`/${NavigatePath.CHANGE_PW}`);
+        } else {
+          navigate(`/${NavigatePath.DASHBOARD}`);
+        }
       },
       onError: (error) => {
         commonErrorCallback(error);
-        setIsTextError(true);
+        setAuth((oldAuth) => {
+          return {
+            ...oldAuth,
+            errorMessage: error.response.data.message,
+          };
+        });
       },
     }
   );
@@ -133,8 +148,6 @@ function signIn() {
             vertical: "bottom",
             horizontal: "center",
           }}
-          open={isSnackBarError}
-          onClose={() => setIsTextError(false)}
         >
           <Alert
             severity="error"
@@ -164,7 +177,7 @@ function signIn() {
                 color: "#FFFFFF",
               }}
             >
-              ログインできませんでした。
+              {auth.errorMessage}
             </Typography>
           </Alert>
         </Snackbar>
@@ -187,16 +200,6 @@ function signIn() {
                     value={auth.userId}
                     onChange={(e) => onChange(e, "userId")}
                   />
-                  {isSnackBarError && (
-                    <Typography
-                      sx={{
-                        textAlign: "left",
-                        color: "#E63A2E",
-                      }}
-                    >
-                      メールアドレスを確認してください。
-                    </Typography>
-                  )}
                 </InputContainer>
 
                 <InputContainer>
@@ -220,11 +223,11 @@ function signIn() {
                   </CustomButton>
                 </Box>
               </Box>
-              <Link to="/account/changePassword">
+              {/* <Link to="/account/changePassword">
                 <Typography textAlign="center" marginTop="30px" variant="body2">
                   パスワードをお忘れの方はこちら
                 </Typography>
-              </Link>
+              </Link> */}
             </Box>
           </Card>
         </Container>
