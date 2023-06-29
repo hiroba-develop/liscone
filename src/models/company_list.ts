@@ -1,19 +1,19 @@
-export type CompanyListStatus = 'listed' | 'unlisted';
+export type CompanyListStatus = "Y" | "N";
 
 export interface CompanyList {
-  id: string;
-  companyNumber: string;
-  companyName: string;
-  industry: string;
-  postNumber: string;
-  headOfficeAddress: string;
-  representativeNumber: string;
-  representativeName: string;
-  website: string;
+  corporation_id: string;
+  corporate_number: string;
+  corporation_name: string;
+  business_category: string;
+  zip_code: string;
+  address: string;
+  representative_phone_number: string;
+  representative_name: string;
+  home_page: string;
   telephoneNumber: string;
-  earnings: string;
-  numberOfEmployees: string;
-  established: number;
-  capital: string;
-  listing: CompanyListStatus;
+  sales_amount: string;
+  employee_number: string;
+  establishment_year: number;
+  capital_stock: string;
+  listing_status: CompanyListStatus;
 }

@@ -34,11 +34,11 @@ interface Filters {
 
 const getStatusLabel = (companyListStatus: CompanyListStatus): JSX.Element => {
   const map = {
-    listed: {
+    Y: {
       text: "上場",
       color: "error",
     },
-    unlisted: {
+    N: {
       text: "未上場",
       color: "black",
     },
@@ -56,7 +56,7 @@ const applyFilters = (
   return companyLists.filter((companyLists) => {
     let matches = true;
 
-    if (filters.status && companyLists.listing !== filters.status) {
+    if (filters.status && companyLists.listing_status !== filters.status) {
       matches = false;
     }
 
@@ -145,10 +145,10 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
           <TableBody>
             {paginatedCompanyLists.map((companyList) => {
               const isCompanyListSelected = selectedCompanyLists.includes(
-                companyList.id
+                companyList.corporation_id
               );
               return (
-                <TableRow hover key={companyList.id}>
+                <TableRow hover key={companyList.corporation_id}>
                   <TableCell padding="checkbox">
                     <Checkbox color="primary" value={isCompanyListSelected} />
                   </TableCell>
@@ -160,7 +160,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.companyNumber}
+                      {companyList.corporate_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -173,7 +173,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       onClick={() => navigate("/company/companyDetails1")}
                       sx={{ textDecoration: "underline" }}
                     >
-                      {companyList.companyName}
+                      {companyList.corporation_name}
                     </Typography>
                   </TableCell>
 
@@ -185,7 +185,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.industry}
+                      {companyList.business_category}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -196,7 +196,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.postNumber}
+                      {companyList.zip_code}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -207,7 +207,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.headOfficeAddress}
+                      {companyList.address}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -218,7 +218,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.representativeNumber}
+                      {companyList.representative_phone_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -229,7 +229,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.representativeName}
+                      {companyList.representative_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -240,7 +240,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.website}
+                      {companyList.home_page}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -251,7 +251,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.earnings}
+                      {companyList.sales_amount}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -262,7 +262,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.numberOfEmployees}
+                      {companyList.employee_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -273,7 +273,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.established}
+                      {companyList.establishment_year}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -284,7 +284,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.capital}
+                      {companyList.capital_stock}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -295,7 +295,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(companyList.listing)}
+                      {getStatusLabel(companyList.listing_status)}
                     </Typography>
                   </TableCell>
                 </TableRow>
