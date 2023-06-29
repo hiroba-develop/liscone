@@ -65,7 +65,12 @@ function Header() {
       }}
     >
       <Box>
-        <img src="/static/images/logo/lisconne-logo.svg" alt="lisconne-logo" />
+        <ButtonWrapper href="/task">
+          <img
+            src="/static/images/logo/lisconne-logo.svg"
+            alt="lisconne-logo"
+          />
+        </ButtonWrapper>
       </Box>
       <Box alignItems="left">
         <ButtonWrapper

@@ -272,7 +272,7 @@ function Sort() {
               disablePortal
               options={minSalesAmount}
               size="small"
-              sx={{ minWidth: 150 }}
+              sx={{ minWidth: 100 }}
               renderInput={(params) => <TextField {...params} label="" />}
             />
             <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
@@ -280,7 +280,7 @@ function Sort() {
               disablePortal
               options={maxSalesAmount}
               size="small"
-              sx={{ minWidth: 150 }}
+              sx={{ minWidth: 100 }}
               renderInput={(params) => <TextField {...params} label="" />}
             />
           </Stack>
@@ -292,7 +292,7 @@ function Sort() {
               disablePortal
               options={minEmployeeNumber}
               size="small"
-              sx={{ minWidth: 150 }}
+              sx={{ minWidth: 100 }}
               renderInput={(params) => <TextField {...params} label="" />}
             />
             <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
@@ -300,7 +300,7 @@ function Sort() {
               disablePortal
               options={maxEmployeeNumber}
               size="small"
-              sx={{ minWidth: 150 }}
+              sx={{ minWidth: 100 }}
               renderInput={(params) => <TextField {...params} label="" />}
             />
           </Stack>
@@ -312,7 +312,7 @@ function Sort() {
               disablePortal
               options={minEstablishmentYear}
               size="small"
-              sx={{ minWidth: 150 }}
+              sx={{ minWidth: 100 }}
               renderInput={(params) => <TextField {...params} label="" />}
             />
             <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
@@ -320,7 +320,7 @@ function Sort() {
               disablePortal
               options={maxEstablishmentYear}
               size="small"
-              sx={{ minWidth: 150 }}
+              sx={{ minWidth: 100 }}
               renderInput={(params) => <TextField {...params} label="" />}
             />
           </Stack>
@@ -332,7 +332,7 @@ function Sort() {
               disablePortal
               options={minCapitalStock}
               size="small"
-              sx={{ minWidth: 150 }}
+              sx={{ minWidth: 100 }}
               renderInput={(params) => <TextField {...params} label="" />}
             />
             <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
@@ -340,7 +340,7 @@ function Sort() {
               disablePortal
               options={maxCapitalStock}
               size="small"
-              sx={{ minWidth: 150 }}
+              sx={{ minWidth: 100 }}
               renderInput={(params) => <TextField {...params} label="" />}
             />
           </Stack>

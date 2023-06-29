@@ -36,11 +36,11 @@ const getStatusLabel = (companyListStatus: CompanyListStatus): JSX.Element => {
   const map = {
     Y: {
       text: "上場",
-      color: "error",
+      color: "black",
     },
     N: {
       text: "未上場",
-      color: "black",
+      color: "error",
     },
   };
 
@@ -76,7 +76,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
   const selectedCompanyLists: string[] = [];
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
-  const [filters, setFilters] = useState<Filters>({
+  const [filters] = useState<Filters>({
     status: null,
   });
 

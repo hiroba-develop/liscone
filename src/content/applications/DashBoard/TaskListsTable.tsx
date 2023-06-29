@@ -1,36 +1,28 @@
-import { FC, ChangeEvent, useState } from "react";
-import { format } from "date-fns";
-import PropTypes from "prop-types";
 import {
-  Tooltip,
-  Divider,
   Box,
   Card,
+  CardHeader,
   Checkbox,
+  Divider,
   IconButton,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TablePagination,
   TableRow,
-  TableContainer,
+  Tooltip,
   Typography,
   useTheme,
-  CardHeader,
-  Grid,
-  Autocomplete,
-  TextField,
-  Stack,
 } from "@mui/material";
+import { format } from "date-fns";
+import PropTypes from "prop-types";
+import { ChangeEvent, FC, useState } from "react";
 import Label from "src/components/Label";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
+import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 
 import { TaskList, TaskStatus } from "src/models/task_list";
 import TaskUpdate from "../PopUp/TaskUpdate";

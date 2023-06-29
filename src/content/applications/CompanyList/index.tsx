@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 import RecentOrders from "./ListData";
@@ -10,13 +10,23 @@ function DashBoard() {
       <Helmet>
         <title>企業リスト作成</title>
       </Helmet>
-      <Container>
-        <Box sx={{ mx: -8 }}>
-          <Sort />
-        </Box>
-        <Box sx={{ mt: 5, mx: -8 }}>
-          <RecentOrders />
-        </Box>
+      <Container maxWidth="lg">
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="stretch"
+          spacing={3}
+        >
+          <Grid item xs={16}>
+            <Sort />
+          </Grid>
+        </Grid>
+        <Grid item xs={16}>
+          <Box>
+            <RecentOrders />
+          </Box>
+        </Grid>
       </Container>
       <Footer />
     </>
