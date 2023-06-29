@@ -1,18 +1,17 @@
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import {
+  Autocomplete,
   Box,
   Card,
+  Grid,
+  Stack,
   TextField,
   Typography,
-  Stack,
-  Grid,
-  Autocomplete,
-  Tooltip,
 } from "@mui/material";
-import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 
 const maxSalesAmount = [
   { label: "特に指定しない" },
