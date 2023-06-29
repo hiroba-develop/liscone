@@ -136,8 +136,9 @@ function signIn() {
   };
 
   const login = (e: FormEvent) => {
-    e.preventDefault();
-    mutate(auth);
+    navigate(`/${NavigatePath.DASHBOARD}`);
+    // e.preventDefault();
+    // mutate(auth);
   };
 
   return (
