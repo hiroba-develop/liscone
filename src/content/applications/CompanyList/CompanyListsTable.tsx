@@ -1,27 +1,27 @@
-import { FC, ChangeEvent, useState } from "react";
-import PropTypes from "prop-types";
 import {
-  Divider,
   Box,
+  Button,
   Card,
+  CardHeader,
   Checkbox,
+  Divider,
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TablePagination,
   TableRow,
-  TableContainer,
   Typography,
-  CardHeader,
-  Button,
 } from "@mui/material";
+import PropTypes from "prop-types";
+import { ChangeEvent, FC, useState } from "react";
 
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
 import Label from "src/components/Label";
 import { CompanyList, CompanyListStatus } from "src/models/company_list";
-import TaskLog from "../PopUp/TaskLog";
-import { useNavigate } from "react-router-dom";
-import AddIcon from "@mui/icons-material/Add";
+import ListCreate from "../PopUp/ListCreate";
 
 interface CompanyListsProps {
   className?: string;
@@ -71,7 +71,6 @@ const applyPagination = (
 ): CompanyList[] => {
   return companyLists.slice(page * limit, page * limit + limit);
 };
-
 const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
   const selectedCompanyLists: string[] = [];
   const [page, setPage] = useState<number>(0);
@@ -98,12 +97,12 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
     selectedCompanyLists.length > 0 &&
     selectedCompanyLists.length < companyLists.length;
 
-  const [taskLogOpen, setTaskLogOpen] = useState(false);
-  const editTaskLogOpen = () => setTaskLogOpen(true);
+  const [listCreateOpen, setListCreateOpen] = useState(false);
+  const editListCreateOpen = () => setListCreateOpen(true);
   // 체크된 아이템을 담을 배열
   const [checkItems, setCheckItems] = useState([]);
-
   const navigate = useNavigate();
+
   // 체크박스 단일 선택
   const handleSingleCheck = (checked, id) => {
     if (checked) {
@@ -116,8 +115,8 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
   };
   // 체크박스 전체 선택
   const handleAllCheck = (checked) => {
-    const idArray = [];
     if (checked) {
+      const idArray = [];
       // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
       companyLists.forEach((el) => idArray.push(el.corporation_id));
       setCheckItems(idArray);
@@ -126,20 +125,28 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
       setCheckItems([]);
     }
   };
-
+  const isChecked = checkItems.length > 0;
+  const disabled = !isChecked;
   return (
     <Card>
       <CardHeader
         action={
           <Box>
-            <Button variant="contained" onClick={editTaskLogOpen}>
+            <Button
+              disabled={disabled}
+              variant="contained"
+              onClick={editListCreateOpen}
+            >
               <AddIcon />
               　企業リストを作成
             </Button>
           </Box>
         }
       />
-      <TaskLog taskLogOpen={taskLogOpen} setTaskLogOpen={setTaskLogOpen} />
+      <ListCreate
+        listCreateOpen={listCreateOpen}
+        setListCreateOpen={setListCreateOpen}
+      />
       <Divider />
       <TableContainer>
         <Table>

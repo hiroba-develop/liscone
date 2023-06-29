@@ -1,6 +1,6 @@
 import { Box, alpha, lighten, styled, useTheme } from "@mui/material";
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
 import { NavigatePath } from "src/utility/constants/NavigatePath";
 import { authAtom } from "src/utility/recoil/auth/Auth.atom";
@@ -22,23 +22,22 @@ const HeaderWrapper = styled(Box)(
 
 function Header() {
   const theme = useTheme();
-  // const { pathname } = useLocation();
-  // const navigate = useNavigate();
-  // const auth = useRecoilValue(authAtom);
+  const navigate = useNavigate();
+  const auth = useRecoilValue(authAtom);
 
-  // useEffect(() => {
-  //   logoutCheck();
+  useEffect(() => {
+    logoutCheck();
 
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
 
-  // const logoutCheck = async () => {
-  //   if (auth.userId === "") {
-  //     localStorage.clear();
-  //   } else {
-  //     navigate(`${NavigatePath.DASHBOARD}`);
-  //   }
-  // };
+  const logoutCheck = async () => {
+    if (auth.userId === "") {
+      localStorage.clear();
+    } else {
+      navigate(`${NavigatePath.DASHBOARD}`);
+    }
+  };
   return (
     <HeaderWrapper
       display="flex"

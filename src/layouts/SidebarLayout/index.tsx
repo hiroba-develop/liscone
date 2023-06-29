@@ -1,9 +1,9 @@
-import { Box, alpha, lighten, useTheme } from '@mui/material';
-import { FC, ReactNode } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Box, alpha, lighten, useTheme } from "@mui/material";
+import { FC, ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 
-import Header from './Header';
-import Sidebar from './Sidebar';
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 interface SidebarLayoutProps {
   children?: ReactNode;
@@ -17,16 +17,16 @@ const SidebarLayout: FC<SidebarLayoutProps> = () => {
       <Box
         sx={{
           flex: 1,
-          height: '100%',
+          height: "100%",
 
-          '.MuiPageTitle-wrapper': {
+          ".MuiPageTitle-wrapper": {
             background:
-              theme.palette.mode === 'dark'
+              theme.palette.mode === "dark"
                 ? theme.colors.alpha.trueWhite[5]
                 : theme.colors.alpha.white[50],
             marginBottom: `${theme.spacing(4)}`,
             boxShadow:
-              theme.palette.mode === 'dark'
+              theme.palette.mode === "dark"
                 ? `0 1px 0 ${alpha(
                     lighten(theme.colors.primary.main, 0.7),
                     0.15
@@ -37,22 +37,22 @@ const SidebarLayout: FC<SidebarLayoutProps> = () => {
                   )}, 0px 5px 12px -4px ${alpha(
                     theme.colors.alpha.black[100],
                     0.05
-                  )}`
-          }
+                  )}`,
+          },
         }}
       >
         <Header />
         <Sidebar />
         <Box
           sx={{
-            position: 'relative',
+            position: "relative",
             zIndex: 5,
-            display: 'block',
+            display: "block",
             flex: 1,
             pt: `${theme.header.height}`,
-            [theme.breakpoints.up('lg')]: {
-              ml: `${theme.sidebar.width}`
-            }
+            [theme.breakpoints.up("lg")]: {
+              ml: `${theme.sidebar.width}`,
+            },
           }}
         >
           <Box display="block">
