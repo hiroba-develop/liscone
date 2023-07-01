@@ -19,7 +19,7 @@ import { ChangeEvent, FC, useState } from "react";
 
 import Label from "src/components/Label";
 import { StaffList, StaffListRoles } from "src/models/staff_list";
-import TaskLog from "../PopUp/TaskLog";
+import ListCreate from "../PopUp/ListCreate";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -94,8 +94,8 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
     selectedStaffLists.length > 0 &&
     selectedStaffLists.length < staffLists.length;
 
-  const [taskLogOpen, setTaskLogOpen] = useState(false);
-  const editTaskLogOpen = () => setTaskLogOpen(true);
+  const [listCreateOpen, setListCreateOpen] = useState(false);
+  const editListCreateOpen = () => setListCreateOpen(true);
 
   const navigate = useNavigate();
 
@@ -104,14 +104,17 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
       <CardHeader
         action={
           <Box>
-            <Button variant="contained" onClick={editTaskLogOpen}>
+            <Button variant="contained" onClick={editListCreateOpen}>
               <AddIcon />
               　企業リストを作成
             </Button>
           </Box>
         }
       />
-      <TaskLog taskLogOpen={taskLogOpen} setTaskLogOpen={setTaskLogOpen} />
+      <ListCreate
+        listCreateOpen={listCreateOpen}
+        setListCreateOpen={setListCreateOpen}
+      />
       <Divider />
       <TableContainer>
         <Table>

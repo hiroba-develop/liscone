@@ -23,7 +23,7 @@ function DashBoard() {
           </Grid>
         </Grid>
         <Grid item xs={16}>
-          <Box>
+          <Box sx={{ mt: 3 }}>
             <RecentOrders />
           </Box>
         </Grid>

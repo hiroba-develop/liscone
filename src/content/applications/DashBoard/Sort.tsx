@@ -9,10 +9,10 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 function Sort() {
   const user = [
@@ -64,19 +64,32 @@ function Sort() {
             />
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ fontSize: "16px", mt: 2.5, mr: 1, ml: 1 }}>
+            <Typography sx={{ fontSize: 16, mt: 2.5, mr: 1 }}>
               期間：
             </Typography>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={["DateRangePicker"]}>
-                <DateRangePicker
-                  localeText={{
-                    start: "",
-                    end: "",
+            <Stack sx={{ m: 1 }} direction="row">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer
+                  components={["DatePicker"]}
+                  sx={{
+                    pt: -1,
                   }}
-                />
-              </DemoContainer>
-            </LocalizationProvider>
+                >
+                  <DatePicker label="" />
+                </DemoContainer>
+              </LocalizationProvider>
+              <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer
+                  components={["DatePicker"]}
+                  sx={{
+                    pt: -1,
+                  }}
+                >
+                  <DatePicker label="" />
+                </DemoContainer>
+              </LocalizationProvider>
+            </Stack>
           </Grid>
           <Grid item xs={3}>
             <Typography sx={{ fontSize: "16px", mt: 2.5, mr: 1 }}>
