@@ -69,55 +69,55 @@ const SalesLists: FC<SalesListsProps> = ({
           <TableBody>
             {paginatedSalesLists.map((CompanyDetailsList) => {
               return (
-                <TableRow hover key={CompanyDetailsList.id}>
-                  <TableCell>
+                <TableRow hover key={CompanyDetailsList.corporation_id}>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {CompanyDetailsList.corporateNumber}
+                      {CompanyDetailsList.corporationEntity.corporation_name}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {CompanyDetailsList.jobPostion}
+                      {CompanyDetailsList.job_position}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {CompanyDetailsList.staffName}
+                      {CompanyDetailsList.staff_name}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {CompanyDetailsList.profileSourceType}
+                      {CompanyDetailsList.profile_source_type}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       color="text.primary"
                       gutterBottom
                       noWrap
                     >
-                      {CompanyDetailsList.profileLink}
+                      {CompanyDetailsList.profile_link}
                     </Typography>
                   </TableCell>
                 </TableRow>

@@ -82,7 +82,7 @@ const SalesLists: FC<SalesListsProps> = ({
           <TableBody>
             {paginatedSalesLists.map((SalesDetailsList) => {
               return (
-                <TableRow hover key={SalesDetailsList.id}>
+                <TableRow hover key={SalesDetailsList.corporation_id}>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -91,7 +91,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporateNumber}
+                      {SalesDetailsList.corporate_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -107,7 +107,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       // onClick={() => navigate("/salesTask/staffDetails2")}
                       sx={{ textDecoration: "underline" }}
                     >
-                      {SalesDetailsList.corporationName}
+                      {SalesDetailsList.corporation_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -118,7 +118,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.businessCategory}
+                      {SalesDetailsList.business_category}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -129,7 +129,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.zipCode}
+                      {SalesDetailsList.zip_code}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -151,7 +151,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.representativePhoneNumber}
+                      {SalesDetailsList.representative_phone_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -162,7 +162,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.representativeName}
+                      {SalesDetailsList.representative_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -173,7 +173,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.homePage}
+                      {SalesDetailsList.home_page}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -184,7 +184,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.salesAmount}
+                      {SalesDetailsList.sales_amount}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -195,7 +195,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.employeeNumber}
+                      {SalesDetailsList.employee_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -206,7 +206,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.establishmentYear}
+                      {SalesDetailsList.establishment_year}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -217,7 +217,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.capitalStock}
+                      {SalesDetailsList.capital_stock}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -228,7 +228,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.listingStatus}
+                      {SalesDetailsList.listing_status}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -239,7 +239,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.actionLog}
+                      {/* {SalesDetailsList.actionLog} */}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -250,7 +250,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.transactionStatus}
+                      {/* {SalesDetailsList.transactionStatus} */}
                     </Typography>
                   </TableCell>
                 </TableRow>

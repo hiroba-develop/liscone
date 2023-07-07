@@ -1,15 +1,34 @@
-import { Container, Typography, Box, IconButton } from "@mui/material";
-import { Helmet } from "react-helmet-async";
-import Footer from "src/components/Footer";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router-dom";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import WebAssetIcon from "@mui/icons-material/WebAsset";
+import { Box, Container, IconButton, Typography } from "@mui/material";
+import { Helmet } from "react-helmet-async";
+import { useLocation, useNavigate } from "react-router-dom";
+import Footer from "src/components/Footer";
 import CompanyDetails1ListData from "./CompanyDetails1ListData";
 import CompanyDetails1ReferenceListData from "./CompanyDetails1ReferenceListData";
 
 function Lists() {
   const navigate = useNavigate();
+  const location = useLocation();
+  type CompanyListStatus = "Y" | "N";
+  const companyList = location.state as {
+    corporation_id: string;
+    corporate_number: string;
+    corporation_name: string;
+    business_category: string;
+    zip_code: string;
+    address: string;
+    representative_phone_number: string;
+    representative_name: string;
+    home_page: string;
+    telephoneNumber: string;
+    sales_amount: string;
+    employee_number: string;
+    establishment_year: number;
+    capital_stock: string;
+    listing_status: CompanyListStatus;
+  };
   return (
     <>
       <Helmet>
@@ -30,7 +49,8 @@ function Lists() {
             fontSize: 20,
           }}
         >
-          株式会社AAAAA(法人番号：0000000000000)
+          {companyList.corporation_name}(法人番号:
+          {companyList.corporate_number})
         </Typography>
         <Box
           sx={{
@@ -63,7 +83,7 @@ function Lists() {
               ml: 1,
             }}
           >
-            03-1234-5678
+            {companyList.representative_phone_number}
           </Typography>
         </Box>
         <Box
@@ -85,11 +105,11 @@ function Lists() {
               ml: 1,
             }}
           >
-            https://www.example.co.jp/
+            {companyList.home_page}
           </Typography>
         </Box>
         <Box sx={{ mt: 12 }}>
-          <CompanyDetails1ReferenceListData />
+          <CompanyDetails1ReferenceListData {...companyList} />
         </Box>
         <Typography
           sx={{
@@ -103,7 +123,7 @@ function Lists() {
           担当者候補
         </Typography>
         <Box sx={{ mt: 10 }}>
-          <CompanyDetails1ListData />
+          <CompanyDetails1ListData {...companyList} />
         </Box>
       </Container>
       <Footer />

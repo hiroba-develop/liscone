@@ -1,22 +1,18 @@
-export type StaffListStatus = "listed" | "unlisted";
+export type CompanyListStatus = "Y" | "N";
 
 export interface StaffDetailsList {
-  id: string;
-  companyNumber: string;
-  companyName: string;
-  industry: string;
-  postNumber: string;
-  headOfficeAddress: string;
-  representativeNumber: string;
-  representativeName: string;
-  website: string;
-  earnings: string;
-  numberOfEmployees: string;
-  established: number;
-  capital: string;
-  listing: StaffListStatus;
-  score: string;
-  primaryMailAddress: string;
-  dealingsStage: string;
-  productName: string;
+  corporation_id: string;
+  corporate_number: string;
+  corporation_name: string;
+  business_category: string;
+  zip_code: string;
+  address: string;
+  representative_phone_number: string;
+  representative_name: string;
+  home_page: string;
+  sales_amount: string;
+  employee_number: string;
+  establishment_year: number;
+  capital_stock: string;
+  listing_status: CompanyListStatus;
 }

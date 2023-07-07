@@ -15,8 +15,65 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { FormEvent, useState } from "react";
+import { CODE } from "src/utility/constants/Code";
+import dayjs from "dayjs";
+import { useRecoilValue } from "recoil";
+import { membersAtom } from "src/utility/recoil/comp/Members.atom";
+import {
+  commonErrorCallback,
+  post,
+  useWrapMuation,
+} from "src/utility/http/ApiService";
+import { config } from "src/utility/config/AppConfig";
+import { useNavigate } from "react-router";
+import { NavigatePath } from "src/utility/constants/NavigatePath";
 
-const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen }) => {
+const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
+  const navigate = useNavigate();
+  const members = useRecoilValue(membersAtom);
+  const [MemberSelected, setMemberSelected] = useState(taskList.member_id);
+  const handleMemberSelect = (e) => {
+    setMemberSelected(e.target.value);
+  };
+  const [ActionSelected, setActionSelected] = useState(taskList.task_name);
+  const handleActionSelect = (e) => {
+    setActionSelected(e.target.value);
+  };
+
+  const [startDate, setStartDate] = useState("");
+  const handleDateSelect = (e) => {
+    const formated = dayjs(e).format("YYYY-MM-DD");
+    setStartDate(formated);
+  };
+  const { mutate, isError } = useWrapMuation<any, any>(
+    ["updateSalesTask"],
+    async (data) => {
+      const param = {
+        task_number: data.task_number,
+        task_name: ActionSelected,
+        deadline: startDate,
+        member_id: MemberSelected,
+      };
+
+      await post<any>(`${config().apiUrl}/salesTasks/updateSalesTask`, param);
+    },
+    {
+      onSuccess: (data) => {
+        setTaskUpdateOpen(false);
+        navigate(`/${NavigatePath.DASHBOARD}`);
+      },
+      onError: (error) => {
+        commonErrorCallback(error);
+        alert(error.response.data.message);
+      },
+    }
+  );
+
+  const updateSalesTask = (e: FormEvent) => {
+    e.preventDefault();
+    mutate(taskList);
+  };
   if (taskUpdateOpen) {
     const editTaskUpdateClose = () => setTaskUpdateOpen(false);
     const editModal = {
@@ -59,112 +116,131 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen }) => {
               <CloseIcon sx={{ color: "white" }} />
             </IconButton>
           </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "15%",
-              right: "5%",
-            }}
-          >
-            <Button type="submit" variant="contained">
-              タスクを更新
-            </Button>
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "30%",
-              left: "3%",
-              fontWeight: "fontWeightBold",
-              fontSize: "20px",
-              pt: 1,
-            }}
-          >
-            次回アクション：
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "30%",
-              left: "25%",
-              minWidth: 150,
-              ml: 2,
-            }}
-          >
-            <FormControl fullWidth>
-              <InputLabel>次回アクション</InputLabel>
-              <Select>
-                <MenuItem value={"Call"}>架電</MenuItem>
-                <MenuItem value={"Mail"}>メール</MenuItem>
-                <MenuItem value={"WebinarInformation"}>ウェビナー案内</MenuItem>
-                <MenuItem value={"SendDocument"}>資料送付</MenuItem>
-                <MenuItem value={"FormSend"}>フォーム送信</MenuItem>
-                <MenuItem value={"Meeting"}>ミーティング</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer
-              components={["DatePicker"]}
+          <Box component={"form"} onSubmit={(e) => updateSalesTask(e)}>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "15%",
+                right: "5%",
+              }}
+            >
+              <Button type="submit" variant="contained">
+                タスクを更新
+              </Button>
+            </Box>
+            <Box
               sx={{
                 position: "absolute",
                 top: "30%",
-                left: "45%",
-                p: 0,
-                ml: 3,
-                maxWidth: 200,
+                left: "3%",
+                fontWeight: "fontWeightBold",
+                fontSize: "20px",
+                pt: 1,
               }}
             >
-              <DatePicker label="" />
-            </DemoContainer>
-          </LocalizationProvider>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "30%",
-              left: "70%",
-              minWidth: 150,
-              ml: 5,
-            }}
-          >
-            <FormControl fullWidth>
-              <InputLabel>氏名</InputLabel>
-              <Select>
-                <MenuItem value={"Ootomo"}>大友</MenuItem>
-                <MenuItem value={"Sato"}>佐藤</MenuItem>
-                <MenuItem value={"Suzuki"}>鈴木</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "10%",
-              fontSize: "20px",
-              pt: 0.5,
-            }}
-          >
-            コメント：
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "25%",
-              ml: 2,
-            }}
-          >
-            <TextField
-              variant="outlined"
-              multiline
-              inputProps={{
-                style: {
-                  width: 500,
-                  height: 100,
-                },
+              次回アクション：
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "30%",
+                left: "25%",
+                minWidth: 150,
+                ml: 2,
               }}
-            />
+            >
+              <TextField
+                id="nextaction"
+                fullWidth
+                select
+                label="次回アクション"
+                key={taskList.task_name}
+                defaultValue={taskList.task_name}
+                value={ActionSelected}
+                onChange={handleActionSelect}
+              >
+                {CODE.ACTION.map((option) => (
+                  <MenuItem value={option.key}>{option.code}</MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer
+                components={["DatePicker"]}
+                sx={{
+                  position: "absolute",
+                  top: "30%",
+                  left: "45%",
+                  p: 0,
+                  ml: 3,
+                  maxWidth: 200,
+                }}
+              >
+                <DatePicker
+                  value={dayjs(new Date(taskList.deadline))}
+                  format={"YYYY-MM-DD"}
+                  onChange={(e) => {
+                    handleDateSelect(e);
+                  }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "30%",
+                left: "70%",
+                minWidth: 150,
+                ml: 5,
+              }}
+            >
+              <TextField
+                id="members"
+                select
+                label="営業担当者"
+                key={taskList.member_id}
+                defaultValue={taskList.member_id}
+                value={MemberSelected}
+                style={{ width: 150 }}
+                onChange={handleMemberSelect}
+              >
+                {members.map((option) => (
+                  <MenuItem value={option.member_id}>
+                    {option.member_name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "10%",
+                fontSize: "20px",
+                pt: 0.5,
+              }}
+            >
+              コメント：
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "25%",
+                ml: 2,
+              }}
+            >
+              <TextField
+                variant="outlined"
+                multiline
+                inputProps={{
+                  style: {
+                    width: 500,
+                    height: 100,
+                  },
+                }}
+              />
+            </Box>
           </Box>
         </Box>
       </Modal>

@@ -22,24 +22,22 @@ const HeaderWrapper = styled(Box)(
 
 function Header() {
   const theme = useTheme();
-  // TO DO 임시방어
+  const navigate = useNavigate();
+  const auth = useRecoilValue(authAtom);
 
-  // const navigate = useNavigate();
-  // const auth = useRecoilValue(authAtom);
+  useEffect(() => {
+    logoutCheck();
 
-  // useEffect(() => {
-  //   logoutCheck();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
 
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // });
-
-  // const logoutCheck = async () => {
-  //   if (auth.userId === "") {
-  //     localStorage.clear();
-  //   } else {
-  //     navigate(`${NavigatePath.DASHBOARD}`);
-  //   }
-  // };
+  const logoutCheck = async () => {
+    if (auth.userId === "") {
+      localStorage.clear();
+    } else {
+      navigate(`${NavigatePath.DASHBOARD}`);
+    }
+  };
   return (
     <HeaderWrapper
       display="flex"

@@ -69,7 +69,7 @@ const applyFilters = (
   return companyLists.filter((companyLists) => {
     let matches = true;
 
-    if (filters.status && companyLists.listing !== filters.status) {
+    if (filters.status && companyLists.listing_status !== filters.status) {
       matches = false;
     }
 
@@ -84,6 +84,7 @@ const applyPagination = (
 ): CompanyList[] => {
   return companyLists.slice(page * limit, page * limit + limit);
 };
+
 const CompanyLists: FC<CompanyListsProps> = ({
   companyLists,
   searchComparyNumber,
@@ -118,11 +119,13 @@ const CompanyLists: FC<CompanyListsProps> = ({
   //絞り込み
   let searchComparyLists = companyLists.filter(
     (companyList) =>
-      companyList.companyNumber.match(searchComparyNumber) &&
-      companyList.companyName.match(searchCompanyName) &&
-      companyList.industry.match(searchIndustry) &&
-      companyList.headOfficeAddress.match(searchPrefectures) &&
-      companyList.representativeNumber.match(searchRepresentativePhoneNumber)
+      companyList.corporate_number.match(searchComparyNumber) &&
+      companyList.corporation_name.match(searchCompanyName) &&
+      companyList.business_category.match(searchIndustry) &&
+      companyList.address.match(searchPrefectures) &&
+      companyList.representative_phone_number.match(
+        searchRepresentativePhoneNumber
+      )
   );
   const filteredCompanyLists = applyFilters(searchComparyLists, filters);
   const paginatedCompanyLists = applyPagination(
@@ -131,20 +134,23 @@ const CompanyLists: FC<CompanyListsProps> = ({
     limit
   );
 
-  const [listCreateOpen, setListCreateOpen] = useState(false);
-  const editListCreateOpen = () => setListCreateOpen(true);
-  // 체크된 아이템을 담을 배열
   const [checkItems, setCheckItems] = useState([]);
+  const [listCreateOpen, setListCreateOpen] = useState(false);
+  const [salesListType, setsalesListType] = useState("");
+
+  // 체크된 아이템을 담을 배열
   const navigate = useNavigate();
 
   // 체크박스 단일 선택
-  const handleSingleCheck = (checked, id) => {
+  const handleSingleCheck = (checked, row) => {
     if (checked) {
       // 단일 선택 시 체크된 아이템을 배열에 추가
-      setCheckItems((prev) => [...prev, id]);
+      setCheckItems((prev) => [...prev, row]);
     } else {
       // 단일 선택 해제 시 체크된 아이템을 제외한 배열 (필터)
-      setCheckItems(checkItems.filter((el) => el !== id));
+      setCheckItems(
+        checkItems.filter((el) => el.corporation_id !== row.corporation_id)
+      );
     }
   };
   // 체크박스 전체 선택
@@ -152,7 +158,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
     if (checked) {
       const idArray = [];
       // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
-      companyLists.forEach((el) => idArray.push(el.id));
+      companyLists.forEach((el) => idArray.push(el));
       setCheckItems(idArray);
     } else {
       // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
@@ -162,6 +168,17 @@ const CompanyLists: FC<CompanyListsProps> = ({
   const isChecked = checkItems.length > 0;
   const disabled = !isChecked;
 
+  const editListCreateOpen = (checkItems) => {
+    setsalesListType("01");
+    setListCreateOpen(true);
+  };
+
+  const companyDetails1 = (companyList) => {
+    navigate("/company/companyDetails1", {
+      state: companyList,
+    });
+  };
+
   return (
     <Card>
       <CardHeader
@@ -170,7 +187,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
             <Button
               // disabled={disabled}
               variant="contained"
-              onClick={editListCreateOpen}
+              onClick={(checkItems) => editListCreateOpen(checkItems)}
             >
               <AddIcon />
               　企業リストを作成
@@ -180,7 +197,9 @@ const CompanyLists: FC<CompanyListsProps> = ({
       />
       <ListCreate
         listCreateOpen={listCreateOpen}
+        checkItems={checkItems}
         setListCreateOpen={setListCreateOpen}
+        salesListType={salesListType}
       />
       <Divider />
       <TableContainer>
@@ -215,19 +234,24 @@ const CompanyLists: FC<CompanyListsProps> = ({
           <TableBody>
             {paginatedCompanyLists.map((companyList) => {
               const isCompanyListSelected = selectedCompanyLists.includes(
-                companyList.id
+                companyList.corporation_id
               );
               return (
-                <TableRow hover key={companyList.id}>
+                <TableRow hover key={companyList.corporation_id}>
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      name={`select-${companyList.id}`}
+                      name={`select-${companyList.corporation_id}`}
                       onChange={(e) =>
-                        handleSingleCheck(e.target.checked, companyList.id)
+                        handleSingleCheck(
+                          e.target.checked,
+                          companyList.corporation_id
+                        )
                       }
                       checked={
-                        checkItems.includes(companyList.id) ? true : false
+                        checkItems.includes(companyList.corporation_id)
+                          ? true
+                          : false
                       }
                     />
                   </TableCell>
@@ -239,7 +263,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.companyNumber}
+                      {companyList.corporate_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -249,10 +273,10 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       color="text.primary"
                       gutterBottom
                       noWrap
-                      onClick={() => navigate("/company/companyDetails1")}
+                      onClick={() => companyDetails1(companyList)}
                       sx={{ textDecoration: "underline" }}
                     >
-                      {companyList.companyName}
+                      {companyList.corporation_name}
                     </Typography>
                   </TableCell>
 
@@ -264,7 +288,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.industry}
+                      {companyList.business_category}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -275,7 +299,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.postNumber}
+                      {companyList.zip_code}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -286,7 +310,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.headOfficeAddress}
+                      {companyList.address}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -297,7 +321,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.representativeNumber}
+                      {companyList.representative_phone_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -308,7 +332,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.representativeName}
+                      {companyList.representative_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -319,7 +343,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.website}
+                      {companyList.home_page}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -330,7 +354,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.earnings}
+                      {companyList.sales_amount}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -341,7 +365,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.numberOfEmployees}
+                      {companyList.employee_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -352,7 +376,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.established}
+                      {companyList.establishment_year}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -363,7 +387,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.capital}
+                      {companyList.capital_stock}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -374,7 +398,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(companyList.listing)}
+                      {getStatusLabel(companyList.listing_status)}
                     </Typography>
                   </TableCell>
                 </TableRow>

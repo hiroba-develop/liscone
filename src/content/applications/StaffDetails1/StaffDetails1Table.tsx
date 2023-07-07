@@ -14,7 +14,7 @@ import {
 import PropTypes from "prop-types";
 import {
   StaffDetailsList,
-  StaffListStatus,
+  CompanyListStatus,
 } from "src/models/staff_details_list";
 import Label from "src/components/Label";
 
@@ -23,13 +23,13 @@ interface SalesListsProps {
   staffDetails1List: StaffDetailsList[];
 }
 
-const getStatusLabel = (staffListStatus: StaffListStatus): JSX.Element => {
+const getStatusLabel = (staffListStatus: CompanyListStatus): JSX.Element => {
   const map = {
-    listed: {
+    Y: {
       text: "上場",
       color: "error",
     },
-    unlisted: {
+    N: {
       text: "未上場",
       color: "black",
     },
@@ -39,40 +39,7 @@ const getStatusLabel = (staffListStatus: StaffListStatus): JSX.Element => {
   return <Label color={color}>{text}</Label>;
 };
 
-const applyFilters = (
-  staffDetails1List: StaffDetailsList[]
-): StaffDetailsList[] => {
-  return staffDetails1List.filter((staffDetails1List) => {
-    let matches = true;
-    return matches;
-  });
-};
-
-const applyPagination = (
-  salesLists: StaffDetailsList[],
-  page: number,
-  limit: number
-): StaffDetailsList[] => {
-  return salesLists.slice(page * limit, page * limit + limit);
-};
-
-const SalesLists: FC<SalesListsProps> = ({
-  staffDetails1List: salesDetailsLists,
-}) => {
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(5);
-
-  const handlePageChange = (event: any, newPage: number): void => {
-    setPage(newPage);
-  };
-
-  const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setLimit(parseInt(event.target.value));
-  };
-
-  const filteredSalesList = applyFilters(salesDetailsLists);
-  const paginatedSalesLists = applyPagination(filteredSalesList, page, limit);
-
+const SalesLists = ({ staffDetails1List }) => {
   return (
     <Card>
       <TableContainer>
@@ -92,147 +59,145 @@ const SalesLists: FC<SalesListsProps> = ({
               <TableCell align="center">設立</TableCell>
               <TableCell align="center">資本金</TableCell>
               <TableCell align="center">上場</TableCell>
-              <TableCell align="center">スコア</TableCell>
+              {/* <TableCell align="center">スコア</TableCell>
               <TableCell align="center">プライマリーメールアドレス</TableCell>
               <TableCell align="center">取引ステージ</TableCell>
-              <TableCell align="center">商材</TableCell>
+              <TableCell align="center">商材</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedSalesLists.map((StaffDetailsList) => {
-              return (
-                <TableRow hover key={StaffDetailsList.id}>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.companyNumber}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.companyName}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.industry}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.postNumber}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.headOfficeAddress}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.representativeNumber}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.representativeName}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.website}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.earnings}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.numberOfEmployees}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.established}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {StaffDetailsList.capital}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {getStatusLabel(StaffDetailsList.listing)}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
+            <TableRow hover key={staffDetails1List.corporation_id}>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.corporate_number}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.corporation_name}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.business_category}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.zip_code}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.address}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.representative_phone_number}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.representative_name}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.home_page}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.sales_amount}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.employee_number}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.establishment_year}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffDetails1List.capital_stock}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {getStatusLabel(staffDetails1List.listing_status)}
+                </Typography>
+              </TableCell>
+              {/* <TableCell>
                     <Typography
                       variant="body1"
                       color="text.primary"
@@ -271,34 +236,13 @@ const SalesLists: FC<SalesListsProps> = ({
                     >
                       {StaffDetailsList.productName}
                     </Typography>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                  </TableCell> */}
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
-      <Box p={2}>
-        <TablePagination
-          component="div"
-          count={filteredSalesList.length}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handleLimitChange}
-          page={page}
-          rowsPerPage={limit}
-          rowsPerPageOptions={[5, 10, 25, 30]}
-        />
-      </Box>
     </Card>
   );
-};
-
-SalesLists.propTypes = {
-  staffDetails1List: PropTypes.array.isRequired,
-};
-
-SalesLists.defaultProps = {
-  staffDetails1List: [],
 };
 
 export default SalesLists;

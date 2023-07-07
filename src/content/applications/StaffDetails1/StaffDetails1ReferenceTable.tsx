@@ -1,5 +1,5 @@
-import { FC, useState } from "react";
 import {
+  Button,
   Card,
   Table,
   TableBody,
@@ -8,65 +8,25 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Button,
 } from "@mui/material";
-import PropTypes from "prop-types";
+import { FC } from "react";
 import {
   StaffList,
-  StaffListRoles,
   StaffListPositions,
+  StaffListRoles,
 } from "src/models/staff_list";
 
-import Label from "src/components/Label";
 import LaunchIcon from "@mui/icons-material/Launch";
+import Label from "src/components/Label";
 
 interface StaffListsProps {
   className?: string;
-  staffLists: StaffList[];
+  staffList: StaffList;
 }
 
 interface Filters {
   status?: StaffListRoles;
 }
-
-const staffListRoles = (staffListRoles: StaffListRoles): JSX.Element => {
-  const map = {
-    marketing: {
-      text: "マーケティング",
-      color: "error",
-    },
-    sales: {
-      text: "営業",
-      color: "warn",
-    },
-  };
-
-  const { text, color }: any = map[staffListRoles];
-
-  return <Label color={color}>{text}</Label>;
-};
-const staffListPositions = (
-  staffListPositions: StaffListPositions
-): JSX.Element => {
-  const map = {
-    general: {
-      text: "一般",
-      color: "primary",
-    },
-    sectionManager: {
-      text: "課長",
-      color: "warning",
-    },
-    generalManager: {
-      text: "部長",
-      color: "success",
-    },
-  };
-
-  const { text, color }: any = map[staffListPositions];
-
-  return <Label color={color}>{text}</Label>;
-};
 
 const applyFilters = (
   staffList: StaffList[],
@@ -91,17 +51,7 @@ const applyPagination = (
   return companyLists.slice(page * limit, page * limit + limit);
 };
 
-const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
-  const selectedStaffLists: string[] = [];
-  const page: number = 0;
-  const limit: number = 5;
-  const [filters, setFilters] = useState<Filters>({
-    status: null,
-  });
-
-  const filteredStaffLists = applyFilters(staffLists, filters);
-  const paginatedStaffLists = applyPagination(filteredStaffLists, page, limit);
-
+const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
   return (
     <Card>
       <TableContainer>
@@ -117,105 +67,91 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedStaffLists.map((staffList) => {
-              const isStaffListSelected = selectedStaffLists.includes(
-                staffList.id
-              );
-              return (
-                <TableRow hover key={staffList.id}>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {staffList.companyName}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {staffListPositions(staffList.positions)}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {staffListRoles(staffList.role)}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {staffList.familyName}
-                    </Typography>
-                  </TableCell>
-                  <TableCell
+            <TableRow hover key={staffList.staff_id}>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.corporationEntity.corporation_name}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.job_position}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.role}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.staff_name}
+                </Typography>
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
+                <Button
+                  sx={{
+                    color: "black",
+                  }}
+                  href={staffList.profile_link}
+                >
+                  {staffList.profile_link}
+                  <LaunchIcon
                     sx={{
-                      display: "flex",
-                      flexDirection: "row",
+                      ml: 1,
+                      pt: 0.2,
+                      fontSize: 18,
                     }}
-                  >
-                    <Button
-                      sx={{
-                        color: "black",
-                      }}
-                      href={staffList.profileLink}
-                    >
-                      {staffList.accountSource}
-                      <LaunchIcon
-                        sx={{
-                          ml: 1,
-                          pt: 0.2,
-                          fontSize: 18,
-                        }}
-                      />
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {staffList.otherInformation}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+                  />
+                </Button>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.other_information}
+                </Typography>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
     </Card>
   );
-};
-
-StaffLists.propTypes = {
-  staffLists: PropTypes.array.isRequired,
-};
-
-StaffLists.defaultProps = {
-  staffLists: [],
 };
 
 export default StaffLists;

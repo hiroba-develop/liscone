@@ -13,9 +13,9 @@ import {
 import { Helmet } from "react-helmet-async";
 
 import { styled } from "@mui/material/styles";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { config } from "src/utility/config/AppConfig";
 import { NavigatePath } from "src/utility/constants/NavigatePath";
 import {
@@ -25,6 +25,9 @@ import {
 } from "src/utility/http/ApiService";
 import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import ErrorIcon from "../applications/icon/ErrorIcon";
+import { productsAtom } from "src/utility/recoil/comp/Products.atom";
+import axios from "axios";
+import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 
 const MainContent = styled(Box)(
   ({ theme }) => `
@@ -73,6 +76,8 @@ function signIn() {
   }${current.getDate()}`;
 
   const setAuthState = useSetRecoilState(authAtom);
+  const setMembers = useSetRecoilState(membersAtom);
+  const setProducts = useSetRecoilState(productsAtom);
 
   const navigate = useNavigate();
 
@@ -93,6 +98,34 @@ function signIn() {
           coId: data.company_code,
         });
 
+        const getMembers = async () => {
+          try {
+            const response = await axios.get(`${config().apiUrl}/members`);
+
+            if (response.statusText === "OK") {
+              setMembers(response.data);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        getMembers();
+
+        const getProducts = async () => {
+          try {
+            const response = await axios.get(
+              `${config().apiUrl}/membercompanyproducts`
+            );
+
+            if (response.statusText === "OK") {
+              setProducts(response.data);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        };
+        getProducts();
+
         if (data.password_expired_day < today) {
           navigate(`/${NavigatePath.CHANGE_PW}`);
         } else {
@@ -110,6 +143,11 @@ function signIn() {
       },
     }
   );
+
+  const login = (e: FormEvent) => {
+    e.preventDefault();
+    mutate(auth);
+  };
 
   const onChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -133,12 +171,6 @@ function signIn() {
         };
       });
     }
-  };
-
-  const login = (e: FormEvent) => {
-    navigate(`/${NavigatePath.DASHBOARD}`);
-    // e.preventDefault();
-    // mutate(auth);
   };
 
   return (

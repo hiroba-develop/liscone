@@ -1,30 +1,38 @@
 import { Card } from "@mui/material";
 import { CompanyDetailsList } from "src/models/company_details_list";
 import CompanyDetails1Table from "./CompanyDetails1Table";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { config } from "src/utility/config/AppConfig";
 
-function ListLists() {
-  const listLists: CompanyDetailsList[] = [
-    {
-      id: "1",
-      corporateNumber: "エキサイト株式会社",
-      jobPostion: "マーケティング",
-      staffName: "大友玲菜",
-      profileSourceType: "Linkedin",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-    },
-    {
-      id: "2",
-      corporateNumber: "エキサイト株式会社",
-      jobPostion: "営業",
-      staffName: "山田太郎",
-      profileSourceType: "Wantedly",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-    },
-  ];
+function ListLists(companyList) {
+  const [staffLists, setStaffs] = useState<CompanyDetailsList[]>([]);
 
+  useEffect(() => {
+    const getStaffs = async () => {
+      try {
+        const response = await axios.get(
+          `${config().apiUrl}/companystaffs/byCompany`,
+          {
+            params: {
+              corporationId: companyList.corporation_id,
+            },
+          }
+        );
+
+        if (response.statusText === "OK") {
+          setStaffs(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getStaffs();
+  }, []);
   return (
     <Card sx={{ mt: 5 }}>
-      <CompanyDetails1Table companyDetails1List={listLists} />
+      <CompanyDetails1Table companyDetails1List={staffLists} />
     </Card>
   );
 }

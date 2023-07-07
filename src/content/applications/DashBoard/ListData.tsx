@@ -1,110 +1,49 @@
 import { Card } from "@mui/material";
-import { TaskList } from "src/models/task_list";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { TaskList } from "src/models/sales_task_list";
+import { config } from "src/utility/config/AppConfig";
+import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import TaskListsTable from "./TaskListsTable";
 
 function TaskLists() {
-  const taskLists: TaskList[] = [
-    {
-      id: "1",
-      status: "completed",
-      task: "task001",
-      dueDate: new Date().getTime(),
-      companyToCall: "company to call",
-      chargeOfCalling: "大友玲奈",
-      phoneNumber: "02-111-1111",
-      comment: "comment",
-    },
-    {
-      id: "2",
-      status: "completed",
-      task: "task002",
-      dueDate: new Date().getTime(),
-      companyToCall: "company to call",
-      chargeOfCalling: "大友玲奈",
-      phoneNumber: "02-222-2222",
-      comment: "comment",
-    },
-    {
-      id: "3",
-      status: "failed",
-      task: "task003",
-      dueDate: new Date().getTime(),
-      companyToCall: "company to call",
-      chargeOfCalling: "山田太郎",
-      phoneNumber: "02-333-3333",
-      comment: "comment",
-    },
-    {
-      id: "4",
-      status: "failed",
-      task: "task004",
-      dueDate: new Date().getTime(),
-      companyToCall: "company to call",
-      chargeOfCalling: "鈴木次郎",
-      phoneNumber: "02-444-4444",
-      comment: "comment",
-    },
-    {
-      id: "5",
-      status: "pending",
-      task: "task005",
-      dueDate: new Date().getTime(),
-      companyToCall: "company to call",
-      chargeOfCalling: "in charge of calling",
-      phoneNumber: "02-555-5555",
-      comment: "comment",
-    },
-    {
-      id: "6",
-      status: "failed",
-      task: "task006",
-      dueDate: new Date().getTime(),
-      companyToCall: "company to call",
-      chargeOfCalling: "in charge of calling",
-      phoneNumber: "02-666-6666",
-      comment: "comment",
-    },
-    {
-      id: "7",
-      status: "failed",
-      task: "task007",
-      dueDate: new Date().getTime(),
-      companyToCall: "company to call",
-      chargeOfCalling: "in charge of calling",
-      phoneNumber: "02-777-7777",
-      comment: "comment",
-    },
-    {
-      id: "8",
-      status: "failed",
-      task: "task008",
-      dueDate: new Date().getTime(),
-      companyToCall: "company to call",
-      chargeOfCalling: "in charge of calling",
-      phoneNumber: "02-888-8888",
-      comment: "comment",
-    },
-    {
-      id: "9",
-      status: "completed",
-      task: "task009",
-      dueDate: new Date().getTime(),
-      companyToCall: "company to call",
-      chargeOfCalling: "in charge of calling",
-      phoneNumber: "02-999-9999",
-      comment: "comment",
-    },
-    {
-      id: "10",
-      status: "completed",
-      task: "task010",
-      dueDate: new Date().getTime(),
-      companyToCall: "company to call",
-      chargeOfCalling: "in charge of calling",
-      phoneNumber: "02-000-0010",
-      comment: "comment",
-    },
-  ];
+  const [taskLists, setTasks] = useState<TaskList[]>([]);
+  const auth = useRecoilValue(authAtom);
+  useEffect(() => {
+    const getTasks = async () => {
+      try {
+        const response = await axios.get(`${config().apiUrl}/salestasks`, {
+          params: { userId: auth.userId },
+        });
+
+        if (response.statusText === "OK") {
+          const current = new Date();
+          const today = `${current.getFullYear()}-${
+            current.getMonth() < 10 ? "0" : ""
+          }${current.getMonth() + 1}-${
+            current.getDate() < 10 ? "0" : ""
+          }${current.getDate()}`;
+          response.data.forEach((element) => {
+            if (element.execute_date !== null) {
+              element.status = "completed";
+            } else if (element.deadline === today) {
+              element.status = "dueday";
+            } else if (element.deadline < today) {
+              element.status = "overdueday";
+            } else {
+              element.status = "pending";
+            }
+          });
+          setTasks(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getTasks();
+  }, [auth.userId]);
 
   return (
     <Card>

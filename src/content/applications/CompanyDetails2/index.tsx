@@ -1,17 +1,36 @@
-import { Container, Typography, Box, IconButton, Stack } from "@mui/material";
-import { Helmet } from "react-helmet-async";
-import Footer from "src/components/Footer";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router-dom";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import WebAssetIcon from "@mui/icons-material/WebAsset";
-import CompanyDetails2ListData from "./CompanyDetails2ListData";
-import CompanyDetails2ReferenceListData from "./CompanyDetails2ReferenceListData";
+import { Box, Container, IconButton, Typography } from "@mui/material";
+import { Helmet } from "react-helmet-async";
+import { useLocation, useNavigate } from "react-router-dom";
+import Footer from "src/components/Footer";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
 import Search from "./Search";
+import CompanyDetails1ListData from "../CompanyDetails1/CompanyDetails1ListData";
+import CompanyDetails1ReferenceListData from "../CompanyDetails1/CompanyDetails1ReferenceListData";
 
 function Lists() {
   const navigate = useNavigate();
+  const location = useLocation();
+  type CompanyListStatus = "Y" | "N";
+  const companyList = location.state as {
+    corporation_id: string;
+    corporate_number: string;
+    corporation_name: string;
+    business_category: string;
+    zip_code: string;
+    address: string;
+    representative_phone_number: string;
+    representative_name: string;
+    home_page: string;
+    telephoneNumber: string;
+    sales_amount: string;
+    employee_number: string;
+    establishment_year: number;
+    capital_stock: string;
+    listing_status: CompanyListStatus;
+  };
   return (
     <>
       <Helmet>
@@ -91,8 +110,12 @@ function Lists() {
           </Typography>
         </Box>
         <Search />
-        <CompanyDetails2ReferenceListData />
-        <CompanyDetails2ListData />
+        <Box sx={{ mt: 25 }}>
+          <CompanyDetails1ReferenceListData {...companyList} />
+        </Box>
+        <Box sx={{ mt: 5 }}>
+          <CompanyDetails1ListData {...companyList} />
+        </Box>
         <ActionHistoryListData />
       </Container>
       <Footer />

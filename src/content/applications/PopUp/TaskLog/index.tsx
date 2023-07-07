@@ -1,22 +1,119 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
-  FormControl,
-  InputLabel,
-  IconButton,
-  Select,
-  MenuItem,
-  Typography,
-  Modal,
   Button,
+  IconButton,
+  MenuItem,
+  Modal,
   TextField,
+  Typography,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import dayjs from "dayjs";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { config } from "src/utility/config/AppConfig";
+import { CODE } from "src/utility/constants/Code";
+import {
+  commonErrorCallback,
+  post,
+  useWrapMuation,
+} from "src/utility/http/ApiService";
+import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 
-const TaskLog = ({ taskLogOpen, setTaskLogOpen }) => {
+const TaskLog = ({ taskLogOpen, setTaskLogOpen, taskList, staffList }) => {
+  const current = new Date();
+  const today = `${current.getFullYear()}-${
+    current.getMonth() < 10 ? "0" : ""
+  }${current.getMonth() + 1}-${
+    current.getDate() < 10 ? "0" : ""
+  }${current.getDate()}`;
+  const members = useRecoilValue(membersAtom);
+  const [MemberSelected, setMemberSelected] = useState("");
+  const handleMemberSelect = (e) => {
+    setMemberSelected(e.target.value);
+  };
+
+  const [BRSelected, setBRSelected] = useState("");
+  const handleBRSelect = (e) => {
+    setBRSelected(e.target.value);
+  };
+
+  const [SRSelected, setSRSelected] = useState("");
+  const handleSRSelect = (e) => {
+    setSRSelected(e.target.value);
+  };
+
+  const [StaffSelected, setStaffSelected] = useState("");
+  const handleStaffSelect = (e) => {
+    setStaffSelected(e.target.value);
+  };
+
+  const [ActionSelected, setActionSelected] = useState("");
+  const handleActionSelect = (e) => {
+    setActionSelected(e.target.value);
+  };
+  const [startDate, setStartDate] = useState("");
+  const handleDateSelect = (e) => {
+    const formated = dayjs(e).format("YYYY-MM-DD");
+    setStartDate(formated);
+  };
+  const [comments, setComments] = useState("");
+  const handleComments = (e) => {
+    setComments(e.target.value);
+  };
+
+  const { mutate, isError } = useWrapMuation<any, any>(
+    ["updateAndCreateTask"],
+    async (data) => {
+      const param = {
+        task_number: data.task_number,
+        execute_date: today,
+        execute_result: BRSelected + SRSelected,
+      };
+
+      await post<any>(`${config().apiUrl}/salesTasks/updateTask`, param);
+      if (ActionSelected) {
+        const param = {
+          member_id: MemberSelected,
+          task_name: ActionSelected,
+          sales_list_number: taskList.sales_list_number,
+          sales_corporation_id:
+            taskList.corporationEntity !== null
+              ? taskList.corporationEntity.corporation_id
+              : "",
+          sales_staff_id:
+            taskList.companystaffEntity !== null
+              ? taskList.companystaffEntity.staff_id
+              : "",
+          deadline: startDate,
+          comment: comments,
+        };
+        return await post<any>(
+          `${config().apiUrl}/salesTasks/createTask`,
+          param
+        );
+      }
+    },
+    {
+      onSuccess: (data) => {
+        setTaskLogOpen(false);
+      },
+      onError: (error) => {
+        commonErrorCallback(error);
+        alert(error.response.data.message);
+      },
+    }
+  );
+
+  const updateAndCreateTask = (e: FormEvent) => {
+    e.preventDefault();
+    mutate(taskList);
+  };
+
   if (taskLogOpen) {
     const taskLogClose = () => setTaskLogOpen(false);
     const editModal = {
@@ -42,6 +139,12 @@ const TaskLog = ({ taskLogOpen, setTaskLogOpen }) => {
       pl: 2,
       fontSize: 20,
     };
+
+    const getTaskName = (taskName) => {
+      const action = CODE.ACTION.find((e) => e.key === taskName);
+      return action.code;
+    };
+
     return (
       <Modal open={taskLogOpen} onClose={taskLogClose}>
         <Box sx={editModal}>
@@ -59,224 +162,253 @@ const TaskLog = ({ taskLogOpen, setTaskLogOpen }) => {
               <CloseIcon sx={{ color: "white" }} />
             </IconButton>
           </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "10%",
-              right: "5%",
-            }}
-          >
-            <Button type="submit" variant="contained">
-              行動ログを記録
-            </Button>
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "20%",
-              left: "3%",
-              fontWeight: "fontWeightBold",
-              fontSize: "20px",
-              pt: 1,
-            }}
-          >
-            行動：
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "20%",
-              left: "25%",
-              minWidth: 150,
-              ml: 2,
-            }}
-          >
-            <FormControl fullWidth>
-              <InputLabel>次回アクション</InputLabel>
-              <Select>
-                <MenuItem value={"Call"}>架電</MenuItem>
-                <MenuItem value={"Mail"}>メール</MenuItem>
-                <MenuItem value={"WebinarInformation"}>ウェビナー案内</MenuItem>
-                <MenuItem value={"SendDocument"}>資料送付</MenuItem>
-                <MenuItem value={"FormSend"}>フォーム送信</MenuItem>
-                <MenuItem value={"Meeting"}>ミーティング</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "30%",
-              left: "3%",
-              fontSize: "20px",
-              mt: 1,
-              pt: 1,
-            }}
-          >
-            結果：
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "30%",
-              left: "25%",
-              minWidth: 150,
-              mt: 1,
-              ml: 2,
-            }}
-          >
-            <FormControl fullWidth>
-              <InputLabel>大項目</InputLabel>
-              <Select>
-                <MenuItem value={"BigItemA"}>大項目A</MenuItem>
-                <MenuItem value={"BigItemB"}>大項目B</MenuItem>
-                <MenuItem value={"BigItemC"}>大項目C</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "30%",
-              left: "45%",
-              minWidth: 150,
-              mt: 1,
-              ml: 2,
-            }}
-          >
-            <FormControl fullWidth>
-              <InputLabel>小項目</InputLabel>
-              <Select>
-                <MenuItem value={"SmallItemA"}>小項目A</MenuItem>
-                <MenuItem value={"SmallItemB"}>小項目B</MenuItem>
-                <MenuItem value={"SmallItemC"}>小項目C</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "40%",
-              left: "3%",
-              fontSize: "20px",
-              mt: 2,
-              pt: 1,
-            }}
-          >
-            架電先：
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "40%",
-              left: "25%",
-              minWidth: 300,
-              mt: 2,
-              ml: 2,
-            }}
-          >
-            <FormControl fullWidth>
-              <InputLabel>担当者</InputLabel>
-              <Select>
-                <MenuItem value={"ManagerA"}>担当者A</MenuItem>
-                <MenuItem value={"ManagerB"}>担当者B</MenuItem>
-                <MenuItem value={"ManagerC"}>担当者C</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "55%",
-              left: "3%",
-              fontSize: "20px",
-              pt: 1,
-            }}
-          >
-            次回アクション：
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "55%",
-              left: "25%",
-              minWidth: 150,
-              ml: 2,
-            }}
-          >
-            <FormControl fullWidth>
-              <InputLabel>次回アクション</InputLabel>
-              <Select>
-                <MenuItem value={"ActionA"}>アクションA</MenuItem>
-                <MenuItem value={"ActionB"}>アクションB</MenuItem>
-                <MenuItem value={"ActionC"}>アクションC</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer
-              components={["DatePicker"]}
+          <Box component={"form"} onSubmit={(e) => updateAndCreateTask(e)}>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "10%",
+                right: "5%",
+              }}
+            >
+              <Button type="submit" variant="contained">
+                行動ログを記録
+              </Button>
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "20%",
+                left: "3%",
+                fontWeight: "fontWeightBold",
+                fontSize: "20px",
+                pt: 1,
+              }}
+            >
+              行動：
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "20%",
+                left: "25%",
+                minWidth: 150,
+                ml: 2,
+              }}
+            >
+              <TextField
+                fullWidth
+                disabled
+                value={getTaskName(taskList.task_name)}
+              />
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "30%",
+                left: "3%",
+                fontSize: "20px",
+                mt: 1,
+                pt: 1,
+              }}
+            >
+              結果：
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "30%",
+                left: "25%",
+                minWidth: 150,
+                mt: 1,
+                ml: 2,
+              }}
+            >
+              <TextField
+                fullWidth
+                id="bigResult"
+                select
+                label="大項目"
+                value={BRSelected}
+                onChange={handleBRSelect}
+              >
+                {CODE.BIG_RESULT.map((option) => (
+                  <MenuItem value={option.key}>{option.code}</MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "30%",
+                left: "45%",
+                minWidth: 150,
+                mt: 1,
+                ml: 2,
+              }}
+            >
+              <TextField
+                fullWidth
+                id="smallResult"
+                select
+                label="小項目"
+                value={SRSelected}
+                onChange={handleSRSelect}
+              >
+                {CODE.SMALL_RESULT.map((option) => (
+                  <MenuItem value={option.key}>{option.code}</MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "40%",
+                left: "3%",
+                fontSize: "20px",
+                mt: 2,
+                pt: 1,
+              }}
+            >
+              架電先：
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "40%",
+                left: "25%",
+                minWidth: 300,
+                mt: 2,
+                ml: 2,
+              }}
+            >
+              <TextField
+                id="staff"
+                fullWidth
+                select
+                label="担当者"
+                value={StaffSelected}
+                onChange={handleStaffSelect}
+              >
+                {staffList.map((option) => (
+                  <MenuItem value={option.staff_id}>
+                    {option.staff_name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box
               sx={{
                 position: "absolute",
                 top: "55%",
-                left: "45%",
-                p: 0,
-                ml: 3,
-                maxWidth: 200,
+                left: "3%",
+                fontSize: "20px",
+                pt: 1,
               }}
             >
-              <DatePicker label="" />
-            </DemoContainer>
-          </LocalizationProvider>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "55%",
-              left: "70%",
-              minWidth: 150,
-              ml: 5,
-            }}
-          >
-            <FormControl fullWidth>
-              <InputLabel>氏名</InputLabel>
-              <Select>
-                <MenuItem value={"Ootomo"}>大友</MenuItem>
-                <MenuItem value={"Sato"}>佐藤</MenuItem>
-                <MenuItem value={"Suzuki"}>鈴木</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "65%",
-              left: "3%",
-              fontSize: "20px",
-              mt: 2,
-              pt: 0.5,
-            }}
-          >
-            コメント：
-          </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "65%",
-              left: "25%",
-              mt: 2,
-              ml: 2,
-            }}
-          >
-            <TextField
-              variant="outlined"
-              multiline
-              inputProps={{
-                style: {
-                  width: 500,
-                  height: 100,
-                },
+              次回アクション：
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "55%",
+                left: "25%",
+                minWidth: 150,
+                ml: 2,
               }}
-            />
+            >
+              <TextField
+                id="nextaction"
+                fullWidth
+                select
+                label="次回アクション"
+                value={ActionSelected}
+                onChange={handleActionSelect}
+              >
+                {CODE.ACTION.map((option) => (
+                  <MenuItem value={option.key}>{option.code}</MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer
+                components={["DatePicker"]}
+                sx={{
+                  position: "absolute",
+                  top: "55%",
+                  left: "45%",
+                  p: 0,
+                  ml: 3,
+                  maxWidth: 200,
+                }}
+              >
+                <DatePicker
+                  value={startDate}
+                  format={"YYYY-MM-DD"}
+                  onChange={(e) => {
+                    handleDateSelect(e);
+                  }}
+                />
+              </DemoContainer>
+            </LocalizationProvider>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "55%",
+                left: "70%",
+                minWidth: 150,
+                ml: 5,
+              }}
+            >
+              <TextField
+                id="members"
+                select
+                label="営業担当者"
+                value={MemberSelected}
+                style={{ width: 150 }}
+                onChange={handleMemberSelect}
+              >
+                {members.map((option) => (
+                  <MenuItem value={option.member_id}>
+                    {option.member_name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "65%",
+                left: "3%",
+                fontSize: "20px",
+                mt: 2,
+                pt: 0.5,
+              }}
+            >
+              コメント：
+            </Box>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "65%",
+                left: "25%",
+                mt: 2,
+                ml: 2,
+              }}
+            >
+              <TextField
+                id="comments"
+                variant="outlined"
+                multiline
+                value={comments}
+                onChange={handleComments}
+                inputProps={{
+                  style: {
+                    width: 500,
+                    height: 100,
+                  },
+                }}
+              />
+            </Box>
           </Box>
         </Box>
       </Modal>
@@ -287,3 +419,6 @@ const TaskLog = ({ taskLogOpen, setTaskLogOpen }) => {
 };
 
 export default TaskLog;
+function setListCreateOpen(arg0: boolean) {
+  throw new Error("Function not implemented.");
+}

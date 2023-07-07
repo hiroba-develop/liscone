@@ -5,12 +5,17 @@ export type StaffListPositions =
   | "generalManager";
 
 export interface StaffList {
-  id: string;
-  companyName: string;
-  positions: StaffListPositions;
+  staff_id: string;
+  corporation_id: string;
+  corporation_name: string;
+  job_position: StaffListPositions;
   role: StaffListRoles;
-  familyName: string;
-  accountSource: string;
-  profileLink: string;
-  otherInformation: string;
+  staff_name: string;
+  profile_source_type: string;
+  profile_link: string;
+  other_information: string;
+  corporationEntity: {
+    corporation_name: string;
+    corporation_id: string;
+  };
 }

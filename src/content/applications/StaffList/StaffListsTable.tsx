@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Card,
   CardHeader,
   Checkbox,
@@ -12,16 +13,14 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  Button,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { ChangeEvent, FC, useState } from "react";
 
-import Label from "src/components/Label";
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
 import { StaffList, StaffListRoles } from "src/models/staff_list";
 import ListCreate from "../PopUp/ListCreate";
-import { useNavigate } from "react-router-dom";
-import AddIcon from "@mui/icons-material/Add";
 
 interface StaffListsProps {
   className?: string;
@@ -32,22 +31,22 @@ interface Filters {
   status?: StaffListRoles;
 }
 
-const getStatusLabel = (staffListRoles: StaffListRoles): JSX.Element => {
-  const map = {
-    marketing: {
-      text: "マーケティング",
-      color: "error",
-    },
-    sales: {
-      text: "営業",
-      color: "warn",
-    },
-  };
+// const getStatusLabel = (staffListRoles: StaffListRoles): JSX.Element => {
+//   const map = {
+//     marketing: {
+//       text: "マーケティング",
+//       color: "error",
+//     },
+//     sales: {
+//       text: "営業",
+//       color: "warn",
+//     },
+//   };
 
-  const { text, color }: any = map[staffListRoles];
+//   const { text, color }: any = map[staffListRoles];
 
-  return <Label color={color}>{text}</Label>;
-};
+//   return <Label color={color}>{text}</Label>;
+// };
 
 const applyFilters = (
   staffList: StaffList[],
@@ -65,18 +64,17 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  companyLists: StaffList[],
+  staffLists: StaffList[],
   page: number,
   limit: number
 ): StaffList[] => {
-  return companyLists.slice(page * limit, page * limit + limit);
+  return staffLists.slice(page * limit, page * limit + limit);
 };
 
 const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
-  const selectedStaffLists: string[] = [];
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
-  const [filters, setFilters] = useState<Filters>({
+  const [filters] = useState<Filters>({
     status: null,
   });
 
@@ -90,30 +88,66 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
 
   const filteredStaffLists = applyFilters(staffLists, filters);
   const paginatedStaffLists = applyPagination(filteredStaffLists, page, limit);
-  const selectedSomeStaffLists =
-    selectedStaffLists.length > 0 &&
-    selectedStaffLists.length < staffLists.length;
 
+  const [checkItems, setCheckItems] = useState([]);
   const [listCreateOpen, setListCreateOpen] = useState(false);
-  const editListCreateOpen = () => setListCreateOpen(true);
+  const [salesListType, setsalesListType] = useState("");
+
+  const editListCreateOpen = (checkItems) => {
+    setsalesListType("02");
+    setListCreateOpen(true);
+  };
 
   const navigate = useNavigate();
+
+  // 체크박스 단일 선택
+  const handleSingleCheck = (checked, row) => {
+    if (checked) {
+      // 단일 선택 시 체크된 아이템을 배열에 추가
+      setCheckItems((prev) => [...prev, row]);
+    } else {
+      // 단일 선택 해제 시 체크된 아이템을 제외한 배열 (필터)
+      setCheckItems(checkItems.filter((el) => el.staff_id !== row.staff_id));
+    }
+  };
+  // 체크박스 전체 선택
+  const handleAllCheck = (checked) => {
+    if (checked) {
+      const stfArray = [];
+      // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
+      staffLists.forEach((el) => {
+        stfArray.push(el);
+      });
+      setCheckItems(stfArray);
+    } else {
+      // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
+      setCheckItems([]);
+    }
+  };
+  const isChecked = checkItems.length > 0;
+  const disabled = !isChecked;
 
   return (
     <Card>
       <CardHeader
         action={
           <Box>
-            <Button variant="contained" onClick={editListCreateOpen}>
+            <Button
+              disabled={disabled}
+              variant="contained"
+              onClick={(checkItems) => editListCreateOpen(checkItems)}
+            >
               <AddIcon />
-              　企業リストを作成
+              　担当者リストを作成
             </Button>
           </Box>
         }
       />
       <ListCreate
         listCreateOpen={listCreateOpen}
+        checkItems={checkItems}
         setListCreateOpen={setListCreateOpen}
+        salesListType={salesListType}
       />
       <Divider />
       <TableContainer>
@@ -124,8 +158,10 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                 <Checkbox
                   color="primary"
                   //checked={selectedAllCompanyLists}
-                  indeterminate={selectedSomeStaffLists}
-                  //onChange={handleSelectAllCompanyLists}
+                  onChange={(e) => handleAllCheck(e.target.checked)}
+                  checked={
+                    checkItems.length === staffLists.length ? true : false
+                  }
                 />
               </TableCell>
               <TableCell align="center">会社名・法人名</TableCell>
@@ -137,28 +173,37 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
           </TableHead>
           <TableBody>
             {paginatedStaffLists.map((staffList) => {
-              const isStaffListSelected = selectedStaffLists.includes(
-                staffList.id
-              );
+              const isStaffListSelected = checkItems.includes(staffList);
               return (
-                <TableRow hover key={staffList.id}>
+                <TableRow hover key={staffList.staff_id}>
                   <TableCell padding="checkbox">
-                    <Checkbox color="primary" value={isStaffListSelected} />
+                    <Checkbox
+                      color="primary"
+                      name={`select-${staffList.staff_id}`}
+                      onChange={(e) =>
+                        handleSingleCheck(e.target.checked, staffList)
+                      }
+                      checked={isStaffListSelected}
+                    />
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
-                      onClick={() => navigate("/staff/staffDetails1")}
+                      onClick={() =>
+                        navigate("/staff/staffDetails1", {
+                          state: staffList,
+                        })
+                      }
                       sx={{ textDecoration: "underline" }}
                     >
-                      {staffList.companyName}
+                      {staffList.corporationEntity.corporation_name}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -166,10 +211,10 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(staffList.role)}
+                      {staffList.job_position}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -177,10 +222,10 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {staffList.familyName}
+                      {staffList.staff_name}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -188,10 +233,10 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {staffList.accountSource}
+                      {staffList.profile_source_type}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -199,7 +244,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {staffList.profileLink}
+                      {staffList.profile_link}
                     </Typography>
                   </TableCell>
                 </TableRow>
