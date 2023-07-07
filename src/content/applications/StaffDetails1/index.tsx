@@ -2,12 +2,33 @@ import { Container, Typography, Box, IconButton } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import StaffDetails1ListData from "./StaffDetails1ListData";
 import StaffDetails1ReferenceListData from "./StaffDetails1ReferenceListData";
 
 function Lists() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  type StaffListRoles = "all" | "marketing" | "sales";
+  type StaffListPositions = "general" | "sectionManager" | "generalManager";
+
+  const staffList = location.state as {
+    staff_id: string;
+    corporation_id: string;
+    corporation_name: string;
+    job_position: StaffListPositions;
+    role: StaffListRoles;
+    staff_name: string;
+    profile_source_type: string;
+    profile_link: string;
+    other_information: string;
+    corporationEntity: {
+      corporation_name: string;
+      corporation_id: string;
+    };
+  };
+
   return (
     <>
       <Helmet>
@@ -28,7 +49,7 @@ function Lists() {
             fontSize: 20,
           }}
         >
-          大友玲菜
+          {staffList.staff_name}
         </Typography>
         <Box
           sx={{
@@ -43,7 +64,7 @@ function Lists() {
           </IconButton>
         </Box>
         <Box sx={{ mt: 7.5 }}>
-          <StaffDetails1ReferenceListData />
+          <StaffDetails1ReferenceListData staffList={staffList} />
         </Box>
         <Typography
           sx={{
@@ -57,7 +78,7 @@ function Lists() {
           会社候補
         </Typography>
         <Box sx={{ mt: 10 }}>
-          <StaffDetails1ListData />
+          <StaffDetails1ListData staffList={staffList} />
         </Box>
       </Container>
       <Footer />

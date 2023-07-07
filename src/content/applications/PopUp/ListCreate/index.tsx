@@ -1,24 +1,81 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
-  FormControl,
-  InputLabel,
-  IconButton,
-  Select,
-  MenuItem,
-  Typography,
-  Modal,
   Button,
+  IconButton,
+  MenuItem,
+  Modal,
   TextField,
+  Typography,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { FormEvent, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { config } from "src/utility/config/AppConfig";
+import {
+  commonErrorCallback,
+  post,
+  useWrapMuation,
+} from "src/utility/http/ApiService";
+import { membersAtom } from "src/utility/recoil/comp/Members.atom";
+import { productsAtom } from "src/utility/recoil/comp/Products.atom";
 
-const ListCreate = ({ listCreateOpen, setListCreateOpen }) => {
+const ListCreate = ({
+  listCreateOpen,
+  setListCreateOpen,
+  checkItems,
+  salesListType,
+}) => {
+  const [salesListNameValue, setsalesListNameValue] = useState("");
+  const saveSalesListName = (e) => {
+    setsalesListNameValue(e.target.value);
+  };
+
+  const members = useRecoilValue(membersAtom);
+  const [MemberSelected, setMemberSelected] = useState("");
+
+  const handleMemberSelect = (e) => {
+    setMemberSelected(e.target.value);
+  };
+  const products = useRecoilValue(productsAtom);
+  const [ProductSelected, setProductSelected] = useState("");
+
+  const handleProductSelect = (e) => {
+    setProductSelected(e.target.value);
+  };
+
+  const { mutate, isError } = useWrapMuation<any, any>(
+    ["createlist"],
+    async (data) => {
+      const param = {
+        datas: data,
+        member_id: MemberSelected,
+        sales_product_number: ProductSelected,
+        sales_list_name: salesListNameValue,
+        sales_list_type: salesListType,
+      };
+
+      return await post<any>(`${config().apiUrl}/saleslists/createlist`, param);
+    },
+    {
+      onSuccess: (data) => {
+        setListCreateOpen(false);
+      },
+      onError: (error) => {
+        commonErrorCallback(error);
+        alert(error.response.data.message);
+      },
+    }
+  );
+
+  const createSalesList = (e: FormEvent) => {
+    e.preventDefault();
+    mutate(checkItems);
+  };
+
   if (listCreateOpen) {
-    const editListCreateClose = () => setListCreateOpen(false);
+    const editListCreateClose = () => {
+      setListCreateOpen(false);
+    };
     const editModal = {
       position: "absolute" as "absolute",
       top: "50%",
@@ -42,6 +99,7 @@ const ListCreate = ({ listCreateOpen, setListCreateOpen }) => {
       pl: 2,
       fontSize: 20,
     };
+
     return (
       <Modal open={listCreateOpen} onClose={editListCreateClose}>
         <Box sx={editModal}>
@@ -59,103 +117,122 @@ const ListCreate = ({ listCreateOpen, setListCreateOpen }) => {
               <CloseIcon sx={{ color: "white" }} />
             </IconButton>
           </Box>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "20%",
-              left: "3%",
-              fontSize: "20px",
-              pt: 1,
-            }}
-          >
-            リスト名：
+          <Box component={"form"} onSubmit={(e) => createSalesList(e)}>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "20%",
+                left: "3%",
+                fontSize: "20px",
+                pt: 1,
+              }}
+            >
+              リスト名：
+            </Box>
+            <TextField
+              value={salesListNameValue}
+              onChange={saveSalesListName}
+              variant="outlined"
+              size="small"
+              inputProps={{
+                style: {
+                  width: 400,
+                },
+              }}
+              sx={{
+                position: "absolute",
+                top: "20%",
+                left: "25%",
+                ml: 1,
+                mt: 1,
+              }}
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                top: "40%",
+                left: "3%",
+                fontSize: "20px",
+                pt: 1,
+              }}
+            >
+              ユーザー：
+            </Box>
+            <TextField
+              sx={{
+                position: "absolute",
+                top: "40%",
+                left: "25%",
+                minWidth: "200px",
+                ml: 1,
+                mt: 1,
+              }}
+              id="members"
+              select
+              value={MemberSelected}
+              style={{ width: 200, marginTop: 10 }}
+              onChange={handleMemberSelect}
+            >
+              {members.map((option) => (
+                <MenuItem value={option.member_id}>
+                  {option.member_name}
+                </MenuItem>
+              ))}
+            </TextField>
+            <Box
+              sx={{
+                position: "absolute",
+                top: "60%",
+                left: "3%",
+                fontSize: "20px",
+                pt: 1,
+              }}
+            >
+              商材：
+            </Box>
+            <TextField
+              sx={{
+                position: "absolute",
+                top: "60%",
+                left: "25%",
+                minWidth: "200px",
+                ml: 1,
+                mt: 1,
+              }}
+              id="products"
+              select
+              value={ProductSelected}
+              style={{ width: 200, marginTop: 10 }}
+              onChange={handleProductSelect}
+            >
+              {products.map((option) => (
+                <MenuItem value={option.product_number}>
+                  {option.product_name}
+                </MenuItem>
+              ))}
+            </TextField>
+            <Button
+              disabled={
+                !(
+                  ProductSelected.length > 0 &&
+                  MemberSelected.length > 0 &&
+                  salesListNameValue.length > 0
+                )
+              }
+              type="submit"
+              variant="contained"
+              sx={{
+                position: "absolute",
+                top: "80%",
+                left: "25%",
+                ml: 1,
+                mt: 1,
+                minWidth: "300px",
+              }}
+            >
+              リストを作成
+            </Button>
           </Box>
-          <TextField
-            variant="outlined"
-            size="small"
-            inputProps={{
-              style: {
-                width: 400,
-              },
-            }}
-            sx={{
-              position: "absolute",
-              top: "20%",
-              left: "25%",
-              ml: 1,
-              mt: 1,
-            }}
-          />
-          <Box
-            sx={{
-              position: "absolute",
-              top: "40%",
-              left: "3%",
-              fontSize: "20px",
-              pt: 1,
-            }}
-          >
-            ユーザー：
-          </Box>
-          <FormControl
-            size="small"
-            sx={{
-              position: "absolute",
-              top: "40%",
-              left: "25%",
-              minWidth: "200px",
-              ml: 1,
-              mt: 1,
-            }}
-          >
-            <Select>
-              <MenuItem value={"UserA"}>ユーザーA</MenuItem>
-              <MenuItem value={"UserB"}>ユーザーB</MenuItem>
-              <MenuItem value={"UserC"}>ユーザーC</MenuItem>
-            </Select>
-          </FormControl>
-          <Box
-            sx={{
-              position: "absolute",
-              top: "60%",
-              left: "3%",
-              fontSize: "20px",
-              pt: 1,
-            }}
-          >
-            商材：
-          </Box>
-          <FormControl
-            size="small"
-            sx={{
-              position: "absolute",
-              top: "60%",
-              left: "25%",
-              minWidth: "200px",
-              ml: 1,
-              mt: 1,
-            }}
-          >
-            <Select>
-              <MenuItem value={"CommodityA"}>商材A</MenuItem>
-              <MenuItem value={"CommodityB"}>商材B</MenuItem>
-              <MenuItem value={"CommodityC"}>商材C</MenuItem>
-            </Select>
-          </FormControl>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{
-              position: "absolute",
-              top: "80%",
-              left: "25%",
-              ml: 1,
-              mt: 1,
-              minWidth: "300px",
-            }}
-          >
-            リストを作成
-          </Button>
         </Box>
       </Modal>
     );

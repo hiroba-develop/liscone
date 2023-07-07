@@ -1,13 +1,21 @@
 /**
- * 스토리지 상수
+ * StoargeEnum
  */
 export enum StoargeEnum {
   /**
-   * 인증
+   * 認証　인증
    */
-  AUTH = 'auth',
+  AUTH = "auth",
   /**
-   * 기타
+   * 商材　상품
    */
-  ETC = 'auth',
+  PRODUCTS = "products",
+  /**
+   * メンバー 회원
+   */
+  MEMBERS = "members",
+  /**
+   * ETC 기타
+   */
+  ETC = "etc",
 }

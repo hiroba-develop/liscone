@@ -121,10 +121,10 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
             <TableBody>
               {paginatedStaffLists.map((staffList) => {
                 const isStaffListSelected = selectedStaffLists.includes(
-                  staffList.id
+                  staffList.corporation_id
                 );
                 return (
-                  <TableRow hover key={staffList.id}>
+                  <TableRow hover key={staffList.staff_id}>
                     <TableCell>
                       <Typography
                         variant="body1"
@@ -133,7 +133,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                         gutterBottom
                         noWrap
                       >
-                        {staffList.companyName}
+                        {staffList.corporation_name}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -144,7 +144,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                         gutterBottom
                         noWrap
                       >
-                        {staffListPositions(staffList.positions)}
+                        {staffListPositions(staffList.job_position)}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -166,7 +166,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                         gutterBottom
                         noWrap
                       >
-                        {staffList.familyName}
+                        {staffList.staff_name}
                       </Typography>
                     </TableCell>
                     <TableCell
@@ -180,9 +180,9 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                         sx={{
                           color: "black",
                         }}
-                        href={staffList.profileLink}
+                        href={staffList.profile_link}
                       >
-                        {staffList.accountSource}
+                        {staffList.profile_source_type}
                         <LaunchIcon
                           sx={{
                             ml: 1,
@@ -200,7 +200,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
                         gutterBottom
                         noWrap
                       >
-                        {staffList.otherInformation}
+                        {staffList.other_information}
                       </Typography>
                     </TableCell>
                   </TableRow>

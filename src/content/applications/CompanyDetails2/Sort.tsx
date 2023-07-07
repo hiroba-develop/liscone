@@ -30,10 +30,10 @@ function Sort() {
           行動ログを作成
         </Button>
       </Box>
-      <ListCreate
+      {/* <ListCreate
         listCreateOpen={listCreateOpen}
         setListCreateOpen={setListCreateOpen}
-      />
+      /> */}
       <Card
         sx={{
           position: "absolute",

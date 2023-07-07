@@ -1,4 +1,3 @@
-import { FC } from "react";
 import {
   Card,
   Table,
@@ -9,40 +8,8 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import PropTypes from "prop-types";
-import { SalesDetailsList } from "src/models/sales_details_list";
 
-interface SalesListsProps {
-  className?: string;
-  companydetails1referenceList: SalesDetailsList[];
-}
-
-const applyFilters = (
-  companydetails1referenceList: SalesDetailsList[]
-): SalesDetailsList[] => {
-  return companydetails1referenceList.filter((companydetails1referenceList) => {
-    let matches = true;
-    return matches;
-  });
-};
-
-const applyPagination = (
-  salesLists: SalesDetailsList[],
-  page: number,
-  limit: number
-): SalesDetailsList[] => {
-  return salesLists.slice(page * limit, page * limit + limit);
-};
-
-const SalesLists: FC<SalesListsProps> = ({
-  companydetails1referenceList: salesDetailsLists,
-}) => {
-  const page: number = 0;
-  const limit: number = 5;
-
-  const filteredSalesList = applyFilters(salesDetailsLists);
-  const paginatedSalesLists = applyPagination(filteredSalesList, page, limit);
-
+const SalesLists = ({ companyList }) => {
   return (
     <Card>
       <TableContainer>
@@ -62,125 +29,113 @@ const SalesLists: FC<SalesListsProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedSalesLists.map((SalesDetailsList) => {
-              return (
-                <TableRow hover key={SalesDetailsList.id}>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {SalesDetailsList.corporateNumber}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {SalesDetailsList.businessCategory}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {SalesDetailsList.zipCode}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {SalesDetailsList.address}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {SalesDetailsList.representativeName}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {SalesDetailsList.salesAmount}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {SalesDetailsList.employeeNumber}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {SalesDetailsList.establishmentYear}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {SalesDetailsList.capitalStock}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {SalesDetailsList.listingStatus}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            <TableRow hover key={companyList.corporation_id}>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {companyList.corporate_number}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {companyList.business_category}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {companyList.zip_code}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {companyList.address}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {companyList.representative_name}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {companyList.sales_amount}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {companyList.employee_number}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {companyList.establishment_year}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {companyList.capital_stock}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {companyList.listing_status}
+                </Typography>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
     </Card>
   );
-};
-
-SalesLists.propTypes = {
-  companydetails1referenceList: PropTypes.array.isRequired,
-};
-
-SalesLists.defaultProps = {
-  companydetails1referenceList: [],
 };
 
 export default SalesLists;

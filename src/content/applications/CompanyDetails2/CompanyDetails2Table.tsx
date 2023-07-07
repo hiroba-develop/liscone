@@ -79,7 +79,7 @@ const SalesLists: FC<SalesListsProps> = ({
             <TableBody>
               {paginatedSalesLists.map((CompanyDetailsList) => {
                 return (
-                  <TableRow hover key={CompanyDetailsList.id}>
+                  <TableRow hover key={CompanyDetailsList.corporation_id}>
                     <TableCell>
                       <Typography
                         variant="body1"
@@ -87,7 +87,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {CompanyDetailsList.corporateNumber}
+                        {CompanyDetailsList.corporation_name}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -97,7 +97,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {CompanyDetailsList.jobPostion}
+                        {CompanyDetailsList.job_position}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -107,7 +107,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {CompanyDetailsList.staffName}
+                        {CompanyDetailsList.staff_name}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -117,7 +117,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {CompanyDetailsList.profileSourceType}
+                        {CompanyDetailsList.profile_source_type}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -127,7 +127,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {CompanyDetailsList.profileLink}
+                        {CompanyDetailsList.profile_link}
                       </Typography>
                     </TableCell>
                   </TableRow>

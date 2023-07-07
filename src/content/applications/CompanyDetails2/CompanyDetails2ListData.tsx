@@ -1,28 +1,36 @@
-import { Card } from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { CompanyDetailsList } from "src/models/company_details_list";
+import { config } from "src/utility/config/AppConfig";
 import CompanyDetails1Table from "./CompanyDetails2Table";
 
-function ListLists() {
-  const listLists: CompanyDetailsList[] = [
-    {
-      id: "1",
-      corporateNumber: "エキサイト株式会社",
-      jobPostion: "マーケティング",
-      staffName: "大友玲菜",
-      profileSourceType: "Linkedin",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-    },
-    {
-      id: "2",
-      corporateNumber: "エキサイト株式会社",
-      jobPostion: "営業",
-      staffName: "山田太郎",
-      profileSourceType: "Wantedly",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-    },
-  ];
+function ListLists(companyList) {
+  const [staffLists, setStaffs] = useState<CompanyDetailsList[]>([]);
 
-  return <CompanyDetails1Table companyDetails1List={listLists} />;
+  useEffect(() => {
+    const getStaffs = async () => {
+      try {
+        const response = await axios.get(
+          `${config().apiUrl}/companystaffs/byCompany`,
+          {
+            params: {
+              corporationId: companyList.corporation_id,
+            },
+          }
+        );
+
+        if (response.statusText === "OK") {
+          setStaffs(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getStaffs();
+  }, []);
+
+  return <CompanyDetails1Table companyDetails1List={staffLists} />;
 }
 
 export default ListLists;

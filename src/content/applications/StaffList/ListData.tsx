@@ -1,110 +1,28 @@
 import { Card } from "@mui/material";
 import { StaffList } from "src/models/staff_list";
 import StaffListsTable from "./StaffListsTable";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { config } from "src/utility/config/AppConfig";
 
 function StaffLists() {
-  const staffLists: StaffList[] = [
-    {
-      id: "1",
-      companyName: "AAAA01",
-      positions: "general",
-      role: "marketing",
-      familyName: "大友玲菜",
-      accountSource: "Linkedin",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-      otherInformation: "",
-    },
-    {
-      id: "2",
-      companyName: "AAAA02",
-      positions: "general",
-      role: "sales",
-      familyName: "山田太郎",
-      accountSource: "Wantedly",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-      otherInformation: "",
-    },
-    {
-      id: "3",
-      companyName: "AAAA03",
-      positions: "general",
-      role: "marketing",
-      familyName: "大友玲菜",
-      accountSource: "Linkedin",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-      otherInformation: "",
-    },
-    {
-      id: "4",
-      companyName: "AAAA04",
-      positions: "general",
-      role: "sales",
-      familyName: "山田太郎",
-      accountSource: "Wantedly",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-      otherInformation: "",
-    },
-    {
-      id: "5",
-      companyName: "AAAA05",
-      positions: "general",
-      role: "marketing",
-      familyName: "大友玲菜",
-      accountSource: "Linkedin",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-      otherInformation: "",
-    },
-    {
-      id: "6",
-      companyName: "AAAA06",
-      positions: "general",
-      role: "sales",
-      familyName: "山田太郎",
-      accountSource: "Wantedly",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-      otherInformation: "",
-    },
-    {
-      id: "7",
-      companyName: "AAAA07",
-      positions: "general",
-      role: "marketing",
-      familyName: "大友玲菜",
-      accountSource: "Linkedin",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-      otherInformation: "",
-    },
-    {
-      id: "8",
-      companyName: "AAAA08",
-      positions: "general",
-      role: "sales",
-      familyName: "山田太郎",
-      accountSource: "Wantedly",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-      otherInformation: "",
-    },
-    {
-      id: "9",
-      companyName: "AAAA09",
-      positions: "general",
-      role: "marketing",
-      familyName: "大友玲菜",
-      accountSource: "Linkedin",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-      otherInformation: "",
-    },
-    {
-      id: "10",
-      companyName: "AAAA10",
-      positions: "general",
-      role: "marketing",
-      familyName: "大友玲菜",
-      accountSource: "Linkedin",
-      profileLink: "https://www.linkedin.com/in/shuji-kinoshita-23b4835/",
-      otherInformation: "",
-    },
-  ];
+  const [staffLists, setStaffs] = useState<StaffList[]>([]);
+
+  useEffect(() => {
+    const getStaffs = async () => {
+      try {
+        const response = await axios.get(`${config().apiUrl}/companystaffs`);
+
+        if (response.statusText === "OK") {
+          setStaffs(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getStaffs();
+  }, []);
 
   return (
     <Card>

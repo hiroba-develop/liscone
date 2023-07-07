@@ -22,19 +22,18 @@ const ThemeProviderWrapper: React.FC = (props) => {
     localStorage.setItem("appTheme", themeName);
     _setThemeName(themeName);
   };
-  // TO DO 임시방어
-  // useEffect(() => {
-  //   logoutCheck();
+  useEffect(() => {
+    logoutCheck();
 
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
-  // const logoutCheck = async () => {
-  //   if (auth.userId === "") {
-  //     localStorage.clear();
-  //     navigate(`${NavigatePath.LOGIN}`);
-  //   }
-  // };
+  const logoutCheck = async () => {
+    if (auth.userId === "") {
+      localStorage.clear();
+      navigate(`${NavigatePath.LOGIN}`);
+    }
+  };
   return (
     <StylesProvider injectFirst>
       <ThemeContext.Provider value={setThemeName}>

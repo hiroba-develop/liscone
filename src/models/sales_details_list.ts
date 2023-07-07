@@ -1,18 +1,19 @@
+export type CompanyListStatus = "Y" | "N";
 export interface SalesDetailsList {
-  id: string;
-  corporateNumber: string;
-  corporationName: string;
-  businessCategory: string;
-  zipCode: string;
+  corporation_id: string;
+  corporate_number: string;
+  corporation_name: string;
+  business_category: string;
+  zip_code: string;
   address: string;
-  representativePhoneNumber: string;
-  representativeName: string;
-  homePage: string;
-  salesAmount: string;
-  employeeNumber: string;
-  establishmentYear: string;
-  capitalStock: string;
-  listingStatus: string;
-  actionLog: string;
-  transactionStatus: string;
+  representative_phone_number: string;
+  representative_name: string;
+  home_page: string;
+  sales_amount: string;
+  employee_number: string;
+  establishment_year: number;
+  capital_stock: string;
+  listing_status: CompanyListStatus;
+  transaction_status: string;
+  action_log: string;
 }
