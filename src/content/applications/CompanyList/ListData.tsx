@@ -5,7 +5,7 @@ import { CompanyList } from "src/models/company_list";
 import { config } from "src/utility/config/AppConfig";
 import CompanyListsTable from "./CompanyListsTable";
 
-function CompanyLists() {
+function CompanyLists(props) {
   const [companyLists, setCorporations] = useState<CompanyList[]>([]);
 
   useEffect(() => {
@@ -26,7 +26,22 @@ function CompanyLists() {
 
   return (
     <Card>
-      <CompanyListsTable companyLists={companyLists} />
+      <CompanyListsTable
+        companyLists={companyLists}
+        searchComparyNumber={props.searchComparyNumber}
+        searchCompanyName={props.searchCompanyName}
+        searchIndustry={props.searchIndustry}
+        searchPrefectures={props.searchPrefectures}
+        searchRepresentativePhoneNumber={props.searchRepresentativePhoneNumber}
+        searchMinSalesAmount={props.searchMinSalesAmount}
+        searchMaxSalesAmount={props.searchMaxSalesAmount}
+        searchMinEmployeeNumber={props.searchMinEmployeeNumber}
+        searchMaxEmployeeNumber={props.searchMaxEmployeeNumber}
+        searchMinEstablishmentYear={props.searchMinEstablishmentYear}
+        searchMaxEstablishmentYear={props.searchMaxEstablishmentYear}
+        searchMinCapitalStock={props.searchMinCapitalStock}
+        searchMaxCapitalStock={props.searchMaxCapitalStock}
+      />
     </Card>
   );
 }
