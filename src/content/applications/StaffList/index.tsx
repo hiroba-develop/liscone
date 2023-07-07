@@ -4,7 +4,7 @@ import Footer from "src/components/Footer";
 // import PageHeader from './PageHeader';
 
 import RecentOrders from "./ListData";
-import Sort from "./Sort";
+import Search from "./Search";
 
 function DashBoard() {
   return (
@@ -22,7 +22,7 @@ function DashBoard() {
         >
           <Grid item xs={16}>
             <Box sx={{ mb: 3 }}>
-              <Sort />
+              <Search />
             </Box>
             <RecentOrders />
           </Grid>

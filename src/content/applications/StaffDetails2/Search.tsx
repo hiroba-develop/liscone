@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import ListCreate from "../PopUp/ListCreate";
 
-function Sort() {
+function Search() {
   const [listCreateOpen, setListCreateOpen] = useState(false);
   const editListCreateOpen = () => setListCreateOpen(true);
   return (
@@ -88,4 +88,4 @@ function Sort() {
   );
 }
 
-export default Sort;
+export default Search;

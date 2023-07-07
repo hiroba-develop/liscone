@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Card,
@@ -12,7 +13,6 @@ import {
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 
 const businessCategory = [
-  { label: "すべて" },
   { label: "農業・林業・鉱業" },
   { label: "建設・住宅・不動産" },
   { label: "水産・食品" },
@@ -24,9 +24,7 @@ const businessCategory = [
   { label: "電子・電機" },
   { label: "自動車・輸送用機器" },
   { label: "精密機器・医療用機器" },
-  { label: "すべて" },
   { label: "エネルギー" },
-  { label: "すべて" },
   { label: "銀行" },
   { label: "信用金庫・労働金庫" },
   { label: "信販・クレジット・ファイナンス" },
@@ -34,7 +32,6 @@ const businessCategory = [
   { label: "リース・レンタル" },
   { label: "保険" },
   { label: "証券・投信・投資顧問" },
-  { label: "すべて" },
   { label: "商社（総合）" },
   { label: "商社（水産・食品）" },
   { label: "商社（ファッション関連）" },
@@ -46,7 +43,6 @@ const businessCategory = [
   { label: "商社（家具・インテリア・日用品）" },
   { label: "商社（鉄鋼・非鉄・金属製品）" },
   { label: "その他商社" },
-  { label: "すべて" },
   { label: "百貨店" },
   { label: "コンビニエンス・GMSストア" },
   { label: "生活協同組合" },
@@ -58,7 +54,6 @@ const businessCategory = [
   { label: "専門店（ドラッグストア・調剤薬局）" },
   { label: "専門店（自動車関連）" },
   { label: "その他専門店" },
-  { label: "すべて" },
   { label: "フードサービス" },
   { label: "ホテル・旅行" },
   { label: "教育" },
@@ -66,21 +61,16 @@ const businessCategory = [
   { label: "調査・コンサルタント" },
   { label: "人材サービス・人材紹介・人材派遣" },
   { label: "その他サービス" },
-  { label: "すべて" },
   { label: "情報処理・ソフトウェア" },
   { label: "情報・インターネットサービス" },
-  { label: "すべて" },
   { label: "情報通信" },
   { label: "マスコミ" },
-  { label: "すべて" },
   { label: "運輸" },
   { label: "倉庫" },
-  { label: "すべて" },
   { label: "官公庁・団体" },
 ];
 
 const prefectures = [
-  { label: "特に指定しない" },
   { label: "北海道" },
   { label: "青森県" },
   { label: "岩手県" },
@@ -131,7 +121,6 @@ const prefectures = [
 ];
 
 const minSalesAmount = [
-  { label: "特に指定しない" },
   { label: "0" },
   { label: "1億円" },
   { label: "3億円" },
@@ -142,7 +131,6 @@ const minSalesAmount = [
 ];
 
 const maxSalesAmount = [
-  { label: "特に指定しない" },
   { label: "1億円未満" },
   { label: "3億円" },
   { label: "10億円" },
@@ -152,7 +140,6 @@ const maxSalesAmount = [
 ];
 
 const minEmployeeNumber = [
-  { label: "特に指定しない" },
   { label: "0" },
   { label: "50" },
   { label: "100" },
@@ -164,7 +151,6 @@ const minEmployeeNumber = [
 ];
 
 const maxEmployeeNumber = [
-  { label: "特に指定しない" },
   { label: "50" },
   { label: "100" },
   { label: "300" },
@@ -175,7 +161,6 @@ const maxEmployeeNumber = [
 ];
 
 const minEstablishmentYear = [
-  { label: "特に指定しない" },
   { label: "2022〜" },
   { label: "2018〜" },
   { label: "2013〜" },
@@ -184,7 +169,6 @@ const minEstablishmentYear = [
 ];
 
 const maxEstablishmentYear = [
-  { label: "特に指定しない" },
   { label: "〜2018" },
   { label: "〜2013" },
   { label: "〜1993" },
@@ -192,7 +176,6 @@ const maxEstablishmentYear = [
 ];
 
 const minCapitalStock = [
-  { label: "特に指定しない" },
   { label: "100万円以上" },
   { label: "500万円以上" },
   { label: "1000万円以上" },
@@ -206,7 +189,6 @@ const minCapitalStock = [
 ];
 
 const maxCapitalStock = [
-  { label: "特に指定しない" },
   { label: "100万円以下" },
   { label: "500万円以下" },
   { label: "1000万円以下" },
@@ -219,7 +201,69 @@ const maxCapitalStock = [
   { label: "1兆円以下" },
 ];
 
-function Sort() {
+const Search = (props) => {
+  // 法人番号
+  const comparyNumberChange = (event) => {
+    const value = event.target.value;
+    props.comparyNumberChange(value);
+  };
+  // 会社名・法人名
+  const companyNameChange = (event) => {
+    const value = event.target.value;
+    props.companyNameChange(value);
+  };
+  //業種
+  const businessCategoryChange = (event) => {
+    const value = event.target.innerText;
+    props.businessCategoryChange(value);
+  };
+  //都道府県
+  const prefecturesChange = (event) => {
+    const value = event.target.innerText;
+    props.prefecturesChange(value);
+  };
+  //代表電話番号
+  const representativePhoneNumberChange = (event) => {
+    const value = event.target.value;
+    props.representativePhoneNumberChange(value);
+  };
+  //売上
+  const minSalesAmountChange = (event) => {
+    const value = event.target.innerText;
+    props.minSalesAmountChange(value);
+  };
+  const maxSalesAmountChange = (event) => {
+    const value = event.target.innerText;
+    props.maxSalesAmountChange(value);
+  };
+  //従業員数
+  const minEmployeeNumberChange = (event) => {
+    const value = event.target.innerText;
+    props.minEmployeeNumberChange(value);
+  };
+  const maxEmployeeNumberChange = (event) => {
+    const value = event.target.innerText;
+    props.maxEmployeeNumberChange(value);
+  };
+  //設立
+  const minEstablishmentYearChange = (event) => {
+    const value = event.target.innerText;
+    props.minEstablishmentYearChange(value);
+  };
+  const maxEstablishmentYearChange = (event) => {
+    const value = event.target.innerText;
+    props.maxEstablishmentYearChange(value);
+  };
+  //資本金
+  const minCapitalStockChange = (event) => {
+    const value = event.target.innerText;
+    props.minCapitalStockChange(value);
+  };
+  const maxCapitalStockChange = (event) => {
+    const value = event.target.innerText;
+    props.maxCapitalStockChange(value);
+  };
+
   return (
     <Card>
       <Stack sx={{ m: 1 }} direction="row">
@@ -230,10 +274,20 @@ function Sort() {
       </Stack>
       <Grid container spacing={1}>
         <Grid item xs={2}>
-          <TextField label="法人番号" size="small" sx={{ m: 1 }} />
+          <TextField
+            label="法人番号"
+            size="small"
+            sx={{ m: 1 }}
+            onChange={comparyNumberChange}
+          />
         </Grid>
         <Grid item xs={2}>
-          <TextField label="会社名・法人名" size="small" sx={{ m: 1 }} />
+          <TextField
+            label="会社名・法人名"
+            size="small"
+            sx={{ m: 1 }}
+            onChange={companyNameChange}
+          />
         </Grid>
         <Grid item xs={2}>
           <Autocomplete
@@ -242,6 +296,7 @@ function Sort() {
             size="small"
             sx={{ m: 1 }}
             renderInput={(params) => <TextField {...params} label="業種" />}
+            onChange={businessCategoryChange}
           />
         </Grid>
         <Grid item xs={2}>
@@ -251,10 +306,16 @@ function Sort() {
             size="small"
             sx={{ m: 1 }}
             renderInput={(params) => <TextField {...params} label="都道府県" />}
+            onChange={prefecturesChange}
           />
         </Grid>
         <Grid item xs={2}>
-          <TextField label="電話番号" size="small" sx={{ m: 1 }} />
+          <TextField
+            label="電話番号"
+            size="small"
+            sx={{ m: 1 }}
+            onChange={representativePhoneNumberChange}
+          />
         </Grid>
         <Grid item xs={2}>
           <FormControlLabel
@@ -274,6 +335,7 @@ function Sort() {
               size="small"
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
+              onChange={minSalesAmountChange}
             />
             <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
             <Autocomplete
@@ -282,6 +344,7 @@ function Sort() {
               size="small"
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
+              onChange={maxSalesAmountChange}
             />
           </Stack>
         </Grid>
@@ -294,6 +357,7 @@ function Sort() {
               size="small"
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
+              onChange={minEmployeeNumberChange}
             />
             <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
             <Autocomplete
@@ -302,6 +366,7 @@ function Sort() {
               size="small"
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
+              onChange={maxEmployeeNumberChange}
             />
           </Stack>
         </Grid>
@@ -314,6 +379,7 @@ function Sort() {
               size="small"
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
+              onChange={minEstablishmentYearChange}
             />
             <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
             <Autocomplete
@@ -322,6 +388,7 @@ function Sort() {
               size="small"
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
+              onChange={maxEstablishmentYearChange}
             />
           </Stack>
         </Grid>
@@ -334,6 +401,7 @@ function Sort() {
               size="small"
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
+              onChange={minCapitalStockChange}
             />
             <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
             <Autocomplete
@@ -342,6 +410,7 @@ function Sort() {
               size="small"
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
+              onChange={maxCapitalStockChange}
             />
           </Stack>
         </Grid>
@@ -349,6 +418,6 @@ function Sort() {
       <Box></Box>
     </Card>
   );
-}
+};
 
-export default Sort;
+export default Search;

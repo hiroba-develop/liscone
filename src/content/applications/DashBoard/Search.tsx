@@ -14,21 +14,21 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-function Sort() {
+const Search = () => {
   const user = [
     { label: "大友玲奈" },
     { label: "山田太郎" },
     { label: "鈴木次郎" },
   ];
   const status = [
-    { label: "完了" },
-    { label: "未完了" },
-    { label: "期限超過" },
-    { label: "本日期限" },
+    { label: "pending" },
+    { label: "completed" },
+    { label: "failed" },
   ];
 
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
   return (
     <Box sx={{}}>
       <Stack sx={{ m: 1 }} direction="row">
@@ -39,7 +39,7 @@ function Sort() {
             </Typography>
             <Autocomplete
               multiple
-              id="checkboxes-tags-demo"
+              id="user"
               options={user}
               disableCloseOnSelect
               getOptionLabel={(option) => option.label}
@@ -97,7 +97,7 @@ function Sort() {
             </Typography>
             <Autocomplete
               multiple
-              id="checkboxes-tags-demo"
+              id="status"
               options={status}
               disableCloseOnSelect
               getOptionLabel={(option) => option.label}
@@ -125,6 +125,6 @@ function Sort() {
       </Stack>
     </Box>
   );
-}
+};
 
-export default Sort;
+export default Search;

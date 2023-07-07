@@ -13,17 +13,9 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-const maxSalesAmount = [
-  { label: "特に指定しない" },
-  { label: "1億円未満" },
-  { label: "3億円" },
-  { label: "10億円" },
-  { label: "50億円" },
-  { label: "300億円" },
-  { label: "1000億円" },
-];
+const searchList = [{ label: "全て" }];
 
-function Sort() {
+function Search() {
   const margin = 0.5;
   const paddingBotton = 1.5;
   return (
@@ -44,7 +36,7 @@ function Sort() {
         <Grid item xs={2}>
           <Autocomplete
             disablePortal
-            options={maxSalesAmount}
+            options={searchList}
             sx={{ m: margin, pb: paddingBotton }}
             renderInput={(params) => <TextField {...params} label="リスト" />}
           />
@@ -55,7 +47,7 @@ function Sort() {
         <Grid item xs={2}>
           <Autocomplete
             disablePortal
-            options={maxSalesAmount}
+            options={searchList}
             sx={{ m: margin, pb: paddingBotton }}
             renderInput={(params) => <TextField {...params} label="ユーザー" />}
           />
@@ -63,7 +55,7 @@ function Sort() {
         <Grid item xs={2}>
           <Autocomplete
             disablePortal
-            options={maxSalesAmount}
+            options={searchList}
             sx={{ m: margin, pb: paddingBotton }}
             renderInput={(params) => <TextField {...params} label="行動種類" />}
           />
@@ -71,7 +63,7 @@ function Sort() {
         <Grid item xs={2}>
           <Autocomplete
             disablePortal
-            options={maxSalesAmount}
+            options={searchList}
             sx={{ m: margin, pb: paddingBotton }}
             renderInput={(params) => <TextField {...params} label="大項目" />}
           />
@@ -79,7 +71,7 @@ function Sort() {
         <Grid item xs={2}>
           <Autocomplete
             disablePortal
-            options={maxSalesAmount}
+            options={searchList}
             sx={{ m: margin, pb: paddingBotton }}
             renderInput={(params) => <TextField {...params} label="小項目" />}
           />
@@ -117,4 +109,4 @@ function Sort() {
   );
 }
 
-export default Sort;
+export default Search;

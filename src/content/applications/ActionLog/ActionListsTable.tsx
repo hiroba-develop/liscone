@@ -109,8 +109,8 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
               <TableCell align="center">行動結果</TableCell>
               <TableCell align="center">小項目</TableCell>
               <TableCell align="center">コメント</TableCell>
-              <TableCell align="center">タスク</TableCell>
               <TableCell align="center">ユーザー</TableCell>
+              <TableCell align="center">タスク</TableCell>
               <TableCell align="center">タスク期限</TableCell>
             </TableRow>
           </TableHead>

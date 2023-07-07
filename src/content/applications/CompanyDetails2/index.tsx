@@ -8,7 +8,7 @@ import WebAssetIcon from "@mui/icons-material/WebAsset";
 import CompanyDetails2ListData from "./CompanyDetails2ListData";
 import CompanyDetails2ReferenceListData from "./CompanyDetails2ReferenceListData";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
-import Sort from "./Sort";
+import Search from "./Search";
 
 function Lists() {
   const navigate = useNavigate();
@@ -90,7 +90,7 @@ function Lists() {
             https://www.example.co.jp/
           </Typography>
         </Box>
-        <Sort />
+        <Search />
         <CompanyDetails2ReferenceListData />
         <CompanyDetails2ListData />
         <ActionHistoryListData />

@@ -2,7 +2,7 @@ import { Container, Grid, Box } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 // import PageHeader from './PageHeader';
-import Sort from "./Sort";
+import Search from "./Search";
 
 import ListData from "./ActionData";
 
@@ -13,7 +13,7 @@ function Lists() {
         <title>行動ログ</title>
       </Helmet>
       <Container maxWidth="lg">
-        <Sort />
+        <Search />
         <Box sx={{ mt: 3 }}>
           <ListData />
         </Box>

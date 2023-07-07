@@ -33,7 +33,7 @@ const maxEmployeeNumber = [
   { label: "5000" },
 ];
 
-function Sort() {
+function Search() {
   return (
     <Card>
       <Stack sx={{ m: 1 }} direction="row">
@@ -90,4 +90,4 @@ function Sort() {
   );
 }
 
-export default Sort;
+export default Search;

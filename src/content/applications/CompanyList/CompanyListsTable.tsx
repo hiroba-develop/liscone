@@ -26,6 +26,19 @@ import ListCreate from "../PopUp/ListCreate";
 interface CompanyListsProps {
   className?: string;
   companyLists: CompanyList[];
+  searchComparyNumber: string;
+  searchCompanyName: string;
+  searchIndustry: string;
+  searchPrefectures: string;
+  searchRepresentativePhoneNumber: string;
+  searchMinSalesAmount: string;
+  searchMaxSalesAmount: string;
+  searchMinEmployeeNumber: string;
+  searchMaxEmployeeNumber: string;
+  searchMinEstablishmentYear: string;
+  searchMaxEstablishmentYear: string;
+  searchMinCapitalStock: string;
+  searchMaxCapitalStock: string;
 }
 
 interface Filters {
@@ -34,11 +47,11 @@ interface Filters {
 
 const getStatusLabel = (companyListStatus: CompanyListStatus): JSX.Element => {
   const map = {
-    Y: {
+    listed: {
       text: "上場",
       color: "black",
     },
-    N: {
+    unlisted: {
       text: "未上場",
       color: "error",
     },
@@ -56,7 +69,7 @@ const applyFilters = (
   return companyLists.filter((companyLists) => {
     let matches = true;
 
-    if (filters.status && companyLists.listing_status !== filters.status) {
+    if (filters.status && companyLists.listing !== filters.status) {
       matches = false;
     }
 
@@ -71,7 +84,22 @@ const applyPagination = (
 ): CompanyList[] => {
   return companyLists.slice(page * limit, page * limit + limit);
 };
-const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
+const CompanyLists: FC<CompanyListsProps> = ({
+  companyLists,
+  searchComparyNumber,
+  searchCompanyName,
+  searchIndustry,
+  searchPrefectures,
+  searchRepresentativePhoneNumber,
+  searchMinSalesAmount,
+  searchMaxSalesAmount,
+  searchMinEmployeeNumber,
+  searchMaxEmployeeNumber,
+  searchMinEstablishmentYear,
+  searchMaxEstablishmentYear,
+  searchMinCapitalStock,
+  searchMaxCapitalStock,
+}) => {
   const selectedCompanyLists: string[] = [];
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
@@ -87,15 +115,21 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredCompanyLists = applyFilters(companyLists, filters);
+  //絞り込み
+  let searchComparyLists = companyLists.filter(
+    (companyList) =>
+      companyList.companyNumber.match(searchComparyNumber) &&
+      companyList.companyName.match(searchCompanyName) &&
+      companyList.industry.match(searchIndustry) &&
+      companyList.headOfficeAddress.match(searchPrefectures) &&
+      companyList.representativeNumber.match(searchRepresentativePhoneNumber)
+  );
+  const filteredCompanyLists = applyFilters(searchComparyLists, filters);
   const paginatedCompanyLists = applyPagination(
     filteredCompanyLists,
     page,
     limit
   );
-  const selectedSomeCompanyLists =
-    selectedCompanyLists.length > 0 &&
-    selectedCompanyLists.length < companyLists.length;
 
   const [listCreateOpen, setListCreateOpen] = useState(false);
   const editListCreateOpen = () => setListCreateOpen(true);
@@ -118,7 +152,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
     if (checked) {
       const idArray = [];
       // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
-      companyLists.forEach((el) => idArray.push(el.corporation_id));
+      companyLists.forEach((el) => idArray.push(el.id));
       setCheckItems(idArray);
     } else {
       // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
@@ -127,13 +161,14 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
   };
   const isChecked = checkItems.length > 0;
   const disabled = !isChecked;
+
   return (
     <Card>
       <CardHeader
         action={
           <Box>
             <Button
-              disabled={disabled}
+              // disabled={disabled}
               variant="contained"
               onClick={editListCreateOpen}
             >
@@ -180,24 +215,19 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
           <TableBody>
             {paginatedCompanyLists.map((companyList) => {
               const isCompanyListSelected = selectedCompanyLists.includes(
-                companyList.corporation_id
+                companyList.id
               );
               return (
-                <TableRow hover key={companyList.corporation_id}>
+                <TableRow hover key={companyList.id}>
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      name={`select-${companyList.corporation_id}`}
+                      name={`select-${companyList.id}`}
                       onChange={(e) =>
-                        handleSingleCheck(
-                          e.target.checked,
-                          companyList.corporation_id
-                        )
+                        handleSingleCheck(e.target.checked, companyList.id)
                       }
                       checked={
-                        checkItems.includes(companyList.corporation_id)
-                          ? true
-                          : false
+                        checkItems.includes(companyList.id) ? true : false
                       }
                     />
                   </TableCell>
@@ -209,7 +239,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.corporate_number}
+                      {companyList.companyNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -222,7 +252,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       onClick={() => navigate("/company/companyDetails1")}
                       sx={{ textDecoration: "underline" }}
                     >
-                      {companyList.corporation_name}
+                      {companyList.companyName}
                     </Typography>
                   </TableCell>
 
@@ -234,7 +264,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.business_category}
+                      {companyList.industry}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -245,7 +275,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.zip_code}
+                      {companyList.postNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -256,7 +286,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.address}
+                      {companyList.headOfficeAddress}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -267,7 +297,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.representative_phone_number}
+                      {companyList.representativeNumber}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -278,7 +308,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.representative_name}
+                      {companyList.representativeName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -289,7 +319,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.home_page}
+                      {companyList.website}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -300,7 +330,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.sales_amount}
+                      {companyList.earnings}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -311,7 +341,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.employee_number}
+                      {companyList.numberOfEmployees}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -322,7 +352,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.establishment_year}
+                      {companyList.established}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -333,7 +363,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {companyList.capital_stock}
+                      {companyList.capital}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -344,7 +374,7 @@ const CompanyLists: FC<CompanyListsProps> = ({ companyLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(companyList.listing_status)}
+                      {getStatusLabel(companyList.listing)}
                     </Typography>
                   </TableCell>
                 </TableRow>

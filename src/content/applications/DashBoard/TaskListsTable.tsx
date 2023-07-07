@@ -26,7 +26,7 @@ import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 
 import { TaskList, TaskStatus } from "src/models/task_list";
 import TaskUpdate from "../PopUp/TaskUpdate";
-import Sort from "./Sort";
+import Search from "./Search";
 
 interface TaskListsProps {
   className?: string;
@@ -110,7 +110,7 @@ const TaskLists: FC<TaskListsProps> = ({ taskLists }) => {
           </Typography>
         }
         sx={{ mt: -2 }}
-        action={<Sort />}
+        action={<Search />}
       />
       <Divider />
       <TableContainer>

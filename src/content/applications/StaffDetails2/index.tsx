@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import StaffDetails2ListData from "./StaffDetails2ListData";
 import StaffDetails2ReferenceListData from "./StaffDetails2ReferenceListData";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
-import Sort from "./Sort";
+import Search from "./Search";
 
 function Lists() {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ function Lists() {
             <CloseIcon sx={{ color: "white" }} />
           </IconButton>
         </Box>
-        <Sort />
+        <Search />
         <StaffDetails2ReferenceListData />
         <StaffDetails2ListData />
         <ActionHistoryListData />
