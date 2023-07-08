@@ -5,13 +5,12 @@ import { Box, Container, IconButton, Typography } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
+import { CorporationList } from "src/models/corporation_details2_list";
+import { SalesList } from "src/models/sales_list";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
 import CorporationDetails1ListData from "../CorporationDetails1/CorporationDetails1ListData";
 import CorporationDetails1ReferenceListData from "../CorporationDetails1/CorporationDetails1ReferenceListData";
 import Sort from "./Sort";
-import { CorporationList } from "src/models/corporation_details2_list";
-import { SalesList } from "src/models/sales_list";
-import { Label } from "@mui/icons-material";
 
 function Lists() {
   const navigate = useNavigate();
@@ -107,7 +106,7 @@ function Lists() {
             {corporationList.corporation.home_page}
           </Typography>
         </Box>
-        <Sort {...corporationList.corporation} {...salesList} />
+        <Sort corporation={corporationList.corporation} salesList={salesList} />
         <Box sx={{ mt: 25 }}>
           <CorporationDetails1ReferenceListData
             {...corporationList.corporation}

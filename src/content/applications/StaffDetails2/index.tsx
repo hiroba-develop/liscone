@@ -4,13 +4,9 @@ import { Helmet } from "react-helmet-async";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
-<<<<<<< Updated upstream
 import Search from "./Search";
-=======
-import Sort from "./Sort";
 import StaffDetails1ReferenceListData from "../StaffDetails1/StaffDetails1ReferenceListData";
 import StaffDetails1ListData from "../StaffDetails1/StaffDetails1ListData";
->>>>>>> Stashed changes
 
 function Lists() {
   const navigate = useNavigate();
@@ -68,15 +64,9 @@ function Lists() {
             <CloseIcon sx={{ color: "white" }} />
           </IconButton>
         </Box>
-<<<<<<< Updated upstream
         <Search />
-        <StaffDetails2ReferenceListData />
-        <StaffDetails2ListData />
-=======
-        <Sort />
         <StaffDetails1ReferenceListData staffList={staffList} />
         <StaffDetails1ListData staffList={staffList} />
->>>>>>> Stashed changes
         <ActionHistoryListData />
       </Container>
       <Footer />

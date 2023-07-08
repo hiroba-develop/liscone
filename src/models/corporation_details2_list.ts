@@ -17,5 +17,7 @@ export interface CorporationList {
     establishment_year: number;
     capital_stock: string;
     listing_status: CorporationListStatus;
+    transaction_status: string;
+    memo: string;
   };
 }
