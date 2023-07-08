@@ -1,20 +1,20 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { CompanyDetailsList } from "src/models/company_details_list";
+import { CorporationDetailsList } from "src/models/corporation_details_list";
 import { config } from "src/utility/config/AppConfig";
-import CompanyDetails1Table from "./CompanyDetails2Table";
+import CorporationDetails1Table from "./CorporationDetails2Table";
 
-function ListLists(companyList) {
-  const [staffLists, setStaffs] = useState<CompanyDetailsList[]>([]);
+function ListLists(corporationList) {
+  const [staffLists, setStaffs] = useState<CorporationDetailsList[]>([]);
 
   useEffect(() => {
     const getStaffs = async () => {
       try {
         const response = await axios.get(
-          `${config().apiUrl}/companystaffs/byCompany`,
+          `${config().apiUrl}/corporationstaffs/byCorporation`,
           {
             params: {
-              corporationId: companyList.corporation_id,
+              corporationId: corporationList.corporation_id,
             },
           }
         );
@@ -30,7 +30,7 @@ function ListLists(companyList) {
     getStaffs();
   }, []);
 
-  return <CompanyDetails1Table companyDetails1List={staffLists} />;
+  return <CorporationDetails1Table corporationDetails1List={staffLists} />;
 }
 
 export default ListLists;

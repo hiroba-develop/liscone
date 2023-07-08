@@ -29,8 +29,8 @@ const DashBoard = Loader(
 const ActionLog = Loader(
   lazy(() => import("src/content/applications/ActionLog"))
 );
-const CompanyList = Loader(
-  lazy(() => import("src/content/applications/CompanyList"))
+const CorporationList = Loader(
+  lazy(() => import("src/content/applications/CorporationList"))
 );
 const StaffList = Loader(
   lazy(() => import("src/content/applications/StaffList"))
@@ -41,11 +41,11 @@ const SalesList = Loader(
 const SalesListDetails = Loader(
   lazy(() => import("src/content/applications/SalesListDetails"))
 );
-const CompanyDetails1 = Loader(
-  lazy(() => import("src/content/applications/CompanyDetails1"))
+const CorporationDetails1 = Loader(
+  lazy(() => import("src/content/applications/CorporationDetails1"))
 );
-const CompanyDetails2 = Loader(
-  lazy(() => import("src/content/applications/CompanyDetails2"))
+const CorporationDetails2 = Loader(
+  lazy(() => import("src/content/applications/CorporationDetails2"))
 );
 const StaffDetails1 = Loader(
   lazy(() => import("src/content/applications/StaffDetails1"))
@@ -100,20 +100,20 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: "company",
+    path: "corporation",
     element: <SidebarLayout />,
     children: [
       {
         path: "",
-        element: <Navigate to="companyList" replace />,
+        element: <Navigate to="corporationList" replace />,
       },
       {
-        path: "companyList",
-        element: <CompanyList />,
+        path: "corporationList",
+        element: <CorporationList />,
       },
       {
-        path: "companyDetails1",
-        element: <CompanyDetails1 />,
+        path: "corporationDetails1",
+        element: <CorporationDetails1 />,
       },
     ],
   },
@@ -152,8 +152,8 @@ const routes: RouteObject[] = [
         element: <SalesListDetails />,
       },
       {
-        path: "companyDetails2",
-        element: <CompanyDetails2 />,
+        path: "corporationDetails2",
+        element: <CorporationDetails2 />,
       },
       {
         path: "staffDetails2",

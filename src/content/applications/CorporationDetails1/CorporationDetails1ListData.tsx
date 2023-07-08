@@ -1,21 +1,21 @@
 import { Card } from "@mui/material";
-import { CompanyDetailsList } from "src/models/company_details_list";
-import CompanyDetails1Table from "./CompanyDetails1Table";
+import { CorporationDetailsList } from "src/models/corporation_details_list";
+import CorporationDetails1Table from "./CorporationDetails1Table";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { config } from "src/utility/config/AppConfig";
 
-function ListLists(companyList) {
-  const [staffLists, setStaffs] = useState<CompanyDetailsList[]>([]);
+function ListLists(corporationList) {
+  const [staffLists, setStaffs] = useState<CorporationDetailsList[]>([]);
 
   useEffect(() => {
     const getStaffs = async () => {
       try {
         const response = await axios.get(
-          `${config().apiUrl}/companystaffs/byCompany`,
+          `${config().apiUrl}/corporationstaffs/byCorporation`,
           {
             params: {
-              corporationId: companyList.corporation_id,
+              corporationId: corporationList.corporation_id,
             },
           }
         );
@@ -32,7 +32,7 @@ function ListLists(companyList) {
   }, []);
   return (
     <Card sx={{ mt: 5 }}>
-      <CompanyDetails1Table companyDetails1List={staffLists} />
+      <CorporationDetails1Table corporationDetails1List={staffLists} />
     </Card>
   );
 }

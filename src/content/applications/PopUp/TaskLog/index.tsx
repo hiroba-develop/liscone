@@ -86,8 +86,8 @@ const TaskLog = ({ taskLogOpen, setTaskLogOpen, taskList, staffList }) => {
               ? taskList.corporationEntity.corporation_id
               : "",
           sales_staff_id:
-            taskList.companystaffEntity !== null
-              ? taskList.companystaffEntity.staff_id
+            taskList.corporationstaffEntity !== null
+              ? taskList.corporationstaffEntity.staff_id
               : "",
           deadline: startDate,
           comment: comments,

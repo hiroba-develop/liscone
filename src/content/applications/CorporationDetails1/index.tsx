@@ -5,14 +5,14 @@ import { Box, Container, IconButton, Typography } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
-import CompanyDetails1ListData from "./CompanyDetails1ListData";
-import CompanyDetails1ReferenceListData from "./CompanyDetails1ReferenceListData";
+import CorporationDetails1ListData from "./CorporationDetails1ListData";
+import CorporationDetails1ReferenceListData from "./CorporationDetails1ReferenceListData";
 
 function Lists() {
   const navigate = useNavigate();
   const location = useLocation();
-  type CompanyListStatus = "Y" | "N";
-  const companyList = location.state as {
+  type CorporationListStatus = "Y" | "N";
+  const corporationList = location.state as {
     corporation_id: string;
     corporate_number: string;
     corporation_name: string;
@@ -27,7 +27,7 @@ function Lists() {
     employee_number: string;
     establishment_year: number;
     capital_stock: string;
-    listing_status: CompanyListStatus;
+    listing_status: CorporationListStatus;
   };
   return (
     <>
@@ -49,8 +49,8 @@ function Lists() {
             fontSize: 20,
           }}
         >
-          {companyList.corporation_name}(法人番号:
-          {companyList.corporate_number})
+          {corporationList.corporation_name}(法人番号:
+          {corporationList.corporate_number})
         </Typography>
         <Box
           sx={{
@@ -60,7 +60,7 @@ function Lists() {
             color: "white",
           }}
         >
-          <IconButton onClick={() => navigate("/company/companyList")}>
+          <IconButton onClick={() => navigate("/corporation/corporationList")}>
             <CloseIcon sx={{ color: "white" }} />
           </IconButton>
         </Box>
@@ -83,7 +83,7 @@ function Lists() {
               ml: 1,
             }}
           >
-            {companyList.representative_phone_number}
+            {corporationList.representative_phone_number}
           </Typography>
         </Box>
         <Box
@@ -105,11 +105,11 @@ function Lists() {
               ml: 1,
             }}
           >
-            {companyList.home_page}
+            {corporationList.home_page}
           </Typography>
         </Box>
         <Box sx={{ mt: 12 }}>
-          <CompanyDetails1ReferenceListData {...companyList} />
+          <CorporationDetails1ReferenceListData {...corporationList} />
         </Box>
         <Typography
           sx={{
@@ -123,7 +123,7 @@ function Lists() {
           担当者候補
         </Typography>
         <Box sx={{ mt: 10 }}>
-          <CompanyDetails1ListData {...companyList} />
+          <CorporationDetails1ListData {...corporationList} />
         </Box>
       </Container>
       <Footer />

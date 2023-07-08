@@ -11,20 +11,22 @@ import {
   Box,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { SalesDetailsList } from "src/models/sales_details_list";
+import { SalesDetailsList } from "src/models/sales_details_list2";
 
 interface SalesListsProps {
   className?: string;
-  companydetails1referenceList: SalesDetailsList[];
+  corporationdetails1referenceList: SalesDetailsList[];
 }
 
 const applyFilters = (
-  companydetails1referenceList: SalesDetailsList[]
+  corporationdetails1referenceList: SalesDetailsList[]
 ): SalesDetailsList[] => {
-  return companydetails1referenceList.filter((companydetails1referenceList) => {
-    let matches = true;
-    return matches;
-  });
+  return corporationdetails1referenceList.filter(
+    (corporationdetails1referenceList) => {
+      let matches = true;
+      return matches;
+    }
+  );
 };
 
 const applyPagination = (
@@ -36,7 +38,7 @@ const applyPagination = (
 };
 
 const SalesLists: FC<SalesListsProps> = ({
-  companydetails1referenceList: salesDetailsLists,
+  corporationdetails1referenceList: salesDetailsLists,
 }) => {
   const page: number = 0;
   const limit: number = 5;
@@ -179,11 +181,11 @@ const SalesLists: FC<SalesListsProps> = ({
 };
 
 SalesLists.propTypes = {
-  companydetails1referenceList: PropTypes.array.isRequired,
+  corporationdetails1referenceList: PropTypes.array.isRequired,
 };
 
 SalesLists.defaultProps = {
-  companydetails1referenceList: [],
+  corporationdetails1referenceList: [],
 };
 
 export default SalesLists;

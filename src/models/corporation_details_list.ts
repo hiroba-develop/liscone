@@ -4,7 +4,7 @@ export type StaffListPositions =
   | "sectionManager"
   | "generalManager";
 
-export interface CompanyDetailsList {
+export interface CorporationDetailsList {
   staff_id: string;
   corporation_id: string;
   corporation_name: string;

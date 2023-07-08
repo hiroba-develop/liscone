@@ -1,7 +1,10 @@
-import { ChangeEvent, FC, useState } from "react";
 import {
   Box,
+  Button,
   Card,
+  CardHeader,
+  Checkbox,
+  Divider,
   Table,
   TableBody,
   TableCell,
@@ -12,39 +15,75 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
-import { SalesDetailsList } from "src/models/sales_details_list";
-import { SalesList } from "src/models/sales_list";
+import { ChangeEvent, FC, useState } from "react";
 
-interface SalesListsProps {
+import AddIcon from "@mui/icons-material/Add";
+import { useNavigate } from "react-router-dom";
+import Label from "src/components/Label";
+import {
+  CorporationList,
+  CorporationListStatus,
+} from "src/models/corporation_list";
+import ListCreate from "../PopUp/ListCreate";
+
+interface CorporationListsProps {
   className?: string;
-  salesDetailsList: SalesDetailsList[];
-  selectedSalesList: SalesList;
+  corporationLists: CorporationList[];
 }
 
+interface Filters {
+  status?: CorporationListStatus;
+}
+
+const getStatusLabel = (
+  corporationListStatus: CorporationListStatus
+): JSX.Element => {
+  const map = {
+    Y: {
+      text: "上場",
+      color: "black",
+    },
+    N: {
+      text: "未上場",
+      color: "error",
+    },
+  };
+
+  const { text, color }: any = map[corporationListStatus];
+
+  return <Label color={color}>{text}</Label>;
+};
+
 const applyFilters = (
-  salesDetailsList: SalesDetailsList[]
-): SalesDetailsList[] => {
-  return salesDetailsList.filter((salesDetailsList) => {
+  corporationLists: CorporationList[],
+  filters: Filters
+): CorporationList[] => {
+  return corporationLists.filter((corporationLists) => {
     let matches = true;
+
+    if (filters.status && corporationLists.listing_status !== filters.status) {
+      matches = false;
+    }
+
     return matches;
   });
 };
 
 const applyPagination = (
-  salesLists: SalesDetailsList[],
+  corporationLists: CorporationList[],
   page: number,
   limit: number
-): SalesDetailsList[] => {
-  return salesLists.slice(page * limit, page * limit + limit);
+): CorporationList[] => {
+  return corporationLists.slice(page * limit, page * limit + limit);
 };
 
-const SalesLists: FC<SalesListsProps> = ({
-  salesDetailsList: salesDetailsLists,
-  selectedSalesList: salesList,
-}) => {
+const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
+  const selectedCorporationLists: string[] = [];
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
+  const [filters] = useState<Filters>({
+    status: null,
+  });
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
@@ -54,17 +93,98 @@ const SalesLists: FC<SalesListsProps> = ({
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredSalesList = applyFilters(salesDetailsLists);
-  const paginatedSalesLists = applyPagination(filteredSalesList, page, limit);
+  const filteredCorporationLists = applyFilters(corporationLists, filters);
+  const paginatedCorporationLists = applyPagination(
+    filteredCorporationLists,
+    page,
+    limit
+  );
+  const selectedSomeCorporationLists =
+    selectedCorporationLists.length > 0 &&
+    selectedCorporationLists.length < corporationLists.length;
 
+  const [checkItems, setCheckItems] = useState([]);
+  const [listCreateOpen, setListCreateOpen] = useState(false);
+  const [salesListType, setsalesListType] = useState("");
+
+  // 체크된 아이템을 담을 배열
   const navigate = useNavigate();
+
+  // 체크박스 단일 선택
+  const handleSingleCheck = (checked, row) => {
+    if (checked) {
+      // 단일 선택 시 체크된 아이템을 배열에 추가
+      setCheckItems((prev) => [...prev, row]);
+    } else {
+      // 단일 선택 해제 시 체크된 아이템을 제외한 배열 (필터)
+      setCheckItems(
+        checkItems.filter((el) => el.corporation_id !== row.corporation_id)
+      );
+    }
+  };
+  // 체크박스 전체 선택
+  const handleAllCheck = (checked) => {
+    if (checked) {
+      const idArray = [];
+      // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
+      corporationLists.forEach((el) => idArray.push(el));
+      setCheckItems(idArray);
+    } else {
+      // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
+      setCheckItems([]);
+    }
+  };
+  const isChecked = checkItems.length > 0;
+  const disabled = !isChecked;
+
+  const editListCreateOpen = (checkItems) => {
+    setsalesListType("01");
+    setListCreateOpen(true);
+  };
+
+  const corporationDetails1 = (corporationList) => {
+    navigate("/corporation/corporationDetails1", {
+      state: corporationList,
+    });
+  };
 
   return (
     <Card>
+      <CardHeader
+        action={
+          <Box>
+            <Button
+              disabled={disabled}
+              variant="contained"
+              onClick={(checkItems) => editListCreateOpen(checkItems)}
+            >
+              <AddIcon />
+              　企業リストを作成
+            </Button>
+          </Box>
+        }
+      />
+      <ListCreate
+        listCreateOpen={listCreateOpen}
+        checkItems={checkItems}
+        setListCreateOpen={setListCreateOpen}
+        salesListType={salesListType}
+      />
+      <Divider />
       <TableContainer>
         <Table>
           <TableHead>
-            <TableRow sx={{ bgcolor: "background.paper" }}>
+            <TableRow>
+              <TableCell padding="checkbox">
+                <Checkbox
+                  color="primary"
+                  onChange={(e) => handleAllCheck(e.target.checked)}
+                  // 데이터 개수와 체크된 아이템의 개수가 다를 경우 선택 해제 (하나라도 해제 시 선택 해제)
+                  checked={
+                    checkItems.length === corporationLists.length ? true : false
+                  }
+                />
+              </TableCell>
               <TableCell align="center">法人番号</TableCell>
               <TableCell align="center">会社名・法人名</TableCell>
               <TableCell align="center">業種</TableCell>
@@ -78,17 +198,33 @@ const SalesLists: FC<SalesListsProps> = ({
               <TableCell align="center">設立</TableCell>
               <TableCell align="center">資本金</TableCell>
               <TableCell align="center">上場</TableCell>
-              <TableCell align="center">行動ログ</TableCell>
-              <TableCell align="center">取引ステータス</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedSalesLists.map((SalesDetailsList) => {
+            {paginatedCorporationLists.map((corporationList) => {
+              const isCorporationListSelected =
+                selectedCorporationLists.includes(
+                  corporationList.corporation_id
+                );
               return (
-                <TableRow
-                  hover
-                  key={SalesDetailsList.corporation.corporation_id}
-                >
+                <TableRow hover key={corporationList.corporation_id}>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      color="primary"
+                      name={`select-${corporationList.corporation_id}`}
+                      onChange={(e) =>
+                        handleSingleCheck(
+                          e.target.checked,
+                          corporationList.corporation_id
+                        )
+                      }
+                      checked={
+                        checkItems.includes(corporationList.corporation_id)
+                          ? true
+                          : false
+                      }
+                    />
+                  </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -97,7 +233,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporation.corporate_number}
+                      {corporationList.corporate_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -107,21 +243,22 @@ const SalesLists: FC<SalesListsProps> = ({
                       color="text.primary"
                       gutterBottom
                       noWrap
-                      // 「リスト詳細企業詳細」画面に遷移
-                      onClick={() => {
-                        if (salesList.sales_list_type === "01") {
-                          navigate("/salesTask/corporationDetails2", {
-                            state: [SalesDetailsList, salesList],
-                          });
-                        } else {
-                          navigate("/salesTask/staffDetails2", {
-                            state: [SalesDetailsList, salesList],
-                          });
-                        }
-                      }}
+                      onClick={() => corporationDetails1(corporationList)}
                       sx={{ textDecoration: "underline" }}
                     >
-                      {SalesDetailsList.corporation.corporation_name}
+                      {corporationList.corporation_name}
+                    </Typography>
+                  </TableCell>
+
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {corporationList.business_category}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -132,7 +269,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporation.business_category}
+                      {corporationList.zip_code}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -143,7 +280,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporation.zip_code}
+                      {corporationList.address}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -154,7 +291,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporation.address}
+                      {corporationList.representative_phone_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -165,7 +302,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporation.representative_phone_number}
+                      {corporationList.representative_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -176,7 +313,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporation.representative_name}
+                      {corporationList.home_page}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -187,7 +324,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporation.home_page}
+                      {corporationList.sales_amount}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -198,7 +335,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporation.sales_amount}
+                      {corporationList.employee_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -209,7 +346,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporation.employee_number}
+                      {corporationList.establishment_year}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -220,7 +357,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporation.establishment_year}
+                      {corporationList.capital_stock}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -231,40 +368,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporation.capital_stock}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {SalesDetailsList.corporation.listing_status}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {/* {SalesDetailsList.actionLog} */}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {/* {SalesDetailsList.transactionStatus} */}
+                      {getStatusLabel(corporationList.listing_status)}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -276,7 +380,7 @@ const SalesLists: FC<SalesListsProps> = ({
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredSalesList.length}
+          count={filteredCorporationLists.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -288,12 +392,12 @@ const SalesLists: FC<SalesListsProps> = ({
   );
 };
 
-SalesLists.propTypes = {
-  salesDetailsList: PropTypes.array.isRequired,
+CorporationLists.propTypes = {
+  corporationLists: PropTypes.array.isRequired,
 };
 
-SalesLists.defaultProps = {
-  salesDetailsList: [],
+CorporationLists.defaultProps = {
+  corporationLists: [],
 };
 
-export default SalesLists;
+export default CorporationLists;

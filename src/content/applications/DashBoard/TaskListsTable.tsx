@@ -103,7 +103,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
     const getStaffs = async () => {
       try {
         const response = await axios.get(
-          `${config().apiUrl}/companystaffs/id_name_byCompany`,
+          `${config().apiUrl}/corporationstaffs/id_name_bycorporation`,
           {
             params: {
               corporationId: taskList.corporationEntity.corporation_id,
@@ -280,8 +280,8 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {taskList.companystaffEntity !== null
-                        ? taskList.companystaffEntity.staff_name
+                      {taskList.corporationstaffEntity !== null
+                        ? taskList.corporationstaffEntity.staff_name
                         : ""}
                     </Typography>
                   </TableCell>

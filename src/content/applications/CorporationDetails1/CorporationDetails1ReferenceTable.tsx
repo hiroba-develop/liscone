@@ -1,3 +1,4 @@
+import { Label } from "@mui/icons-material";
 import {
   Card,
   Table,
@@ -8,8 +9,27 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { CorporationListStatus } from "src/models/corporation_list";
 
-const SalesLists = ({ companyList }) => {
+const SalesLists = ({ corporationList }) => {
+  const getStatusLabel = (
+    corporationListStatus: CorporationListStatus
+  ): JSX.Element => {
+    const map = {
+      Y: {
+        text: "上場",
+        color: "black",
+      },
+      N: {
+        text: "未上場",
+        color: "error",
+      },
+    };
+
+    const { text, color }: any = map[corporationListStatus];
+
+    return <Label color={color}>{text}</Label>;
+  };
   return (
     <Card>
       <TableContainer>
@@ -29,7 +49,7 @@ const SalesLists = ({ companyList }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow hover key={companyList.corporation_id}>
+            <TableRow hover key={corporationList.corporation_id}>
               <TableCell align="center">
                 <Typography
                   variant="body1"
@@ -37,7 +57,7 @@ const SalesLists = ({ companyList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {companyList.corporate_number}
+                  {corporationList.corporate_number}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -47,7 +67,7 @@ const SalesLists = ({ companyList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {companyList.business_category}
+                  {corporationList.business_category}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -57,7 +77,7 @@ const SalesLists = ({ companyList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {companyList.zip_code}
+                  {corporationList.zip_code}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -67,7 +87,7 @@ const SalesLists = ({ companyList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {companyList.address}
+                  {corporationList.address}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -77,7 +97,7 @@ const SalesLists = ({ companyList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {companyList.representative_name}
+                  {corporationList.representative_name}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -87,7 +107,7 @@ const SalesLists = ({ companyList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {companyList.sales_amount}
+                  {corporationList.sales_amount}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -97,7 +117,7 @@ const SalesLists = ({ companyList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {companyList.employee_number}
+                  {corporationList.employee_number}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -107,7 +127,7 @@ const SalesLists = ({ companyList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {companyList.establishment_year}
+                  {corporationList.establishment_year}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -117,7 +137,7 @@ const SalesLists = ({ companyList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {companyList.capital_stock}
+                  {corporationList.capital_stock}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -127,7 +147,7 @@ const SalesLists = ({ companyList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {companyList.listing_status}
+                  {getStatusLabel(corporationList.listing_status)}
                 </Typography>
               </TableCell>
             </TableRow>

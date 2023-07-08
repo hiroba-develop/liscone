@@ -1,4 +1,3 @@
-import { FC, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -13,27 +12,19 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 
+import dayjs from "dayjs";
 import Label from "src/components/Label";
-import { SalesList, SalesListStatus } from "src/models/sales_list";
-
-interface SalesListsProps {
-  className?: string;
-  salesList: SalesList[];
-}
-
-interface Filters {
-  status?: SalesListStatus;
-}
+import { SalesListStatus } from "src/models/sales_list";
 
 const getStatusLabel = (salesListStatus: SalesListStatus): JSX.Element => {
   const map = {
-    contactlist: {
-      text: "contactlist",
-      color: "error",
+    "01": {
+      text: "企業リスト",
+      color: "primary",
     },
-    companylist: {
-      text: "companylist",
-      color: "warn",
+    "02": {
+      text: "担当者リスト",
+      color: "info",
     },
   };
 
@@ -42,58 +33,7 @@ const getStatusLabel = (salesListStatus: SalesListStatus): JSX.Element => {
   return <Label color={color}>{text}</Label>;
 };
 
-const applyFilters = (
-  salesList: SalesList[],
-  filters: Filters
-): SalesList[] => {
-  return salesList.filter((salesList) => {
-    let matches = true;
-
-    if (filters.status && salesList.listType !== filters.status) {
-      matches = false;
-    }
-
-    return matches;
-  });
-};
-
-const applyPagination = (
-  salesLists: SalesList[],
-  page: number,
-  limit: number
-): SalesList[] => {
-  return salesLists.slice(page * limit, page * limit + limit);
-};
-
-const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
-  const [selectedSalesLists, setSelectedListLists] = useState<string[]>([]);
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(5);
-  const [filters, setFilters] = useState<Filters>({
-    status: null,
-  });
-
-  const statusOptions = [
-    {
-      id: "all",
-      name: "All",
-    },
-    {
-      id: "contactlist",
-      name: "contactlist",
-    },
-    {
-      id: "companylist",
-      name: "companylist",
-    },
-  ];
-
-  const filteredSalesList = applyFilters(salesLists, filters);
-  const paginatedSalesLists = applyPagination(filteredSalesList, page, limit);
-  const selectedSomeSalesLists =
-    selectedSalesLists.length > 0 &&
-    selectedSalesLists.length < salesLists.length;
-
+const SalesLists = ({ salesList }) => {
   return (
     <Card>
       <CardHeader title="リスト一覧" />
@@ -115,125 +55,118 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedSalesLists.map((salesList) => {
-              const isSalesListSelected = selectedSalesLists.includes(
-                salesList.id
-              );
-              return (
-                <TableRow hover key={salesList.id}>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {salesList.listName}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {salesList.createdDate}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {salesList.counter}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {salesList.digestionNumber}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {salesList.negotiation}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {salesList.project}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {salesList.orderDate}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {salesList.yomi}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {salesList.user}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {getStatusLabel(salesList.listType)}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            <TableRow hover key={salesList.sales_list_number}>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {salesList.sales_list_name}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {dayjs(salesList.created).format("YYYY-MM-DD")}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {salesList.listsNum}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {salesList.proceedNum}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {salesList.meetNum}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {salesList.negoNum}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {salesList.contractNum}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {salesList.yomi}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {salesList.memberEntity.member_name}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {getStatusLabel(salesList.sales_list_type)}
+                </Typography>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

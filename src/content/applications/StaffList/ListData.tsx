@@ -11,7 +11,9 @@ function StaffLists() {
   useEffect(() => {
     const getStaffs = async () => {
       try {
-        const response = await axios.get(`${config().apiUrl}/companystaffs`);
+        const response = await axios.get(
+          `${config().apiUrl}/corporationstaffs`
+        );
 
         if (response.statusText === "OK") {
           setStaffs(response.data);

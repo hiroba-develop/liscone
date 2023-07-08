@@ -12,32 +12,32 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { CompanyDetailsList } from "src/models/company_details_list";
+import { CorporationDetailsList } from "src/models/corporation_details_list";
 
 interface SalesListsProps {
   className?: string;
-  companyDetails1List: CompanyDetailsList[];
+  corporationDetails1List: CorporationDetailsList[];
 }
 
 const applyFilters = (
-  companyDetails1List: CompanyDetailsList[]
-): CompanyDetailsList[] => {
-  return companyDetails1List.filter((companyDetails1List) => {
+  corporationDetails1List: CorporationDetailsList[]
+): CorporationDetailsList[] => {
+  return corporationDetails1List.filter((corporationDetails1List) => {
     let matches = true;
     return matches;
   });
 };
 
 const applyPagination = (
-  salesLists: CompanyDetailsList[],
+  salesLists: CorporationDetailsList[],
   page: number,
   limit: number
-): CompanyDetailsList[] => {
+): CorporationDetailsList[] => {
   return salesLists.slice(page * limit, page * limit + limit);
 };
 
 const SalesLists: FC<SalesListsProps> = ({
-  companyDetails1List: salesDetailsLists,
+  corporationDetails1List: salesDetailsLists,
 }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
@@ -77,9 +77,9 @@ const SalesLists: FC<SalesListsProps> = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedSalesLists.map((CompanyDetailsList) => {
+              {paginatedSalesLists.map((CorporationDetailsList) => {
                 return (
-                  <TableRow hover key={CompanyDetailsList.corporation_id}>
+                  <TableRow hover key={CorporationDetailsList.corporation_id}>
                     <TableCell>
                       <Typography
                         variant="body1"
@@ -87,7 +87,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {CompanyDetailsList.corporation_name}
+                        {CorporationDetailsList.corporation_name}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -97,7 +97,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {CompanyDetailsList.job_position}
+                        {CorporationDetailsList.job_position}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -107,7 +107,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {CompanyDetailsList.staff_name}
+                        {CorporationDetailsList.staff_name}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -117,7 +117,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {CompanyDetailsList.profile_source_type}
+                        {CorporationDetailsList.profile_source_type}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -127,7 +127,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {CompanyDetailsList.profile_link}
+                        {CorporationDetailsList.profile_link}
                       </Typography>
                     </TableCell>
                   </TableRow>
@@ -153,11 +153,11 @@ const SalesLists: FC<SalesListsProps> = ({
 };
 
 SalesLists.propTypes = {
-  companyDetails1List: PropTypes.array.isRequired,
+  corporationDetails1List: PropTypes.array.isRequired,
 };
 
 SalesLists.defaultProps = {
-  companyDetails1List: [],
+  corporationDetails1List: [],
 };
 
 export default SalesLists;

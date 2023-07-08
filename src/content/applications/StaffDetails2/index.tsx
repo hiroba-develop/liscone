@@ -1,15 +1,39 @@
-import { Container, Typography, Box, IconButton, Stack } from "@mui/material";
-import { Helmet } from "react-helmet-async";
-import Footer from "src/components/Footer";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router-dom";
-import StaffDetails2ListData from "./StaffDetails2ListData";
-import StaffDetails2ReferenceListData from "./StaffDetails2ReferenceListData";
+import { Box, Container, IconButton, Typography } from "@mui/material";
+import { Helmet } from "react-helmet-async";
+import { useLocation, useNavigate } from "react-router-dom";
+import Footer from "src/components/Footer";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
+<<<<<<< Updated upstream
 import Search from "./Search";
+=======
+import Sort from "./Sort";
+import StaffDetails1ReferenceListData from "../StaffDetails1/StaffDetails1ReferenceListData";
+import StaffDetails1ListData from "../StaffDetails1/StaffDetails1ListData";
+>>>>>>> Stashed changes
 
 function Lists() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  type StaffListRoles = "all" | "marketing" | "sales";
+  type StaffListPositions = "general" | "sectionManager" | "generalManager";
+
+  const staffList = location.state as {
+    staff_id: string;
+    corporation_id: string;
+    corporation_name: string;
+    job_position: StaffListPositions;
+    role: StaffListRoles;
+    staff_name: string;
+    profile_source_type: string;
+    profile_link: string;
+    other_information: string;
+    corporationEntity: {
+      corporation_name: string;
+      corporation_id: string;
+    };
+  };
   return (
     <>
       <Helmet>
@@ -44,9 +68,15 @@ function Lists() {
             <CloseIcon sx={{ color: "white" }} />
           </IconButton>
         </Box>
+<<<<<<< Updated upstream
         <Search />
         <StaffDetails2ReferenceListData />
         <StaffDetails2ListData />
+=======
+        <Sort />
+        <StaffDetails1ReferenceListData staffList={staffList} />
+        <StaffDetails1ListData staffList={staffList} />
+>>>>>>> Stashed changes
         <ActionHistoryListData />
       </Container>
       <Footer />
