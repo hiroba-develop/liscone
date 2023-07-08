@@ -10,7 +10,7 @@ import { SalesList } from "src/models/sales_list";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
 import CorporationDetails1ListData from "../CorporationDetails1/CorporationDetails1ListData";
 import CorporationDetails1ReferenceListData from "../CorporationDetails1/CorporationDetails1ReferenceListData";
-import Sort from "./Sort";
+import Sort from "./Search";
 
 function Lists() {
   const navigate = useNavigate();
