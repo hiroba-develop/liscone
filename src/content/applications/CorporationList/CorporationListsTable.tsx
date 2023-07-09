@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  CardContent,
   CardHeader,
   Checkbox,
   Divider,
@@ -38,6 +39,9 @@ interface Filters {
 const getStatusLabel = (
   corporationListStatus: CorporationListStatus
 ): JSX.Element => {
+  if (corporationListStatus === null || corporationListStatus === "") {
+    return <Label />;
+  }
   const map = {
     Y: {
       text: "上場",
@@ -149,7 +153,7 @@ const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
   };
 
   return (
-    <Card>
+    <CardContent style={{ textOverflow: "ellipsis" }}>
       <CardHeader
         action={
           <Box>
@@ -388,7 +392,7 @@ const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
           rowsPerPageOptions={[5, 10, 25, 30]}
         />
       </Box>
-    </Card>
+    </CardContent>
   );
 };
 

@@ -1,4 +1,4 @@
-export type CorporationListStatus = "Y" | "N";
+export type CorporationListStatus = "Y" | "N" | "";
 
 export interface CorporationList {
   corporation_id: string;

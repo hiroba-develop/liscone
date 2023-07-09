@@ -9,10 +9,11 @@
   },
   "private": false,
   "dependencies": {
-    "@emotion/react": "11.9.0",
-    "@emotion/styled": "11.8.1",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
     "@mui/base": "^5.0.0-beta.6",
     "@mui/icons-material": "5.8.2",
+    "@mui/joy": "^5.0.0-alpha.86",
     "@mui/lab": "5.0.0-alpha.84",
     "@mui/material": "^5.13.7",
     "@mui/styles": "5.8.0",
