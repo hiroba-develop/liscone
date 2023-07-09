@@ -1,67 +1,92 @@
 import {
-  Card,
-  TextField,
-  Typography,
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Box,
   Button,
+  Card,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import ListCreate from "../PopUp/ListCreate";
+import axios from "axios";
+import { FormEvent, useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { config } from "src/utility/config/AppConfig";
+import { CODE } from "src/utility/constants/Code";
+import { post, useWrapMuation } from "src/utility/http/ApiService";
+import { membersAtom } from "src/utility/recoil/comp/Members.atom";
+import { productsAtom } from "src/utility/recoil/comp/Products.atom";
 
-function Sort(corporation, salesList) {
+function Sort({ corporation, salesList }) {
+  const products = useRecoilValue(productsAtom);
+  const members = useRecoilValue(membersAtom);
   const [listCreateOpen, setListCreateOpen] = useState(false);
   const editListCreateOpen = () => setListCreateOpen(true);
+  // const [salesListInfo, setStaffs] = useState();
+  // const [salesListInfo, setStaffs] = useState();
+  const getProductName = (productNum) => {
+    const product = products.find((e) => e.product_number === productNum);
+    return product.product_name;
+  };
+  const getMemberName = (memberId) => {
+    const member = members.find((e) => e.member_id === memberId);
+    return member.member_name;
+  };
 
-  useEffect(() => {
-    const getSaleListInfo = async () => {
+  // useEffect(() => {
+  //   const getSaleListInfo = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${config().apiUrl}/corporationstaffs/byCorporation`,
+  //         {
+  //           params: {
+  //             corporationId: corporation.corporation_id,
+  //           },
+  //         }
+  //       );
+
+  //       if (response.statusText === "OK") {
+  //         setStaffs(response.data);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   getSaleListInfo();
+  // }, []);
+  const [tranStatusSelected, setTranStatusSelected] = useState(
+    corporation.transaction_status
+  );
+
+  const tranStatusChange = (e) => {
+    setTranStatusSelected(e.target.value);
+    const setTranStatus = async () => {
       try {
-        const response = await axios.get(
-          `${config().apiUrl}/corporationstaffs/byCorporation`,
+        const response = await axios.post(
+          `${config().apiUrl}/saleslists/tranStatusChange`,
           {
             params: {
-              corporationId: corporationList.corporation_id,
+              transaction_status: tranStatusSelected,
+              sales_list_number: salesList.sales_list_number,
+              corporationId: corporation.corporation_id,
             },
           }
         );
 
         if (response.statusText === "OK") {
-          setStaffs(response.data);
+          setTranStatusSelected(e.target.value);
         }
       } catch (error) {
         console.error(error);
       }
     };
 
-    getStaffs();
-  }, []);
+    setTranStatus();
+  };
 
-  useEffect(() => {
-    const getStaffs = async () => {
-      try {
-        const response = await axios.get(
-          `${config().apiUrl}/corporationstaffs/byCorporation`,
-          {
-            params: {
-              corporationId: corporationList.corporation_id,
-            },
-          }
-        );
-
-        if (response.statusText === "OK") {
-          setStaffs(response.data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getStaffs();
-  }, []);
   return (
     <>
       <Box
@@ -91,23 +116,24 @@ function Sort(corporation, salesList) {
           <Grid item xs={2} sx={{ my: 1, ml: 3 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               商材
+              <Box sx={{ mt: 1.5, color: "text.secondary" }}>
+                {getProductName(salesList.sales_product_number)}
+              </Box>
             </Typography>
-            <Typography sx={{ fontSize: 16, mt: 1.5 }}>商材</Typography>
           </Grid>
           <Grid item xs={2} sx={{ my: 1 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               取引ステータス
             </Typography>
             <FormControl fullWidth size="small" sx={{ mt: 1, ml: -2 }}>
-              <InputLabel>取引ステータス</InputLabel>
-              <Select>
-                <MenuItem value={"LostOrders"}>失注</MenuItem>
-                <MenuItem value={"Contract"}>契約</MenuItem>
-                <MenuItem value={"UnofficialNotice"}>内示</MenuItem>
-                <MenuItem value={"SettlerAgreement"}>決済者合意</MenuItem>
-                <MenuItem value={"ValidOpportunity"}>有効商談</MenuItem>
-                <MenuItem value={"Appointment"}>アポ</MenuItem>
-                <MenuItem value={"NoTransaction"}>取引なし</MenuItem>
+              <Select
+                value={tranStatusSelected}
+                style={{ width: 200, marginTop: 10 }}
+                onChange={tranStatusChange}
+              >
+                {CODE.TRAN_STATUS.map((option) => (
+                  <MenuItem value={option.key}>{option.code}</MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
@@ -125,8 +151,10 @@ function Sort(corporation, salesList) {
           <Grid item xs={2} sx={{ my: 1, ml: 1 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               ユーザー
+              <Box sx={{ mt: 1.5, color: "text.secondary" }}>
+                {getMemberName(salesList.memberEntity.member_id)}
+              </Box>
             </Typography>
-            <Typography sx={{ fontSize: 16, mt: 1.5 }}>大友・佐野</Typography>
           </Grid>
         </Grid>
       </Card>
