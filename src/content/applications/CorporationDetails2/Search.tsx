@@ -6,6 +6,7 @@ import {
   Grid,
   InputLabel,
   MenuItem,
+  OutlinedInput,
   Select,
   TextField,
   Typography,
@@ -35,49 +36,30 @@ function Sort({ corporation, salesList }) {
     return member.member_name;
   };
 
-  // useEffect(() => {
-  //   const getSaleListInfo = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         `${config().apiUrl}/corporationstaffs/byCorporation`,
-  //         {
-  //           params: {
-  //             corporationId: corporation.corporation_id,
-  //           },
-  //         }
-  //       );
-
-  //       if (response.statusText === "OK") {
-  //         setStaffs(response.data);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   getSaleListInfo();
-  // }, []);
   const [tranStatusSelected, setTranStatusSelected] = useState(
     corporation.transaction_status
   );
+  const [memo, setMemo] = useState(corporation.memo);
 
   const tranStatusChange = (e) => {
+    if (tranStatusSelected === null || tranStatusSelected === "") {
+      return tranStatusSelected;
+    }
     setTranStatusSelected(e.target.value);
     const setTranStatus = async () => {
       try {
-        const response = await axios.post(
+        const param = {
+          transaction_status: tranStatusSelected,
+          sales_list_number: salesList.sales_list_number,
+          corporation_id: corporation.corporation_id,
+        };
+        const response = await post<any>(
           `${config().apiUrl}/saleslists/tranStatusChange`,
-          {
-            params: {
-              transaction_status: tranStatusSelected,
-              sales_list_number: salesList.sales_list_number,
-              corporationId: corporation.corporation_id,
-            },
-          }
+          param
         );
 
         if (response.statusText === "OK") {
-          setTranStatusSelected(e.target.value);
+          corporation.transaction_status = tranStatusSelected;
         }
       } catch (error) {
         console.error(error);
@@ -86,7 +68,32 @@ function Sort({ corporation, salesList }) {
 
     setTranStatus();
   };
+  const memoChange = (e) => {
+    if (memo === null || memo === "") {
+      return memo;
+    }
+    setMemo(e.target.value);
+    const updateMemo = async () => {
+      try {
+        const param = {
+          memo: memo,
+          sales_list_number: salesList.sales_list_number,
+          corporation_id: corporation.corporation_id,
+        };
+        const response = await post<any>(
+          `${config().apiUrl}/saleslists/memoChange`,
+          param
+        );
 
+        if (response.statusText === "OK") {
+          corporation.memo = memo;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    updateMemo();
+  };
   return (
     <>
       <Box
@@ -125,7 +132,7 @@ function Sort({ corporation, salesList }) {
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               取引ステータス
             </Typography>
-            <FormControl fullWidth size="small" sx={{ mt: 1, ml: -2 }}>
+            <FormControl fullWidth size="small" sx={{ width: 20, ml: -5 }}>
               <Select
                 value={tranStatusSelected}
                 style={{ width: 200, marginTop: 10 }}
@@ -141,11 +148,11 @@ function Sort({ corporation, salesList }) {
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               メモ
             </Typography>
-            <TextField
+            <OutlinedInput
               fullWidth
-              variant="outlined"
               size="small"
               sx={{ mt: 1 }}
+              onChange={memoChange}
             />
           </Grid>
           <Grid item xs={2} sx={{ my: 1, ml: 1 }}>

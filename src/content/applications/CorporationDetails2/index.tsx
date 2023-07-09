@@ -21,6 +21,7 @@ function Lists() {
     CorporationList,
     SalesList
   ];
+
   return (
     <>
       <Helmet>
