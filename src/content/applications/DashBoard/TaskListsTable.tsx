@@ -17,23 +17,23 @@ import {
   useTheme,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { ChangeEvent, FC, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import Label from "src/components/Label";
 
-import { TaskList, TaskStatus } from "src/models/sales_task_list";
-import TaskLog from "../PopUp/TaskLog";
-import TaskUpdate from "../PopUp/TaskUpdate";
-import Search from "./Search";
 import axios from "axios";
+import { useNavigate } from "react-router";
+import { TaskList, TaskStatus } from "src/models/sales_task_list";
 import { config } from "src/utility/config/AppConfig";
 import { CODE } from "src/utility/constants/Code";
+import { NavigatePath } from "src/utility/constants/NavigatePath";
 import {
   commonErrorCallback,
   post,
   useWrapMuation,
 } from "src/utility/http/ApiService";
-import { useNavigate } from "react-router";
-import { NavigatePath } from "src/utility/constants/NavigatePath";
+import TaskLog from "../PopUp/TaskLog";
+import TaskUpdate from "../PopUp/TaskUpdate";
+import Search from "./Search";
 
 interface SalesTaskListsProps {
   className?: string;

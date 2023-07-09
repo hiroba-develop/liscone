@@ -1,33 +1,30 @@
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
-  FormControl,
-  InputLabel,
-  IconButton,
-  Select,
-  MenuItem,
-  Typography,
-  Modal,
   Button,
+  IconButton,
+  MenuItem,
+  Modal,
   TextField,
+  Typography,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { FormEvent, useState } from "react";
-import { CODE } from "src/utility/constants/Code";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
+import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
-import { membersAtom } from "src/utility/recoil/comp/Members.atom";
+import { config } from "src/utility/config/AppConfig";
+import { CODE } from "src/utility/constants/Code";
+import { NavigatePath } from "src/utility/constants/NavigatePath";
 import {
   commonErrorCallback,
   post,
   useWrapMuation,
 } from "src/utility/http/ApiService";
-import { config } from "src/utility/config/AppConfig";
-import { useNavigate } from "react-router";
-import { NavigatePath } from "src/utility/constants/NavigatePath";
+import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 
 const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
   const navigate = useNavigate();
@@ -46,7 +43,7 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
     const formated = dayjs(e).format("YYYY-MM-DD");
     setStartDate(formated);
   };
-  const { mutate, isError } = useWrapMuation<any, any>(
+  const { mutate } = useWrapMuation<any, any>(
     ["updateSalesTask"],
     async (data) => {
       const param = {

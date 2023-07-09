@@ -1,10 +1,10 @@
-import { Container, Button } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { Button, Container } from "@mui/material";
 import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router";
 import Footer from "src/components/Footer";
 import ListDetailsData from "./ListDetailsData";
 import ListReferenceData from "./ListReferenceData";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { useLocation, useNavigate } from "react-router";
 
 function Lists() {
   const location = useLocation();
