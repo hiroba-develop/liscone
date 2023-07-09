@@ -157,7 +157,6 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  //checked={selectedAllCompanyLists}
                   onChange={(e) => handleAllCheck(e.target.checked)}
                   checked={
                     checkItems.length === staffLists.length ? true : false

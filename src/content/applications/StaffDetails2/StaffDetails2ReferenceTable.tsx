@@ -1,5 +1,6 @@
-import { FC, useState } from "react";
 import {
+  Box,
+  Button,
   Card,
   Table,
   TableBody,
@@ -8,18 +9,17 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Button,
-  Box,
 } from "@mui/material";
 import PropTypes from "prop-types";
+import { FC, useState } from "react";
 import {
   StaffList,
-  StaffListRoles,
   StaffListPositions,
+  StaffListRoles,
 } from "src/models/staff_list";
 
-import Label from "src/components/Label";
 import LaunchIcon from "@mui/icons-material/Launch";
+import Label from "src/components/Label";
 
 interface StaffListsProps {
   className?: string;
@@ -85,11 +85,11 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  companyLists: StaffList[],
+  corporationLists: StaffList[],
   page: number,
   limit: number
 ): StaffList[] => {
-  return companyLists.slice(page * limit, page * limit + limit);
+  return corporationLists.slice(page * limit, page * limit + limit);
 };
 
 const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {

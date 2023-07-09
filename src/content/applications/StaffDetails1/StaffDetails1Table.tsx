@@ -1,29 +1,27 @@
-import { ChangeEvent, FC, useState } from "react";
 import {
-  Box,
   Card,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
   Typography,
 } from "@mui/material";
-import PropTypes from "prop-types";
-import {
-  StaffDetailsList,
-  CompanyListStatus,
-} from "src/models/staff_details_list";
 import Label from "src/components/Label";
+import {
+  CorporationListStatus,
+  StaffDetailsList,
+} from "src/models/staff_details_list";
 
 interface SalesListsProps {
   className?: string;
   staffDetails1List: StaffDetailsList[];
 }
 
-const getStatusLabel = (staffListStatus: CompanyListStatus): JSX.Element => {
+const getStatusLabel = (
+  staffListStatus: CorporationListStatus
+): JSX.Element => {
   const map = {
     Y: {
       text: "上場",

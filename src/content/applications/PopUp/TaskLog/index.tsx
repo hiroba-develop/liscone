@@ -13,7 +13,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { config } from "src/utility/config/AppConfig";
 import { CODE } from "src/utility/constants/Code";
@@ -86,8 +86,8 @@ const TaskLog = ({ taskLogOpen, setTaskLogOpen, taskList, staffList }) => {
               ? taskList.corporationEntity.corporation_id
               : "",
           sales_staff_id:
-            taskList.companystaffEntity !== null
-              ? taskList.companystaffEntity.staff_id
+            taskList.corporationstaffEntity !== null
+              ? taskList.corporationstaffEntity.staff_id
               : "",
           deadline: startDate,
           comment: comments,

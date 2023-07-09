@@ -7,7 +7,7 @@ export interface TaskList {
   deadline: string;
   execute_date: string;
   comment: string;
-  companystaffEntity: {
+  corporationstaffEntity: {
     staff_name: string;
   };
   corporationEntity: {

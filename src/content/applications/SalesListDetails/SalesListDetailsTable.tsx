@@ -14,10 +14,12 @@ import {
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { SalesDetailsList } from "src/models/sales_details_list";
+import { SalesList } from "src/models/sales_list";
 
 interface SalesListsProps {
   className?: string;
   salesDetailsList: SalesDetailsList[];
+  selectedSalesList: SalesList;
 }
 
 const applyFilters = (
@@ -39,6 +41,7 @@ const applyPagination = (
 
 const SalesLists: FC<SalesListsProps> = ({
   salesDetailsList: salesDetailsLists,
+  selectedSalesList: salesList,
 }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
@@ -82,7 +85,10 @@ const SalesLists: FC<SalesListsProps> = ({
           <TableBody>
             {paginatedSalesLists.map((SalesDetailsList) => {
               return (
-                <TableRow hover key={SalesDetailsList.corporation_id}>
+                <TableRow
+                  hover
+                  key={SalesDetailsList.corporation.corporation_id}
+                >
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -91,7 +97,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.corporate_number}
+                      {SalesDetailsList.corporation.corporate_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -102,12 +108,20 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                       // 「リスト詳細企業詳細」画面に遷移
-                      onClick={() => navigate("/salesTask/companyDetails2")}
-                      // 「リスト詳細担当者詳細」画面に遷移
-                      // onClick={() => navigate("/salesTask/staffDetails2")}
+                      onClick={() => {
+                        if (salesList.sales_list_type === "01") {
+                          navigate("/salesTask/corporationDetails2", {
+                            state: [SalesDetailsList, salesList],
+                          });
+                        } else {
+                          navigate("/salesTask/staffDetails2", {
+                            state: [SalesDetailsList, salesList],
+                          });
+                        }
+                      }}
                       sx={{ textDecoration: "underline" }}
                     >
-                      {SalesDetailsList.corporation_name}
+                      {SalesDetailsList.corporation.corporation_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -118,7 +132,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.business_category}
+                      {SalesDetailsList.corporation.business_category}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -129,7 +143,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.zip_code}
+                      {SalesDetailsList.corporation.zip_code}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -140,7 +154,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.address}
+                      {SalesDetailsList.corporation.address}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -151,7 +165,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.representative_phone_number}
+                      {SalesDetailsList.corporation.representative_phone_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -162,7 +176,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.representative_name}
+                      {SalesDetailsList.corporation.representative_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -173,7 +187,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.home_page}
+                      {SalesDetailsList.corporation.home_page}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -184,7 +198,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.sales_amount}
+                      {SalesDetailsList.corporation.sales_amount}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -195,7 +209,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.employee_number}
+                      {SalesDetailsList.corporation.employee_number}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -206,7 +220,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.establishment_year}
+                      {SalesDetailsList.corporation.establishment_year}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -217,7 +231,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.capital_stock}
+                      {SalesDetailsList.corporation.capital_stock}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -228,7 +242,7 @@ const SalesLists: FC<SalesListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {SalesDetailsList.listing_status}
+                      {SalesDetailsList.corporation.listing_status}
                     </Typography>
                   </TableCell>
                   <TableCell>

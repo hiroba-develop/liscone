@@ -1,4 +1,4 @@
-export type CompanyListStatus = "Y" | "N";
+export type CorporationListStatus = "Y" | "N";
 
 export interface StaffDetailsList {
   corporation_id: string;
@@ -14,5 +14,5 @@ export interface StaffDetailsList {
   employee_number: string;
   establishment_year: number;
   capital_stock: string;
-  listing_status: CompanyListStatus;
+  listing_status: CorporationListStatus;
 }

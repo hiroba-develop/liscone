@@ -1,17 +1,8 @@
 import { useContext } from "react";
 
-import {
-  Box,
-  Button,
-  List,
-  ListItem,
-  ListSubheader,
-  styled,
-} from "@mui/material";
+import { Box, Button, List, ListItem, styled } from "@mui/material";
 import { NavLink as RouterLink } from "react-router-dom";
 import { SidebarContext } from "src/contexts/SidebarContext";
-
-import CheckBoxTwoToneIcon from "@mui/icons-material/CheckBoxTwoTone";
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -182,11 +173,11 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/company"
+                  to="/corporation"
                   startIcon={
                     <img
-                      src="/static/images/companyList.svg"
-                      alt="companyList"
+                      src="/static/images/corporationList.svg"
+                      alt="corporationList"
                     />
                   }
                 >

@@ -1,4 +1,3 @@
-import { ChangeEvent, FC, useState } from "react";
 import {
   Box,
   Card,
@@ -14,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
+import { ChangeEvent, FC, useState } from "react";
 
 import Label from "src/components/Label";
 import { ActionList, ActionListStatus } from "src/models/action_list";

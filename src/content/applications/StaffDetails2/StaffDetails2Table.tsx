@@ -13,7 +13,7 @@ import {
 import PropTypes from "prop-types";
 import {
   StaffDetailsList,
-  CompanyListStatus,
+  CorporationListStatus,
 } from "src/models/staff_details_list";
 import Label from "src/components/Label";
 
@@ -22,7 +22,9 @@ interface SalesListsProps {
   staffDetails2List: StaffDetailsList[];
 }
 
-const getStatusLabel = (staffListStatus: CompanyListStatus): JSX.Element => {
+const getStatusLabel = (
+  staffListStatus: CorporationListStatus
+): JSX.Element => {
   const map = {
     listed: {
       text: "上場",

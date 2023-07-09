@@ -1,9 +1,6 @@
-import { ChangeEvent, FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Box,
   Card,
-  Checkbox,
   Divider,
   Table,
   TableBody,
@@ -15,13 +12,16 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
+import { ChangeEvent, FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import dayjs from "dayjs";
 import Label from "src/components/Label";
 import { SalesList, SalesListStatus } from "src/models/sales_list";
 
 interface SalesListsProps {
   className?: string;
-  salesList: SalesList[];
+  salesLists: SalesList[];
 }
 
 interface Filters {
@@ -30,13 +30,13 @@ interface Filters {
 
 const getStatusLabel = (salesListStatus: SalesListStatus): JSX.Element => {
   const map = {
-    contactlist: {
-      text: "contactlist",
-      color: "error",
+    "01": {
+      text: "企業リスト",
+      color: "primary",
     },
-    companylist: {
-      text: "companylist",
-      color: "warn",
+    "02": {
+      text: "担当者リスト",
+      color: "info",
     },
   };
 
@@ -46,13 +46,13 @@ const getStatusLabel = (salesListStatus: SalesListStatus): JSX.Element => {
 };
 
 const applyFilters = (
-  salesList: SalesList[],
+  salesLists: SalesList[],
   filters: Filters
 ): SalesList[] => {
-  return salesList.filter((salesList) => {
+  return salesLists.filter((salesLists) => {
     let matches = true;
 
-    if (filters.status && salesList.listType !== filters.status) {
+    if (filters.status && salesLists.sales_list_type !== filters.status) {
       matches = false;
     }
 
@@ -68,7 +68,7 @@ const applyPagination = (
   return salesLists.slice(page * limit, page * limit + limit);
 };
 
-const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
+const SalesLists: FC<SalesListsProps> = ({ salesLists }) => {
   const selectedSalesLists: string[] = [];
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
@@ -98,12 +98,6 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  indeterminate={selectedSomeSalesLists}
-                />
-              </TableCell>
               <TableCell align="center">リスト名</TableCell>
               <TableCell align="center">作成日</TableCell>
               <TableCell align="center">件数</TableCell>
@@ -119,27 +113,28 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
           <TableBody>
             {paginatedSalesLists.map((salesList) => {
               const isSalesListSelected = selectedSalesLists.includes(
-                salesList.id
+                salesList.sales_list_number
               );
               return (
-                <TableRow hover key={salesList.id}>
-                  <TableCell padding="checkbox">
-                    <Checkbox color="primary" value={isSalesListSelected} />
-                  </TableCell>
-                  <TableCell>
+                <TableRow hover key={salesList.sales_list_number}>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
                       color="text.primary"
                       gutterBottom
                       noWrap
-                      onClick={() => navigate("/salesTask/salesListDetails")}
+                      onClick={() =>
+                        navigate("/salesTask/salesListDetails", {
+                          state: salesList,
+                        })
+                      }
                       sx={{ textDecoration: "underline" }}
                     >
-                      {salesList.listName}
+                      {salesList.sales_list_name}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -147,10 +142,10 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {salesList.createdDate}
+                      {dayjs(salesList.created).format("YYYY-MM-DD")}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -158,10 +153,10 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {salesList.counter}
+                      {salesList.listsNum}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -169,10 +164,10 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {salesList.digestionNumber}
+                      {salesList.proceedNum}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -180,10 +175,10 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {salesList.negotiation}
+                      {salesList.meetNum}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -191,10 +186,10 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {salesList.project}
+                      {salesList.negoNum}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -202,10 +197,10 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {salesList.orderDate}
+                      {salesList.contractNum}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -216,7 +211,7 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                       {salesList.yomi}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -224,10 +219,10 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {salesList.user}
+                      {salesList.memberEntity.member_name}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  <TableCell align="center">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -235,7 +230,7 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(salesList.listType)}
+                      {getStatusLabel(salesList.sales_list_type)}
                     </Typography>
                   </TableCell>
                 </TableRow>
@@ -260,11 +255,11 @@ const SalesLists: FC<SalesListsProps> = ({ salesList: salesLists }) => {
 };
 
 SalesLists.propTypes = {
-  salesList: PropTypes.array.isRequired,
+  salesLists: PropTypes.array.isRequired,
 };
 
 SalesLists.defaultProps = {
-  salesList: [],
+  salesLists: [],
 };
 
 export default SalesLists;

@@ -10,14 +10,9 @@ import {
   Typography,
 } from "@mui/material";
 import { FC } from "react";
-import {
-  StaffList,
-  StaffListPositions,
-  StaffListRoles,
-} from "src/models/staff_list";
+import { StaffList, StaffListRoles } from "src/models/staff_list";
 
 import LaunchIcon from "@mui/icons-material/Launch";
-import Label from "src/components/Label";
 
 interface StaffListsProps {
   className?: string;
@@ -44,11 +39,11 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  companyLists: StaffList[],
+  corporationLists: StaffList[],
   page: number,
   limit: number
 ): StaffList[] => {
-  return companyLists.slice(page * limit, page * limit + limit);
+  return corporationLists.slice(page * limit, page * limit + limit);
 };
 
 const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
