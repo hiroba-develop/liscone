@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 import RecentOrders from "./ListData";
@@ -35,6 +35,12 @@ function DashBoard() {
     useState("");
   const setRepresentativePhoneNumberChange = (representativePhoneNumber) => {
     setRepresentativePhoneNumber(representativePhoneNumber);
+  };
+
+  //上場
+  const [companyListStatus, setCompanyListStatus] = useState("");
+  const setCompanyListStatusChange = (companyListStatus) => {
+    setCompanyListStatus(companyListStatus);
   };
 
   //売上
@@ -99,6 +105,7 @@ function DashBoard() {
               representativePhoneNumberChange={
                 setRepresentativePhoneNumberChange
               }
+              companyListStatusChange={setCompanyListStatusChange}
               minSalesAmountChange={setMinSalesAmountChange}
               maxSalesAmountChange={setMaxSalesAmountChange}
               minEmployeeNumberChange={setMinEmployeeNumberChange}
@@ -118,6 +125,7 @@ function DashBoard() {
               searchIndustry={businessCategory}
               searchPrefectures={prefectures}
               searchRepresentativePhoneNumber={representativePhoneNumber}
+              searchCompanyListStatus={companyListStatus}
               searchMinSalesAmount={minSalesAmount}
               searchMaxSalesAmount={maxSalesAmount}
               searchMinEmployeeNumber={minEmployeeNumber}

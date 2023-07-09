@@ -1,3 +1,4 @@
+import React, { useEffect, ChangeEvent, FC, useState } from "react";
 import {
   Box,
   Button,
@@ -15,7 +16,6 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { ChangeEvent, FC, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +31,7 @@ interface CompanyListsProps {
   searchIndustry: string;
   searchPrefectures: string;
   searchRepresentativePhoneNumber: string;
+  searchCompanyListStatus: string;
   searchMinSalesAmount: string;
   searchMaxSalesAmount: string;
   searchMinEmployeeNumber: string;
@@ -47,11 +48,11 @@ interface Filters {
 
 const getStatusLabel = (companyListStatus: CompanyListStatus): JSX.Element => {
   const map = {
-    listed: {
+    Y: {
       text: "上場",
       color: "black",
     },
-    unlisted: {
+    N: {
       text: "未上場",
       color: "error",
     },
@@ -92,6 +93,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
   searchIndustry,
   searchPrefectures,
   searchRepresentativePhoneNumber,
+  searchCompanyListStatus,
   searchMinSalesAmount,
   searchMaxSalesAmount,
   searchMinEmployeeNumber,
@@ -116,7 +118,42 @@ const CompanyLists: FC<CompanyListsProps> = ({
     setLimit(parseInt(event.target.value));
   };
 
-  //絞り込み
+  // 項目値から桁を取る
+  function convertToNumber(amount) {
+    const units = {
+      万円: 10000,
+      億円: 100000000,
+      兆円: 1000000000000,
+    };
+
+    const unitPattern = /(\d+)\s*([万億兆]円)/;
+    const match = unitPattern.exec(amount);
+
+    if (match && match[2] && units.hasOwnProperty(match[2])) {
+      const value = parseInt(match[1]);
+      const unit = match[2];
+      return value * units[unit];
+    }
+
+    return "";
+  }
+  function getStatusValue(listingStatus) {
+    return listingStatus === "上場"
+      ? "Y"
+      : listingStatus === "未上場"
+      ? "N"
+      : "";
+  }
+
+  //範囲条件内か確認
+  function isWithinRange(value, minValue, maxValue) {
+    minValue =
+      minValue !== undefined && minValue !== "" ? minValue : Number.MIN_VALUE;
+    maxValue =
+      maxValue !== undefined && maxValue !== "" ? maxValue : Number.MAX_VALUE;
+    return value >= minValue && value <= maxValue;
+  }
+  // 絞り込み
   let searchComparyLists = companyLists.filter(
     (companyList) =>
       companyList.corporate_number.match(searchComparyNumber) &&
@@ -125,6 +162,29 @@ const CompanyLists: FC<CompanyListsProps> = ({
       companyList.address.match(searchPrefectures) &&
       companyList.representative_phone_number.match(
         searchRepresentativePhoneNumber
+      ) &&
+      companyList.listing_status.match(
+        getStatusValue(searchCompanyListStatus)
+      ) &&
+      isWithinRange(
+        companyList.sales_amount,
+        convertToNumber(searchMinSalesAmount),
+        convertToNumber(searchMaxSalesAmount)
+      ) &&
+      isWithinRange(
+        companyList.employee_number,
+        searchMinEmployeeNumber,
+        searchMaxEmployeeNumber
+      ) &&
+      isWithinRange(
+        companyList.establishment_year,
+        searchMinEstablishmentYear,
+        searchMaxEstablishmentYear
+      ) &&
+      isWithinRange(
+        companyList.capital_stock,
+        convertToNumber(searchMinCapitalStock),
+        convertToNumber(searchMaxCapitalStock)
       )
   );
   const filteredCompanyLists = applyFilters(searchComparyLists, filters);
@@ -133,6 +193,28 @@ const CompanyLists: FC<CompanyListsProps> = ({
     page,
     limit
   );
+
+  //数値の後ろに桁をつける処理
+  function convertToMyriadSystem(number) {
+    if (number === 0) {
+      return "0";
+    }
+    let result = "";
+    let digitIndex = 0;
+    while (number > 0) {
+      const digit = number % 10000;
+      if (digit !== 0) {
+        result = digit.toString() + getDigitSuffix(digitIndex) + result;
+      }
+      number = Math.floor(number / 10000);
+      digitIndex++;
+    }
+    return result;
+  }
+  function getDigitSuffix(digitIndex) {
+    const digits = ["", "万", "億", "兆"];
+    return digits[digitIndex];
+  }
 
   const [checkItems, setCheckItems] = useState([]);
   const [listCreateOpen, setListCreateOpen] = useState(false);
@@ -166,7 +248,6 @@ const CompanyLists: FC<CompanyListsProps> = ({
     }
   };
   const isChecked = checkItems.length > 0;
-  const disabled = !isChecked;
 
   const editListCreateOpen = (checkItems) => {
     setsalesListType("01");
@@ -354,7 +435,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.sales_amount}
+                      {convertToMyriadSystem(companyList.sales_amount)}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -365,7 +446,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.employee_number}
+                      {convertToMyriadSystem(companyList.employee_number)}名
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -376,7 +457,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.establishment_year}
+                      {companyList.establishment_year}年
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -387,7 +468,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {companyList.capital_stock}
+                      {convertToMyriadSystem(companyList.capital_stock)}
                     </Typography>
                   </TableCell>
                   <TableCell>

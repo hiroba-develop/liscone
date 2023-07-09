@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Card,
@@ -7,8 +6,6 @@ import {
   Stack,
   Grid,
   Autocomplete,
-  FormControlLabel,
-  Checkbox,
 } from "@mui/material";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 
@@ -120,8 +117,9 @@ const prefectures = [
   { label: "沖縄県" },
 ];
 
+const listingStatus = [{ label: "上場" }, { label: "未上場" }];
+
 const minSalesAmount = [
-  { label: "0" },
   { label: "1億円" },
   { label: "3億円" },
   { label: "10億円" },
@@ -131,7 +129,7 @@ const minSalesAmount = [
 ];
 
 const maxSalesAmount = [
-  { label: "1億円未満" },
+  { label: "1億円" },
   { label: "3億円" },
   { label: "10億円" },
   { label: "50億円" },
@@ -140,7 +138,6 @@ const maxSalesAmount = [
 ];
 
 const minEmployeeNumber = [
-  { label: "0" },
   { label: "50" },
   { label: "100" },
   { label: "300" },
@@ -161,44 +158,44 @@ const maxEmployeeNumber = [
 ];
 
 const minEstablishmentYear = [
-  { label: "2022〜" },
-  { label: "2018〜" },
-  { label: "2013〜" },
-  { label: "1993〜" },
-  { label: "1973〜" },
+  { label: "2022" },
+  { label: "2018" },
+  { label: "2013" },
+  { label: "1993" },
+  { label: "1973" },
 ];
 
 const maxEstablishmentYear = [
-  { label: "〜2018" },
-  { label: "〜2013" },
-  { label: "〜1993" },
-  { label: "〜1973" },
+  { label: "2018" },
+  { label: "2013" },
+  { label: "1993" },
+  { label: "1973" },
 ];
 
 const minCapitalStock = [
-  { label: "100万円以上" },
-  { label: "500万円以上" },
-  { label: "1000万円以上" },
-  { label: "5000万円以上" },
-  { label: "1億円以上" },
-  { label: "10億円以上" },
-  { label: "100億円以上" },
-  { label: "1000億円以上" },
-  { label: "5000億円以上" },
-  { label: "1兆円以上" },
+  { label: "100万円" },
+  { label: "500万円" },
+  { label: "1000万円" },
+  { label: "5000万円" },
+  { label: "1億円" },
+  { label: "10億円" },
+  { label: "100億円" },
+  { label: "1000億円" },
+  { label: "5000億円" },
+  { label: "1兆円" },
 ];
 
 const maxCapitalStock = [
-  { label: "100万円以下" },
-  { label: "500万円以下" },
-  { label: "1000万円以下" },
-  { label: "5000万円以下" },
-  { label: "1億円以下" },
-  { label: "10億円以下" },
-  { label: "100億円以下" },
-  { label: "1000億円以下" },
-  { label: "5000億円以下" },
-  { label: "1兆円以下" },
+  { label: "100万円" },
+  { label: "500万円" },
+  { label: "1000万円" },
+  { label: "5000万円" },
+  { label: "1億円" },
+  { label: "10億円" },
+  { label: "100億円" },
+  { label: "1000億円" },
+  { label: "5000億円" },
+  { label: "1兆円" },
 ];
 
 const Search = (props) => {
@@ -226,6 +223,11 @@ const Search = (props) => {
   const representativePhoneNumberChange = (event) => {
     const value = event.target.value;
     props.representativePhoneNumberChange(value);
+  };
+  //上場
+  const companyListStatusChange = (event) => {
+    const value = event.target.innerText;
+    props.companyListStatusChange(value);
   };
   //売上
   const minSalesAmountChange = (event) => {
@@ -317,11 +319,14 @@ const Search = (props) => {
             onChange={representativePhoneNumberChange}
           />
         </Grid>
-        <Grid item xs={2}>
-          <FormControlLabel
-            sx={{ fontSize: 16, m: 1 }}
-            control={<Checkbox />}
-            label="上場"
+        <Grid item xs={1.7}>
+          <Autocomplete
+            disablePortal
+            options={listingStatus}
+            size="small"
+            sx={{ m: 1 }}
+            renderInput={(params) => <TextField {...params} label="上場" />}
+            onChange={companyListStatusChange}
           />
         </Grid>
       </Grid>

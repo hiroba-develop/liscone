@@ -11,9 +11,9 @@ export interface CompanyList {
   representative_name: string;
   home_page: string;
   telephoneNumber: string;
-  sales_amount: string;
-  employee_number: string;
+  sales_amount: number;
+  employee_number: number;
   establishment_year: number;
-  capital_stock: string;
+  capital_stock: number;
   listing_status: CompanyListStatus;
 }
