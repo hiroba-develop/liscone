@@ -5,15 +5,17 @@
  *
  * @param key 키
  */
-export const localStorageEffect =
+export const sessionStorageEffect =
   (key: string) =>
   ({ setSelf, onSet }: { setSelf: any; onSet: any }) => {
-    const savedValue = localStorage.getItem(key);
+    const savedValue = sessionStorage.getItem(key);
     if (savedValue !== null) {
       setSelf(JSON.parse(savedValue));
     }
 
     onSet((newValue: any, _: any, isReset: any) => {
-      isReset ? localStorage.removeItem(key) : localStorage.setItem(key, JSON.stringify(newValue));
+      isReset
+        ? sessionStorage.removeItem(key)
+        : sessionStorage.setItem(key, JSON.stringify(newValue));
     });
   };

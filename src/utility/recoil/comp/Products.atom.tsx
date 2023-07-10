@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { StoargeEnum } from "../effect/constant/StorageEnum";
-import { localStorageEffect } from "../effect/Storage";
+import { sessionStorageEffect } from "../effect/Storage";
 
 /**
  * 商材　상품
@@ -18,7 +18,7 @@ interface Products {
 const productsAtom = atom<Products[]>({
   key: "products",
   default: [],
-  effects: [localStorageEffect(StoargeEnum.PRODUCTS)],
+  effects: [sessionStorageEffect(StoargeEnum.PRODUCTS)],
 });
 
 export { productsAtom, type Products };

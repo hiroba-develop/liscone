@@ -22,7 +22,6 @@ const HeaderWrapper = styled(Box)(
 
 function Header() {
   const theme = useTheme();
-  const navigate = useNavigate();
   const auth = useRecoilValue(authAtom);
 
   useEffect(() => {
@@ -34,8 +33,6 @@ function Header() {
   const logoutCheck = async () => {
     if (auth.userId === "") {
       localStorage.clear();
-    } else {
-      navigate(`${NavigatePath.DASHBOARD}`);
     }
   };
   return (

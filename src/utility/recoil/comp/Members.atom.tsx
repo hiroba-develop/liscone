@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { StoargeEnum } from "../effect/constant/StorageEnum";
-import { localStorageEffect } from "../effect/Storage";
+import { sessionStorageEffect } from "../effect/Storage";
 
 /**
  * メンバー 회원
@@ -17,7 +17,7 @@ interface Memebers {
 const membersAtom = atom<Memebers[]>({
   key: "members",
   default: [],
-  effects: [localStorageEffect(StoargeEnum.MEMBERS)],
+  effects: [sessionStorageEffect(StoargeEnum.MEMBERS)],
 });
 
 export { membersAtom, type Memebers };

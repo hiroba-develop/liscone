@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { StoargeEnum } from "../effect/constant/StorageEnum";
-import { localStorageEffect } from "../effect/Storage";
+import { sessionStorageEffect } from "../effect/Storage";
 
 /**
  * 인증
@@ -25,7 +25,7 @@ const authAtom = atom<Auth>({
     userId: "",
     coId: "",
   } as Auth,
-  effects: [localStorageEffect(StoargeEnum.AUTH)],
+  effects: [sessionStorageEffect(StoargeEnum.AUTH)],
 });
 
 export { authAtom, type Auth };
