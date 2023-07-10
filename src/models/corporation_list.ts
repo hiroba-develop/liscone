@@ -16,4 +16,18 @@ export interface CorporationList {
   establishment_year: number;
   capital_stock: number;
   listing_status: CorporationListStatus;
+  searchCorporateNumber: string;
+  searchCorporationName: string;
+  searchIndustry: string;
+  searchPrefectures: string;
+  searchRepresentativePhoneNumber: string;
+  searchCorporationListStatus: string;
+  searchMinSalesAmount: string;
+  searchMaxSalesAmount: string;
+  searchMinEmployeeNumber: string;
+  searchMaxEmployeeNumber: string;
+  searchMinEstablishmentYear: string;
+  searchMaxEstablishmentYear: string;
+  searchMinCapitalStock: string;
+  searchMaxCapitalStock: string;
 }

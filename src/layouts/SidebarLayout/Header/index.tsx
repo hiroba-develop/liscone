@@ -1,4 +1,7 @@
 import { Box, Button, alpha, lighten, styled, useTheme } from "@mui/material";
+import { useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -22,7 +25,19 @@ const ButtonWrapper = styled(Button)(
 );
 function Header() {
   const theme = useTheme();
+  const auth = useRecoilValue(authAtom);
 
+  useEffect(() => {
+    logoutCheck();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
+
+  const logoutCheck = async () => {
+    if (auth.userId === "") {
+      localStorage.clear();
+    }
+  };
   return (
     <HeaderWrapper
       display="flex"

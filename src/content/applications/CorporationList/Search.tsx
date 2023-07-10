@@ -200,14 +200,14 @@ const maxCapitalStock = [
 
 const Search = (props) => {
   // 法人番号
-  const comparyNumberChange = (event) => {
+  const corporateNumberChange = (event) => {
     const value = event.target.value;
-    props.comparyNumberChange(value);
+    props.corporateNumberChange(value);
   };
   // 会社名・法人名
-  const companyNameChange = (event) => {
+  const corporationNameChange = (event) => {
     const value = event.target.value;
-    props.companyNameChange(value);
+    props.corporationNameChange(value);
   };
   //業種
   const businessCategoryChange = (event) => {
@@ -225,7 +225,7 @@ const Search = (props) => {
     props.representativePhoneNumberChange(value);
   };
   //上場
-  const companyListStatusChange = (event) => {
+  const corporationListStatusChange = (event) => {
     const value = event.target.innerText;
     props.companyListStatusChange(value);
   };
@@ -280,7 +280,7 @@ const Search = (props) => {
             label="法人番号"
             size="small"
             sx={{ m: 1 }}
-            onChange={comparyNumberChange}
+            onChange={corporateNumberChange}
           />
         </Grid>
         <Grid item xs={2}>
@@ -288,7 +288,7 @@ const Search = (props) => {
             label="会社名・法人名"
             size="small"
             sx={{ m: 1 }}
-            onChange={companyNameChange}
+            onChange={corporationNameChange}
           />
         </Grid>
         <Grid item xs={2}>
@@ -326,7 +326,7 @@ const Search = (props) => {
             size="small"
             sx={{ m: 1 }}
             renderInput={(params) => <TextField {...params} label="上場" />}
-            onChange={companyListStatusChange}
+            onChange={corporationListStatusChange}
           />
         </Grid>
       </Grid>

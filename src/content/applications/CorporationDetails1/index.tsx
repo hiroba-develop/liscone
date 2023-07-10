@@ -7,28 +7,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
 import CorporationDetails1ListData from "./CorporationDetails1ListData";
 import CorporationDetails1ReferenceListData from "./CorporationDetails1ReferenceListData";
+import { CorporationList } from "src/models/corporation_list";
 
 function Lists() {
   const navigate = useNavigate();
   const location = useLocation();
-  type CorporationListStatus = "Y" | "N";
-  const corporationList = location.state as {
-    corporation_id: string;
-    corporate_number: string;
-    corporation_name: string;
-    business_category: string;
-    zip_code: string;
-    address: string;
-    representative_phone_number: string;
-    representative_name: string;
-    home_page: string;
-    telephoneNumber: string;
-    sales_amount: string;
-    employee_number: string;
-    establishment_year: number;
-    capital_stock: string;
-    listing_status: CorporationListStatus;
-  };
+  const corporationList = location.state as CorporationList;
   return (
     <>
       <Helmet>

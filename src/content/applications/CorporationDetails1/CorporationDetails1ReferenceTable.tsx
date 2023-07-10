@@ -22,6 +22,10 @@ const SalesLists = ({ corporationList }) => {
       },
       N: {
         text: "未上場",
+        color: "warn",
+      },
+      "": {
+        text: "未確認",
         color: "error",
       },
     };
@@ -30,6 +34,7 @@ const SalesLists = ({ corporationList }) => {
 
     return <Label color={color}>{text}</Label>;
   };
+
   return (
     <Card>
       <TableContainer>

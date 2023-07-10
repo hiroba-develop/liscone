@@ -20,119 +20,146 @@ import { ChangeEvent, FC, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
 import Label from "src/components/Label";
-import { CompanyList, CompanyListStatus } from "src/models/company_list";
+import {
+  CorporationList,
+  CorporationListStatus,
+} from "src/models/corporation_list";
 import ListCreate from "../PopUp/ListCreate";
-
-interface CompanyListsProps {
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+interface CorporationListsProps {
   className?: string;
-  companyLists: CompanyList[];
-  searchComparyNumber: string;
-  searchCompanyName: string;
-  searchIndustry: string;
-  searchPrefectures: string;
-  searchRepresentativePhoneNumber: string;
-  searchMinSalesAmount: string;
-  searchMaxSalesAmount: string;
-  searchMinEmployeeNumber: string;
-  searchMaxEmployeeNumber: string;
-  searchMinEstablishmentYear: string;
-  searchMaxEstablishmentYear: string;
-  searchMinCapitalStock: string;
-  searchMaxCapitalStock: string;
+  corporationLists: CorporationList[];
 }
 
 interface Filters {
-  status?: CompanyListStatus;
+  status?: CorporationListStatus;
 }
 
-const getStatusLabel = (companyListStatus: CompanyListStatus): JSX.Element => {
+const getStatusLabel = (
+  corporationListStatus: CorporationListStatus
+): JSX.Element => {
   const map = {
-    listed: {
+    Y: {
       text: "上場",
       color: "black",
     },
-    unlisted: {
+    N: {
       text: "未上場",
+      color: "warn",
+    },
+    "": {
+      text: "未確認",
       color: "error",
     },
   };
 
-  const { text, color }: any = map[companyListStatus];
+  const { text, color }: any = map[corporationListStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
-const applyFilters = (
-  companyLists: CompanyList[],
-  filters: Filters
-): CompanyList[] => {
-  return companyLists.filter((companyLists) => {
-    let matches = true;
+const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
+  // 項目値から桁を取る
+  function convertToNumber(amount) {
+    const units = {
+      万円: 10000,
+      億円: 100000000,
+      兆円: 1000000000000,
+    };
 
-    if (filters.status && companyLists.listing_status !== filters.status) {
-      matches = false;
+    const unitPattern = /(\d+)\s*([万億兆]円)/;
+    const match = unitPattern.exec(amount);
+
+    if (match && match[2] && units.hasOwnProperty(match[2])) {
+      const value = parseInt(match[1]);
+      const unit = match[2];
+      return value * units[unit];
     }
 
-    return matches;
-  });
-};
+    return "";
+  }
+  function getStatusValue(listingStatus) {
+    return listingStatus === "上場"
+      ? "Y"
+      : listingStatus === "未上場"
+      ? "N"
+      : "";
+  }
 
-const applyPagination = (
-  companyLists: CompanyList[],
-  page: number,
-  limit: number
-): CompanyList[] => {
-  return companyLists.slice(page * limit, page * limit + limit);
-};
+  //範囲条件内か確認
+  function isWithinRange(value, minValue, maxValue) {
+    minValue =
+      minValue !== undefined && minValue !== "" ? minValue : Number.MIN_VALUE;
+    maxValue =
+      maxValue !== undefined && maxValue !== "" ? maxValue : Number.MAX_VALUE;
+    return value >= minValue && value <= maxValue;
+  }
+  // // 絞り込み
+  // let searchCorporateLists = corporationLists.filter(
+  //   (corporationList) =>
+  //     corporationList.corporate_number.match(
+  //       corporationList.searchCorporateNumber
+  //     ) &&
+  //     corporationList.corporation_name.match(
+  //       corporationList.searchCorporationName
+  //     ) &&
+  //     corporationList.business_category.match(corporationList.searchIndustry) &&
+  //     corporationList.address.match(corporationList.searchPrefectures) &&
+  //     corporationList.representative_phone_number.match(
+  //       corporationList.searchRepresentativePhoneNumber
+  //     ) &&
+  //     corporationList.listing_status.match(
+  //       getStatusValue(corporationList.searchCorporationListStatus)
+  //     ) &&
+  //     isWithinRange(
+  //       corporationList.sales_amount,
+  //       convertToNumber(corporationList.searchMinSalesAmount),
+  //       convertToNumber(corporationList.searchMaxSalesAmount)
+  //     ) &&
+  //     isWithinRange(
+  //       corporationList.employee_number,
+  //       corporationList.searchMinEmployeeNumber,
+  //       corporationList.searchMaxEmployeeNumber
+  //     ) &&
+  //     isWithinRange(
+  //       corporationList.establishment_year,
+  //       corporationList.searchMinEstablishmentYear,
+  //       corporationList.searchMaxEstablishmentYear
+  //     ) &&
+  //     isWithinRange(
+  //       corporationList.capital_stock,
+  //       convertToNumber(corporationList.searchMinCapitalStock),
+  //       convertToNumber(corporationList.searchMaxCapitalStock)
+  //     )
+  // );
+  // const filteredCorporationLists = applyFilters(searchCorporateLists, filters);
+  // const paginatedCorporationLists = applyPagination(
+  //   filteredCorporationLists,
+  //   page,
+  //   limit
+  // );
 
-const CompanyLists: FC<CompanyListsProps> = ({
-  companyLists,
-  searchComparyNumber,
-  searchCompanyName,
-  searchIndustry,
-  searchPrefectures,
-  searchRepresentativePhoneNumber,
-  searchMinSalesAmount,
-  searchMaxSalesAmount,
-  searchMinEmployeeNumber,
-  searchMaxEmployeeNumber,
-  searchMinEstablishmentYear,
-  searchMaxEstablishmentYear,
-  searchMinCapitalStock,
-  searchMaxCapitalStock,
-}) => {
-  const selectedCompanyLists: string[] = [];
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(5);
-  const [filters] = useState<Filters>({
-    status: null,
-  });
-
-  const handlePageChange = (event: any, newPage: number): void => {
-    setPage(newPage);
-  };
-
-  const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setLimit(parseInt(event.target.value));
-  };
-
-  //絞り込み
-  let searchComparyLists = companyLists.filter(
-    (companyList) =>
-      companyList.corporate_number.match(searchComparyNumber) &&
-      companyList.corporation_name.match(searchCompanyName) &&
-      companyList.business_category.match(searchIndustry) &&
-      companyList.address.match(searchPrefectures) &&
-      companyList.representative_phone_number.match(
-        searchRepresentativePhoneNumber
-      )
-  );
-  const filteredCompanyLists = applyFilters(searchComparyLists, filters);
-  const paginatedCompanyLists = applyPagination(
-    filteredCompanyLists,
-    page,
-    limit
-  );
+  //数値の後ろに桁をつける処理
+  function convertToMyriadSystem(number) {
+    if (number === 0) {
+      return "0";
+    }
+    let result = "";
+    let digitIndex = 0;
+    while (number > 0) {
+      const digit = number % 10000;
+      if (digit !== 0) {
+        result = digit.toString() + getDigitSuffix(digitIndex) + result;
+      }
+      number = Math.floor(number / 10000);
+      digitIndex++;
+    }
+    return result;
+  }
+  function getDigitSuffix(digitIndex) {
+    const digits = ["", "万", "億", "兆"];
+    return digits[digitIndex];
+  }
 
   const [checkItems, setCheckItems] = useState([]);
   const [listCreateOpen, setListCreateOpen] = useState(false);
@@ -141,43 +168,101 @@ const CompanyLists: FC<CompanyListsProps> = ({
   // 체크된 아이템을 담을 배열
   const navigate = useNavigate();
 
-  // 체크박스 단일 선택
-  const handleSingleCheck = (checked, row) => {
-    if (checked) {
-      // 단일 선택 시 체크된 아이템을 배열에 추가
-      setCheckItems((prev) => [...prev, row]);
-    } else {
-      // 단일 선택 해제 시 체크된 아이템을 제외한 배열 (필터)
-      setCheckItems(
-        checkItems.filter((el) => el.corporation_id !== row.corporation_id)
-      );
-    }
+  const handleCorpNameEvent = (event, corporationList) => {
+    navigate("/corporation/corporationDetails1", {
+      state: corporationList.row,
+    });
   };
-  // 체크박스 전체 선택
-  const handleAllCheck = (checked) => {
-    if (checked) {
-      const idArray = [];
-      // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
-      companyLists.forEach((el) => idArray.push(el));
-      setCheckItems(idArray);
-    } else {
-      // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
-      setCheckItems([]);
-    }
-  };
+
   const isChecked = checkItems.length > 0;
   const disabled = !isChecked;
-
   const editListCreateOpen = (checkItems) => {
     setsalesListType("01");
     setListCreateOpen(true);
   };
 
-  const companyDetails1 = (companyList) => {
-    navigate("/company/companyDetails1", {
-      state: companyList,
-    });
-  };
+  // DATAGRID
+  const columns: GridColDef[] = [
+    { field: "corporate_number", headerName: "法人番号", width: 130 },
+    {
+      field: "corporation_name",
+      headerName: "会社名・法人名",
+      width: 150,
+      maxWidth: 300,
+      renderCell: (params) => {
+        return (
+          <Typography
+            fontWeight="bold"
+            sx={{ textDecoration: "underline" }}
+            onClick={(event) => {
+              handleCorpNameEvent(event, params);
+            }}
+          >
+            {params.value}
+          </Typography>
+        );
+      },
+    },
+    {
+      field: "business_category",
+      headerName: "業種",
+      width: 100,
+      maxWidth: 200,
+    },
+    { field: "zipCode", headerName: "郵便番号", width: 150 },
+    {
+      field: "address",
+      headerName: "本社住所",
+      width: 300,
+      maxWidth: 500,
+    },
+    {
+      field: "representative_phone_number",
+      headerName: "代表電話番号",
+      width: 200,
+    },
+    { field: "representative_name", headerName: "代表者名", width: 100 },
+    {
+      field: "home_page",
+      headerName: "Webサイト",
+      width: 200,
+      // renderCell: (params) => {
+      //   return (
+      //     <a href="{params.row.value}" target="_blank">
+      //       {params.value}
+      //     </a>
+      //   );
+      // },
+    },
+    { field: "sales_amount", headerName: "売上", width: 100, type: "number" },
+    {
+      field: "employee_number",
+      headerName: "従業員数",
+      width: 100,
+      type: "number",
+    },
+    {
+      field: "establishment_year",
+      headerName: "設立",
+      width: 100,
+      type: "number",
+    },
+    {
+      field: "capital_stock",
+      headerName: "資本金",
+      width: 100,
+      type: "number",
+    },
+    {
+      field: "listing_status",
+      headerName: "上場",
+      width: 80,
+      align: "center",
+      renderCell: (params) => {
+        return getStatusLabel(params.value);
+      },
+    },
+  ];
 
   return (
     <Card>
@@ -185,7 +270,7 @@ const CompanyLists: FC<CompanyListsProps> = ({
         action={
           <Box>
             <Button
-              // disabled={disabled}
+              disabled={disabled}
               variant="contained"
               onClick={(checkItems) => editListCreateOpen(checkItems)}
             >
@@ -202,232 +287,42 @@ const CompanyLists: FC<CompanyListsProps> = ({
         salesListType={salesListType}
       />
       <Divider />
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  onChange={(e) => handleAllCheck(e.target.checked)}
-                  // 데이터 개수와 체크된 아이템의 개수가 다를 경우 선택 해제 (하나라도 해제 시 선택 해제)
-                  checked={
-                    checkItems.length === companyLists.length ? true : false
-                  }
-                />
-              </TableCell>
-              <TableCell align="center">法人番号</TableCell>
-              <TableCell align="center">会社名・法人名</TableCell>
-              <TableCell align="center">業種</TableCell>
-              <TableCell align="center">郵便番号</TableCell>
-              <TableCell align="center">本社住所</TableCell>
-              <TableCell align="center">代表電話番号</TableCell>
-              <TableCell align="center">代表者名</TableCell>
-              <TableCell align="center">Webサイト</TableCell>
-              <TableCell align="center">売上</TableCell>
-              <TableCell align="center">従業員数</TableCell>
-              <TableCell align="center">設立</TableCell>
-              <TableCell align="center">資本金</TableCell>
-              <TableCell align="center">上場</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedCompanyLists.map((companyList) => {
-              const isCompanyListSelected = selectedCompanyLists.includes(
-                companyList.corporation_id
-              );
-              return (
-                <TableRow hover key={companyList.corporation_id}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      name={`select-${companyList.corporation_id}`}
-                      onChange={(e) =>
-                        handleSingleCheck(
-                          e.target.checked,
-                          companyList.corporation_id
-                        )
-                      }
-                      checked={
-                        checkItems.includes(companyList.corporation_id)
-                          ? true
-                          : false
-                      }
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {companyList.corporate_number}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                      onClick={() => companyDetails1(companyList)}
-                      sx={{ textDecoration: "underline" }}
-                    >
-                      {companyList.corporation_name}
-                    </Typography>
-                  </TableCell>
 
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {companyList.business_category}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {companyList.zip_code}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {companyList.address}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {companyList.representative_phone_number}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {companyList.representative_name}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {companyList.home_page}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {companyList.sales_amount}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {companyList.employee_number}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {companyList.establishment_year}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {companyList.capital_stock}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {getStatusLabel(companyList.listing_status)}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Box p={2}>
-        <TablePagination
-          component="div"
-          count={filteredCompanyLists.length}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handleLimitChange}
-          page={page}
-          rowsPerPage={limit}
-          rowsPerPageOptions={[5, 10, 25, 30]}
+      <Box sx={{ height: 400, maxWidth: 2000 }}>
+        <DataGrid
+          rows={corporationLists}
+          getRowId={(row: any) => row.corporation_id}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection
+          disableRowSelectionOnClick
+          onRowSelectionModelChange={(ids) => {
+            const selectedIDs = new Set(ids);
+            const selectedRows = corporationLists.filter((row) =>
+              selectedIDs.has(row.corporation_id)
+            );
+
+            setCheckItems(selectedRows);
+          }}
         />
       </Box>
     </Card>
   );
 };
 
-CompanyLists.propTypes = {
-  companyLists: PropTypes.array.isRequired,
+CorporationLists.propTypes = {
+  corporationLists: PropTypes.array.isRequired,
 };
 
-CompanyLists.defaultProps = {
-  companyLists: [],
+CorporationLists.defaultProps = {
+  corporationLists: [],
 };
 
-export default CompanyLists;
+export default CorporationLists;
