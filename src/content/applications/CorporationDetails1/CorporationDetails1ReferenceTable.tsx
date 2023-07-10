@@ -106,7 +106,6 @@ const SalesLists = ({ corporationList }) => {
           hideFooterPagination
           hideFooterSelectedRowCount
           hideFooter
-          checkboxSelection
           disableRowSelectionOnClick
         />
       </Box>

@@ -282,8 +282,12 @@ const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
       />
       <Divider />
 
-      <Box sx={{ height: 400, maxWidth: 2000 }}>
+      <Box sx={{ height: 365, maxWidth: 2000 }}>
         <DataGrid
+          sx={{
+            border: 0,
+            borderRadius: 0,
+          }}
           rows={corporationLists}
           getRowId={(row: any) => row.corporation_id}
           columns={columns}
