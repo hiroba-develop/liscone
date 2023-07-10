@@ -1,7 +1,7 @@
 import CloseIcon from "@mui/icons-material/Close";
 import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import WebAssetIcon from "@mui/icons-material/WebAsset";
-import { Box, Container, IconButton, Typography } from "@mui/material";
+import { Box, Container, Divider, IconButton, Typography } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
@@ -16,7 +16,7 @@ function Lists() {
   return (
     <>
       <Helmet>
-        <title>リスト詳細</title>
+        <title>企業詳細①</title>
       </Helmet>
       <Container maxWidth="lg">
         <Typography
@@ -92,21 +92,23 @@ function Lists() {
             {corporationList.home_page}
           </Typography>
         </Box>
-        <Box sx={{ mt: 12 }}>
+        <Box sx={{ mt: 10 }}>
           <CorporationDetails1ReferenceListData {...corporationList} />
         </Box>
+        <Divider />
         <Typography
           sx={{
             position: "absolute",
+            margin: "10px",
             top: "350px",
-            left: "1%",
+            left: "%",
             color: "gray",
             fontSize: 24,
           }}
         >
           担当者候補
         </Typography>
-        <Box sx={{ mt: 10 }}>
+        <Box sx={{ mt: 15 }}>
           <CorporationDetails1ListData {...corporationList} />
         </Box>
       </Container>

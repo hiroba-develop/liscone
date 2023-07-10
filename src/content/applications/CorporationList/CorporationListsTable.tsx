@@ -3,21 +3,14 @@ import {
   Button,
   Card,
   CardHeader,
-  Checkbox,
   Divider,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { ChangeEvent, FC, useState } from "react";
+import { FC, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import Label from "src/components/Label";
 import {
@@ -25,7 +18,7 @@ import {
   CorporationListStatus,
 } from "src/models/corporation_list";
 import ListCreate from "../PopUp/ListCreate";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { renderCellExpand } from "src/utility/renderexpand";
 interface CorporationListsProps {
   className?: string;
   corporationLists: CorporationList[];
@@ -215,6 +208,7 @@ const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
       headerName: "本社住所",
       width: 300,
       maxWidth: 500,
+      renderCell: renderCellExpand,
     },
     {
       field: "representative_phone_number",

@@ -57,6 +57,7 @@ const SalesLists: FC<SalesListsProps> = ({
     <>
       <Typography
         sx={{
+          margin: "30px",
           color: "gray",
           fontSize: 24,
           mt: 5,
