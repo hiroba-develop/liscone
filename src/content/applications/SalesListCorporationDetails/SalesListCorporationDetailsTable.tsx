@@ -38,7 +38,6 @@ const applyPagination = (
 ): SalesDetailsList[] => {
   return salesLists.slice(page * limit, page * limit + limit);
 };
-
 const SalesLists: FC<SalesListsProps> = ({
   salesDetailsList: salesDetailsLists,
   selectedSalesList: salesList,
@@ -109,15 +108,9 @@ const SalesLists: FC<SalesListsProps> = ({
                       noWrap
                       // 「リスト詳細企業詳細」画面に遷移
                       onClick={() => {
-                        if (salesList.sales_list_type === "01") {
-                          navigate("/salesTask/corporationDetails2", {
-                            state: [SalesDetailsList, salesList],
-                          });
-                        } else {
-                          navigate("/salesTask/staffDetails2", {
-                            state: [SalesDetailsList, salesList],
-                          });
-                        }
+                        navigate("/salesTask/corporationDetails2", {
+                          state: [SalesDetailsList, salesList],
+                        });
                       }}
                       sx={{ textDecoration: "underline" }}
                     >

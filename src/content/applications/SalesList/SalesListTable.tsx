@@ -124,11 +124,17 @@ const SalesLists: FC<SalesListsProps> = ({ salesLists }) => {
                       color="text.primary"
                       gutterBottom
                       noWrap
-                      onClick={() =>
-                        navigate("/salesTask/salesListDetails", {
-                          state: salesList,
-                        })
-                      }
+                      onClick={() => {
+                        if (salesList.sales_list_type === "01") {
+                          navigate("/salesTask/salesListCorporationDetails", {
+                            state: salesList,
+                          });
+                        } else {
+                          navigate("/salesTask/salesListStaffDetails", {
+                            state: salesList,
+                          });
+                        }
+                      }}
                       sx={{ textDecoration: "underline" }}
                     >
                       {salesList.sales_list_name}

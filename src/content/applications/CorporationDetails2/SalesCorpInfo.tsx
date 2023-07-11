@@ -53,7 +53,6 @@ function SalesCorpInfo({ corporationList, salesList }) {
 
   const products = useRecoilValue(productsAtom);
   const members = useRecoilValue(membersAtom);
-  const [listCreateOpen, setListCreateOpen] = useState(false);
   const getProductName = (productNum) => {
     const product = products.find((e) => e.product_number === productNum);
     return product.product_name;

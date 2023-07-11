@@ -31,6 +31,10 @@ const getStatusLabel = (
       text: "未上場",
       color: "black",
     },
+    "": {
+      text: "未確認",
+      color: "error",
+    },
   };
   const { text, color }: any = map[staffListStatus];
 

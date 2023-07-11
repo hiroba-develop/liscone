@@ -1,86 +1,199 @@
 import {
-  Card,
-  TextField,
-  Typography,
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Box,
   Button,
+  Card,
+  FormControl,
+  Grid,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
-import ListCreate from "../PopUp/ListCreate";
+import { useRecoilValue } from "recoil";
+import { config } from "src/utility/config/AppConfig";
+import { CODE } from "src/utility/constants/Code";
+import { post } from "src/utility/http/ApiService";
+import { membersAtom } from "src/utility/recoil/comp/Members.atom";
+import { productsAtom } from "src/utility/recoil/comp/Products.atom";
+import TaskLog from "../PopUp/TaskLog";
+import axios from "axios";
 
-function Search() {
-  const [listCreateOpen, setListCreateOpen] = useState(false);
-  const editListCreateOpen = () => setListCreateOpen(true);
+function SalesCorpInfo({ corporationList, salesList }) {
+  const [taskLogOpen, setTaskLogOpen] = useState(false);
+  const [tranStatusSelected, setTranStatusSelected] = useState(
+    corporationList.transaction_status === null
+      ? ""
+      : corporationList.transaction_status
+  );
+  const [staffList, setStaffs] = useState([]);
+  const editTaskLogOpen = (corporationList) => {
+    const getStaffs = async () => {
+      try {
+        const response = await axios.get(
+          `${config().apiUrl}/corporationstaffs/id_name_bycorporation`,
+          {
+            params: {
+              corporationId: corporationList.corporation_id,
+            },
+          }
+        );
+
+        if (response.statusText === "OK") {
+          setStaffs(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getStaffs();
+
+    setTaskLogOpen(true);
+  };
+
+  const products = useRecoilValue(productsAtom);
+  const members = useRecoilValue(membersAtom);
+  const getProductName = (productNum) => {
+    const product = products.find((e) => e.product_number === productNum);
+    return product.product_name;
+  };
+  const getMemberName = (memberId) => {
+    const member = members.find((e) => e.member_id === memberId);
+    return member.member_name;
+  };
+
+  const tranStatusChange = (e) => {
+    const changedStatus = e.target.value;
+    if (changedStatus === null) {
+      return changedStatus;
+    }
+    setTranStatusSelected(changedStatus);
+    const setTranStatus = async () => {
+      try {
+        const param = {
+          transaction_status: changedStatus,
+          sales_list_number: salesList.sales_list_number,
+          corporation_id: corporationList.corporation.corporation_id,
+        };
+        await post<any>(
+          `${config().apiUrl}/saleslists/tranStatusChange`,
+          param
+        );
+
+        // if (response.statusText === "OK") {
+        //   corporationList.transaction_status = tranStatusSelected;
+        // }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    setTranStatus();
+  };
+
+  const memoChange = (e) => {
+    const changedMemo = e.target.value;
+    if (changedMemo === null) {
+      return;
+    }
+    const updateMemo = async () => {
+      try {
+        const param = {
+          memo: changedMemo,
+          sales_list_number: salesList.sales_list_number,
+          corporation_id: corporationList.corporation.corporation_id,
+        };
+        await post<any>(`${config().apiUrl}/saleslists/memoChange`, param);
+
+        // if (response.statusText === "OK") {
+        //   corporationList.memo = response.data.;
+        // }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    updateMemo();
+  };
   return (
     <>
       <Box
         sx={{
-          position: "absolute",
           top: "150px",
-          right: "2%",
+          right: "1%",
           color: "white",
+          ml: 100,
         }}
       >
-        <Button variant="contained" onClick={editListCreateOpen}>
+        <Button
+          sx={{ my: 5, borderRadius: 0.5, backgroundColor: "#109DBC" }}
+          fullWidth
+          variant="contained"
+          onClick={() => editTaskLogOpen(corporationList)}
+        >
           行動ログを作成
         </Button>
       </Box>
-      {/* <ListCreate
-        listCreateOpen={listCreateOpen}
-        setListCreateOpen={setListCreateOpen}
-      /> */}
+      <TaskLog
+        taskLogOpen={taskLogOpen}
+        setTaskLogOpen={setTaskLogOpen}
+        staffList={staffList}
+        corporationList={corporationList}
+      />
       <Card
         sx={{
           position: "absolute",
-          top: "150px",
-          minWidth: "1000px",
+          top: "180px",
+          minWidth: "1170px",
         }}
       >
         <Grid container spacing={1}>
-          <Grid item xs={2} sx={{ my: 1, ml: 3 }}>
+          <Grid item xs={2} sx={{ my: 1, ml: 2 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               商材
+              <Box sx={{ mt: 1.5, color: "text.secondary" }}>
+                {getProductName(salesList.sales_product_number)}
+              </Box>
             </Typography>
-            <Typography sx={{ fontSize: 16, mt: 1.5 }}>商材</Typography>
           </Grid>
-          <Grid item xs={2} sx={{ my: 1 }}>
+          <Grid item xs={2} sx={{ my: 1, ml: 2 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               取引ステータス
             </Typography>
-            <FormControl fullWidth size="small" sx={{ mt: 1, ml: -2 }}>
-              <InputLabel>取引ステータス</InputLabel>
-              <Select>
-                <MenuItem value={"LostOrders"}>失注</MenuItem>
-                <MenuItem value={"Contract"}>契約</MenuItem>
-                <MenuItem value={"UnofficialNotice"}>内示</MenuItem>
-                <MenuItem value={"SettlerAgreement"}>決済者合意</MenuItem>
-                <MenuItem value={"ValidOpportunity"}>有効商談</MenuItem>
-                <MenuItem value={"Appointment"}>アポ</MenuItem>
-                <MenuItem value={"NoTransaction"}>取引なし</MenuItem>
+            <FormControl fullWidth size="small">
+              <Select
+                value={tranStatusSelected}
+                fullWidth
+                sx={{ mt: 1 }}
+                onChange={tranStatusChange}
+              >
+                {CODE.TRAN_STATUS.map((option) => (
+                  <MenuItem value={option.key}>{option.code}</MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={5} sx={{ my: 1 }}>
+          <Grid item xs={5} sx={{ my: 1, ml: 2 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               メモ
             </Typography>
             <TextField
+              id="memo"
               fullWidth
-              variant="outlined"
+              defaultValue={corporationList.memo}
               size="small"
               sx={{ mt: 1 }}
-            />
+              onBlur={memoChange}
+            >
+              {corporationList.memo}
+            </TextField>
           </Grid>
-          <Grid item xs={2} sx={{ my: 1, ml: 1 }}>
+          <Grid item xs={2} sx={{ my: 1, ml: 2 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               ユーザー
+              <Box sx={{ mt: 1.5, color: "text.secondary" }}>
+                {getMemberName(salesList.memberEntity.member_id)}
+              </Box>
             </Typography>
-            <Typography sx={{ fontSize: 16, mt: 1.5 }}>大友・佐野</Typography>
           </Grid>
         </Grid>
       </Card>
@@ -88,4 +201,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default SalesCorpInfo;

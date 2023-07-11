@@ -3,14 +3,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { SalesDetailsList } from "src/models/sales_details_list";
 import { config } from "src/utility/config/AppConfig";
-import ListListsTable from "./SalesListDetailsTable";
+import ListListsTable from "./SalesListCorporationDetailsTable";
 
 function ListLists(salesList) {
-  const [corporationLists, setCorporationLists] = useState<SalesDetailsList[]>(
+  const [salesDetailsLists, setSalesDetailLists] = useState<SalesDetailsList[]>(
     []
   );
   useEffect(() => {
-    const getCorporationLists = async () => {
+    const getSalesDetailLists = async () => {
       try {
         const response = await axios.get(
           `${config().apiUrl}/saleslists/saleslistcorporations`,
@@ -23,24 +23,20 @@ function ListLists(salesList) {
         );
 
         if (response.statusText === "OK") {
-          if (response.data.sales_list_type === "01") {
-            setCorporationLists(response.data.salesCorporations);
-          } else {
-            setCorporationLists(response.data.salesStaffs);
-          }
+          setSalesDetailLists(response.data.salesCorporations);
         }
       } catch (error) {
         console.error(error);
       }
     };
 
-    getCorporationLists();
+    getSalesDetailLists();
   }, []);
 
   return (
     <Card sx={{ mt: 5 }}>
       <ListListsTable
-        salesDetailsList={corporationLists}
+        salesDetailsList={salesDetailsLists}
         selectedSalesList={salesList}
       />
     </Card>

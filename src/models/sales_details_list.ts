@@ -1,4 +1,10 @@
 export type CorporationListStatus = "Y" | "N";
+export type StaffListRoles = "all" | "marketing" | "sales";
+export type StaffListPositions =
+  | "general"
+  | "sectionManager"
+  | "generalManager";
+
 export interface SalesDetailsList {
   corporation: {
     corporation_id: string;
@@ -20,4 +26,13 @@ export interface SalesDetailsList {
     action_log: string;
     sales_list_type: string;
   };
+  staff_id: string;
+  corporation_id: string;
+  corporation_name: string;
+  job_position: StaffListPositions;
+  role: StaffListRoles;
+  staff_name: string;
+  profile_source_type: string;
+  profile_link: string;
+  other_information: string;
 }

@@ -5,34 +5,18 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useLocation, useNavigate } from "react-router-dom";
 import StaffDetails1ListData from "./StaffDetails1ListData";
 import StaffDetails1ReferenceListData from "./StaffDetails1ReferenceListData";
+import { StaffList } from "src/models/staff_list";
 
 function Lists() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  type StaffListRoles = "all" | "marketing" | "sales";
-  type StaffListPositions = "general" | "sectionManager" | "generalManager";
-
-  const staffList = location.state as {
-    staff_id: string;
-    corporation_id: string;
-    corporation_name: string;
-    job_position: StaffListPositions;
-    role: StaffListRoles;
-    staff_name: string;
-    profile_source_type: string;
-    profile_link: string;
-    other_information: string;
-    corporationEntity: {
-      corporation_name: string;
-      corporation_id: string;
-    };
-  };
+  const staffList = location.state as StaffList;
 
   return (
     <>
       <Helmet>
-        <title>リスト詳細</title>
+        <title>担当者詳細①</title>
       </Helmet>
       <Container maxWidth="lg">
         <Typography
@@ -40,12 +24,10 @@ function Lists() {
             position: "absolute",
             top: "70px",
             left: "0",
-            width: "105%",
+            width: "99%",
             color: "white",
             bgcolor: "#66788A",
-            ml: -2,
             py: 1,
-            pl: 2,
             fontSize: 20,
           }}
         >
@@ -54,8 +36,8 @@ function Lists() {
         <Box
           sx={{
             position: "absolute",
-            top: "70px",
-            right: "0",
+            top: "75px",
+            pl: "93%",
             color: "white",
           }}
         >

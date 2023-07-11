@@ -38,9 +38,13 @@ const StaffList = Loader(
 const SalesList = Loader(
   lazy(() => import("src/content/applications/SalesList"))
 );
-const SalesListDetails = Loader(
-  lazy(() => import("src/content/applications/SalesListDetails"))
+const SalesListCorporationDetails = Loader(
+  lazy(() => import("src/content/applications/SalesListCorporationDetails"))
 );
+const SalesListStaffDetails = Loader(
+  lazy(() => import("src/content/applications/SalesListStaffDetails"))
+);
+
 const CorporationDetails1 = Loader(
   lazy(() => import("src/content/applications/CorporationDetails1"))
 );
@@ -148,8 +152,12 @@ const routes: RouteObject[] = [
         element: <SalesList />,
       },
       {
-        path: "salesListDetails",
-        element: <SalesListDetails />,
+        path: "salesListCorporationDetails",
+        element: <SalesListCorporationDetails />,
+      },
+      {
+        path: "salesListStaffDetails",
+        element: <SalesListStaffDetails />,
       },
       {
         path: "corporationDetails2",

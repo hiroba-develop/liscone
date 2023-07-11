@@ -24,12 +24,10 @@ function Lists() {
             position: "absolute",
             top: "70px",
             left: "0",
-            width: "105%",
+            width: "99%",
             color: "white",
             bgcolor: "#66788A",
-            ml: -2,
             py: 1,
-            pl: 2,
             fontSize: 20,
           }}
         >
@@ -39,8 +37,8 @@ function Lists() {
         <Box
           sx={{
             position: "absolute",
-            top: "70px",
-            right: "0",
+            top: "75px",
+            pl: "93%",
             color: "white",
           }}
         >

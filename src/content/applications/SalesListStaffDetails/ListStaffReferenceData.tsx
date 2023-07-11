@@ -1,5 +1,5 @@
 import { Card } from "@mui/material";
-import ListListsTable from "./SalesListReferenceTable";
+import ListListsTable from "./SalesListStaffReferenceTable";
 
 function ListLists(salesList) {
   return (
