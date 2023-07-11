@@ -71,7 +71,7 @@ function Lists() {
         <Box sx={{ mt: 15 }}>
           <StaffDetails1ListData staffList={staffList} />
         </Box>
-        <ActionHistoryListData />
+        <ActionHistoryListData salesList={salesList} />
       </Container>
       <Footer />
     </>
