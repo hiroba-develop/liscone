@@ -265,6 +265,8 @@ const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
           <Box>
             <Button
               disabled={disabled}
+              sx={{ borderRadius: 0.5, backgroundColor: "#109DBC" }}
+              fullWidth
               variant="contained"
               onClick={(checkItems) => editListCreateOpen(checkItems)}
             >

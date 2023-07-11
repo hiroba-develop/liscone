@@ -10,7 +10,7 @@ import { SalesList } from "src/models/sales_list";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
 import CorporationDetails1ListData from "../CorporationDetails1/CorporationDetails1ListData";
 import CorporationDetails1ReferenceListData from "../CorporationDetails1/CorporationDetails1ReferenceListData";
-import Sort from "./Search";
+import SalesCorpInfo from "./SalesCorpInfo";
 
 function Lists() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ function Lists() {
   return (
     <>
       <Helmet>
-        <title>リスト詳細</title>
+        <title>企業詳細②</title>
       </Helmet>
       <Container maxWidth="lg">
         <Typography
@@ -33,23 +33,21 @@ function Lists() {
             position: "absolute",
             top: "70px",
             left: "0",
-            width: "105%",
+            width: "99%",
             color: "white",
             bgcolor: "#66788A",
-            ml: -2,
             py: 1,
-            pl: 2,
             fontSize: 20,
           }}
         >
-          {corporationList.corporation.corporation_name}(法人番号:
+          　{corporationList.corporation.corporation_name}(法人番号:
           {corporationList.corporation.corporate_number})
         </Typography>
         <Box
           sx={{
             position: "absolute",
-            top: "70px",
-            right: "0",
+            top: "75px",
+            pl: "93%",
             color: "white",
           }}
         >
@@ -70,7 +68,7 @@ function Lists() {
             left: "0",
             color: "gray",
             mt: 1,
-            ml: 1,
+            ml: 3,
             display: "flex",
             flexDirection: "row",
           }}
@@ -89,7 +87,7 @@ function Lists() {
           sx={{
             position: "absolute",
             top: "125px",
-            left: "15%",
+            left: "25%",
             color: "gray",
             mt: 1,
             ml: 1,
@@ -107,8 +105,11 @@ function Lists() {
             {corporationList.corporation.home_page}
           </Typography>
         </Box>
-        <Sort corporation={corporationList.corporation} salesList={salesList} />
-        <Box sx={{ mt: 25 }}>
+        <SalesCorpInfo
+          corporationList={corporationList}
+          salesList={salesList}
+        />
+        <Box sx={{ mt: 12 }}>
           <CorporationDetails1ReferenceListData
             {...corporationList.corporation}
           />

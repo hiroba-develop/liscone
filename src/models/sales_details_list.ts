@@ -16,6 +16,7 @@ export interface SalesDetailsList {
     capital_stock: string;
     listing_status: CorporationListStatus;
     transaction_status: string;
+    memo: string;
     action_log: string;
     sales_list_type: string;
   };

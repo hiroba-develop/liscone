@@ -22,14 +22,13 @@ import {
   post,
   useWrapMuation,
 } from "src/utility/http/ApiService";
-import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 
-const TaskLog = ({
+const DashboardTaskLog = ({
   taskLogOpen,
   setTaskLogOpen,
+  taskList,
   staffList,
-  corporationList,
 }) => {
   const current = new Date();
   const today = `${current.getFullYear()}-${
@@ -38,7 +37,6 @@ const TaskLog = ({
     current.getDate() < 10 ? "0" : ""
   }${current.getDate()}`;
   const members = useRecoilValue(membersAtom);
-  const auth = useRecoilValue(authAtom);
   const [MemberSelected, setMemberSelected] = useState("");
   const handleMemberSelect = (e) => {
     setMemberSelected(e.target.value);
@@ -63,10 +61,6 @@ const TaskLog = ({
   const handleActionSelect = (e) => {
     setActionSelected(e.target.value);
   };
-  const [ActionSelected2, setActionSelected2] = useState("");
-  const handleActionSelect2 = (e) => {
-    setActionSelected2(e.target.value);
-  };
   const [startDate, setStartDate] = useState("");
   const handleDateSelect = (e) => {
     const formated = dayjs(e).format("YYYY-MM-DD");
@@ -77,29 +71,29 @@ const TaskLog = ({
     setComments(e.target.value);
   };
 
-  const { mutate } = useWrapMuation<any, any>(
-    ["createTask"],
+  const { mutate, isError } = useWrapMuation<any, any>(
+    ["updateAndCreateTask"],
     async (data) => {
-      // 新規タスク
       const param = {
-        task_name: ActionSelected,
-        member_id: auth.userId,
-        sales_list_number: corporationList.sales_list_number,
-        sales_corporation_id: corporationList.corporation.corporation_id,
-        sales_staff_id: StaffSelected,
-        execute_date: BRSelected !== "" || SRSelected !== "" ? today : "",
+        task_number: data.task_number,
+        execute_date: today,
         execute_result: BRSelected + SRSelected,
-        comment: comments,
       };
 
-      await post<any>(`${config().apiUrl}/salesTasks/createTask`, param);
-      if (ActionSelected2) {
-        // 次回タスク
+      await post<any>(`${config().apiUrl}/salesTasks/updateTask`, param);
+      if (ActionSelected) {
         const param = {
           member_id: MemberSelected,
-          task_name: ActionSelected2,
-          sales_list_number: corporationList.sales_list_number,
-          sales_corporation_id: corporationList.corporation.corporation_id,
+          task_name: ActionSelected,
+          sales_list_number: taskList.sales_list_number,
+          sales_corporation_id:
+            taskList.corporationEntity !== null
+              ? taskList.corporationEntity.corporation_id
+              : "",
+          sales_staff_id:
+            taskList.corporationstaffEntity !== null
+              ? taskList.corporationstaffEntity.staff_id
+              : "",
           deadline: startDate,
           comment: comments,
         };
@@ -122,7 +116,7 @@ const TaskLog = ({
 
   const updateAndCreateTask = (e: FormEvent) => {
     e.preventDefault();
-    mutate(corporationList);
+    mutate(taskList);
   };
 
   if (taskLogOpen) {
@@ -151,10 +145,10 @@ const TaskLog = ({
       fontSize: 20,
     };
 
-    // const getTaskName = (taskName) => {
-    //   const action = CODE.ACTION.find((e) => e.key === taskName);
-    //   return action.code;
-    // };
+    const getTaskName = (taskName) => {
+      const action = CODE.ACTION.find((e) => e.key === taskName);
+      return action.code;
+    };
 
     return (
       <Modal open={taskLogOpen} onClose={taskLogClose}>
@@ -182,10 +176,10 @@ const TaskLog = ({
               }}
             >
               <Button
+                type="submit"
                 sx={{ my: 5, borderRadius: 0.5, backgroundColor: "#109DBC" }}
                 fullWidth
                 variant="contained"
-                type="submit"
               >
                 行動ログを記録
               </Button>
@@ -213,15 +207,9 @@ const TaskLog = ({
             >
               <TextField
                 fullWidth
-                select
-                label="アクション"
-                value={ActionSelected}
-                onChange={handleActionSelect}
-              >
-                {CODE.ACTION.map((option) => (
-                  <MenuItem value={option.key}>{option.code}</MenuItem>
-                ))}
-              </TextField>
+                disabled
+                value={getTaskName(taskList.task_name)}
+              />
             </Box>
             <Box
               sx={{
@@ -343,8 +331,8 @@ const TaskLog = ({
                 fullWidth
                 select
                 label="次回アクション"
-                value={ActionSelected2}
-                onChange={handleActionSelect2}
+                value={ActionSelected}
+                onChange={handleActionSelect}
               >
                 {CODE.ACTION.map((option) => (
                   <MenuItem value={option.key}>{option.code}</MenuItem>
@@ -440,4 +428,4 @@ const TaskLog = ({
   }
 };
 
-export default TaskLog;
+export default DashboardTaskLog;

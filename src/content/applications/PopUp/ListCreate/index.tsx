@@ -222,6 +222,8 @@ const ListCreate = ({
               type="submit"
               variant="contained"
               sx={{
+                borderRadius: 0.5,
+                backgroundColor: "#109DBC",
                 position: "absolute",
                 top: "80%",
                 left: "25%",

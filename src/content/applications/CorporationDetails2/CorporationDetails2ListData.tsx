@@ -28,7 +28,7 @@ function ListLists(corporationList) {
     };
 
     getStaffs();
-  }, []);
+  }, [corporationList.corporation_id]);
 
   return <CorporationDetails1Table corporationDetails1List={staffLists} />;
 }

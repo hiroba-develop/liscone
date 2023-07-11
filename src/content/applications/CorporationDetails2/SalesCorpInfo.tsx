@@ -5,8 +5,8 @@ import {
   FormControl,
   Grid,
   MenuItem,
-  OutlinedInput,
   Select,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -16,14 +16,44 @@ import { CODE } from "src/utility/constants/Code";
 import { post } from "src/utility/http/ApiService";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 import { productsAtom } from "src/utility/recoil/comp/Products.atom";
+import TaskLog from "../PopUp/TaskLog";
+import axios from "axios";
 
-function Sort({ corporation, salesList }) {
+function SalesCorpInfo({ corporationList, salesList }) {
+  const [taskLogOpen, setTaskLogOpen] = useState(false);
+  const [tranStatusSelected, setTranStatusSelected] = useState(
+    corporationList.transaction_status === null
+      ? ""
+      : corporationList.transaction_status
+  );
+  const [staffList, setStaffs] = useState([]);
+  const editTaskLogOpen = (corporationList) => {
+    const getStaffs = async () => {
+      try {
+        const response = await axios.get(
+          `${config().apiUrl}/corporationstaffs/id_name_bycorporation`,
+          {
+            params: {
+              corporationId: corporationList.corporation.corporation_id,
+            },
+          }
+        );
+
+        if (response.statusText === "OK") {
+          setStaffs(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getStaffs();
+
+    setTaskLogOpen(true);
+  };
+
   const products = useRecoilValue(productsAtom);
   const members = useRecoilValue(membersAtom);
   const [listCreateOpen, setListCreateOpen] = useState(false);
-  const editListCreateOpen = () => setListCreateOpen(true);
-  // const [salesListInfo, setStaffs] = useState();
-  // const [salesListInfo, setStaffs] = useState();
   const getProductName = (productNum) => {
     const product = products.find((e) => e.product_number === productNum);
     return product.product_name;
@@ -33,31 +63,27 @@ function Sort({ corporation, salesList }) {
     return member.member_name;
   };
 
-  const [tranStatusSelected, setTranStatusSelected] = useState(
-    corporation.transaction_status
-  );
-  const [memo, setMemo] = useState(corporation.memo);
-
   const tranStatusChange = (e) => {
-    if (tranStatusSelected === null || tranStatusSelected === "") {
-      return tranStatusSelected;
+    const changedStatus = e.target.value;
+    if (changedStatus === null) {
+      return changedStatus;
     }
-    setTranStatusSelected(e.target.value);
+    setTranStatusSelected(changedStatus);
     const setTranStatus = async () => {
       try {
         const param = {
-          transaction_status: tranStatusSelected,
+          transaction_status: changedStatus,
           sales_list_number: salesList.sales_list_number,
-          corporation_id: corporation.corporation_id,
+          corporation_id: corporationList.corporation.corporation_id,
         };
-        const response = await post<any>(
+        await post<any>(
           `${config().apiUrl}/saleslists/tranStatusChange`,
           param
         );
 
-        if (response.statusText === "OK") {
-          corporation.transaction_status = tranStatusSelected;
-        }
+        // if (response.statusText === "OK") {
+        //   corporationList.transaction_status = tranStatusSelected;
+        // }
       } catch (error) {
         console.error(error);
       }
@@ -65,26 +91,24 @@ function Sort({ corporation, salesList }) {
 
     setTranStatus();
   };
+
   const memoChange = (e) => {
-    if (memo === null || memo === "") {
-      return memo;
+    const changedMemo = e.target.value;
+    if (changedMemo === null) {
+      return;
     }
-    setMemo(e.target.value);
     const updateMemo = async () => {
       try {
         const param = {
-          memo: memo,
+          memo: changedMemo,
           sales_list_number: salesList.sales_list_number,
-          corporation_id: corporation.corporation_id,
+          corporation_id: corporationList.corporation.corporation_id,
         };
-        const response = await post<any>(
-          `${config().apiUrl}/saleslists/memoChange`,
-          param
-        );
+        await post<any>(`${config().apiUrl}/saleslists/memoChange`, param);
 
-        if (response.statusText === "OK") {
-          corporation.memo = memo;
-        }
+        // if (response.statusText === "OK") {
+        //   corporationList.memo = response.data.;
+        // }
       } catch (error) {
         console.error(error);
       }
@@ -95,29 +119,36 @@ function Sort({ corporation, salesList }) {
     <>
       <Box
         sx={{
-          position: "absolute",
           top: "150px",
-          right: "2%",
+          right: "1%",
           color: "white",
+          ml: 100,
         }}
       >
-        <Button variant="contained" onClick={editListCreateOpen}>
+        <Button
+          sx={{ my: 5, borderRadius: 0.5, backgroundColor: "#109DBC" }}
+          fullWidth
+          variant="contained"
+          onClick={() => editTaskLogOpen(corporationList)}
+        >
           行動ログを作成
         </Button>
       </Box>
-      {/* <ListCreate
-        listCreateOpen={listCreateOpen}
-        setListCreateOpen={setListCreateOpen}
-      /> */}
+      <TaskLog
+        taskLogOpen={taskLogOpen}
+        setTaskLogOpen={setTaskLogOpen}
+        staffList={staffList}
+        corporationList={corporationList}
+      />
       <Card
         sx={{
           position: "absolute",
           top: "180px",
-          minWidth: "1000px",
+          minWidth: "1170px",
         }}
       >
         <Grid container spacing={1}>
-          <Grid item xs={2} sx={{ my: 1, ml: 3 }}>
+          <Grid item xs={2} sx={{ my: 1, ml: 2 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               商材
               <Box sx={{ mt: 1.5, color: "text.secondary" }}>
@@ -125,14 +156,15 @@ function Sort({ corporation, salesList }) {
               </Box>
             </Typography>
           </Grid>
-          <Grid item xs={2} sx={{ my: 1 }}>
+          <Grid item xs={2} sx={{ my: 1, ml: 2 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               取引ステータス
             </Typography>
-            <FormControl fullWidth size="small" sx={{ width: 20, ml: -5 }}>
+            <FormControl fullWidth size="small">
               <Select
                 value={tranStatusSelected}
-                style={{ width: 200, marginTop: 10 }}
+                fullWidth
+                sx={{ mt: 1 }}
                 onChange={tranStatusChange}
               >
                 {CODE.TRAN_STATUS.map((option) => (
@@ -141,18 +173,22 @@ function Sort({ corporation, salesList }) {
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={5} sx={{ my: 1 }}>
+          <Grid item xs={5} sx={{ my: 1, ml: 2 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               メモ
             </Typography>
-            <OutlinedInput
+            <TextField
+              id="memo"
               fullWidth
+              defaultValue={corporationList.memo}
               size="small"
               sx={{ mt: 1 }}
-              onChange={memoChange}
-            />
+              onBlur={memoChange}
+            >
+              {corporationList.memo}
+            </TextField>
           </Grid>
-          <Grid item xs={2} sx={{ my: 1, ml: 1 }}>
+          <Grid item xs={2} sx={{ my: 1, ml: 2 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>
               ユーザー
               <Box sx={{ mt: 1.5, color: "text.secondary" }}>
@@ -166,4 +202,4 @@ function Sort({ corporation, salesList }) {
   );
 }
 
-export default Sort;
+export default SalesCorpInfo;

@@ -13,7 +13,7 @@ function ListLists(salesList) {
     const getCorporationLists = async () => {
       try {
         const response = await axios.get(
-          `${config().apiUrl}/saleslists/salesliscorporations`,
+          `${config().apiUrl}/saleslists/saleslistcorporations`,
           {
             params: {
               salesListNumber: salesList.sales_list_number,

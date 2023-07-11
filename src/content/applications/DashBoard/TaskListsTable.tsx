@@ -31,9 +31,10 @@ import {
   post,
   useWrapMuation,
 } from "src/utility/http/ApiService";
-import TaskLog from "../PopUp/TaskLog";
+import TaskLog from "../PopUp/DashboardTaskLog";
 import TaskUpdate from "../PopUp/TaskUpdate";
 import Search from "./Search";
+import DashboardTaskLog from "../PopUp/DashboardTaskLog";
 
 interface SalesTaskListsProps {
   className?: string;
@@ -188,7 +189,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
         action={<Search />}
       />
       <Divider />
-      <TaskLog
+      <DashboardTaskLog
         taskLogOpen={taskLogOpen}
         setTaskLogOpen={setTaskLogOpen}
         taskList={taskList}
