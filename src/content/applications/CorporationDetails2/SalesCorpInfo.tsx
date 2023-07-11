@@ -34,7 +34,7 @@ function SalesCorpInfo({ corporationList, salesList }) {
           `${config().apiUrl}/corporationstaffs/id_name_bycorporation`,
           {
             params: {
-              corporationId: corporationList.corporation.corporation_id,
+              corporationId: corporationList.corporation_id,
             },
           }
         );
@@ -73,7 +73,7 @@ function SalesCorpInfo({ corporationList, salesList }) {
         const param = {
           transaction_status: changedStatus,
           sales_list_number: salesList.sales_list_number,
-          corporation_id: corporationList.corporation.corporation_id,
+          corporation_id: corporationList.corporation_id,
         };
         await post<any>(
           `${config().apiUrl}/saleslists/tranStatusChange`,
@@ -101,7 +101,7 @@ function SalesCorpInfo({ corporationList, salesList }) {
         const param = {
           memo: changedMemo,
           sales_list_number: salesList.sales_list_number,
-          corporation_id: corporationList.corporation.corporation_id,
+          corporation_id: corporationList.corporation_id,
         };
         await post<any>(`${config().apiUrl}/saleslists/memoChange`, param);
 

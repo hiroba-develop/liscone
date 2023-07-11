@@ -15,42 +15,16 @@ import {
 import PropTypes from "prop-types";
 import { ChangeEvent, FC, useState } from "react";
 
-import Label from "src/components/Label";
-import { ActionList, ActionListStatus } from "src/models/action_list";
+import { ActionList } from "src/models/action_list";
 
 interface ActionListsProps {
   className?: string;
   actionLists: ActionList[];
 }
 
-interface Filters {
-  status?: ActionListStatus;
-}
-
-const getStatusLabel = (actionListStatus: ActionListStatus): JSX.Element => {
-  const map = {
-    recall: {
-      text: "recall",
-      color: "error",
-    },
-  };
-
-  const { text, color }: any = map[actionListStatus];
-
-  return <Label color={color}>{text}</Label>;
-};
-
-const applyFilters = (
-  actionList: ActionList[],
-  filters: Filters
-): ActionList[] => {
+const applyFilters = (actionList: ActionList[]): ActionList[] => {
   return actionList.filter((actionList) => {
     let matches = true;
-
-    if (filters.status && actionList.task !== filters.status) {
-      matches = false;
-    }
-
     return matches;
   });
 };
@@ -67,9 +41,6 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
   const [selectedActionLists, setSelectedActionLists] = useState<string[]>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
-  const [filters, setFilters] = useState<Filters>({
-    status: null,
-  });
 
   const handlePageChange = (event: any, newPage: number): void => {
     setPage(newPage);
@@ -79,7 +50,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredActionLists = applyFilters(actionLists, filters);
+  const filteredActionLists = applyFilters(actionLists);
   const paginatedActionLists = applyPagination(
     filteredActionLists,
     page,
@@ -117,11 +88,11 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
           <TableBody>
             {paginatedActionLists.map((actionList) => {
               const isActionListSelected = selectedActionLists.includes(
-                actionList.id
+                actionList.task_number
               );
               return (
-                <TableRow hover key={actionList.id}>
-                  <TableCell padding="checkbox">
+                <TableRow hover key={actionList.task_number}>
+                  <TableCell>
                     <Checkbox color="primary" value={isActionListSelected} />
                   </TableCell>
                   <TableCell>
@@ -132,7 +103,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.companyName}
+                      {actionList.corporationEntity.corporation_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -143,7 +114,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.actionDate}
+                      {actionList.execute_date}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -154,7 +125,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.list}
+                      {actionList.saleslistEntity.sales_list_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -165,7 +136,9 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.manager}
+                      {actionList.corporationstaffEntity !== null
+                        ? actionList.corporationstaffEntity.staff_name
+                        : ""}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -176,7 +149,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.actionResult}
+                      {actionList.execute_result}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -187,7 +160,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.minorItem}
+                      {actionList.execute_result}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -209,7 +182,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.user}
+                      {actionList.memberEntity.member_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -220,7 +193,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {getStatusLabel(actionList.task)}
+                      {actionList.task_name}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -231,7 +204,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.taskDeadline}
+                      {actionList.deadline}
                     </Typography>
                   </TableCell>
                 </TableRow>

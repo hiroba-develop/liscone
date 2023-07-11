@@ -40,8 +40,8 @@ function Lists() {
             fontSize: 20,
           }}
         >
-          　{corporationList.corporation.corporation_name}(法人番号:
-          {corporationList.corporation.corporate_number})
+          　{corporationList.corporation_name}(法人番号:
+          {corporationList.corporate_number})
         </Typography>
         <Box
           sx={{
@@ -53,7 +53,7 @@ function Lists() {
         >
           <IconButton
             onClick={() =>
-              navigate("/salesTask/salesListDetails", {
+              navigate("/salesTask/salesListCorporationDetails", {
                 state: salesList,
               })
             }
@@ -80,7 +80,7 @@ function Lists() {
               ml: 1,
             }}
           >
-            {corporationList.corporation.representative_phone_number}
+            {corporationList.representative_phone_number}
           </Typography>
         </Box>
         <Box
@@ -102,7 +102,7 @@ function Lists() {
               ml: 1,
             }}
           >
-            {corporationList.corporation.home_page}
+            {corporationList.home_page}
           </Typography>
         </Box>
         <SalesCorpInfo
@@ -110,9 +110,7 @@ function Lists() {
           salesList={salesList}
         />
         <Box sx={{ mt: 12 }}>
-          <CorporationDetails1ReferenceListData
-            {...corporationList.corporation}
-          />
+          <CorporationDetails1ReferenceListData {...corporationList} />
         </Box>
         <Box sx={{ mt: 5 }}>
           <CorporationDetails1ListData {...corporationList} />

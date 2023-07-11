@@ -1,6 +1,7 @@
-import { ChangeEvent, FC, useState } from "react";
 import {
+  Box,
   Card,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -9,20 +10,19 @@ import {
   TablePagination,
   TableRow,
   Typography,
-  Box,
-  Stack,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { ActionHistoryList } from "src/models/action_history_list";
+import { ChangeEvent, FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ActionList } from "src/models/action_list";
 
-interface StaffListsProps {
+interface ActionListProps {
   className?: string;
-  staffDetails2ActionHistoryLists: ActionHistoryList[];
+  actionLists: ActionList[];
 }
 
-const applyFilters = (staffList: ActionHistoryList[]): ActionHistoryList[] => {
-  return staffList.filter((staffList) => {
+const applyFilters = (actionList: ActionList[]): ActionList[] => {
+  return actionList.filter((actionList) => {
     let matches = true;
 
     return matches;
@@ -30,16 +30,14 @@ const applyFilters = (staffList: ActionHistoryList[]): ActionHistoryList[] => {
 };
 
 const applyPagination = (
-  companyLists: ActionHistoryList[],
+  actionLists: ActionList[],
   page: number,
   limit: number
-): ActionHistoryList[] => {
-  return companyLists.slice(page * limit, page * limit + limit);
+): ActionList[] => {
+  return actionLists.slice(page * limit, page * limit + limit);
 };
 
-const StaffLists: FC<StaffListsProps> = ({
-  staffDetails2ActionHistoryLists,
-}) => {
+const ActionLists: FC<ActionListProps> = ({ actionLists }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
 
@@ -51,8 +49,12 @@ const StaffLists: FC<StaffListsProps> = ({
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredStaffLists = applyFilters(staffDetails2ActionHistoryLists);
-  const paginatedStaffLists = applyPagination(filteredStaffLists, page, limit);
+  const filteredActionLists = applyFilters(actionLists);
+  const paginatedActionLists = applyPagination(
+    filteredActionLists,
+    page,
+    limit
+  );
 
   const navigate = useNavigate();
   return (
@@ -109,9 +111,9 @@ const StaffLists: FC<StaffListsProps> = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedStaffLists.map((staffList) => {
+              {paginatedActionLists.map((actionList) => {
                 return (
-                  <TableRow hover key={staffList.id}>
+                  <TableRow hover key={actionList.task_number}>
                     <TableCell>
                       <Typography
                         variant="body1"
@@ -120,7 +122,7 @@ const StaffLists: FC<StaffListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {staffList.corporationName}
+                        {actionList.corporationEntity.corporation_name}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -131,7 +133,7 @@ const StaffLists: FC<StaffListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {staffList.actionDate}
+                        {actionList.execute_date}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -142,7 +144,9 @@ const StaffLists: FC<StaffListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {staffList.staffName}
+                        {actionList.corporationstaffEntity !== null
+                          ? actionList.corporationstaffEntity.staff_name
+                          : ""}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -153,7 +157,7 @@ const StaffLists: FC<StaffListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {staffList.actionResult}
+                        {actionList.execute_result}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -164,7 +168,7 @@ const StaffLists: FC<StaffListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {staffList.smallItem}
+                        {actionList.execute_result}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -175,7 +179,7 @@ const StaffLists: FC<StaffListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {staffList.comment}
+                        {actionList.comment}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -186,7 +190,7 @@ const StaffLists: FC<StaffListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {staffList.user}
+                        {actionList.memberEntity.member_name}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -197,7 +201,7 @@ const StaffLists: FC<StaffListsProps> = ({
                         gutterBottom
                         noWrap
                       >
-                        {staffList.task}
+                        {actionList.task_name}
                       </Typography>
                     </TableCell>
                   </TableRow>
@@ -209,7 +213,7 @@ const StaffLists: FC<StaffListsProps> = ({
         <Box p={2}>
           <TablePagination
             component="div"
-            count={filteredStaffLists.length}
+            count={filteredActionLists.length}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleLimitChange}
             page={page}
@@ -222,12 +226,12 @@ const StaffLists: FC<StaffListsProps> = ({
   );
 };
 
-StaffLists.propTypes = {
-  staffDetails2ActionHistoryLists: PropTypes.array.isRequired,
+ActionLists.propTypes = {
+  actionLists: PropTypes.array.isRequired,
 };
 
-StaffLists.defaultProps = {
-  staffDetails2ActionHistoryLists: [],
+ActionLists.defaultProps = {
+  actionLists: [],
 };
 
-export default StaffLists;
+export default ActionLists;

@@ -24,7 +24,15 @@ const SalesLists: FC<SalesListsProps> = ({
   const corporations = [];
   salesDetailsLists.forEach((el) => {
     corporations.push(el.corporation);
+    delete el.corporation;
   });
+  const mergedSalesDetailsLists = [];
+  for (let i = 0; i < salesDetailsLists.length; i++) {
+    mergedSalesDetailsLists.push(
+      Object.assign(salesDetailsLists[i], corporations[i])
+    );
+  }
+  console.log(mergedSalesDetailsLists);
 
   const getStatusLabel = (
     corporationListStatus: CorporationListStatus
@@ -134,8 +142,8 @@ const SalesLists: FC<SalesListsProps> = ({
   const navigate = useNavigate();
 
   const handleCorpNameEvent = (event, corporationList) => {
-    navigate("/corporation/corporationDetails1", {
-      state: corporationList.row,
+    navigate("/salesTask/corporationDetails2", {
+      state: [corporationList.row, salesList],
     });
   };
 
@@ -143,7 +151,7 @@ const SalesLists: FC<SalesListsProps> = ({
     <Card>
       <Box sx={{ height: 400, maxWidth: 2000 }}>
         <DataGrid
-          rows={corporations}
+          rows={mergedSalesDetailsLists}
           getRowId={(row: any) => row.corporation_id}
           columns={columns}
           initialState={{

@@ -1,15 +1,20 @@
-export type ActionListStatus = 'recall';
-
 export interface ActionList {
-  id: string;
-  companyName: string;
-  actionDate: string;
-  list: string;
-  manager: string;
-  actionResult: string;
-  minorItem: string;
+  task_number: string;
+  corporationEntity: {
+    corporation_name: string;
+  };
+  execute_date: string;
+  saleslistEntity: {
+    sales_list_name: string;
+  };
+  corporationstaffEntity: {
+    staff_name: string;
+  };
+  execute_result: string;
   comment: string;
-  user: string;
-  task: ActionListStatus;
-  taskDeadline: string;
+  memberEntity: {
+    member_name: string;
+  };
+  task_name: string;
+  deadline: string;
 }
