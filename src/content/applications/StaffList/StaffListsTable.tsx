@@ -134,6 +134,8 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
           <Box>
             <Button
               disabled={disabled}
+              sx={{ borderRadius: 0.5, backgroundColor: "#109DBC" }}
+              fullWidth
               variant="contained"
               onClick={(checkItems) => editListCreateOpen(checkItems)}
             >

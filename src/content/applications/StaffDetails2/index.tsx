@@ -47,7 +47,7 @@ function Lists() {
         >
           <IconButton
             onClick={() =>
-              navigate("/salesTask/salesListDetails", {
+              navigate("/salesTask/salesListStaffDetails", {
                 state: salesList,
               })
             }

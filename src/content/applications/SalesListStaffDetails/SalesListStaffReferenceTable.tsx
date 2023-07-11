@@ -36,7 +36,7 @@ const getStatusLabel = (salesListStatus: SalesListStatus): JSX.Element => {
 const SalesLists = ({ salesList }) => {
   return (
     <Card>
-      <CardHeader title="リスト一覧" />
+      <CardHeader title="リスト" />
       <Divider />
       <TableContainer>
         <Table>

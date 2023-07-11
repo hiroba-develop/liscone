@@ -1,4 +1,4 @@
-import { Label } from "@mui/icons-material";
+import Label from "src/components/Label";
 import { Box, Card } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CorporationListStatus } from "src/models/corporation_list";

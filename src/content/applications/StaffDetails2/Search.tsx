@@ -16,8 +16,8 @@ import { CODE } from "src/utility/constants/Code";
 import { post } from "src/utility/http/ApiService";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 import { productsAtom } from "src/utility/recoil/comp/Products.atom";
-import TaskLog from "../PopUp/TaskLog";
 import axios from "axios";
+import TaskLogStaffList from "../PopUp/TaskLogStaffList";
 
 function SalesCorpInfo({ corporationList, salesList }) {
   const [taskLogOpen, setTaskLogOpen] = useState(false);
@@ -133,10 +133,11 @@ function SalesCorpInfo({ corporationList, salesList }) {
           行動ログを作成
         </Button>
       </Box>
-      <TaskLog
+      <TaskLogStaffList
         taskLogOpen={taskLogOpen}
         setTaskLogOpen={setTaskLogOpen}
         staffList={staffList}
+        salesList={salesList}
         corporationList={corporationList}
       />
       <Card
