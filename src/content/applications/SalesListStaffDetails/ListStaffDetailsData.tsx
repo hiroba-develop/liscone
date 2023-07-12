@@ -1,17 +1,18 @@
 import { Card } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { StaffList } from "src/models/staff_list";
+import { StaffDetails2List } from "src/models/staff_details2_list";
 import { config } from "src/utility/config/AppConfig";
 import SalesListStaffDetailsTable from "./SalesListStaffDetailsTable";
 
 function ListLists(salesList) {
-  const [staffLists, setStaffLists] = useState<StaffList[]>([]);
+  const [staffLists, setStaffLists] = useState<StaffDetails2List[]>([]);
+
   useEffect(() => {
     const getSalesDetailLists = async () => {
       try {
         const response = await axios.get(
-          `${config().apiUrl}/corporationstaffs/bySalesList`,
+          `${config().apiUrl}/saleslists/salesliststaffs`,
           {
             params: {
               salesListNumber: salesList.sales_list_number,
@@ -20,7 +21,7 @@ function ListLists(salesList) {
         );
 
         if (response.statusText === "OK") {
-          setStaffLists(response.data);
+          setStaffLists(response.data.salesStaffs);
         }
       } catch (error) {
         console.error(error);
@@ -28,7 +29,7 @@ function ListLists(salesList) {
     };
 
     getSalesDetailLists();
-  }, []);
+  }, [salesList.sales_list_number]);
 
   return (
     <Card sx={{ mt: 5 }}>

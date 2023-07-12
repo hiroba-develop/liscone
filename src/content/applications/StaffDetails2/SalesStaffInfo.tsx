@@ -19,22 +19,20 @@ import { productsAtom } from "src/utility/recoil/comp/Products.atom";
 import axios from "axios";
 import TaskLogStaffList from "../PopUp/TaskLogStaffList";
 
-function SalesCorpInfo({ corporationList, salesList }) {
+function SalesCorpInfo({ staffList, salesList }) {
   const [taskLogOpen, setTaskLogOpen] = useState(false);
   const [tranStatusSelected, setTranStatusSelected] = useState(
-    corporationList.transaction_status === null
-      ? ""
-      : corporationList.transaction_status
+    staffList.transaction_status === null ? "" : staffList.transaction_status
   );
-  const [staffList, setStaffs] = useState([]);
-  const editTaskLogOpen = (corporationList) => {
+  const [corpStaffList, setStaffs] = useState([]);
+  const editTaskLogOpen = (staffList) => {
     const getStaffs = async () => {
       try {
         const response = await axios.get(
           `${config().apiUrl}/corporationstaffs/id_name_bycorporation`,
           {
             params: {
-              corporationId: corporationList.corporation_id,
+              corporationId: staffList.corporation.corporation_id,
             },
           }
         );
@@ -73,10 +71,11 @@ function SalesCorpInfo({ corporationList, salesList }) {
         const param = {
           transaction_status: changedStatus,
           sales_list_number: salesList.sales_list_number,
-          corporation_id: corporationList.corporation.corporation_id,
+          corporation_id: staffList.corporation.corporation_id,
+          staff_id: staffList.staff_id,
         };
         await post<any>(
-          `${config().apiUrl}/saleslists/tranStatusChange`,
+          `${config().apiUrl}/saleslists/staffTranStatusChange`,
           param
         );
 
@@ -101,9 +100,10 @@ function SalesCorpInfo({ corporationList, salesList }) {
         const param = {
           memo: changedMemo,
           sales_list_number: salesList.sales_list_number,
-          corporation_id: corporationList.corporation.corporation_id,
+          corporation_id: staffList.corporation.corporation_id,
+          staff_id: staffList.staff_id,
         };
-        await post<any>(`${config().apiUrl}/saleslists/memoChange`, param);
+        await post<any>(`${config().apiUrl}/saleslists/staffMemoChange`, param);
 
         // if (response.statusText === "OK") {
         //   corporationList.memo = response.data.;
@@ -128,7 +128,7 @@ function SalesCorpInfo({ corporationList, salesList }) {
           sx={{ my: 5, borderRadius: 0.5, backgroundColor: "#109DBC" }}
           fullWidth
           variant="contained"
-          onClick={() => editTaskLogOpen(corporationList)}
+          onClick={() => editTaskLogOpen(staffList)}
         >
           行動ログを作成
         </Button>
@@ -136,9 +136,9 @@ function SalesCorpInfo({ corporationList, salesList }) {
       <TaskLogStaffList
         taskLogOpen={taskLogOpen}
         setTaskLogOpen={setTaskLogOpen}
-        staffList={staffList}
+        corpStaffList={corpStaffList}
         salesList={salesList}
-        corporationList={corporationList}
+        staffList={staffList}
       />
       <Card
         sx={{
@@ -180,12 +180,12 @@ function SalesCorpInfo({ corporationList, salesList }) {
             <TextField
               id="memo"
               fullWidth
-              defaultValue={corporationList.memo}
+              defaultValue={staffList.memo}
               size="small"
               sx={{ mt: 1 }}
               onBlur={memoChange}
             >
-              {corporationList.memo}
+              {staffList.memo}
             </TextField>
           </Grid>
           <Grid item xs={2} sx={{ my: 1, ml: 2 }}>

@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Card,
   Table,
@@ -10,216 +9,140 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import PropTypes from "prop-types";
-import { FC, useState } from "react";
-import {
-  StaffList,
-  StaffListPositions,
-  StaffListRoles,
-} from "src/models/staff_list";
+import { FC } from "react";
+import { StaffList, StaffListRoles } from "src/models/staff_list";
 
 import LaunchIcon from "@mui/icons-material/Launch";
-import Label from "src/components/Label";
+import { StaffDetails2List } from "src/models/staff_details2_list";
 
 interface StaffListsProps {
   className?: string;
-  staffLists: StaffList[];
+  staffList: StaffDetails2List;
 }
 
 interface Filters {
-  status?: StaffListRoles;
+  status?: StaffListsProps;
 }
 
-const staffListRoles = (staffListRoles: StaffListRoles): JSX.Element => {
-  const map = {
-    marketing: {
-      text: "マーケティング",
-      color: "error",
-    },
-    sales: {
-      text: "営業",
-      color: "warn",
-    },
-  };
-
-  const { text, color }: any = map[staffListRoles];
-
-  return <Label color={color}>{text}</Label>;
-};
-const staffListPositions = (
-  staffListPositions: StaffListPositions
-): JSX.Element => {
-  const map = {
-    general: {
-      text: "一般",
-      color: "primary",
-    },
-    sectionManager: {
-      text: "課長",
-      color: "warning",
-    },
-    generalManager: {
-      text: "部長",
-      color: "success",
-    },
-  };
-
-  const { text, color }: any = map[staffListPositions];
-
-  return <Label color={color}>{text}</Label>;
-};
-
 const applyFilters = (
-  staffList: StaffList[],
+  staffList: StaffDetails2List[],
   filters: Filters
-): StaffList[] => {
+): StaffDetails2List[] => {
   return staffList.filter((staffList) => {
     let matches = true;
-
-    if (filters.status && staffList.role !== filters.status) {
-      matches = false;
-    }
-
     return matches;
   });
 };
 
 const applyPagination = (
-  corporationLists: StaffList[],
+  staffList: StaffDetails2List[],
   page: number,
   limit: number
-): StaffList[] => {
-  return corporationLists.slice(page * limit, page * limit + limit);
+): StaffDetails2List[] => {
+  return staffList.slice(page * limit, page * limit + limit);
 };
 
-const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
-  const selectedStaffLists: string[] = [];
-  const page: number = 0;
-  const limit: number = 5;
-  const [filters, setFilters] = useState<Filters>({
-    status: null,
-  });
-
-  const filteredStaffLists = applyFilters(staffLists, filters);
-  const paginatedStaffLists = applyPagination(filteredStaffLists, page, limit);
-
+const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
   return (
-    <Box sx={{ mt: 22 }}>
-      <Card>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">会社名・法人名</TableCell>
-                <TableCell align="center">役職</TableCell>
-                <TableCell align="center">部署</TableCell>
-                <TableCell align="center">氏名</TableCell>
-                <TableCell align="center">アカウントソース</TableCell>
-                <TableCell align="center">その他</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {paginatedStaffLists.map((staffList) => {
-                const isStaffListSelected = selectedStaffLists.includes(
-                  staffList.corporation_id
-                );
-                return (
-                  <TableRow hover key={staffList.staff_id}>
-                    <TableCell>
-                      <Typography
-                        variant="body1"
-                        fontWeight="bold"
-                        color="text.primary"
-                        gutterBottom
-                        noWrap
-                      >
-                        {staffList.corporation_name}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        variant="body1"
-                        fontWeight="bold"
-                        color="text.primary"
-                        gutterBottom
-                        noWrap
-                      >
-                        {staffListPositions(staffList.job_position)}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        variant="body1"
-                        fontWeight="bold"
-                        color="text.primary"
-                        gutterBottom
-                        noWrap
-                      >
-                        {staffListRoles(staffList.role)}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        variant="body1"
-                        fontWeight="bold"
-                        color="text.primary"
-                        gutterBottom
-                        noWrap
-                      >
-                        {staffList.staff_name}
-                      </Typography>
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                      }}
-                    >
-                      <Button
-                        size="small"
-                        sx={{
-                          color: "black",
-                        }}
-                        href={staffList.profile_link}
-                      >
-                        {staffList.profile_source_type}
-                        <LaunchIcon
-                          sx={{
-                            ml: 1,
-                            pt: 0.2,
-                            fontSize: 18,
-                          }}
-                        />
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Typography
-                        variant="body1"
-                        fontWeight="bold"
-                        color="text.primary"
-                        gutterBottom
-                        noWrap
-                      >
-                        {staffList.other_information}
-                      </Typography>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Card>
-    </Box>
+    <Card>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">会社名・法人名</TableCell>
+              <TableCell align="center">役職</TableCell>
+              <TableCell align="center">部署</TableCell>
+              <TableCell align="center">氏名</TableCell>
+              <TableCell align="center">アカウントソース</TableCell>
+              <TableCell align="center">その他</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow hover key={staffList.staff_id}>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.corporation.corporation_name}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.staff.job_position}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.staff.role}
+                </Typography>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.staff.staff_name}
+                </Typography>
+              </TableCell>
+              <TableCell
+                align="center"
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                }}
+              >
+                <Button
+                  sx={{
+                    color: "black",
+                  }}
+                  href={staffList.staff.profile_link}
+                >
+                  {staffList.staff.profile_link}
+                  <LaunchIcon
+                    sx={{
+                      ml: 1,
+                      pt: 0.2,
+                      fontSize: 18,
+                    }}
+                  />
+                </Button>
+              </TableCell>
+              <TableCell align="center">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.staff.other_information}
+                </Typography>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Card>
   );
-};
-
-StaffLists.propTypes = {
-  staffLists: PropTypes.array.isRequired,
-};
-
-StaffLists.defaultProps = {
-  staffLists: [],
 };
 
 export default StaffLists;

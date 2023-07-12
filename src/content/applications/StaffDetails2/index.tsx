@@ -4,17 +4,20 @@ import { Helmet } from "react-helmet-async";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
 import { SalesList } from "src/models/sales_list";
-import { StaffList } from "src/models/staff_list";
+import { StaffDetails2List } from "src/models/staff_details2_list";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
-import StaffDetails1ListData from "../StaffDetails1/StaffDetails1ListData";
-import StaffDetails1ReferenceListData from "../StaffDetails1/StaffDetails1ReferenceListData";
-import Search from "./Search";
+import SalesCorpInfo from "./SalesStaffInfo";
+import StaffDetails2ListData from "./StaffDetails2ListData";
+import StaffDetails2ReferenceListData from "./StaffDetails2ReferenceListData";
 
 function Lists() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [staffList, salesList] = location.state as [StaffList, SalesList];
+  const [staffList, salesList] = location.state as [
+    StaffDetails2List,
+    SalesList
+  ];
 
   return (
     <>
@@ -34,7 +37,7 @@ function Lists() {
             fontSize: 20,
           }}
         >
-          　{staffList.staff_name}
+          　{staffList.staff.staff_name}
         </Typography>
         <Box
           sx={{
@@ -54,10 +57,7 @@ function Lists() {
             <CloseIcon sx={{ color: "white" }} />
           </IconButton>
         </Box>
-        <Search
-          corporationList={staffList.corporationEntity}
-          salesList={salesList}
-        />
+        <SalesCorpInfo staffList={staffList} salesList={salesList} />
         <Box
           sx={{
             position: "relative",
@@ -65,10 +65,10 @@ function Lists() {
             color: "gray",
           }}
         >
-          <StaffDetails1ReferenceListData staffList={staffList} />
+          <StaffDetails2ReferenceListData staffList={staffList} />
         </Box>
         <Box sx={{ mt: 15 }}>
-          <StaffDetails1ListData staffList={staffList} />
+          <StaffDetails2ListData staffList={staffList} />
         </Box>
         <ActionHistoryListData salesList={salesList} />
       </Container>

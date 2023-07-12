@@ -17,7 +17,6 @@ function ListLists(salesList) {
           {
             params: {
               salesListNumber: salesList.sales_list_number,
-              salesListType: salesList.sales_list_type,
             },
           }
         );
@@ -31,7 +30,7 @@ function ListLists(salesList) {
     };
 
     getSalesDetailLists();
-  }, []);
+  }, [salesList.sales_list_number, salesList.sales_list_type]);
 
   return (
     <Card sx={{ mt: 5 }}>

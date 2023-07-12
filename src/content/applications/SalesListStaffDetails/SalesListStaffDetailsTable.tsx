@@ -14,15 +14,15 @@ import PropTypes from "prop-types";
 import { ChangeEvent, FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SalesList } from "src/models/sales_list";
-import { StaffList } from "src/models/staff_list";
+import { StaffDetails2List } from "src/models/staff_details2_list";
 
-interface StaffListsProps {
+interface StaffDetails2ListProps {
   className?: string;
-  staffList: StaffList[];
+  staffList: StaffDetails2List[];
   selectedSalesList: SalesList;
 }
 
-const applyFilters = (staffLists: StaffList[]): StaffList[] => {
+const applyFilters = (staffLists: StaffDetails2List[]): StaffDetails2List[] => {
   return staffLists.filter((staffList) => {
     let matches = true;
     return matches;
@@ -30,13 +30,13 @@ const applyFilters = (staffLists: StaffList[]): StaffList[] => {
 };
 
 const applyPagination = (
-  salesLists: StaffList[],
+  staffLists: StaffDetails2List[],
   page: number,
   limit: number
-): StaffList[] => {
-  return salesLists.slice(page * limit, page * limit + limit);
+): StaffDetails2List[] => {
+  return staffLists.slice(page * limit, page * limit + limit);
 };
-const StaffLists: FC<StaffListsProps> = ({
+const StaffLists: FC<StaffDetails2ListProps> = ({
   staffList: staffLists,
   selectedSalesList: salesList,
 }) => {
@@ -52,7 +52,7 @@ const StaffLists: FC<StaffListsProps> = ({
   };
 
   const filteredSalesList = applyFilters(staffLists);
-  const paginatedSalesLists = applyPagination(filteredSalesList, page, limit);
+  const paginatedSalesLists = applyPagination(staffLists, page, limit);
 
   const navigate = useNavigate();
 
@@ -87,7 +87,7 @@ const StaffLists: FC<StaffListsProps> = ({
                       }
                       sx={{ textDecoration: "underline" }}
                     >
-                      {staffList.corporationEntity.corporation_name}
+                      {staffList.corporation.corporation_name}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">
@@ -98,7 +98,7 @@ const StaffLists: FC<StaffListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {staffList.job_position}
+                      {staffList.staff.job_position}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">
@@ -109,7 +109,7 @@ const StaffLists: FC<StaffListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {staffList.staff_name}
+                      {staffList.staff.staff_name}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">
@@ -120,7 +120,7 @@ const StaffLists: FC<StaffListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {staffList.profile_source_type}
+                      {staffList.staff.profile_source_type}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">
@@ -131,7 +131,7 @@ const StaffLists: FC<StaffListsProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {staffList.profile_link}
+                      {staffList.staff.profile_link}
                     </Typography>
                   </TableCell>
                 </TableRow>

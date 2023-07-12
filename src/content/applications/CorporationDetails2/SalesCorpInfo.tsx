@@ -73,10 +73,11 @@ function SalesCorpInfo({ corporationList, salesList }) {
         const param = {
           transaction_status: changedStatus,
           sales_list_number: salesList.sales_list_number,
+          sales_list_type: salesList.sales_list_type,
           corporation_id: corporationList.corporation_id,
         };
         await post<any>(
-          `${config().apiUrl}/saleslists/tranStatusChange`,
+          `${config().apiUrl}/saleslists/corpTranStatusChange`,
           param
         );
 
@@ -103,7 +104,7 @@ function SalesCorpInfo({ corporationList, salesList }) {
           sales_list_number: salesList.sales_list_number,
           corporation_id: corporationList.corporation_id,
         };
-        await post<any>(`${config().apiUrl}/saleslists/memoChange`, param);
+        await post<any>(`${config().apiUrl}/saleslists/corpMemoChange`, param);
 
         // if (response.statusText === "OK") {
         //   corporationList.memo = response.data.;

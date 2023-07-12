@@ -28,9 +28,9 @@ import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 const TaskLogStaffList = ({
   taskLogOpen,
   setTaskLogOpen,
-  staffList,
+  corpStaffList,
   salesList,
-  corporationList,
+  staffList,
 }) => {
   const current = new Date();
   const today = `${current.getFullYear()}-${
@@ -86,7 +86,7 @@ const TaskLogStaffList = ({
         task_name: ActionSelected,
         member_id: auth.userId,
         sales_list_number: salesList.sales_list_number,
-        sales_corporation_id: corporationList.corporation_id,
+        sales_corporation_id: staffList.corporation.corporation_id,
         sales_staff_id: StaffSelected,
         execute_date: BRSelected !== "" || SRSelected !== "" ? today : "",
         execute_result: BRSelected + SRSelected,
@@ -100,7 +100,7 @@ const TaskLogStaffList = ({
           member_id: MemberSelected,
           task_name: ActionSelected2,
           sales_list_number: salesList.sales_list_number,
-          sales_corporation_id: corporationList.corporation_id,
+          sales_corporation_id: staffList.corporation.corporation_id,
           deadline: startDate,
           comment: comments,
         };
@@ -123,7 +123,7 @@ const TaskLogStaffList = ({
 
   const updateAndCreateTask = (e: FormEvent) => {
     e.preventDefault();
-    mutate(corporationList);
+    mutate(staffList);
   };
 
   if (taskLogOpen) {
@@ -312,7 +312,7 @@ const TaskLogStaffList = ({
                 value={StaffSelected}
                 onChange={handleStaffSelect}
               >
-                {staffList.map((option) => (
+                {corpStaffList.map((option) => (
                   <MenuItem value={option.staff_id}>
                     {option.staff_name}
                   </MenuItem>
