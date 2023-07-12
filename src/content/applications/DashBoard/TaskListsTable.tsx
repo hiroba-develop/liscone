@@ -31,10 +31,9 @@ import {
   post,
   useWrapMuation,
 } from "src/utility/http/ApiService";
-import TaskLog from "../PopUp/DashboardTaskLog";
+import DashboardTaskLog from "../PopUp/DashboardTaskLog";
 import TaskUpdate from "../PopUp/TaskUpdate";
 import Search from "./Search";
-import DashboardTaskLog from "../PopUp/DashboardTaskLog";
 
 interface SalesTaskListsProps {
   className?: string;
@@ -127,10 +126,10 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
     }
   };
 
-  const [selectedTaskLists, setSelectedTaskLists] = useState<string[]>([]);
+  const [selectedTaskLists] = useState<string[]>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
-  const [filters, setFilters] = useState<Filters>({
+  const [filters] = useState<Filters>({
     status: null,
   });
 
@@ -153,7 +152,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
       setTaskUpdateOpen(true);
     }
   };
-  const { mutate, isError } = useWrapMuation<any, any>(
+  const { mutate } = useWrapMuation<any, any>(
     ["deleteTask"],
     async (data) => {
       const param = {

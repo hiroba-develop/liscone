@@ -114,7 +114,12 @@ function signIn() {
         const getProducts = async () => {
           try {
             const response = await axios.get(
-              `${config().apiUrl}/membercompanyproducts`
+              `${config().apiUrl}/membercompanyproducts/byCompId`,
+              {
+                params: {
+                  companyCode: data.company_code,
+                },
+              }
             );
 
             if (response.statusText === "OK") {

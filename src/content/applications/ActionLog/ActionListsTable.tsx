@@ -16,6 +16,7 @@ import PropTypes from "prop-types";
 import { ChangeEvent, FC, useState } from "react";
 
 import { ActionList } from "src/models/action_list";
+import { CODE } from "src/utility/constants/Code";
 
 interface ActionListsProps {
   className?: string;
@@ -38,7 +39,7 @@ const applyPagination = (
 };
 
 const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
-  const [selectedActionLists, setSelectedActionLists] = useState<string[]>([]);
+  const [selectedActionLists] = useState<string[]>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
 
@@ -149,7 +150,13 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.execute_result}
+                      {actionList.execute_result !== null
+                        ? CODE.BIG_RESULT.find(
+                            (e) =>
+                              e.key ===
+                              actionList.execute_result.substring(0, 4)
+                          ).code
+                        : actionList.execute_result}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -160,7 +167,13 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.execute_result}
+                      {actionList.execute_result !== null
+                        ? CODE.SMALL_RESULT.find(
+                            (e) =>
+                              e.key ===
+                              actionList.execute_result.substring(4, 8)
+                          ).code
+                        : actionList.execute_result}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -193,7 +206,27 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.task_name}
+                      <Box>
+                        {actionList.execute_date !== null ? (
+                          <img
+                            style={{ verticalAlign: "bottom" }}
+                            src="/static/images/Comp.svg"
+                            alt="comp"
+                          />
+                        ) : (
+                          <img
+                            style={{ verticalAlign: "bottom" }}
+                            src="/static/images/UnComp.svg"
+                            alt="uncomp"
+                          />
+                        )}
+                        　
+                        {actionList.task_name !== null
+                          ? CODE.ACTION.find(
+                              (e) => e.key === actionList.task_name
+                            ).code
+                          : actionList.task_name}
+                      </Box>
                     </Typography>
                   </TableCell>
                   <TableCell>

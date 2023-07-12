@@ -1,15 +1,14 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, Container, Divider, IconButton, Typography } from "@mui/material";
+import { Box, Container, IconButton, Typography } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
-import { SalesDetailsList } from "src/models/sales_details_list";
 import { SalesList } from "src/models/sales_list";
+import { StaffList } from "src/models/staff_list";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
 import StaffDetails1ListData from "../StaffDetails1/StaffDetails1ListData";
 import StaffDetails1ReferenceListData from "../StaffDetails1/StaffDetails1ReferenceListData";
 import Search from "./Search";
-import { StaffList } from "src/models/staff_list";
 
 function Lists() {
   const navigate = useNavigate();

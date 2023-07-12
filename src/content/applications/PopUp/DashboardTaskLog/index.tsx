@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
@@ -72,7 +71,7 @@ const DashboardTaskLog = ({
     setComments(e.target.value);
   };
 
-  const { mutate, isError } = useWrapMuation<any, any>(
+  const { mutate } = useWrapMuation<any, any>(
     ["updateAndCreateTask"],
     async (data) => {
       const param = {

@@ -35,7 +35,7 @@ function Header() {
 
   const logoutCheck = async () => {
     if (auth.userId === "") {
-      localStorage.clear();
+      sessionStorage.clear();
     }
   };
   return (

@@ -28,7 +28,7 @@ function ListLists(salesList) {
     };
 
     getActionLogs();
-  }, []);
+  }, [salesList.sales_list_number]);
 
   return <ActionHistoryTable actionLists={actionLists} />;
 }
