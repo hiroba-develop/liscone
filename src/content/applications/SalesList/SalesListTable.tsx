@@ -98,7 +98,7 @@ const SalesLists: FC<SalesListsProps> = ({
       headerName: "商談化",
       width: 100,
       renderCell: (params) => {
-        return params.value === 0
+        return params.row.proceedCount === 0
           ? "0%"
           : (params.value / params.row.proceedCount) * 100 + "%";
       },
@@ -108,7 +108,7 @@ const SalesLists: FC<SalesListsProps> = ({
       headerName: "受注率",
       width: 100,
       renderCell: (params) => {
-        return params.value === 0
+        return params.row.proceedCount === 0
           ? "0%"
           : (params.value / params.row.proceedCount) * 100 + "%";
       },
