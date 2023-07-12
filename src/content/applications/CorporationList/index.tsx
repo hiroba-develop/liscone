@@ -98,7 +98,7 @@ function DashBoard() {
         >
           <Grid item xs={16}>
             <Search
-              comparyNumberChange={corporateNumberChange}
+              corporateNumberChange={corporateNumberChange}
               corporationNameChange={corporationNameChange}
               businessCategoryChange={businessCategoryChange}
               prefecturesChange={setPrefecturesChange}
@@ -120,20 +120,20 @@ function DashBoard() {
         <Grid item xs={16}>
           <Box sx={{ mt: 3 }}>
             <RecentOrders
-            // searchCorporateNumber={corporateNumber}
-            // searchCorporationName={corporationName}
-            // searchIndustry={businessCategory}
-            // searchPrefectures={prefectures}
-            // searchRepresentativePhoneNumber={representativePhoneNumber}
-            // searchCorporationListStatus={corporationListStatus}
-            // searchMinSalesAmount={minSalesAmount}
-            // searchMaxSalesAmount={maxSalesAmount}
-            // searchMinEmployeeNumber={minEmployeeNumber}
-            // searchMaxEmployeeNumber={maxEmployeeNumber}
-            // searchMinEstablishmentYear={minEstablishmentYear}
-            // searchMaxEstablishmentYear={maxEstablishmentYear}
-            // searchMinCapitalStock={minCapitalStock}
-            // searchMaxCapitalStock={maxCapitalStock}
+              searchCorporateNumber={corporateNumber}
+              searchCorporationName={corporationName}
+              searchIndustry={businessCategory}
+              searchPrefectures={prefectures}
+              searchRepresentativePhoneNumber={representativePhoneNumber}
+              searchCorporationListStatus={corporationListStatus}
+              searchMinSalesAmount={minSalesAmount}
+              searchMaxSalesAmount={maxSalesAmount}
+              searchMinEmployeeNumber={minEmployeeNumber}
+              searchMaxEmployeeNumber={maxEmployeeNumber}
+              searchMinEstablishmentYear={minEstablishmentYear}
+              searchMaxEstablishmentYear={maxEstablishmentYear}
+              searchMinCapitalStock={minCapitalStock}
+              searchMaxCapitalStock={maxCapitalStock}
             />
           </Box>
         </Grid>

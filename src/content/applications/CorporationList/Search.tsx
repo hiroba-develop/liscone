@@ -227,7 +227,7 @@ const Search = (props) => {
   //上場
   const corporationListStatusChange = (event) => {
     const value = event.target.innerText;
-    props.companyListStatusChange(value);
+    props.corporationListStatusChange(value);
   };
   //売上
   const minSalesAmountChange = (event) => {
@@ -420,7 +420,6 @@ const Search = (props) => {
           </Stack>
         </Grid>
       </Grid>
-      <Box></Box>
     </Card>
   );
 };

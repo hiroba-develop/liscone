@@ -5,7 +5,7 @@ import { CorporationList } from "src/models/corporation_list";
 import { config } from "src/utility/config/AppConfig";
 import CorporationListsTable from "./CorporationListsTable";
 
-function CorporationLists() {
+function CorporationLists(props) {
   const [corporationLists, setCorporations] = useState<CorporationList[]>([]);
 
   useEffect(() => {
