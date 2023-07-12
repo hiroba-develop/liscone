@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -351,9 +352,14 @@ const DashboardTaskLog = ({
                   maxWidth: 200,
                 }}
               >
-                <DatePicker
+                <DesktopDatePicker
                   value={startDate}
                   format={"YYYY-MM-DD"}
+                  slotProps={{
+                    textField: {
+                      error: false,
+                    },
+                  }}
                   onChange={(e) => {
                     handleDateSelect(e);
                   }}

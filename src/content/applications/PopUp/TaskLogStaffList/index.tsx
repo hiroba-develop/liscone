@@ -367,6 +367,11 @@ const TaskLogStaffList = ({
                 <DatePicker
                   value={startDate}
                   format={"YYYY-MM-DD"}
+                  slotProps={{
+                    textField: {
+                      error: false,
+                    },
+                  }}
                   onChange={(e) => {
                     handleDateSelect(e);
                   }}

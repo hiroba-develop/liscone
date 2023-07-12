@@ -75,7 +75,15 @@ function Sort() {
                     pt: -1,
                   }}
                 >
-                  <DatePicker label="" />
+                  <DatePicker
+                    label=""
+                    format={"YYYY-MM-DD"}
+                    slotProps={{
+                      textField: {
+                        error: false,
+                      },
+                    }}
+                  />
                 </DemoContainer>
               </LocalizationProvider>
               <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
@@ -86,7 +94,15 @@ function Sort() {
                     pt: -1,
                   }}
                 >
-                  <DatePicker label="" />
+                  <DatePicker
+                    label=""
+                    format={"YYYY-MM-DD"}
+                    slotProps={{
+                      textField: {
+                        error: false,
+                      },
+                    }}
+                  />
                 </DemoContainer>
               </LocalizationProvider>
             </Stack>

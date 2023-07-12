@@ -176,6 +176,11 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
                 <DatePicker
                   value={dayjs(new Date(taskList.deadline))}
                   format={"YYYY-MM-DD"}
+                  slotProps={{
+                    textField: {
+                      error: false,
+                    },
+                  }}
                   onChange={(e) => {
                     handleDateSelect(e);
                   }}
