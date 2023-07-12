@@ -6,29 +6,27 @@ export type StaffListPositions =
   | "generalManager";
 
 export interface SalesDetailsList {
-  corporation: {
-    corporation_id: string;
-    corporate_number: string;
-    corporation_name: string;
-    business_category: string;
-    zip_code: string;
-    address: string;
-    representative_phone_number: string;
-    representative_name: string;
-    home_page: string;
-    sales_amount: string;
-    employee_number: string;
-    establishment_year: number;
-    capital_stock: string;
-    listing_status: CorporationListStatus;
-    transaction_status: string;
-    memo: string;
-    action_log: string;
-    sales_list_type: string;
-  };
-  staff_id: string;
   corporation_id: string;
+  corporate_number: string;
   corporation_name: string;
+  business_category: string;
+  zip_code: string;
+  address: string;
+  representative_phone_number: string;
+  representative_name: string;
+  home_page: string;
+  sales_amount: string;
+  employee_number: string;
+  establishment_year: number;
+  capital_stock: string;
+  listing_status: CorporationListStatus;
+  transaction_status: string;
+  taskCount: string;
+  memo: string;
+  action_log: string;
+  sales_list_type: string;
+
+  staff_id: string;
   job_position: StaffListPositions;
   role: StaffListRoles;
   staff_name: string;

@@ -9,6 +9,7 @@ import {
   SalesDetailsList,
 } from "src/models/sales_details_list";
 import { SalesList } from "src/models/sales_list";
+import { CODE } from "src/utility/constants/Code";
 import { renderCellExpand } from "src/utility/renderexpand";
 
 interface SalesListsProps {
@@ -21,19 +22,6 @@ const SalesLists: FC<SalesListsProps> = ({
   salesDetailsList: salesDetailsLists,
   selectedSalesList: salesList,
 }) => {
-  const corporations = [];
-  salesDetailsLists.forEach((el) => {
-    corporations.push(el.corporation);
-    delete el.corporation;
-  });
-  const mergedSalesDetailsLists = [];
-  for (let i = 0; i < salesDetailsLists.length; i++) {
-    mergedSalesDetailsLists.push(
-      Object.assign(salesDetailsLists[i], corporations[i])
-    );
-  }
-  console.log(mergedSalesDetailsLists);
-
   const getStatusLabel = (
     corporationListStatus: CorporationListStatus
   ): JSX.Element => {
@@ -135,6 +123,23 @@ const SalesLists: FC<SalesListsProps> = ({
       width: 80,
       align: "center",
       renderCell: (params) => {
+        return params.value !== null
+          ? CODE.BIG_RESULT.find((e) => e.key === params.value).code
+          : "";
+      },
+    },
+    {
+      field: "taskCount",
+      headerName: "行動ログ数",
+      width: 100,
+      type: "number",
+    },
+    {
+      field: "transaction_status",
+      headerName: "取引ステータス",
+      width: 80,
+      align: "center",
+      renderCell: (params) => {
         return getStatusLabel(params.value);
       },
     },
@@ -151,7 +156,7 @@ const SalesLists: FC<SalesListsProps> = ({
     <Card>
       <Box sx={{ height: 400, maxWidth: 2000 }}>
         <DataGrid
-          rows={mergedSalesDetailsLists}
+          rows={salesDetailsLists}
           getRowId={(row: any) => row.corporation_id}
           columns={columns}
           initialState={{

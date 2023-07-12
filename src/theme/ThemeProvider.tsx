@@ -17,7 +17,7 @@ const ThemeProviderWrapper: React.FC = (props) => {
   const [themeName, _setThemeName] = useState(curThemeName);
   const theme = themeCreator(themeName);
   const setThemeName = (themeName: string): void => {
-    localStorage.setItem("appTheme", themeName);
+    sessionStorage.setItem("appTheme", themeName);
     _setThemeName(themeName);
   };
   useEffect(() => {

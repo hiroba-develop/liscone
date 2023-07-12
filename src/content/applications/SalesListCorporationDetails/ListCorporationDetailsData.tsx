@@ -22,7 +22,7 @@ function ListLists(salesList) {
         );
 
         if (response.statusText === "OK") {
-          setSalesDetailLists(response.data.salesCorporations);
+          setSalesDetailLists(response.data);
         }
       } catch (error) {
         console.error(error);

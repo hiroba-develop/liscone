@@ -69,7 +69,7 @@ function Header() {
       <Box alignItems="left">
         <ButtonWrapper
           onClick={() => {
-            localStorage.clear();
+            sessionStorage.clear();
           }}
           href="/"
         >
