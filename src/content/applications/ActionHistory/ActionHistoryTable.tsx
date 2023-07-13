@@ -210,7 +210,11 @@ const ActionLists: FC<ActionListProps> = ({ actionLists }) => {
                         gutterBottom
                         noWrap
                       >
-                        {actionList.task_name}
+                        {actionList.task_name !== null
+                          ? CODE.ACTION.find(
+                              (e) => e.key === actionList.task_name
+                            ).code
+                          : ""}
                       </Typography>
                     </TableCell>
                   </TableRow>

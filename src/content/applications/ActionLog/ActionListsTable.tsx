@@ -221,7 +221,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                           ? CODE.ACTION.find(
                               (e) => e.key === actionList.task_name
                             ).code
-                          : actionList.task_name}
+                          : ""}
                       </Box>
                     </Typography>
                   </TableCell>
