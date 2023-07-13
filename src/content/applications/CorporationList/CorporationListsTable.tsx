@@ -22,6 +22,20 @@ import { renderCellExpand } from "src/utility/renderexpand";
 interface CorporationListsProps {
   className?: string;
   corporationLists: CorporationList[];
+  searchCorporateNumber: string;
+  searchCorporationName: string;
+  searchIndustry: string;
+  searchPrefectures: string;
+  searchRepresentativePhoneNumber: string;
+  searchCorporationListStatus: string;
+  searchMinSalesAmount: string;
+  searchMaxSalesAmount: string;
+  searchMinEmployeeNumber: string;
+  searchMaxEmployeeNumber: string;
+  searchMinEstablishmentYear: string;
+  searchMaxEstablishmentYear: string;
+  searchMinCapitalStock: string;
+  searchMaxCapitalStock: string;
 }
 
 interface Filters {
@@ -51,7 +65,23 @@ const getStatusLabel = (
   return <Label color={color}>{text}</Label>;
 };
 
-const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
+const CorporationLists: FC<CorporationListsProps> = ({
+  corporationLists,
+  searchCorporateNumber,
+  searchCorporationName,
+  searchIndustry,
+  searchPrefectures,
+  searchRepresentativePhoneNumber,
+  searchCorporationListStatus,
+  searchMinSalesAmount,
+  searchMaxSalesAmount,
+  searchMinEmployeeNumber,
+  searchMaxEmployeeNumber,
+  searchMinEstablishmentYear,
+  searchMaxEstablishmentYear,
+  searchMinCapitalStock,
+  searchMaxCapitalStock,
+}) => {
   // 項目値から桁を取る
   function convertToNumber(amount) {
     const units = {
@@ -82,55 +112,51 @@ const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
   //範囲条件内か確認
   function isWithinRange(value, minValue, maxValue) {
     minValue =
-      minValue !== undefined && minValue !== "" ? minValue : Number.MIN_VALUE;
+      minValue !== undefined && minValue !== "" && minValue !== null
+        ? minValue
+        : 0;
     maxValue =
-      maxValue !== undefined && maxValue !== "" ? maxValue : Number.MAX_VALUE;
+      maxValue !== undefined && maxValue !== "" && maxValue !== null
+        ? maxValue
+        : 100000000000000;
     return value >= minValue && value <= maxValue;
   }
-  // // 絞り込み
-  // let searchCorporateLists = corporationLists.filter(
-  //   (corporationList) =>
-  //     corporationList.corporate_number.match(
-  //       corporationList.searchCorporateNumber
-  //     ) &&
-  //     corporationList.corporation_name.match(
-  //       corporationList.searchCorporationName
-  //     ) &&
-  //     corporationList.business_category.match(corporationList.searchIndustry) &&
-  //     corporationList.address.match(corporationList.searchPrefectures) &&
-  //     corporationList.representative_phone_number.match(
-  //       corporationList.searchRepresentativePhoneNumber
-  //     ) &&
-  //     corporationList.listing_status.match(
-  //       getStatusValue(corporationList.searchCorporationListStatus)
-  //     ) &&
-  //     isWithinRange(
-  //       corporationList.sales_amount,
-  //       convertToNumber(corporationList.searchMinSalesAmount),
-  //       convertToNumber(corporationList.searchMaxSalesAmount)
-  //     ) &&
-  //     isWithinRange(
-  //       corporationList.employee_number,
-  //       corporationList.searchMinEmployeeNumber,
-  //       corporationList.searchMaxEmployeeNumber
-  //     ) &&
-  //     isWithinRange(
-  //       corporationList.establishment_year,
-  //       corporationList.searchMinEstablishmentYear,
-  //       corporationList.searchMaxEstablishmentYear
-  //     ) &&
-  //     isWithinRange(
-  //       corporationList.capital_stock,
-  //       convertToNumber(corporationList.searchMinCapitalStock),
-  //       convertToNumber(corporationList.searchMaxCapitalStock)
-  //     )
-  // );
-  // const filteredCorporationLists = applyFilters(searchCorporateLists, filters);
-  // const paginatedCorporationLists = applyPagination(
-  //   filteredCorporationLists,
-  //   page,
-  //   limit
-  // );
+  // 絞り込み
+  let searchCorporationLists = corporationLists.filter(
+    (corporationList) =>
+      corporationList.corporate_number.match(searchCorporateNumber) &&
+      corporationList.corporation_name.match(searchCorporationName) &&
+      corporationList.business_category.match(searchIndustry) &&
+      corporationList.address.match(searchPrefectures) &&
+      corporationList.representative_phone_number.match(
+        searchRepresentativePhoneNumber
+      ) &&
+      corporationList.listing_status.match(
+        getStatusValue(searchCorporationListStatus)
+      ) &&
+      isWithinRange(
+        corporationList.sales_amount,
+        convertToNumber(searchMinSalesAmount),
+        convertToNumber(searchMaxSalesAmount)
+      ) &&
+      isWithinRange(
+        corporationList.employee_number,
+        searchMinEmployeeNumber,
+        searchMaxEmployeeNumber
+      ) &&
+      isWithinRange(
+        corporationList.establishment_year,
+        searchMinEstablishmentYear,
+        searchMaxEstablishmentYear
+      ) &&
+      isWithinRange(
+        corporationList.capital_stock,
+        convertToNumber(searchMinCapitalStock),
+        convertToNumber(searchMaxCapitalStock)
+      )
+  );
+  console.log(searchMinSalesAmount);
+  console.log(searchMaxSalesAmount);
 
   //数値の後ろに桁をつける処理
   function convertToMyriadSystem(number) {
@@ -202,7 +228,7 @@ const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
       width: 100,
       maxWidth: 200,
     },
-    { field: "zipCode", headerName: "郵便番号", width: 150 },
+    { field: "zip_code", headerName: "郵便番号", width: 150 },
     {
       field: "address",
       headerName: "本社住所",
@@ -228,24 +254,45 @@ const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
       //   );
       // },
     },
-    { field: "sales_amount", headerName: "売上", width: 100, type: "number" },
+    {
+      field: "sales_amount",
+      headerName: "売上",
+      width: 100,
+      type: "number",
+      renderCell: (params) => {
+        return convertToMyriadSystem(params.value);
+      },
+    },
     {
       field: "employee_number",
       headerName: "従業員数",
       width: 100,
       type: "number",
+      renderCell: (params) => {
+        if (params.value !== null) {
+          return params.value + "名";
+        }
+      },
     },
     {
       field: "establishment_year",
       headerName: "設立",
       width: 100,
       type: "number",
+      renderCell: (params) => {
+        if (params.value !== null) {
+          return params.value + "年";
+        }
+      },
     },
     {
       field: "capital_stock",
       headerName: "資本金",
       width: 100,
       type: "number",
+      renderCell: (params) => {
+        return convertToMyriadSystem(params.value);
+      },
     },
     {
       field: "listing_status",
@@ -284,13 +331,13 @@ const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
       />
       <Divider />
 
-      <Box sx={{ height: 365, maxWidth: 2000 }}>
+      <Box sx={{ height: 390, maxWidth: 2000 }}>
         <DataGrid
           sx={{
             border: 0,
             borderRadius: 0,
           }}
-          rows={corporationLists}
+          rows={searchCorporationLists}
           getRowId={(row: any) => row.corporation_id}
           columns={columns}
           initialState={{
@@ -305,7 +352,7 @@ const CorporationLists: FC<CorporationListsProps> = ({ corporationLists }) => {
           disableRowSelectionOnClick
           onRowSelectionModelChange={(ids) => {
             const selectedIDs = new Set(ids);
-            const selectedRows = corporationLists.filter((row) =>
+            const selectedRows = searchCorporationLists.filter((row) =>
               selectedIDs.has(row.corporation_id)
             );
 
