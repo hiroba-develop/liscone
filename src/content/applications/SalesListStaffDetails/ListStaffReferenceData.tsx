@@ -1,10 +1,10 @@
 import { Card } from "@mui/material";
 import ListListsTable from "./SalesListStaffReferenceTable";
 
-function ListLists(salesList) {
+function ListLists(salesListStatistic) {
   return (
     <Card sx={{ mt: 5 }}>
-      <ListListsTable salesList={salesList} />
+      <ListListsTable salesListStatistic={salesListStatistic} />
     </Card>
   );
 }

@@ -33,7 +33,7 @@ const getStatusLabel = (salesListStatus: SalesListStatus): JSX.Element => {
   return <Label color={color}>{text}</Label>;
 };
 
-const SalesLists = ({ salesList }) => {
+const SalesLists = ({ salesListStatistic }) => {
   return (
     <Card>
       <CardHeader title="リスト" />
@@ -55,7 +55,7 @@ const SalesLists = ({ salesList }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow hover key={salesList.sales_list_number}>
+            <TableRow hover key={salesListStatistic.sales_list_number}>
               <TableCell align="center">
                 <Typography
                   variant="body1"
@@ -64,7 +64,7 @@ const SalesLists = ({ salesList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {salesList.sales_list_name}
+                  {salesListStatistic.sales_list_name}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -75,7 +75,7 @@ const SalesLists = ({ salesList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {dayjs(salesList.created).format("YYYY-MM-DD")}
+                  {dayjs(salesListStatistic.created).format("YYYY-MM-DD")}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -86,7 +86,7 @@ const SalesLists = ({ salesList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {salesList.listsNum}
+                  {salesListStatistic.listCount}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -97,7 +97,7 @@ const SalesLists = ({ salesList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {salesList.proceedNum}
+                  {salesListStatistic.proceedCount}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -108,7 +108,12 @@ const SalesLists = ({ salesList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {salesList.meetNum}
+                  {salesListStatistic.proceedCount === "0"
+                    ? "0%"
+                    : (salesListStatistic.progressCount /
+                        salesListStatistic.proceedCount) *
+                        100 +
+                      "%"}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -119,7 +124,12 @@ const SalesLists = ({ salesList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {salesList.negoNum}
+                  {salesListStatistic.proceedCount === "0"
+                    ? "0%"
+                    : (salesListStatistic.projectCount /
+                        salesListStatistic.proceedCount) *
+                        100 +
+                      "%"}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -130,7 +140,12 @@ const SalesLists = ({ salesList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {salesList.contractNum}
+                  {salesListStatistic.proceedCount === "0"
+                    ? "0%"
+                    : (salesListStatistic.contractCount /
+                        salesListStatistic.proceedCount) *
+                        100 +
+                      "%"}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -141,7 +156,7 @@ const SalesLists = ({ salesList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {salesList.yomi}
+                  {(salesListStatistic.expectSales * 1).toLocaleString() + "円"}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -152,7 +167,7 @@ const SalesLists = ({ salesList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {salesList.memberEntity.member_name}
+                  {salesListStatistic.member_name}
                 </Typography>
               </TableCell>
               <TableCell align="center">
@@ -163,7 +178,7 @@ const SalesLists = ({ salesList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {getStatusLabel(salesList.sales_list_type)}
+                  {getStatusLabel(salesListStatistic.sales_list_type)}
                 </Typography>
               </TableCell>
             </TableRow>

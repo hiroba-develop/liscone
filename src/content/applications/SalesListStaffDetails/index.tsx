@@ -6,11 +6,15 @@ import Footer from "src/components/Footer";
 import ListStaffDetailsData from "./ListStaffDetailsData";
 import ListStaffReferenceData from "./ListStaffReferenceData";
 import { SalesList } from "src/models/sales_list";
+import { SalesListStatistic } from "src/models/sales_list_statistic";
 
 function Lists() {
   const location = useLocation();
 
-  const salesList = location.state as SalesList;
+  const [salesList, salesListStatistic] = location.state as [
+    SalesList,
+    SalesListStatistic
+  ];
   return (
     <>
       <Helmet>
@@ -29,7 +33,7 @@ function Lists() {
           <ArrowBackIosNewIcon />
           　戻る
         </Button>
-        <ListStaffReferenceData {...salesList} />
+        <ListStaffReferenceData {...salesListStatistic} />
         <ListStaffDetailsData {...salesList} />
       </Container>
       <Footer />
