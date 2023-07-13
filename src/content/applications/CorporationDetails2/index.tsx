@@ -15,8 +15,6 @@ import SalesCorpInfo from "./SalesCorpInfo";
 function Lists() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  console.log(location.state);
   const [corporationList, salesList] = location.state as [
     CorporationList,
     SalesList
@@ -115,7 +113,7 @@ function Lists() {
         <Box sx={{ mt: 5 }}>
           <CorporationDetails1ListData {...corporationList} />
         </Box>
-        <ActionHistoryListData />
+        <ActionHistoryListData {...salesList} />
       </Container>
       <Footer />
     </>

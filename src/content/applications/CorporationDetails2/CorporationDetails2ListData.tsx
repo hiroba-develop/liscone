@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { CorporationDetailsList } from "src/models/corporation_details_list";
 import { config } from "src/utility/config/AppConfig";
 import CorporationDetails1Table from "./CorporationDetails2Table";
+import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function ListLists(corporationList) {
   const [staffLists, setStaffs] = useState<CorporationDetailsList[]>([]);
@@ -23,7 +24,7 @@ function ListLists(corporationList) {
           setStaffs(response.data);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 

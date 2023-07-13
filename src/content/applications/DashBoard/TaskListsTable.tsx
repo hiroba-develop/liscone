@@ -115,7 +115,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
           setStaffs(response.data);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
     getStaffs();

@@ -7,6 +7,7 @@ import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import { SalesListStatistic } from "src/models/sales_list_statistic";
+import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function ListLists() {
   const [salesLists, setSalesLists] = useState<SalesList[]>([]);
@@ -28,7 +29,7 @@ function ListLists() {
           setSalesLists(response.data);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 
@@ -47,12 +48,12 @@ function ListLists() {
           setSalesListStatistics(response.data);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 
     getSalesListStatistic();
-  }, []);
+  }, [auth.userId]);
 
   return (
     <Card>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { StaffDetails2List } from "src/models/staff_details2_list";
 import { config } from "src/utility/config/AppConfig";
 import SalesListStaffDetailsTable from "./SalesListStaffDetailsTable";
+import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function ListLists(salesList) {
   const [staffLists, setStaffLists] = useState<StaffDetails2List[]>([]);
@@ -24,7 +25,7 @@ function ListLists(salesList) {
           setStaffLists(response.data.salesStaffs);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 

@@ -4,6 +4,7 @@ import ActionListsTable from "./ActionListsTable";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { config } from "src/utility/config/AppConfig";
+import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function ActionLists() {
   const [actionLists, setActionLogs] = useState<ActionList[]>([]);
@@ -19,7 +20,7 @@ function ActionLists() {
           setActionLogs(response.data);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 

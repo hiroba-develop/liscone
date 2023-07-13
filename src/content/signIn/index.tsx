@@ -66,7 +66,6 @@ function signIn() {
     userId: "",
     userPw: "",
     coId: "",
-    errorMessage: "",
   });
   const current = new Date();
   const today = `${current.getFullYear()}-${
@@ -80,7 +79,8 @@ function signIn() {
   const setProducts = useSetRecoilState(productsAtom);
 
   const navigate = useNavigate();
-
+  const [isSnackBarError, setIsTextError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const { mutate, isError } = useWrapMuation<any, any>(
     ["login"],
     async (data) => {
@@ -100,13 +100,20 @@ function signIn() {
 
         const getMembers = async () => {
           try {
-            const response = await axios.get(`${config().apiUrl}/members`);
+            const response = await axios.get(
+              `${config().apiUrl}/members/byCompId`,
+              {
+                params: {
+                  companyCode: data.company_code,
+                },
+              }
+            );
 
             if (response.statusText === "OK") {
               setMembers(response.data);
             }
           } catch (error) {
-            console.error(error);
+            commonErrorCallback(error);
           }
         };
         getMembers();
@@ -126,7 +133,7 @@ function signIn() {
               setProducts(response.data);
             }
           } catch (error) {
-            console.error(error);
+            commonErrorCallback(error);
           }
         };
         getProducts();
@@ -139,12 +146,8 @@ function signIn() {
       },
       onError: (error) => {
         commonErrorCallback(error);
-        setAuth((oldAuth) => {
-          return {
-            ...oldAuth,
-            errorMessage: error.response.data.message,
-          };
-        });
+        setErrorMessage(error.response.data.message);
+        setIsTextError(true);
       },
     }
   );
@@ -186,6 +189,9 @@ function signIn() {
             vertical: "bottom",
             horizontal: "center",
           }}
+          open={isSnackBarError}
+          autoHideDuration={3000}
+          onClose={() => setIsTextError(false)}
         >
           <Alert
             severity="error"
@@ -215,7 +221,7 @@ function signIn() {
                 color: "#FFFFFF",
               }}
             >
-              {auth.errorMessage}
+              {errorMessage}
             </Typography>
           </Alert>
         </Snackbar>

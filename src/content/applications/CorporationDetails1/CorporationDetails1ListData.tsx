@@ -4,6 +4,7 @@ import CorporationDetails1Table from "./CorporationDetails1Table";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { config } from "src/utility/config/AppConfig";
+import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function ListLists(corporationList) {
   const [staffLists, setStaffs] = useState<CorporationDetailsList[]>([]);
@@ -24,7 +25,7 @@ function ListLists(corporationList) {
           setStaffs(response.data);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 

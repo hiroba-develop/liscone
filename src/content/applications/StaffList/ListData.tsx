@@ -4,6 +4,7 @@ import StaffListsTable from "./StaffListsTable";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { config } from "src/utility/config/AppConfig";
+import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function StaffLists() {
   const [staffLists, setStaffs] = useState<StaffList[]>([]);
@@ -19,7 +20,7 @@ function StaffLists() {
           setStaffs(response.data);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 

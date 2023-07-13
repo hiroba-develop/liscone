@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { ActionList } from "src/models/action_list";
 import { config } from "src/utility/config/AppConfig";
 import ActionHistoryTable from "./ActionHistoryTable";
+import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function ListLists(salesList) {
   const [actionLists, setActionLogs] = useState<ActionList[]>([]);
@@ -23,7 +24,7 @@ function ListLists(salesList) {
           setActionLogs(response.data);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 

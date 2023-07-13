@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { config } from "src/utility/config/AppConfig";
 import { CODE } from "src/utility/constants/Code";
-import { post } from "src/utility/http/ApiService";
+import { commonErrorCallback, post } from "src/utility/http/ApiService";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 import { productsAtom } from "src/utility/recoil/comp/Products.atom";
 import TaskLog from "../PopUp/TaskLog";
@@ -43,7 +43,7 @@ function SalesCorpInfo({ corporationList, salesList }) {
           setStaffs(response.data);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
     getStaffs();
@@ -85,7 +85,7 @@ function SalesCorpInfo({ corporationList, salesList }) {
         //   corporationList.transaction_status = tranStatusSelected;
         // }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 
@@ -110,7 +110,7 @@ function SalesCorpInfo({ corporationList, salesList }) {
         //   corporationList.memo = response.data.;
         // }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
     updateMemo();

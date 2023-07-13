@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { SalesDetailsList } from "src/models/sales_details_list";
 import { config } from "src/utility/config/AppConfig";
 import ListListsTable from "./SalesListCorporationDetailsTable";
+import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function ListLists(salesList) {
   const [salesDetailsLists, setSalesDetailLists] = useState<SalesDetailsList[]>(
@@ -25,7 +26,7 @@ function ListLists(salesList) {
           setSalesDetailLists(response.data);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 

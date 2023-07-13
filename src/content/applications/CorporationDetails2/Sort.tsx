@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { config } from "src/utility/config/AppConfig";
 import { CODE } from "src/utility/constants/Code";
+import { commonErrorCallback } from "src/utility/http/ApiService";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 import { productsAtom } from "src/utility/recoil/comp/Products.atom";
 
@@ -78,7 +79,7 @@ function Sort({ corporation, salesList }) {
           setTranStatusSelected(e.target.value);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 

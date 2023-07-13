@@ -6,6 +6,7 @@ import { TaskList } from "src/models/sales_task_list";
 import { config } from "src/utility/config/AppConfig";
 import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import TaskListsTable from "./TaskListsTable";
+import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function TaskLists() {
   const [taskLists, setTasks] = useState<TaskList[]>([]);
@@ -38,7 +39,7 @@ function TaskLists() {
           setTasks(response.data);
         }
       } catch (error) {
-        console.error(error);
+        commonErrorCallback(error);
       }
     };
 
