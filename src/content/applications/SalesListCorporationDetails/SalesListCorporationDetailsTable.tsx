@@ -123,9 +123,7 @@ const SalesLists: FC<SalesListsProps> = ({
       width: 80,
       align: "center",
       renderCell: (params) => {
-        return params.value !== null
-          ? CODE.BIG_RESULT.find((e) => e.key === params.value).code
-          : "";
+        return getStatusLabel(params.value);
       },
     },
     {
@@ -140,7 +138,9 @@ const SalesLists: FC<SalesListsProps> = ({
       width: 80,
       align: "center",
       renderCell: (params) => {
-        return getStatusLabel(params.value);
+        return params.value !== null
+          ? CODE.TRAN_STATUS.find((e) => e.key === params.value).code
+          : "";
       },
     },
   ];

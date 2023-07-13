@@ -15,6 +15,7 @@ import PropTypes from "prop-types";
 import { ChangeEvent, FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ActionList } from "src/models/action_list";
+import { CODE } from "src/utility/constants/Code";
 
 interface ActionListProps {
   className?: string;
@@ -157,7 +158,11 @@ const ActionLists: FC<ActionListProps> = ({ actionLists }) => {
                         gutterBottom
                         noWrap
                       >
-                        {actionList.execute_result}
+                        {actionList.execute_big_result !== null
+                          ? CODE.BIG_RESULT.find(
+                              (e) => e.key === actionList.execute_big_result
+                            ).code
+                          : ""}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -168,7 +173,11 @@ const ActionLists: FC<ActionListProps> = ({ actionLists }) => {
                         gutterBottom
                         noWrap
                       >
-                        {actionList.execute_result}
+                        {actionList.execute_small_result !== null
+                          ? CODE.SMALL_RESULT.find(
+                              (e) => e.key === actionList.execute_small_result
+                            ).code
+                          : ""}
                       </Typography>
                     </TableCell>
                     <TableCell>

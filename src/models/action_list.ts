@@ -10,7 +10,8 @@ export interface ActionList {
   corporationstaffEntity: {
     staff_name: string;
   };
-  execute_result: string;
+  execute_big_result: string;
+  execute_small_result: string;
   comment: string;
   memberEntity: {
     member_name: string;

@@ -89,7 +89,8 @@ const TaskLogStaffList = ({
         sales_corporation_id: staffList.corporation.corporation_id,
         sales_staff_id: StaffSelected,
         execute_date: BRSelected !== "" || SRSelected !== "" ? today : "",
-        execute_result: BRSelected + SRSelected,
+        execute_big_result: BRSelected,
+        execute_small_result: SRSelected,
         comment: comments,
       };
 

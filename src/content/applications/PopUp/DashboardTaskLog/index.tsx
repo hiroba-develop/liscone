@@ -77,7 +77,8 @@ const DashboardTaskLog = ({
       const param = {
         task_number: data.task_number,
         execute_date: today,
-        execute_result: BRSelected + SRSelected,
+        execute_big_result: BRSelected,
+        execute_small_result: SRSelected,
       };
 
       await post<any>(`${config().apiUrl}/salesTasks/updateTask`, param);

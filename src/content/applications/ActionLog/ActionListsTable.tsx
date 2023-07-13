@@ -150,13 +150,11 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.execute_result !== null
+                      {actionList.execute_big_result !== null
                         ? CODE.BIG_RESULT.find(
-                            (e) =>
-                              e.key ===
-                              actionList.execute_result.substring(0, 4)
+                            (e) => e.key === actionList.execute_big_result
                           ).code
-                        : actionList.execute_result}
+                        : ""}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -167,13 +165,11 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.execute_result !== null
+                      {actionList.execute_small_result !== null
                         ? CODE.SMALL_RESULT.find(
-                            (e) =>
-                              e.key ===
-                              actionList.execute_result.substring(4, 8)
+                            (e) => e.key === actionList.execute_small_result
                           ).code
-                        : actionList.execute_result}
+                        : ""}
                     </Typography>
                   </TableCell>
                   <TableCell>
