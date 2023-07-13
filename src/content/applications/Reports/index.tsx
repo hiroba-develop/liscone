@@ -1,31 +1,29 @@
-import { Container, Grid } from '@mui/material';
-import { Helmet } from 'react-helmet-async';
-import Footer from 'src/components/Footer';
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
-// import PageHeader from './PageHeader';
-
-// import RecentOrders from './RecentOrders';
-
+import { Container, Grid } from "@mui/material";
+import { ArcElement, Chart } from "chart.js";
+import { Helmet } from "react-helmet-async";
+import Footer from "src/components/Footer";
+import SalesListChart1 from "./SalesListChart1";
+import SalesListChart2 from "./SalesListChart2";
+Chart.register(ArcElement);
 function Reports() {
-
   return (
     <>
       <Helmet>
         <title>Reports</title>
       </Helmet>
-      <PageTitleWrapper>
-        ## PageHeader
-      </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
           container
           direction="row"
           justifyContent="center"
           alignItems="stretch"
-          spacing={3}
+          spacing={1}
         >
-          <Grid item xs={12}>
-          Reports
+          <Grid item xs={18}>
+            <SalesListChart1 />
+          </Grid>
+          <Grid item xs={18}>
+            <SalesListChart2 />
           </Grid>
         </Grid>
       </Container>
