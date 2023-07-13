@@ -1,25 +1,13 @@
-import {
-  Box,
-  Card,
-  Divider,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import PropTypes from "prop-types";
-import { ChangeEvent, FC, useState } from "react";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import Label from "src/components/Label";
 import { SalesList, SalesListStatus } from "src/models/sales_list";
 import { SalesListStatistic } from "src/models/sales_list_statistic";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 interface SalesListsProps {
   className?: string;
@@ -61,15 +49,23 @@ const SalesLists: FC<SalesListsProps> = ({
             onClick={(event) => {
               if (params.row.sales_list_type === "01") {
                 navigate("/salesTask/salesListCorporationDetails", {
-                  state: salesLists.find(
-                    (e) => e.sales_list_number === params.row.sales_list_number
-                  ),
+                  state: [
+                    salesLists.find(
+                      (e) =>
+                        e.sales_list_number === params.row.sales_list_number
+                    ),
+                    params.row,
+                  ],
                 });
               } else {
                 navigate("/salesTask/salesListStaffDetails", {
-                  state: salesLists.find(
-                    (e) => e.sales_list_number === params.row.sales_list_number
-                  ),
+                  state: [
+                    salesLists.find(
+                      (e) =>
+                        e.sales_list_number === params.row.sales_list_number
+                    ),
+                    params.row,
+                  ],
                 });
               }
             }}
@@ -94,8 +90,18 @@ const SalesLists: FC<SalesListsProps> = ({
     },
     { field: "proceedCount", headerName: "消化数", width: 100 },
     {
-      field: "projectCount",
+      field: "progressCount",
       headerName: "商談化",
+      width: 100,
+      renderCell: (params) => {
+        return params.row.proceedCount === "0"
+          ? "0%"
+          : (params.value / params.row.proceedCount) * 100 + "%";
+      },
+    },
+    {
+      field: "projectCount",
+      headerName: "案件化",
       width: 100,
       renderCell: (params) => {
         return params.row.proceedCount === "0"
