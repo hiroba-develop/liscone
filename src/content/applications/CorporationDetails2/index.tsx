@@ -11,13 +11,15 @@ import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
 import CorporationDetails1ListData from "../CorporationDetails1/CorporationDetails1ListData";
 import CorporationDetails1ReferenceListData from "../CorporationDetails1/CorporationDetails1ReferenceListData";
 import SalesCorpInfo from "./SalesCorpInfo";
+import { SalesListStatistic } from "src/models/sales_list_statistic";
 
 function Lists() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [corporationList, salesList] = location.state as [
+  const [corporationList, salesList, salesListStatistic] = location.state as [
     CorporationList,
-    SalesList
+    SalesList,
+    SalesListStatistic
   ];
 
   return (
@@ -52,7 +54,7 @@ function Lists() {
           <IconButton
             onClick={() =>
               navigate("/salesTask/salesListCorporationDetails", {
-                state: salesList,
+                state: [salesList, salesListStatistic],
               })
             }
           >

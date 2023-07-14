@@ -34,7 +34,8 @@ function ListLists() {
     };
 
     getSalesLists();
-
+  }, [auth.userId]);
+  useEffect(() => {
     const getSalesListStatistic = async () => {
       try {
         const response = await axios.get(

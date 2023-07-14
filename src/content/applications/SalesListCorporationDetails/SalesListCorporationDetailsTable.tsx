@@ -9,6 +9,7 @@ import {
   SalesDetailsList,
 } from "src/models/sales_details_list";
 import { SalesList } from "src/models/sales_list";
+import { SalesListStatistic } from "src/models/sales_list_statistic";
 import { CODE } from "src/utility/constants/Code";
 import { renderCellExpand } from "src/utility/renderexpand";
 
@@ -16,11 +17,13 @@ interface SalesListsProps {
   className?: string;
   salesDetailsList: SalesDetailsList[];
   selectedSalesList: SalesList;
+  salesListStatistic: SalesListStatistic;
 }
 
 const SalesLists: FC<SalesListsProps> = ({
   salesDetailsList: salesDetailsLists,
   selectedSalesList: salesList,
+  salesListStatistic: salesStatistic,
 }) => {
   const getStatusLabel = (
     corporationListStatus: CorporationListStatus
@@ -148,7 +151,7 @@ const SalesLists: FC<SalesListsProps> = ({
 
   const handleCorpNameEvent = (event, corporationList) => {
     navigate("/salesTask/corporationDetails2", {
-      state: [corporationList.row, salesList],
+      state: [corporationList.row, salesList, salesStatistic],
     });
   };
 

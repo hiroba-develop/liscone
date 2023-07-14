@@ -34,7 +34,7 @@ function Lists() {
           　戻る
         </Button>
         <ListStaffReferenceData {...salesListStatistic} />
-        <ListStaffDetailsData {...salesList} />
+        <ListStaffDetailsData {...{ salesList, salesListStatistic }} />
       </Container>
       <Footer />
     </>

@@ -14,12 +14,14 @@ import PropTypes from "prop-types";
 import { ChangeEvent, FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SalesList } from "src/models/sales_list";
+import { SalesListStatistic } from "src/models/sales_list_statistic";
 import { StaffDetails2List } from "src/models/staff_details2_list";
 
 interface StaffDetails2ListProps {
   className?: string;
   staffList: StaffDetails2List[];
   selectedSalesList: SalesList;
+  salesListStatistic: SalesListStatistic;
 }
 
 const applyFilters = (staffLists: StaffDetails2List[]): StaffDetails2List[] => {
@@ -39,6 +41,7 @@ const applyPagination = (
 const StaffLists: FC<StaffDetails2ListProps> = ({
   staffList: staffLists,
   selectedSalesList: salesList,
+  salesListStatistic: salesStatistic,
 }) => {
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
@@ -82,7 +85,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       noWrap
                       onClick={() =>
                         navigate("/salesTask/staffDetails2", {
-                          state: [staffList, salesList],
+                          state: [staffList, salesList, salesStatistic],
                         })
                       }
                       sx={{ textDecoration: "underline" }}

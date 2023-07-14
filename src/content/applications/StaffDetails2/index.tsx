@@ -9,14 +9,16 @@ import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
 import SalesCorpInfo from "./SalesStaffInfo";
 import StaffDetails2ListData from "./StaffDetails2ListData";
 import StaffDetails2ReferenceListData from "./StaffDetails2ReferenceListData";
+import { SalesListStatistic } from "src/models/sales_list_statistic";
 
 function Lists() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [staffList, salesList] = location.state as [
+  const [staffList, salesList, salesListStatistic] = location.state as [
     StaffDetails2List,
-    SalesList
+    SalesList,
+    SalesListStatistic
   ];
 
   return (
@@ -50,7 +52,7 @@ function Lists() {
           <IconButton
             onClick={() =>
               navigate("/salesTask/salesListStaffDetails", {
-                state: salesList,
+                state: [salesList, salesListStatistic],
               })
             }
           >

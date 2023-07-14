@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { config } from "src/utility/config/AppConfig";
 import { CODE } from "src/utility/constants/Code";
@@ -20,12 +20,7 @@ import axios from "axios";
 import TaskLogStaffList from "../PopUp/TaskLogStaffList";
 
 function SalesCorpInfo({ staffList, salesList }) {
-  const [taskLogOpen, setTaskLogOpen] = useState(false);
-  const [tranStatusSelected, setTranStatusSelected] = useState(
-    staffList.transaction_status === null ? "" : staffList.transaction_status
-  );
-  const [corpStaffList, setStaffs] = useState([]);
-  const editTaskLogOpen = (staffList) => {
+  useEffect(() => {
     const getStaffs = async () => {
       try {
         const response = await axios.get(
@@ -45,7 +40,14 @@ function SalesCorpInfo({ staffList, salesList }) {
       }
     };
     getStaffs();
+  }, [staffList]);
 
+  const [taskLogOpen, setTaskLogOpen] = useState(false);
+  const [tranStatusSelected, setTranStatusSelected] = useState(
+    staffList.transaction_status === null ? "" : staffList.transaction_status
+  );
+  const [corpStaffList, setStaffs] = useState([]);
+  const editTaskLogOpen = () => {
     setTaskLogOpen(true);
   };
 
@@ -128,7 +130,7 @@ function SalesCorpInfo({ staffList, salesList }) {
           sx={{ my: 5, borderRadius: 0.5, backgroundColor: "#109DBC" }}
           fullWidth
           variant="contained"
-          onClick={() => editTaskLogOpen(staffList)}
+          onClick={editTaskLogOpen}
         >
           行動ログを作成
         </Button>

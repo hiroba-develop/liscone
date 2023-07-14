@@ -6,7 +6,7 @@ import { config } from "src/utility/config/AppConfig";
 import SalesListStaffDetailsTable from "./SalesListStaffDetailsTable";
 import { commonErrorCallback } from "src/utility/http/ApiService";
 
-function ListLists(salesList) {
+function ListLists({ salesList, salesListStatistic }) {
   const [staffLists, setStaffLists] = useState<StaffDetails2List[]>([]);
 
   useEffect(() => {
@@ -37,6 +37,7 @@ function ListLists(salesList) {
       <SalesListStaffDetailsTable
         staffList={staffLists}
         selectedSalesList={salesList}
+        salesListStatistic={salesListStatistic}
       />
     </Card>
   );

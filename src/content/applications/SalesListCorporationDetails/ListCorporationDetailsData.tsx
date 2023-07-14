@@ -6,7 +6,7 @@ import { config } from "src/utility/config/AppConfig";
 import ListListsTable from "./SalesListCorporationDetailsTable";
 import { commonErrorCallback } from "src/utility/http/ApiService";
 
-function ListLists(salesList) {
+function ListLists({ salesList, salesListStatistic }) {
   const [salesDetailsLists, setSalesDetailLists] = useState<SalesDetailsList[]>(
     []
   );
@@ -31,12 +31,13 @@ function ListLists(salesList) {
     };
 
     getSalesDetailLists();
-  }, [salesList.sales_list_number, salesList.sales_list_type]);
+  }, [salesList.sales_list_number]);
 
   return (
     <Card sx={{ mt: 5 }}>
       <ListListsTable
         salesDetailsList={salesDetailsLists}
+        salesListStatistic={salesListStatistic}
         selectedSalesList={salesList}
       />
     </Card>
