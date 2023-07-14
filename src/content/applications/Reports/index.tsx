@@ -2,8 +2,8 @@ import { Container, Grid } from "@mui/material";
 import { ArcElement, Chart } from "chart.js";
 import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
-import SalesListChart1 from "./SalesListChart1";
-import SalesListChart2 from "./SalesListChart2";
+import ChartData1 from "./ChartData1";
+import ChartData2 from "./ChartData2";
 Chart.register(ArcElement);
 function Reports() {
   return (
@@ -17,13 +17,13 @@ function Reports() {
           direction="row"
           justifyContent="center"
           alignItems="stretch"
-          spacing={1}
+          spacing={3}
         >
           <Grid item xs={18}>
-            <SalesListChart1 />
+            <ChartData1 />
           </Grid>
           <Grid item xs={18}>
-            <SalesListChart2 />
+            <ChartData2 />
           </Grid>
         </Grid>
       </Container>
