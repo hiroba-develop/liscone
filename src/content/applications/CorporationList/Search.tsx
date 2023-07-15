@@ -354,7 +354,7 @@ const Search = (props) => {
           </Stack>
         </Grid>
         <Grid item xs={3}>
-          <Typography sx={{ fontSize: 16, pl: 1, mb: -1 }}>従業員数</Typography>
+          <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>従業員数</Typography>
           <Stack sx={{ m: 1 }} direction="row">
             <Autocomplete
               disablePortal
