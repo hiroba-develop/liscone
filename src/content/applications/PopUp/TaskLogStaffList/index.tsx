@@ -188,6 +188,7 @@ const TaskLogStaffList = ({
                 fullWidth
                 variant="contained"
                 type="submit"
+                disabled={!(ActionSelected.length > 0)}
               >
                 行動ログを記録
               </Button>
@@ -216,6 +217,7 @@ const TaskLogStaffList = ({
               <TextField
                 fullWidth
                 select
+                required
                 label="アクション"
                 value={ActionSelected}
                 onChange={handleActionSelect}

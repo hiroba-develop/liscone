@@ -25,19 +25,7 @@ const ButtonWrapper = styled(Button)(
 );
 function Header() {
   const theme = useTheme();
-  const auth = useRecoilValue(authAtom);
 
-  useEffect(() => {
-    logoutCheck();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
-
-  const logoutCheck = async () => {
-    if (auth.userId === "") {
-      sessionStorage.clear();
-    }
-  };
   return (
     <HeaderWrapper
       display="flex"

@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 // import PageHeader from './PageHeader';
@@ -13,10 +13,20 @@ function Lists() {
         <title>行動ログ</title>
       </Helmet>
       <Container maxWidth="lg">
-        <Search />
-        <Box sx={{ mt: 3 }}>
-          <ListData />
-        </Box>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="stretch"
+          spacing={3}
+        >
+          <Grid item xs={16}>
+            <Search />
+            <Box>
+              <ListData />
+            </Box>
+          </Grid>
+        </Grid>
       </Container>
       <Footer />
     </>

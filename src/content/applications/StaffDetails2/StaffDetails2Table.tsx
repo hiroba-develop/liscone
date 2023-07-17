@@ -99,7 +99,7 @@ const SalesLists = ({ staffDetails2List }) => {
 
   return (
     <Card>
-      <Box sx={{ height: 105, maxWidth: 2000 }}>
+      <Box sx={{ height: 150, maxWidth: 2000 }}>
         <DataGrid
           rows={[staffDetails2List]}
           getRowId={(row: any) => row.corporation_id}
@@ -108,6 +108,13 @@ const SalesLists = ({ staffDetails2List }) => {
           hideFooterSelectedRowCount
           hideFooter
           disableRowSelectionOnClick
+          sx={{
+            border: 0,
+            borderRadius: 0,
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontWeight: "bold",
+          }}
+          rowHeight={70}
         />
       </Box>
     </Card>

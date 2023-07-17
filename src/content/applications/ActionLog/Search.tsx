@@ -18,7 +18,7 @@ function Search() {
   const margin = 0.5;
   const paddingBotton = 1.5;
   return (
-    <Card sx={{ mb: 1 }}>
+    <Card>
       <Stack sx={{ m: 1 }} direction="row">
         <ManageSearchIcon />
         <Typography fontWeight="bold" sx={{ fontSize: 16, pl: 1 }}>

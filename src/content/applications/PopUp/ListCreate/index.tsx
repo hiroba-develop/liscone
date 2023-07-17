@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
 import { config } from "src/utility/config/AppConfig";
 import {
@@ -25,6 +26,7 @@ const ListCreate = ({
   checkItems,
   salesListType,
 }) => {
+  const navigate = useNavigate();
   const [salesListNameValue, setsalesListNameValue] = useState("");
   const saveSalesListName = (e) => {
     setsalesListNameValue(e.target.value);
@@ -59,6 +61,7 @@ const ListCreate = ({
     {
       onSuccess: (data) => {
         setListCreateOpen(false);
+        navigate("/salesTask");
       },
       onError: (error) => {
         commonErrorCallback(error);

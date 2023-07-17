@@ -8,6 +8,7 @@ import { CssBaseline } from "@mui/material";
 import { RecoilRoot } from "recoil";
 import ThemeProvider from "./theme/ThemeProvider";
 import { QueryClientProvider } from "./utility/provider/query-client/QueryClientProvider";
+import AuthRoutes from "./hooks/useAuthRoutes";
 
 function App() {
   const content = useRoutes(router);
@@ -17,8 +18,10 @@ function App() {
       <QueryClientProvider>
         <ThemeProvider>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <CssBaseline />
-            {content}
+            <AuthRoutes>
+              <CssBaseline />
+              {content}
+            </AuthRoutes>
           </LocalizationProvider>
         </ThemeProvider>
       </QueryClientProvider>

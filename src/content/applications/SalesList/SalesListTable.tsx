@@ -145,7 +145,7 @@ const SalesLists: FC<SalesListsProps> = ({
 
   return (
     <Card>
-      <Box sx={{ height: 600, maxWidth: 1400 }}>
+      <Box sx={{ height: 455, maxWidth: 1400 }}>
         <DataGrid
           rows={salesListStatistics}
           getRowId={(row: any) => row.sales_list_number}
@@ -159,6 +159,13 @@ const SalesLists: FC<SalesListsProps> = ({
           }}
           pageSizeOptions={[5]}
           disableRowSelectionOnClick
+          sx={{
+            border: 0,
+            borderRadius: 0,
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontWeight: "bold",
+          }}
+          rowHeight={70}
         />
       </Box>
     </Card>

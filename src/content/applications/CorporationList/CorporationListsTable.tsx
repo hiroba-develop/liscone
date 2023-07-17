@@ -331,12 +331,15 @@ const CorporationLists: FC<CorporationListsProps> = ({
       />
       <Divider />
 
-      <Box sx={{ height: 390, maxWidth: 2000 }}>
+      <Box sx={{ height: 450, maxWidth: 2000 }}>
         <DataGrid
           sx={{
             border: 0,
             borderRadius: 0,
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontWeight: "bold",
           }}
+          rowHeight={70}
           rows={searchCorporationLists}
           getRowId={(row: any) => row.corporation_id}
           columns={columns}

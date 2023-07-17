@@ -5,7 +5,9 @@ import {
   Box,
   Button,
   Card,
+  Checkbox,
   Container,
+  FormControlLabel,
   OutlinedInput,
   Snackbar,
   Typography,
@@ -16,7 +18,7 @@ import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { config } from "src/utility/config/AppConfig";
 import { NavigatePath } from "src/utility/constants/NavigatePath";
 import {
@@ -24,7 +26,7 @@ import {
   post,
   useWrapMuation,
 } from "src/utility/http/ApiService";
-import { authAtom } from "src/utility/recoil/auth/Auth.atom";
+import { authAtom, lsAuthAtom } from "src/utility/recoil/auth/Auth.atom";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 import { productsAtom } from "src/utility/recoil/comp/Products.atom";
 import ErrorIcon from "../applications/icon/ErrorIcon";
@@ -62,11 +64,15 @@ const CustomButton = styled(Button)(() => ({
 type InputType = "userId" | "userPw";
 
 function signIn() {
+  const lsauth = useRecoilValue(lsAuthAtom);
   const [auth, setAuth] = useState({
-    userId: "",
-    userPw: "",
+    userId: lsauth.userId,
+    userPw: lsauth.pw,
     coId: "",
   });
+  const [storeAuthChecked, setStoreAuthChecked] = useState(
+    lsauth.userId === "" ? false : true
+  );
   const current = new Date();
   const today = `${current.getFullYear()}-${
     current.getMonth() < 10 ? "0" : ""
@@ -75,6 +81,7 @@ function signIn() {
   }${current.getDate()}`;
 
   const setAuthState = useSetRecoilState(authAtom);
+  const setLSAuthState = useSetRecoilState(lsAuthAtom);
   const setMembers = useSetRecoilState(membersAtom);
   const setProducts = useSetRecoilState(productsAtom);
 
@@ -93,6 +100,11 @@ function signIn() {
     },
     {
       onSuccess: (data) => {
+        if (storeAuthChecked) {
+          setLSAuthState({ userId: auth.userId, pw: auth.userPw });
+        } else {
+          setLSAuthState({ userId: "", pw: "" });
+        }
         setAuthState({
           userId: data.member_id,
           coId: data.company_code,
@@ -155,6 +167,10 @@ function signIn() {
   const login = (e: FormEvent) => {
     e.preventDefault();
     mutate(auth);
+  };
+
+  const handleChange = (e) => {
+    setStoreAuthChecked(e.checked);
   };
 
   const onChange = (
@@ -254,8 +270,16 @@ function signIn() {
                     onChange={(e) => onChange(e, "userPw")}
                   />
                 </InputContainer>
-
-                <Box>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={storeAuthChecked}
+                      onChange={handleChange}
+                    />
+                  }
+                  label="ログイン情報を保存する"
+                />
+                <Box sx={{ mt: 3 }}>
                   <CustomButton
                     type="submit"
                     fullWidth

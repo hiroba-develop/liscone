@@ -34,7 +34,7 @@ function Sort() {
       <Stack sx={{ m: 1 }} direction="row">
         <Grid container spacing={5}>
           <Grid item xs={3}>
-            <Typography sx={{ fontSize: "16px", mt: 2.5, mr: 1 }}>
+            <Typography sx={{ fontSize: "14px", mt: 2.5, mr: 1 }}>
               ユーザー：
             </Typography>
             <Autocomplete
