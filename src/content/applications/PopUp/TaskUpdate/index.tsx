@@ -12,7 +12,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router";
 import { useRecoilValue } from "recoil";
@@ -38,18 +38,17 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
     setActionSelected(e.target.value);
   };
 
-  const [startDate, setStartDate] = useState("");
-  const handleDateSelect = (e) => {
-    const formated = dayjs(e).format("YYYY-MM-DD");
-    setStartDate(formated);
-  };
+  const [startDate, setStartDate] = useState<Dayjs | null>(
+    dayjs(new Date(taskList.deadline))
+  );
+
   const { mutate } = useWrapMuation<any, any>(
     ["updateSalesTask"],
     async (data) => {
       const param = {
         task_number: data.task_number,
         task_name: ActionSelected,
-        deadline: startDate,
+        deadline: startDate.format("YYYY-MM-DD"),
         member_id: MemberSelected,
       };
 
@@ -174,16 +173,14 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
                 }}
               >
                 <DatePicker
-                  value={dayjs(new Date(taskList.deadline))}
+                  defaultValue={startDate}
                   format={"YYYY-MM-DD"}
                   slotProps={{
                     textField: {
                       error: false,
                     },
                   }}
-                  onChange={(e) => {
-                    handleDateSelect(e);
-                  }}
+                  onChange={(newValue) => setStartDate(newValue)}
                 />
               </DemoContainer>
             </LocalizationProvider>

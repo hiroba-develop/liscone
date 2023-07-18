@@ -10,6 +10,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import axios from "axios";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { SalesList } from "src/models/sales_list";
@@ -19,10 +20,25 @@ import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 import SalesListChart2 from "./SalesListChart2";
 
-function ChartData1() {
+function ChartData2() {
   const auth = useRecoilValue(authAtom);
   const members = useRecoilValue(membersAtom);
   const [salesLists, setSalesLists] = useState<SalesList[]>([]);
+  //검색==========================================================================
+  //멤버
+  //리스트
+  const [saleListSelected, setSaleListSelected] = useState("");
+  const [minDate, setMinDate] = useState("");
+  const [maxDate, setMaxDate] = useState("");
+  const [memberSelect, setMemberSelect] = useState("");
+  const setMemberSelectChange = (e) => {
+    setMemberSelect(e.target.value);
+  };
+
+  const setSaleListSelectedChange = (e) => {
+    setSaleListSelected(e.target.value);
+  };
+
   useEffect(() => {
     const getSalesLists = async () => {
       try {
@@ -38,28 +54,6 @@ function ChartData1() {
 
     getSalesLists();
   }, []);
-  //검색==========================================================================
-  //멤버
-  const [memberSelect, setMemberSelect] = useState(auth.userId);
-  const setMemberSelectChange = (e) => {
-    setMemberSelect(e.target.value);
-  };
-
-  //리스트
-  const [saleListSelected, setSaleListSelected] = useState("");
-  const setSaleListSelectedChange = (e) => {
-    setSaleListSelected(e.target.value);
-  };
-
-  //기간
-  const [minDate, setMinDate] = useState("");
-  const setMinDateChange = (e) => {
-    setMinDate(e.target.value);
-  };
-  const [maxDate, setMaxDate] = useState("");
-  const setMaxDateChange = (e) => {
-    setMaxDate(e.target.value);
-  };
 
   const [donutData, setDonutData] = useState([]);
   useEffect(() => {
@@ -78,7 +72,6 @@ function ChartData1() {
         );
 
         if (response.statusText === "OK") {
-          console.log(response.data);
           const datas = [];
 
           datas.push(
@@ -120,7 +113,6 @@ function ChartData1() {
         );
 
         if (response.statusText === "OK") {
-          console.log(response.data);
           let obj: any = { name: "件数" };
           let datas = [];
           for (const key in response.data) {
@@ -158,7 +150,6 @@ function ChartData1() {
         );
 
         if (response.statusText === "OK") {
-          console.log(response.data);
           let obj: any = { name: "件数" };
           let datas = [];
           for (const key in response.data) {
@@ -287,7 +278,9 @@ function ChartData1() {
                     error: false,
                   },
                 }}
-                onChange={setMinDateChange}
+                onChange={(e) => {
+                  setMinDate(dayjs(e).format("YYYY-MM-DD"));
+                }}
               />
             </DemoContainer>
           </LocalizationProvider>
@@ -308,7 +301,9 @@ function ChartData1() {
                     error: false,
                   },
                 }}
-                onChange={setMaxDateChange}
+                onChange={(e) => {
+                  setMaxDate(dayjs(e).format("YYYY-MM-DD"));
+                }}
               />
             </DemoContainer>
           </LocalizationProvider>
@@ -326,4 +321,4 @@ function ChartData1() {
   );
 }
 
-export default ChartData1;
+export default ChartData2;

@@ -18,20 +18,20 @@ import { commonErrorCallback } from "src/utility/http/ApiService";
 import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 import SalesListChart1 from "./SalesListChart1";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 function ChartData1() {
   const auth = useRecoilValue(authAtom);
   const members = useRecoilValue(membersAtom);
   const [salesLists, setSalesLists] = useState<SalesList[]>([]);
-  const today = dayjs().format("YYYY-MM-DD");
-  const plus1week = dayjs().add(1, "week").format("YYYY-MM-DD");
+  const today = dayjs(new Date());
+  const plus1week = dayjs(new Date()).add(1, "week");
   //검색==========================================================================
   //멤버
   //리스트
   const [saleListSelected, setSaleListSelected] = useState("");
-  const [minDate, setMinDate] = useState("");
-  const [maxDate, setMaxDate] = useState("");
+  const [minDate, setMinDate] = useState<Dayjs | null>(today);
+  const [maxDate, setMaxDate] = useState<Dayjs | null>(plus1week);
   const [memberSelect, setMemberSelect] = useState(auth.userId);
   const setMemberSelectChange = (e) => {
     setMemberSelect(e.target.value);
@@ -68,8 +68,8 @@ function ChartData1() {
             params: {
               member_id: memberSelect,
               sales_list_number: saleListSelected,
-              created_dateFrom: minDate,
-              created_dateTo: maxDate,
+              created_dateFrom: minDate.format("YYYY-MM-DD"),
+              created_dateTo: maxDate.format("YYYY-MM-DD"),
             },
           }
         );
@@ -109,8 +109,8 @@ function ChartData1() {
             params: {
               member_id: memberSelect,
               sales_list_number: saleListSelected,
-              execute_dateFrom: minDate,
-              execute_dateTo: maxDate,
+              execute_dateFrom: minDate.format("YYYY-MM-DD"),
+              execute_dateTo: maxDate.format("YYYY-MM-DD"),
             },
           }
         );
@@ -146,8 +146,8 @@ function ChartData1() {
             params: {
               member_id: memberSelect,
               sales_list_number: saleListSelected,
-              execute_dateFrom: minDate,
-              execute_dateTo: maxDate,
+              execute_dateFrom: minDate.format("YYYY-MM-DD"),
+              execute_dateTo: maxDate.format("YYYY-MM-DD"),
             },
           }
         );
@@ -275,14 +275,14 @@ function ChartData1() {
               <DatePicker
                 label=""
                 format={"YYYY-MM-DD"}
-                value={minDate}
+                defaultValue={minDate}
                 slotProps={{
                   textField: {
                     error: false,
                   },
                 }}
                 onChange={(e) => {
-                  setMinDate(dayjs(e).format("YYYY-MM-DD"));
+                  setMinDate(e);
                 }}
               />
             </DemoContainer>
@@ -298,14 +298,14 @@ function ChartData1() {
               <DatePicker
                 label=""
                 format={"YYYY-MM-DD"}
-                value={maxDate}
+                defaultValue={maxDate}
                 slotProps={{
                   textField: {
                     error: false,
                   },
                 }}
                 onChange={(e) => {
-                  setMaxDate(dayjs(e).format("YYYY-MM-DD"));
+                  setMaxDate(e);
                 }}
               />
             </DemoContainer>
