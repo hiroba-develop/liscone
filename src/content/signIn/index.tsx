@@ -70,9 +70,7 @@ function signIn() {
     userPw: lsauth.pw,
     coId: "",
   });
-  const [storeAuthChecked, setStoreAuthChecked] = useState(
-    lsauth.userId === "" ? false : true
-  );
+  const [storeAuthChecked, setStoreAuthChecked] = useState(false);
   const current = new Date();
   const today = `${current.getFullYear()}-${
     current.getMonth() < 10 ? "0" : ""
@@ -170,7 +168,7 @@ function signIn() {
   };
 
   const handleChange = (e) => {
-    setStoreAuthChecked(e.checked);
+    setStoreAuthChecked(e.target.checked);
   };
 
   const onChange = (
