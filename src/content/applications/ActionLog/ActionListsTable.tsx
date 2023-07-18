@@ -150,7 +150,8 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.execute_big_result !== null
+                      {actionList.execute_big_result !== null &&
+                      actionList.execute_big_result !== ""
                         ? CODE.BIG_RESULT.find(
                             (e) => e.key === actionList.execute_big_result
                           ).code
@@ -165,7 +166,8 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.execute_small_result !== null
+                      {actionList.execute_small_result !== null &&
+                      actionList.execute_small_result !== ""
                         ? CODE.SMALL_RESULT.find(
                             (e) => e.key === actionList.execute_small_result
                           ).code
@@ -217,7 +219,8 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                           />
                         )}
                         　
-                        {actionList.task_name !== null
+                        {actionList.task_name !== null &&
+                        actionList.task_name !== ""
                           ? CODE.ACTION.find(
                               (e) => e.key === actionList.task_name
                             ).code
