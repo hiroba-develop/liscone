@@ -16,9 +16,9 @@ const BIG_RESULT = [
 ];
 
 const SMALL_RESULT = [
-  { key: "SR01", code: "電話番号なし/現在使われていない" },
+  { key: "SR01", code: "電話番号なし" },
   { key: "SR02", code: "不通" },
-  { key: "SR03", code: "担当営業お断り/ガチャ切り者拒否" },
+  { key: "SR03", code: "担当営業お断り" },
   { key: "SR04", code: "担当者不在" },
   { key: "SR05", code: "リモートワーク" },
   { key: "SR06", code: "受電代行" },

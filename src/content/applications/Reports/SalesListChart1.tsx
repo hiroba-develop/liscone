@@ -159,9 +159,9 @@ function SalesListChart1({ donutData, barData1, barData2 }) {
       show: false,
     },
     labels: [
-      "電話番号なし/現在使われていない",
+      "電話番号なし",
       "不通",
-      "担当営業お断り/ガチャ切り者拒否",
+      "担当営業お断り",
       "担当者不在",
       "リモートワーク",
       "受電代行",
