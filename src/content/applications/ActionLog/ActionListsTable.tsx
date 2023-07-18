@@ -193,7 +193,9 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
                       gutterBottom
                       noWrap
                     >
-                      {actionList.memberEntity.member_name}
+                      {actionList.memberEntity !== null
+                        ? actionList.memberEntity.member_name
+                        : ""}
                     </Typography>
                   </TableCell>
                   <TableCell>
