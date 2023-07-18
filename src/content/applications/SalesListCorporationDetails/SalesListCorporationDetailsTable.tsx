@@ -141,7 +141,7 @@ const SalesLists: FC<SalesListsProps> = ({
       width: 80,
       align: "center",
       renderCell: (params) => {
-        return params.value !== null
+        return params.value !== null && params.value !== ""
           ? CODE.TRAN_STATUS.find((e) => e.key === params.value).code
           : "";
       },

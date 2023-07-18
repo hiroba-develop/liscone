@@ -158,7 +158,8 @@ const ActionLists: FC<ActionListProps> = ({ actionLists }) => {
                         gutterBottom
                         noWrap
                       >
-                        {actionList.execute_big_result !== null
+                        {actionList.execute_big_result !== null &&
+                        actionList.execute_big_result !== ""
                           ? CODE.BIG_RESULT.find(
                               (e) => e.key === actionList.execute_big_result
                             ).code
@@ -173,7 +174,8 @@ const ActionLists: FC<ActionListProps> = ({ actionLists }) => {
                         gutterBottom
                         noWrap
                       >
-                        {actionList.execute_small_result !== null
+                        {actionList.execute_small_result !== null &&
+                        actionList.execute_small_result !== ""
                           ? CODE.SMALL_RESULT.find(
                               (e) => e.key === actionList.execute_small_result
                             ).code
@@ -199,7 +201,9 @@ const ActionLists: FC<ActionListProps> = ({ actionLists }) => {
                         gutterBottom
                         noWrap
                       >
-                        {actionList.memberEntity.member_name}
+                        {actionList.memberEntity !== null
+                          ? actionList.memberEntity.member_name
+                          : ""}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -210,7 +214,8 @@ const ActionLists: FC<ActionListProps> = ({ actionLists }) => {
                         gutterBottom
                         noWrap
                       >
-                        {actionList.task_name !== null
+                        {actionList.task_name !== null &&
+                        actionList.task_name !== ""
                           ? CODE.ACTION.find(
                               (e) => e.key === actionList.task_name
                             ).code
