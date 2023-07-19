@@ -1,5 +1,4 @@
 import { Card } from "@mui/material";
-import StaffDetails1ReferenceTable from "./StaffDetails2ReferenceTable";
 import StaffDetails2ReferenceTable from "./StaffDetails2ReferenceTable";
 
 function StaffLists({ staffList }) {

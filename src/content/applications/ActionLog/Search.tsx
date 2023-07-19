@@ -27,28 +27,17 @@ function Search() {
       </Stack>
       <Grid container spacing={1}>
         <Grid item xs={2}>
-          <TextField label="企業名" sx={{ m: margin, pb: paddingBotton }} />
-        </Grid>
-        <Grid item xs={2}>
-          <TextField label="法人番号" sx={{ m: margin, pb: paddingBotton }} />
-        </Grid>
-        <Grid item xs={2}>
-          <Autocomplete
-            disablePortal
-            options={searchList}
+          <TextField
+            label="企業名"
+            size="small"
             sx={{ m: margin, pb: paddingBotton }}
-            renderInput={(params) => <TextField {...params} label="リスト" />}
           />
         </Grid>
         <Grid item xs={2}>
-          <TextField label="担当者" sx={{ m: margin, pb: paddingBotton }} />
-        </Grid>
-        <Grid item xs={2}>
-          <Autocomplete
-            disablePortal
-            options={searchList}
+          <TextField
+            label="法人番号"
+            size="small"
             sx={{ m: margin, pb: paddingBotton }}
-            renderInput={(params) => <TextField {...params} label="ユーザー" />}
           />
         </Grid>
         <Grid item xs={2}>
@@ -56,7 +45,16 @@ function Search() {
             disablePortal
             options={searchList}
             sx={{ m: margin, pb: paddingBotton }}
-            renderInput={(params) => <TextField {...params} label="行動種類" />}
+            renderInput={(params) => (
+              <TextField {...params} size="small" label="リスト" />
+            )}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <TextField
+            label="担当者"
+            size="small"
+            sx={{ m: margin, pb: paddingBotton }}
           />
         </Grid>
         <Grid item xs={2}>
@@ -64,7 +62,9 @@ function Search() {
             disablePortal
             options={searchList}
             sx={{ m: margin, pb: paddingBotton }}
-            renderInput={(params) => <TextField {...params} label="大項目" />}
+            renderInput={(params) => (
+              <TextField {...params} size="small" label="ユーザー" />
+            )}
           />
         </Grid>
         <Grid item xs={2}>
@@ -72,7 +72,29 @@ function Search() {
             disablePortal
             options={searchList}
             sx={{ m: margin, pb: paddingBotton }}
-            renderInput={(params) => <TextField {...params} label="小項目" />}
+            renderInput={(params) => (
+              <TextField {...params} size="small" label="行動種類" />
+            )}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Autocomplete
+            disablePortal
+            options={searchList}
+            sx={{ m: margin, pb: paddingBotton }}
+            renderInput={(params) => (
+              <TextField {...params} size="small" label="大項目" />
+            )}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Autocomplete
+            disablePortal
+            options={searchList}
+            sx={{ m: margin, pb: paddingBotton }}
+            renderInput={(params) => (
+              <TextField {...params} size="small" label="小項目" />
+            )}
           />
         </Grid>
         <Grid item xs={5} sx={{ mt: -2 }}>
@@ -92,6 +114,7 @@ function Search() {
                   format={"YYYY-MM-DD"}
                   slotProps={{
                     textField: {
+                      size: "small",
                       error: false,
                     },
                   }}
@@ -111,6 +134,7 @@ function Search() {
                   format={"YYYY-MM-DD"}
                   slotProps={{
                     textField: {
+                      size: "small",
                       error: false,
                     },
                   }}

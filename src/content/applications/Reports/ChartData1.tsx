@@ -196,8 +196,8 @@ function ChartData1() {
           <Typography
             alignItems="center"
             sx={{
+              fontSize: 12,
               ml: 3,
-              fontSize: "20px",
             }}
           >
             ユーザー：
@@ -207,6 +207,7 @@ function ChartData1() {
               mr: 0,
               minWidth: "150px",
             }}
+            size="small"
             id="members"
             defaultValue={auth.userId}
             value={memberSelect}
@@ -232,7 +233,7 @@ function ChartData1() {
             alignItems="center"
             sx={{
               ml: 3,
-              fontSize: "20px",
+              fontSize: 12,
             }}
           >
             リスト名：
@@ -242,6 +243,7 @@ function ChartData1() {
               mr: 0,
               minWidth: "150px",
             }}
+            size="small"
             id="listnames"
             value={saleListSelected}
             onChange={setSaleListSelectedChange}
@@ -264,7 +266,7 @@ function ChartData1() {
           xs={12}
           sm={6}
         >
-          <Typography sx={{ fontSize: 16, mt: 2.5, mr: 1 }}>期間：</Typography>
+          <Typography sx={{ fontSize: 12, mr: 1 }}>期間：</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer
               components={["DatePicker"]}
@@ -278,6 +280,7 @@ function ChartData1() {
                 defaultValue={minDate}
                 slotProps={{
                   textField: {
+                    size: "small",
                     error: false,
                   },
                 }}
@@ -296,11 +299,11 @@ function ChartData1() {
               }}
             >
               <DatePicker
-                label=""
                 format={"YYYY-MM-DD"}
                 defaultValue={maxDate}
                 slotProps={{
                   textField: {
+                    size: "small",
                     error: false,
                   },
                 }}

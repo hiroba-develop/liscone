@@ -5,7 +5,7 @@ import { config } from "src/utility/config/AppConfig";
 import ActionHistoryTable from "./ActionHistoryTable";
 import { commonErrorCallback } from "src/utility/http/ApiService";
 
-function ListLists(salesList) {
+function ListLists({ salesList, listDetails }) {
   const [actionLists, setActionLogs] = useState<ActionList[]>([]);
 
   useEffect(() => {
@@ -15,7 +15,8 @@ function ListLists(salesList) {
           `${config().apiUrl}/actionlogs/salesListActions`,
           {
             params: {
-              salesListNumber: salesList.sales_list_number,
+              salesList: salesList,
+              listDetails: listDetails,
             },
           }
         );
@@ -29,7 +30,7 @@ function ListLists(salesList) {
     };
 
     getActionLogs();
-  }, [salesList.sales_list_number]);
+  }, [listDetails, salesList]);
 
   return <ActionHistoryTable actionLists={actionLists} />;
 }

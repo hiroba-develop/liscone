@@ -58,6 +58,7 @@ function Sort() {
                 <TextField
                   {...params}
                   label="ユーザー"
+                  size="small"
                   placeholder="Favorites"
                 />
               )}
@@ -80,6 +81,7 @@ function Sort() {
                     format={"YYYY-MM-DD"}
                     slotProps={{
                       textField: {
+                        size: "small",
                         error: false,
                       },
                     }}
@@ -99,6 +101,7 @@ function Sort() {
                     format={"YYYY-MM-DD"}
                     slotProps={{
                       textField: {
+                        size: "small",
                         error: false,
                       },
                     }}
@@ -132,6 +135,7 @@ function Sort() {
                 <TextField
                   {...params}
                   label="ステータス"
+                  size="small"
                   placeholder="Favorites"
                 />
               )}
