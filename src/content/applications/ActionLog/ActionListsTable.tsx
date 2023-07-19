@@ -79,14 +79,8 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
           </TableHead>
           <TableBody>
             {paginatedActionLists.map((actionList) => {
-              const isActionListSelected = selectedActionLists.includes(
-                actionList.task_number
-              );
               return (
                 <TableRow hover key={actionList.task_number}>
-                  <TableCell>
-                    <Checkbox color="primary" value={isActionListSelected} />
-                  </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
