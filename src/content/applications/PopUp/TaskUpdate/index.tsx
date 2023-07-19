@@ -39,7 +39,7 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
   };
 
   const [startDate, setStartDate] = useState<Dayjs | null>(
-    dayjs(new Date(taskList.deadline))
+    dayjs(taskList.deadline)
   );
 
   const { mutate } = useWrapMuation<any, any>(

@@ -7,7 +7,7 @@ function SalesListChart1({ donutData, barData1, barData2 }) {
 
   const chartOptions: ApexOptions = {
     dataLabels: {
-      enabled: true,
+      enabled: false,
     },
     plotOptions: {
       pie: {
@@ -16,20 +16,43 @@ function SalesListChart1({ donutData, barData1, barData2 }) {
           labels: {
             show: true,
             total: {
-              showAlways: true,
               show: true,
               label: "リスト進捗",
               color: "3A3B3F",
+              formatter: function (w) {
+                return w.globals.seriesTotals.reduce((a, b) => {
+                  if (Object.is(a, NaN)) {
+                    return "データなし";
+                  }
+                  return a.toFixed(0) + "%";
+                });
+              },
             },
             value: {
               fontSize: "22px",
               fontFamily: "NotoSans JP Bold",
               show: true,
               color: "3A3B3F",
+              formatter: function (val) {
+                return Math.round(Number(val)) + "%";
+              },
             },
           },
         },
       },
+    },
+    tooltip: {
+      enabled: false,
+      y: {
+        title: {
+          formatter: function (seriesName) {
+            return "";
+          },
+        },
+      },
+    },
+    legend: {
+      show: false,
     },
     labels: ["進捗あり", "取引なし"],
     colors: ["#109DBC", "#E8E8E8"],

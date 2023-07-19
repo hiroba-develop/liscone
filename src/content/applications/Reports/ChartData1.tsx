@@ -37,10 +37,6 @@ function ChartData1() {
     setMemberSelect(e.target.value);
   };
 
-  const setSaleListSelectedChange = (e) => {
-    setSaleListSelected(e.target.value);
-  };
-
   useEffect(() => {
     const getSalesLists = async () => {
       try {
@@ -246,7 +242,7 @@ function ChartData1() {
             size="small"
             id="listnames"
             value={saleListSelected}
-            onChange={setSaleListSelectedChange}
+            onChange={(e) => setSaleListSelected(e.target.value)}
             select
           >
             {salesLists.map((option) => (

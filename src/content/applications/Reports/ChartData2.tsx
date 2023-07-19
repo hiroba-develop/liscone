@@ -16,12 +16,10 @@ import { useRecoilValue } from "recoil";
 import { SalesList } from "src/models/sales_list";
 import { config } from "src/utility/config/AppConfig";
 import { commonErrorCallback } from "src/utility/http/ApiService";
-import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 import SalesListChart2 from "./SalesListChart2";
 
 function ChartData2() {
-  const auth = useRecoilValue(authAtom);
   const members = useRecoilValue(membersAtom);
   const [salesLists, setSalesLists] = useState<SalesList[]>([]);
   //검색==========================================================================
@@ -194,7 +192,7 @@ function ChartData2() {
             alignItems="center"
             sx={{
               ml: 3,
-              fontSize: "20px",
+              fontSize: 12,
             }}
           >
             ユーザー：
@@ -204,8 +202,8 @@ function ChartData2() {
               mr: 0,
               minWidth: "150px",
             }}
+            size="small"
             id="members"
-            defaultValue={auth.userId}
             value={memberSelect}
             select
             onChange={setMemberSelectChange}
@@ -229,7 +227,7 @@ function ChartData2() {
             alignItems="center"
             sx={{
               ml: 3,
-              fontSize: "20px",
+              fontSize: 12,
             }}
           >
             リスト名：
@@ -239,6 +237,7 @@ function ChartData2() {
               mr: 0,
               minWidth: "150px",
             }}
+            size="small"
             id="listnames"
             value={saleListSelected}
             onChange={setSaleListSelectedChange}
@@ -261,7 +260,7 @@ function ChartData2() {
           xs={12}
           sm={6}
         >
-          <Typography sx={{ fontSize: 16, mt: 2.5, mr: 1 }}>期間：</Typography>
+          <Typography sx={{ fontSize: 12, mr: 1 }}>期間：</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer
               components={["DatePicker"]}
@@ -275,6 +274,7 @@ function ChartData2() {
                 value={minDate}
                 slotProps={{
                   textField: {
+                    size: "small",
                     error: false,
                   },
                 }}
@@ -284,7 +284,7 @@ function ChartData2() {
               />
             </DemoContainer>
           </LocalizationProvider>
-          <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
+          <Typography sx={{ fontSize: 12, p: 0.5 }}>-</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer
               components={["DatePicker"]}
@@ -298,6 +298,7 @@ function ChartData2() {
                 value={maxDate}
                 slotProps={{
                   textField: {
+                    size: "small",
                     error: false,
                   },
                 }}
