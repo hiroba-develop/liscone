@@ -155,7 +155,7 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
                 value={ActionSelected}
                 onChange={handleActionSelect}
               >
-                {CODE.ACTION.map((option) => (
+                {CODE._ACTION.map((option) => (
                   <MenuItem value={option.key}>{option.code}</MenuItem>
                 ))}
               </TextField>

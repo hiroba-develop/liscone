@@ -14,9 +14,7 @@ function TaskLists() {
   useEffect(() => {
     const getTasks = async () => {
       try {
-        const response = await axios.get(`${config().apiUrl}/salestasks`, {
-          params: { userId: auth.userId },
-        });
+        const response = await axios.get(`${config().apiUrl}/salestasks`);
 
         if (response.statusText === "OK") {
           const current = new Date();
