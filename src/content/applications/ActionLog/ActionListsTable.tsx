@@ -21,6 +21,14 @@ import { CODE } from "src/utility/constants/Code";
 interface ActionListsProps {
   className?: string;
   actionLists: ActionList[];
+  searchCorporationName: string;
+  searchCorporateNumber: string;
+  searchSalesListName: string;
+  searchStaffName: string;
+  searchMemberName: string;
+  searchActionType: string;
+  searchMajorItem: string;
+  searchMinorItem: string;
 }
 
 const applyFilters = (actionList: ActionList[]): ActionList[] => {
@@ -38,7 +46,42 @@ const applyPagination = (
   return actionLists.slice(page * limit, page * limit + limit);
 };
 
-const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
+const ActionLists: FC<ActionListsProps> = ({
+  actionLists,
+  searchCorporationName,
+  searchCorporateNumber,
+  searchSalesListName,
+  searchStaffName,
+  searchMemberName,
+  searchActionType,
+  searchMajorItem,
+  searchMinorItem,
+}) => {
+  // function entityNullAvoidance(entity, value, searchvalue) {
+  //   const result = entity !== null ? value.match(searchvalue) : "";
+  //   return result;
+  // }
+  const blank = "";
+  // 絞り込み
+  let searchactionLists = actionLists.filter(
+    (actionList) =>
+      actionList.corporationEntity.corporation_name.match(
+        searchCorporationName
+      ) &&
+      actionList.saleslistEntity.sales_list_name.match(searchSalesListName) &&
+      actionList.memberEntity !== null
+        ? actionList.memberEntity.member_name.match(searchMemberName)
+        : blank.match(searchMemberName)
+    // &&
+    // actionList.corporationstaffEntity !== null
+    //   ? actionList.corporationstaffEntity.staff_name.match(searchStaffName)
+    //   : blank.match(searchStaffName)
+    // &&
+    // actionList.execute_big_result.match(searchMajorItem)
+    // &&
+    // actionList.execute_small_result.match(searchMinorItem)
+  );
+
   const [selectedActionLists] = useState<string[]>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
@@ -51,7 +94,7 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredActionLists = applyFilters(actionLists);
+  const filteredActionLists = applyFilters(searchactionLists);
   const paginatedActionLists = applyPagination(
     filteredActionLists,
     page,

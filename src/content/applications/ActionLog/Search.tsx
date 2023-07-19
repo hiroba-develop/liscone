@@ -12,9 +12,53 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 
-const searchList = [{ label: "全て" }];
+const searchList = [
+  { label: "test" },
+  { label: "JUSHINSEO" },
+  { label: "渡邉弥叶" },
+];
 
-function Search() {
+function Search(props) {
+  // 企業名
+  const corporationNameChange = (event) => {
+    const value = event.target.value;
+    props.corporationNameChange(value);
+  };
+  // 法人番号
+  const corporateNumberChange = (event) => {
+    const value = event.target.value;
+    props.corporateNumberChange(value);
+  };
+  //リスト
+  const salesListNameChange = (event) => {
+    const value = event.target.innerText;
+    props.salesListNameChange(value);
+  };
+  // 担当者
+  const staffNameChange = (event) => {
+    const value = event.target.value;
+    props.staffNameChange(value);
+  };
+  //ユーザー
+  const memberNameChange = (event) => {
+    const value = event.target.innerText;
+    props.memberNameChange(value);
+  };
+  //行動種類
+  const actionTypeChange = (event) => {
+    const value = event.target.innerText;
+    props.actionTypeChange(value);
+  };
+  //大項目
+  const majorItemChange = (event) => {
+    const value = event.target.innerText;
+    props.majorItemChange(value);
+  };
+  //小項目
+  const minorItemChange = (event) => {
+    const value = event.target.innerText;
+    props.minorItemChange(value);
+  };
   const margin = 0.5;
   const paddingBotton = 1.5;
   return (

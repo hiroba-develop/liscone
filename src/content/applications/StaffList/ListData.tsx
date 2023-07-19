@@ -6,7 +6,7 @@ import axios from "axios";
 import { config } from "src/utility/config/AppConfig";
 import { commonErrorCallback } from "src/utility/http/ApiService";
 
-function StaffLists() {
+function StaffLists(props) {
   const [staffLists, setStaffs] = useState<StaffList[]>([]);
 
   useEffect(() => {
@@ -29,7 +29,13 @@ function StaffLists() {
 
   return (
     <Card>
-      <StaffListsTable staffLists={staffLists} />
+      <StaffListsTable
+        staffLists={staffLists}
+        searchCorporationName={props.searchCorporationName}
+        searchJobPosition={props.searchJobPosition}
+        searchProfileSourceType={props.searchProfileSourceType}
+        searchStaffName={props.searchStaffName}
+      />
     </Card>
   );
 }

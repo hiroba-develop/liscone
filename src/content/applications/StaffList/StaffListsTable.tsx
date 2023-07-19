@@ -25,6 +25,10 @@ import ListCreate from "../PopUp/ListCreate";
 interface StaffListsProps {
   className?: string;
   staffLists: StaffList[];
+  searchCorporationName: string;
+  searchJobPosition: string;
+  searchProfileSourceType: string;
+  searchStaffName: string;
 }
 
 interface Filters {
@@ -71,7 +75,23 @@ const applyPagination = (
   return staffLists.slice(page * limit, page * limit + limit);
 };
 
-const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
+const StaffLists: FC<StaffListsProps> = ({
+  staffLists,
+  searchCorporationName,
+  searchJobPosition,
+  searchProfileSourceType,
+  searchStaffName,
+}) => {
+  let searchStaffLists = staffLists.filter(
+    (staffList) =>
+      staffList.corporationEntity.corporation_name.match(
+        searchCorporationName
+      ) &&
+      staffList.job_position.match(searchJobPosition) &&
+      staffList.profile_source_type.match(searchProfileSourceType) &&
+      staffList.staff_name.match(searchStaffName)
+  );
+
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters] = useState<Filters>({
@@ -86,7 +106,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredStaffLists = applyFilters(staffLists, filters);
+  const filteredStaffLists = applyFilters(searchStaffLists, filters);
   const paginatedStaffLists = applyPagination(filteredStaffLists, page, limit);
 
   const [checkItems, setCheckItems] = useState([]);
@@ -115,7 +135,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffLists }) => {
     if (checked) {
       const stfArray = [];
       // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
-      staffLists.forEach((el) => {
+      searchStaffLists.forEach((el) => {
         stfArray.push(el);
       });
       setCheckItems(stfArray);

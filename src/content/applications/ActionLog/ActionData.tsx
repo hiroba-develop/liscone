@@ -6,7 +6,7 @@ import axios from "axios";
 import { config } from "src/utility/config/AppConfig";
 import { commonErrorCallback } from "src/utility/http/ApiService";
 
-function ActionLists() {
+function ActionLists(props) {
   const [actionLists, setActionLogs] = useState<ActionList[]>([]);
 
   useEffect(() => {
@@ -26,10 +26,19 @@ function ActionLists() {
 
     getActionLogs();
   }, []);
-
   return (
     <Card>
-      <ActionListsTable actionLists={actionLists} />
+      <ActionListsTable
+        actionLists={actionLists}
+        searchCorporationName={props.searchCorporationName}
+        searchCorporateNumber={props.searchCorporateNumber}
+        searchSalesListName={props.searchSalesListName}
+        searchStaffName={props.searchStaffName}
+        searchMemberName={props.searchMemberName}
+        searchActionType={props.searchActionType}
+        searchMajorItem={props.searchMajorItem}
+        searchMinorItem={props.searchMinorItem}
+      />
     </Card>
   );
 }
