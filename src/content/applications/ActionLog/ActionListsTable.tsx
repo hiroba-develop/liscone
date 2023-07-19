@@ -57,9 +57,6 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
     page,
     limit
   );
-  const selectedSomeActionLists =
-    selectedActionLists.length > 0 &&
-    selectedActionLists.length < actionLists.length;
 
   return (
     <Card>
@@ -68,12 +65,6 @@ const ActionLists: FC<ActionListsProps> = ({ actionLists }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  indeterminate={selectedSomeActionLists}
-                />
-              </TableCell>
               <TableCell align="center">企業名</TableCell>
               <TableCell align="center">行動日</TableCell>
               <TableCell align="center">リスト</TableCell>
