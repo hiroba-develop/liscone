@@ -222,7 +222,7 @@ const TaskLogStaffList = ({
                 value={ActionSelected}
                 onChange={handleActionSelect}
               >
-                {CODE.ACTION.map((option) => (
+                {CODE._ACTION.map((option) => (
                   <MenuItem value={option.key}>{option.code}</MenuItem>
                 ))}
               </TextField>
@@ -257,9 +257,15 @@ const TaskLogStaffList = ({
                 value={BRSelected}
                 onChange={handleBRSelect}
               >
-                {CODE.BIG_RESULT.map((option) => (
-                  <MenuItem value={option.key}>{option.code}</MenuItem>
-                ))}
+                {ActionSelected === "AC01"
+                  ? CODE.BIG_RESULT_AC01.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : ActionSelected === "AC02"
+                  ? CODE.BIG_RESULT_AC02.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : ""}
               </TextField>
             </Box>
             <Box
@@ -280,9 +286,31 @@ const TaskLogStaffList = ({
                 value={SRSelected}
                 onChange={handleSRSelect}
               >
-                {CODE.SMALL_RESULT.map((option) => (
-                  <MenuItem value={option.key}>{option.code}</MenuItem>
-                ))}
+                {BRSelected === "BR01"
+                  ? CODE.SMALL_RESULT_BR01.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : BRSelected === "BR02"
+                  ? CODE.SMALL_RESULT_BR02.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : BRSelected === "BR03"
+                  ? CODE.SMALL_RESULT_BR03.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : BRSelected === "BR04"
+                  ? CODE.SMALL_RESULT_BR04.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : BRSelected === "BR05"
+                  ? CODE.SMALL_RESULT_BR05.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : BRSelected === "BR06"
+                  ? CODE.SMALL_RESULT_BR06.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : ""}
               </TextField>
             </Box>
             <Box

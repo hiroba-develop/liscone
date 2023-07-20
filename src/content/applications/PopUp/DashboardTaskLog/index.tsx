@@ -247,7 +247,7 @@ const DashboardTaskLog = ({
                       <MenuItem value={option.key}>{option.code}</MenuItem>
                     ))
                   : ActionSelected === "AC02"
-                  ? CODE.BIG_RESULT_AC01.map((option) => (
+                  ? CODE.BIG_RESULT_AC02.map((option) => (
                       <MenuItem value={option.key}>{option.code}</MenuItem>
                     ))
                   : ""}
@@ -292,7 +292,7 @@ const DashboardTaskLog = ({
                       <MenuItem value={option.key}>{option.code}</MenuItem>
                     ))
                   : BRSelected === "BR06"
-                  ? CODE.SMALL_RESULT_BR05.map((option) => (
+                  ? CODE.SMALL_RESULT_BR06.map((option) => (
                       <MenuItem value={option.key}>{option.code}</MenuItem>
                     ))
                   : ""}
