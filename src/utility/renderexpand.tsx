@@ -96,11 +96,13 @@ const GridCellExpand = React.memo(function GridCellExpand(
         <Popper
           open={showFullCell && anchorEl !== null}
           anchorEl={anchorEl}
-          style={{ width, marginLeft: -17 }}
+          style={{ zIndex: 10, width, marginLeft: -17 }}
         >
           <Paper
             elevation={1}
-            style={{ minHeight: wrapper.current!.offsetHeight - 3 }}
+            style={{
+              minHeight: wrapper.current!.offsetHeight - 3,
+            }}
           >
             <Typography variant="body2" style={{ padding: 8 }}>
               {value}

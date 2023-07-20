@@ -33,12 +33,14 @@ const SalesLists = ({ corporationList }) => {
       headerName: "会社名・法人名",
       width: 150,
       maxWidth: 300,
+      renderCell: renderCellExpand,
     },
     {
       field: "business_category",
       headerName: "業種",
       width: 100,
       maxWidth: 200,
+      renderCell: renderCellExpand,
     },
     { field: "zipCode", headerName: "郵便番号", width: 150 },
     {

@@ -221,8 +221,8 @@ const CorporationLists: FC<CorporationListsProps> = ({
     {
       field: "business_category",
       headerName: "業種",
-      width: 100,
       maxWidth: 200,
+      renderCell: renderCellExpand,
     },
     { field: "zip_code", headerName: "郵便番号", width: 150 },
     {
@@ -335,7 +335,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
       />
       <Divider />
 
-      <Box sx={{ height: 450, maxWidth: 2000 }}>
+      <div style={{ height: 300, width: "100%" }}>
         <DataGrid
           sx={{
             border: 0,
@@ -347,14 +347,14 @@ const CorporationLists: FC<CorporationListsProps> = ({
           rows={searchCorporationLists}
           getRowId={(row: any) => row.corporation_id}
           columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-          }}
-          pageSizeOptions={[5, 10, 20, 30]}
+          // initialState={{
+          //   pagination: {
+          //     paginationModel: {
+          //       pageSize: 5,
+          //     },
+          //   },
+          // }}
+          // pageSizeOptions={[5, 10, 20, 30]}
           checkboxSelection
           disableRowSelectionOnClick
           onRowSelectionModelChange={(ids) => {
@@ -366,7 +366,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
             setCheckItems(selectedRows);
           }}
         />
-      </Box>
+      </div>
     </Card>
   );
 };
