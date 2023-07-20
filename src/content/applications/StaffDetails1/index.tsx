@@ -1,4 +1,4 @@
-import { Container, Typography, Box, IconButton } from "@mui/material";
+import { Container, Typography, Box, IconButton, Grid } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 import CloseIcon from "@mui/icons-material/Close";
@@ -19,39 +19,46 @@ function Lists() {
         <title>担当者詳細①</title>
       </Helmet>
       <Container maxWidth="lg">
-        <Typography
-          sx={{
-            position: "absolute",
-            top: "70px",
-            left: "0",
-            width: "99%",
-            color: "white",
-            bgcolor: "#66788A",
-            py: 1,
-            fontSize: 20,
-          }}
-        >
-          {staffList.staff_name}
-        </Typography>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "75px",
-            pl: "93%",
-            color: "white",
-          }}
-        >
-          <IconButton onClick={() => navigate("/staff/staffList")}>
-            <CloseIcon sx={{ color: "white" }} />
-          </IconButton>
-        </Box>
-        <Box sx={{ mt: 7.5 }}>
+        <Grid container spacing={2}>
+          <Grid item lg={2}>
+            <Typography
+              sx={{
+                position: "flex",
+                top: "40px",
+                color: "gray",
+                bgcolor: "#F6F6FA",
+                py: 1,
+                fontSize: 20,
+              }}
+            >
+              {staffList.staff_name}
+            </Typography>
+          </Grid>
+          <Grid item lg={2}>
+            <Box
+              sx={{
+                position: "flex",
+                top: "40px",
+                pl: 100,
+              }}
+            >
+              <IconButton onClick={() => navigate("/staff/staffList")}>
+                <CloseIcon
+                  sx={{
+                    color: "gray",
+                  }}
+                />
+              </IconButton>
+            </Box>
+          </Grid>
+        </Grid>
+        <Box>
           <StaffDetails1ReferenceListData staffList={staffList} />
         </Box>
         <Typography
           sx={{
-            position: "absolute",
-            top: "320px",
+            position: "flex",
+            mt: 10,
             left: "2%",
             color: "gray",
             fontSize: 24,
@@ -59,7 +66,7 @@ function Lists() {
         >
           会社候補
         </Typography>
-        <Box sx={{ mt: 10 }}>
+        <Box>
           <StaffDetails1ListData staffList={staffList} />
         </Box>
       </Container>

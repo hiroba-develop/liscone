@@ -25,8 +25,8 @@ function Lists() {
             top: "70px",
             left: "0",
             width: "99%",
-            color: "white",
-            bgcolor: "#66788A",
+            color: "gray",
+            bgcolor: "#F6F6FA",
             py: 1,
             fontSize: 20,
           }}
@@ -39,11 +39,11 @@ function Lists() {
             position: "absolute",
             top: "75px",
             pl: "93%",
-            color: "white",
+            color: "gray",
           }}
         >
           <IconButton onClick={() => navigate("/corporation/corporationList")}>
-            <CloseIcon sx={{ color: "white" }} />
+            <CloseIcon sx={{ color: "gray" }} />
           </IconButton>
         </Box>
         <Box
@@ -96,9 +96,9 @@ function Lists() {
         <Divider />
         <Typography
           sx={{
-            position: "absolute",
+            position: "flex",
             margin: "10px",
-            top: "350px",
+            mt: 3,
             left: "%",
             color: "gray",
             fontSize: 24,
@@ -106,7 +106,7 @@ function Lists() {
         >
           担当者候補
         </Typography>
-        <Box sx={{ mt: 15 }}>
+        <Box>
           <CorporationDetails1ListData {...corporationList} />
         </Box>
       </Container>

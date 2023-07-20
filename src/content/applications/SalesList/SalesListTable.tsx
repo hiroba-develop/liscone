@@ -157,7 +157,7 @@ const SalesLists: FC<SalesListsProps> = ({
               },
             },
           }}
-          pageSizeOptions={[5]}
+          pageSizeOptions={[5, 10, 20, 30]}
           disableRowSelectionOnClick
           sx={{
             border: 0,

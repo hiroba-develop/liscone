@@ -101,14 +101,14 @@ const ActionLists: FC<ActionListProps> = ({ actionLists }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell align="center">企業名</TableCell>
-                <TableCell align="center">行動日</TableCell>
-                <TableCell align="center">担当者</TableCell>
-                <TableCell align="center">行動結果</TableCell>
-                <TableCell align="center">小項目</TableCell>
-                <TableCell align="center">コメント</TableCell>
-                <TableCell align="center">ユーザー</TableCell>
-                <TableCell align="center">タスク</TableCell>
+                <TableCell align="left">企業名</TableCell>
+                <TableCell align="left">行動日</TableCell>
+                <TableCell align="left">担当者</TableCell>
+                <TableCell align="left">行動結果</TableCell>
+                <TableCell align="left">小項目</TableCell>
+                <TableCell align="left">コメント</TableCell>
+                <TableCell align="left">ユーザー</TableCell>
+                <TableCell align="left">タスク</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -236,7 +236,7 @@ const ActionLists: FC<ActionListProps> = ({ actionLists }) => {
             onRowsPerPageChange={handleLimitChange}
             page={page}
             rowsPerPage={limit}
-            rowsPerPageOptions={[5, 10, 25, 30]}
+            rowsPerPageOptions={[5, 10, 20, 30]}
           />
         </Box>
       </Card>

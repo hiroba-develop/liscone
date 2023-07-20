@@ -1,7 +1,6 @@
 import {
   Box,
   Card,
-  Checkbox,
   Divider,
   Table,
   TableBody,
@@ -82,7 +81,6 @@ const ActionLists: FC<ActionListsProps> = ({
     // actionList.execute_small_result.match(searchMinorItem)
   );
 
-  const [selectedActionLists] = useState<string[]>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
 
@@ -108,16 +106,16 @@ const ActionLists: FC<ActionListsProps> = ({
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center">企業名</TableCell>
-              <TableCell align="center">行動日</TableCell>
-              <TableCell align="center">リスト</TableCell>
-              <TableCell align="center">担当者</TableCell>
-              <TableCell align="center">行動結果</TableCell>
-              <TableCell align="center">小項目</TableCell>
-              <TableCell align="center">コメント</TableCell>
-              <TableCell align="center">ユーザー</TableCell>
-              <TableCell align="center">タスク</TableCell>
-              <TableCell align="center">タスク期限</TableCell>
+              <TableCell align="left">企業名</TableCell>
+              <TableCell align="left">行動日</TableCell>
+              <TableCell align="left">リスト</TableCell>
+              <TableCell align="left">担当者</TableCell>
+              <TableCell align="left">行動結果</TableCell>
+              <TableCell align="left">小項目</TableCell>
+              <TableCell align="left">コメント</TableCell>
+              <TableCell align="left">ユーザー</TableCell>
+              <TableCell align="left">タスク</TableCell>
+              <TableCell align="left">タスク期限</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -283,7 +281,7 @@ const ActionLists: FC<ActionListsProps> = ({
           onRowsPerPageChange={handleLimitChange}
           page={page}
           rowsPerPage={limit}
-          rowsPerPageOptions={[5, 10, 25, 30]}
+          rowsPerPageOptions={[5, 10, 20, 30]}
         />
       </Box>
     </Card>

@@ -1,13 +1,12 @@
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import {
-  Box,
+  Autocomplete,
   Card,
+  Grid,
+  Stack,
   TextField,
   Typography,
-  Stack,
-  Grid,
-  Autocomplete,
 } from "@mui/material";
-import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 
 const businessCategory = [
   { label: "農業・林業・鉱業" },
@@ -158,6 +157,7 @@ const maxEmployeeNumber = [
 ];
 
 const minEstablishmentYear = [
+  { label: "2023ø" },
   { label: "2022" },
   { label: "2018" },
   { label: "2013" },

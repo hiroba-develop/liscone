@@ -204,16 +204,16 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
           <TableHead>
             <TableRow>
               <TableCell padding="checkbox">　</TableCell>
-              <TableCell align="center">ステータス</TableCell>
-              <TableCell align="center">タスク</TableCell>
-              <TableCell align="center">期日</TableCell>
-              <TableCell align="center">架電先企業</TableCell>
-              <TableCell align="center">架電先担当</TableCell>
-              <TableCell align="center">電話番号</TableCell>
-              <TableCell align="center">コメント</TableCell>
-              <TableCell align="center">完了</TableCell>
-              <TableCell align="center">編集</TableCell>
-              <TableCell align="center">削除</TableCell>
+              <TableCell align="left">ステータス</TableCell>
+              <TableCell align="left">タスク</TableCell>
+              <TableCell align="left">期日</TableCell>
+              <TableCell align="left">架電先企業</TableCell>
+              <TableCell align="left">架電先担当</TableCell>
+              <TableCell align="left">電話番号</TableCell>
+              <TableCell align="left">コメント</TableCell>
+              <TableCell align="left">完了</TableCell>
+              <TableCell align="left">編集</TableCell>
+              <TableCell align="left">削除</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -226,7 +226,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                   <TableCell padding="checkbox">
                     <Checkbox color="primary" value={isTaskListSelected} />
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -237,7 +237,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                       {getStatusLabel(taskList.status)}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -248,7 +248,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                       {getTaskName(taskList.task_name)}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -259,7 +259,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                       {taskList.deadline}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -272,7 +272,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                         : ""}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -285,7 +285,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                         : ""}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -299,7 +299,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                         : ""}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -326,7 +326,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                       />
                     </Tooltip>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Tooltip title="Edit" arrow>
                       <Button
                         sx={{
@@ -344,7 +344,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                       ></Button>
                     </Tooltip>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Tooltip title="Delete" arrow>
                       <Button
                         sx={{
@@ -374,7 +374,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
           onRowsPerPageChange={handleLimitChange}
           page={page}
           rowsPerPage={limit}
-          rowsPerPageOptions={[5, 10, 25, 30]}
+          rowsPerPageOptions={[5, 10, 20, 30]}
         />
       </Box>
     </Card>

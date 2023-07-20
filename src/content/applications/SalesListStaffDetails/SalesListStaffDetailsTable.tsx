@@ -65,18 +65,18 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center">会社名・法人名</TableCell>
-              <TableCell align="center">役職</TableCell>
-              <TableCell align="center">氏名</TableCell>
-              <TableCell align="center">アカウントソース</TableCell>
-              <TableCell align="center">プロフィールリンク</TableCell>
+              <TableCell align="left">会社名・法人名</TableCell>
+              <TableCell align="left">役職</TableCell>
+              <TableCell align="left">氏名</TableCell>
+              <TableCell align="left">アカウントソース</TableCell>
+              <TableCell align="left">プロフィールリンク</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {paginatedSalesLists.map((staffList) => {
               return (
                 <TableRow hover key={staffList.staff_id}>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -93,7 +93,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       {staffList.corporation.corporation_name}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -104,7 +104,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       {staffList.staff.job_position}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -115,7 +115,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       {staffList.staff.staff_name}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -126,7 +126,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       {staffList.staff.profile_source_type}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -151,7 +151,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
           onRowsPerPageChange={handleLimitChange}
           page={page}
           rowsPerPage={limit}
-          rowsPerPageOptions={[5, 10, 25, 30]}
+          rowsPerPageOptions={[5, 10, 20, 30]}
         />
       </Box>
     </Card>

@@ -251,7 +251,7 @@ function SalesListChart1({ donutData, barData1, barData2 }) {
       >
         <Box py={3} pl={1} flex={1}>
           <Chart
-            height={250}
+            height={300}
             options={chartOptions}
             series={donutData}
             type="donut"
@@ -273,7 +273,7 @@ function SalesListChart1({ donutData, barData1, barData2 }) {
             options={bar1Options}
             series={barData1}
             type="bar"
-            height={250}
+            height={400}
           />
         </Box>
       </Grid>
@@ -292,7 +292,7 @@ function SalesListChart1({ donutData, barData1, barData2 }) {
             options={bar2Options}
             series={barData2}
             type="bar"
-            height={250}
+            height={550}
           />
         </Box>
       </Grid>

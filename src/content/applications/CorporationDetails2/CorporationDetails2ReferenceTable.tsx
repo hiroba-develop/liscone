@@ -53,16 +53,16 @@ const SalesLists: FC<SalesListsProps> = ({
           <Table>
             <TableHead>
               <TableRow sx={{ bgcolor: "background.paper" }}>
-                <TableCell align="center">法人番号</TableCell>
-                <TableCell align="center">業種</TableCell>
-                <TableCell align="center">郵便番号</TableCell>
-                <TableCell align="center">本社住所</TableCell>
-                <TableCell align="center">代表者名</TableCell>
-                <TableCell align="center">売上</TableCell>
-                <TableCell align="center">従業員数</TableCell>
-                <TableCell align="center">設立</TableCell>
-                <TableCell align="center">資本金</TableCell>
-                <TableCell align="center">上場</TableCell>
+                <TableCell align="left">法人番号</TableCell>
+                <TableCell align="left">業種</TableCell>
+                <TableCell align="left">郵便番号</TableCell>
+                <TableCell align="left">本社住所</TableCell>
+                <TableCell align="left">代表者名</TableCell>
+                <TableCell align="left">売上</TableCell>
+                <TableCell align="left">従業員数</TableCell>
+                <TableCell align="left">設立</TableCell>
+                <TableCell align="left">資本金</TableCell>
+                <TableCell align="left">上場</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -124,6 +124,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         variant="body1"
                         color="text.primary"
                         gutterBottom
+                        align="left"
                         noWrap
                       >
                         {SalesDetailsList.sales_amount}
@@ -134,6 +135,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         variant="body1"
                         color="text.primary"
                         gutterBottom
+                        align="left"
                         noWrap
                       >
                         {SalesDetailsList.employee_number}
@@ -144,6 +146,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         variant="body1"
                         color="text.primary"
                         gutterBottom
+                        align="left"
                         noWrap
                       >
                         {SalesDetailsList.establishment_year}
@@ -154,6 +157,7 @@ const SalesLists: FC<SalesListsProps> = ({
                         variant="body1"
                         color="text.primary"
                         gutterBottom
+                        align="left"
                         noWrap
                       >
                         {SalesDetailsList.capital_stock}

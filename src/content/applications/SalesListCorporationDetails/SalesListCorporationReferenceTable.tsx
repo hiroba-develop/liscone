@@ -42,21 +42,21 @@ const SalesLists = ({ salesListStatistic }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center">リスト名</TableCell>
-              <TableCell align="center">作成日</TableCell>
-              <TableCell align="center">件数</TableCell>
-              <TableCell align="center">消化数</TableCell>
-              <TableCell align="center">商談化</TableCell>
-              <TableCell align="center">案件化</TableCell>
-              <TableCell align="center">受注率</TableCell>
-              <TableCell align="center">ヨミ</TableCell>
-              <TableCell align="center">ユーザー</TableCell>
-              <TableCell align="center">リスト種類</TableCell>
+              <TableCell align="left">リスト名</TableCell>
+              <TableCell align="left">作成日</TableCell>
+              <TableCell align="left">件数</TableCell>
+              <TableCell align="left">消化数</TableCell>
+              <TableCell align="left">商談化</TableCell>
+              <TableCell align="left">案件化</TableCell>
+              <TableCell align="left">受注率</TableCell>
+              <TableCell align="left">ヨミ</TableCell>
+              <TableCell align="left">ユーザー</TableCell>
+              <TableCell align="left">リスト種類</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow hover key={salesListStatistic.sales_list_number}>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -67,7 +67,7 @@ const SalesLists = ({ salesListStatistic }) => {
                   {salesListStatistic.sales_list_name}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -78,7 +78,7 @@ const SalesLists = ({ salesListStatistic }) => {
                   {dayjs(salesListStatistic.created).format("YYYY-MM-DD")}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -89,7 +89,7 @@ const SalesLists = ({ salesListStatistic }) => {
                   {salesListStatistic.listCount}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -100,7 +100,7 @@ const SalesLists = ({ salesListStatistic }) => {
                   {salesListStatistic.proceedCount}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -116,7 +116,7 @@ const SalesLists = ({ salesListStatistic }) => {
                       "%"}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -132,7 +132,7 @@ const SalesLists = ({ salesListStatistic }) => {
                       "%"}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -148,7 +148,7 @@ const SalesLists = ({ salesListStatistic }) => {
                       "%"}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -159,7 +159,7 @@ const SalesLists = ({ salesListStatistic }) => {
                   {(salesListStatistic.expectSales * 1).toLocaleString() + "円"}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -170,7 +170,7 @@ const SalesLists = ({ salesListStatistic }) => {
                   {salesListStatistic.member_name}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"

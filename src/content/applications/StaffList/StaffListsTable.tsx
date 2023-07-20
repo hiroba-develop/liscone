@@ -185,11 +185,11 @@ const StaffLists: FC<StaffListsProps> = ({
                   }
                 />
               </TableCell>
-              <TableCell align="center">会社名・法人名</TableCell>
-              <TableCell align="center">役職</TableCell>
-              <TableCell align="center">氏名</TableCell>
-              <TableCell align="center">アカウントソース</TableCell>
-              <TableCell align="center">プロフィールリンク</TableCell>
+              <TableCell align="left">会社名・法人名</TableCell>
+              <TableCell align="left">役職</TableCell>
+              <TableCell align="left">氏名</TableCell>
+              <TableCell align="left">アカウントソース</TableCell>
+              <TableCell align="left">プロフィールリンク</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -207,7 +207,7 @@ const StaffLists: FC<StaffListsProps> = ({
                       checked={isStaffListSelected}
                     />
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -224,7 +224,7 @@ const StaffLists: FC<StaffListsProps> = ({
                       {staffList.corporationEntity.corporation_name}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -235,7 +235,7 @@ const StaffLists: FC<StaffListsProps> = ({
                       {staffList.job_position}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -246,7 +246,7 @@ const StaffLists: FC<StaffListsProps> = ({
                       {staffList.staff_name}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -257,7 +257,7 @@ const StaffLists: FC<StaffListsProps> = ({
                       {staffList.profile_source_type}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -282,7 +282,7 @@ const StaffLists: FC<StaffListsProps> = ({
           onRowsPerPageChange={handleLimitChange}
           page={page}
           rowsPerPage={limit}
-          rowsPerPageOptions={[5, 10, 25, 30]}
+          rowsPerPageOptions={[5, 10, 20, 30]}
         />
       </Box>
     </Card>

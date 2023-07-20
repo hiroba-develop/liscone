@@ -53,17 +53,17 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center">会社名・法人名</TableCell>
-              <TableCell align="center">役職</TableCell>
-              <TableCell align="center">部署</TableCell>
-              <TableCell align="center">氏名</TableCell>
-              <TableCell align="center">アカウントソース</TableCell>
-              <TableCell align="center">その他</TableCell>
+              <TableCell align="left">会社名・法人名</TableCell>
+              <TableCell align="left">役職</TableCell>
+              <TableCell align="left">部署</TableCell>
+              <TableCell align="left">氏名</TableCell>
+              <TableCell align="left">アカウントソース</TableCell>
+              <TableCell align="left">その他</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow hover key={staffList.staff_id}>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -74,7 +74,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   {staffList.corporationEntity.corporation_name}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -85,7 +85,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   {staffList.job_position}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -96,7 +96,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   {staffList.role}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -108,7 +108,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                 </Typography>
               </TableCell>
               <TableCell
-                align="center"
+                align="left"
                 sx={{
                   display: "flex",
                   flexDirection: "row",
@@ -130,7 +130,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   />
                 </Button>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"

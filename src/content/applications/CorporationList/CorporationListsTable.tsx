@@ -38,10 +38,6 @@ interface CorporationListsProps {
   searchMaxCapitalStock: string;
 }
 
-interface Filters {
-  status?: CorporationListStatus;
-}
-
 const getStatusLabel = (
   corporationListStatus: CorporationListStatus
 ): JSX.Element => {
@@ -245,7 +241,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
     {
       field: "home_page",
       headerName: "Webサイト",
-      width: 200,
+      width: 150,
       // renderCell: (params) => {
       //   return (
       //     <a href="{params.row.value}" target="_blank">
@@ -257,8 +253,10 @@ const CorporationLists: FC<CorporationListsProps> = ({
     {
       field: "sales_amount",
       headerName: "売上",
+      headerAlign: "left",
       width: 100,
       type: "number",
+      align: "left",
       renderCell: (params) => {
         return convertToMyriadSystem(params.value);
       },
@@ -266,6 +264,8 @@ const CorporationLists: FC<CorporationListsProps> = ({
     {
       field: "employee_number",
       headerName: "従業員数",
+      headerAlign: "left",
+      align: "left",
       width: 100,
       type: "number",
       renderCell: (params) => {
@@ -277,8 +277,10 @@ const CorporationLists: FC<CorporationListsProps> = ({
     {
       field: "establishment_year",
       headerName: "設立",
+      headerAlign: "left",
       width: 100,
       type: "number",
+      align: "left",
       renderCell: (params) => {
         if (params.value !== null) {
           return params.value + "年";
@@ -288,8 +290,10 @@ const CorporationLists: FC<CorporationListsProps> = ({
     {
       field: "capital_stock",
       headerName: "資本金",
+      headerAlign: "left",
       width: 100,
       type: "number",
+      align: "left",
       renderCell: (params) => {
         return convertToMyriadSystem(params.value);
       },
@@ -350,7 +354,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
               },
             },
           }}
-          pageSizeOptions={[5]}
+          pageSizeOptions={[5, 10, 20, 30]}
           checkboxSelection
           disableRowSelectionOnClick
           onRowSelectionModelChange={(ids) => {

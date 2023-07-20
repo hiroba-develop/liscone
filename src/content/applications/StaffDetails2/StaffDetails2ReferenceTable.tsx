@@ -10,7 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import { FC } from "react";
-import { StaffList, StaffListRoles } from "src/models/staff_list";
 
 import LaunchIcon from "@mui/icons-material/Launch";
 import { StaffDetails2List } from "src/models/staff_details2_list";
@@ -20,28 +19,6 @@ interface StaffListsProps {
   staffList: StaffDetails2List;
 }
 
-interface Filters {
-  status?: StaffListsProps;
-}
-
-const applyFilters = (
-  staffList: StaffDetails2List[],
-  filters: Filters
-): StaffDetails2List[] => {
-  return staffList.filter((staffList) => {
-    let matches = true;
-    return matches;
-  });
-};
-
-const applyPagination = (
-  staffList: StaffDetails2List[],
-  page: number,
-  limit: number
-): StaffDetails2List[] => {
-  return staffList.slice(page * limit, page * limit + limit);
-};
-
 const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
   return (
     <Card>
@@ -49,17 +26,17 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center">会社名・法人名</TableCell>
-              <TableCell align="center">役職</TableCell>
-              <TableCell align="center">部署</TableCell>
-              <TableCell align="center">氏名</TableCell>
-              <TableCell align="center">アカウントソース</TableCell>
-              <TableCell align="center">その他</TableCell>
+              <TableCell align="left">会社名・法人名</TableCell>
+              <TableCell align="left">役職</TableCell>
+              <TableCell align="left">部署</TableCell>
+              <TableCell align="left">氏名</TableCell>
+              <TableCell align="left">アカウントソース</TableCell>
+              <TableCell align="left">その他</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow hover key={staffList.staff_id}>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -70,7 +47,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   {staffList.corporation.corporation_name}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -81,7 +58,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   {staffList.staff.job_position}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -92,7 +69,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   {staffList.staff.role}
                 </Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
@@ -104,7 +81,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                 </Typography>
               </TableCell>
               <TableCell
-                align="center"
+                align="left"
                 sx={{
                   display: "flex",
                   flexDirection: "row",
@@ -126,7 +103,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   />
                 </Button>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography
                   variant="body1"
                   fontWeight="bold"
