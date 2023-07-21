@@ -238,7 +238,13 @@ function SalesListChart1({ donutData, barData1, barData2 }) {
   };
 
   return (
-    <Grid spacing={3} container>
+    <Grid
+      sx={{
+        mt: 2,
+      }}
+      spacing={3}
+      container
+    >
       <Grid
         sx={{
           position: "relative",
@@ -292,7 +298,7 @@ function SalesListChart1({ donutData, barData1, barData2 }) {
             options={bar2Options}
             series={barData2}
             type="bar"
-            height={550}
+            height={525}
           />
         </Box>
       </Grid>
