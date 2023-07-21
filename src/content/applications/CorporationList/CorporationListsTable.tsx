@@ -335,7 +335,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
       />
       <Divider />
 
-      <div style={{ height: 300, width: "100%" }}>
+      <div style={{ height: 450, width: "100%" }}>
         <DataGrid
           sx={{
             border: 0,
