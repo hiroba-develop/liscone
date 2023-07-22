@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import {
@@ -15,7 +16,12 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 function Search(props) {
-  const user = [{ label: "大友玲奈" }, { label: "山路 太郎" }];
+  const user = [
+    { label: "大友玲奈" },
+    { label: "関 一子" },
+    { label: "奥谷 一子" },
+    { label: "高橋一子" },
+  ];
   const status = [
     { label: "完了" },
     { label: "未完了" },
@@ -24,9 +30,26 @@ function Search(props) {
   ];
   // ユーザー
   const staffNameChange = (event) => {
-    const value = event.target.value;
-    console.log(event);
+    const value = event.target.innerText;
+    console.log(value);
     props.staffNameChange(value);
+  };
+  //日付(から～)
+  const fromDateChange = (event) => {
+    const value = event.$d;
+    console.log(value);
+    props.fromDateChange(value);
+  };
+  //日付(～まで)
+  const toDateChange = (event) => {
+    const value = event.$d;
+    props.toDateChange(value);
+  };
+  // ステータス
+  const statusChange = (event) => {
+    const value = event.target.innerText;
+    console.log(value);
+    props.statusChange(value);
   };
 
   const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -40,21 +63,10 @@ function Search(props) {
               ユーザー：
             </Typography>
             <Autocomplete
-              multiple
               id="checkboxes-tags-demo"
               options={user}
               disableCloseOnSelect
               getOptionLabel={(option) => option.label}
-              renderOption={(props, option, { selected }) => (
-                <li {...props}>
-                  <Checkbox
-                    icon={icon}
-                    checkedIcon={checkedIcon}
-                    checked={selected}
-                  />
-                  {option.label}
-                </li>
-              )}
               style={{ width: 200, marginTop: 10 }}
               renderInput={(params) => (
                 <TextField
@@ -62,9 +74,9 @@ function Search(props) {
                   label="ユーザー"
                   size="small"
                   placeholder="Favorites"
-                  onChange={staffNameChange}
                 />
               )}
+              onChange={staffNameChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -88,6 +100,7 @@ function Search(props) {
                         error: false,
                       },
                     }}
+                    onChange={fromDateChange}
                   />
                 </DemoContainer>
               </LocalizationProvider>
@@ -108,6 +121,7 @@ function Search(props) {
                         error: false,
                       },
                     }}
+                    onChange={toDateChange}
                   />
                 </DemoContainer>
               </LocalizationProvider>
@@ -118,21 +132,11 @@ function Search(props) {
               ステータス：
             </Typography>
             <Autocomplete
-              multiple
+              // multiple
               id="checkboxes-tags-demo"
               options={status}
               disableCloseOnSelect
               getOptionLabel={(option) => option.label}
-              renderOption={(props, option, { selected }) => (
-                <li {...props}>
-                  <Checkbox
-                    icon={icon}
-                    checkedIcon={checkedIcon}
-                    checked={selected}
-                  />
-                  {option.label}
-                </li>
-              )}
               style={{ width: 200, marginTop: 10 }}
               renderInput={(params) => (
                 <TextField
@@ -142,6 +146,7 @@ function Search(props) {
                   placeholder="Favorites"
                 />
               )}
+              onChange={statusChange}
             />
           </Grid>
         </Grid>

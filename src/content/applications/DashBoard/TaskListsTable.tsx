@@ -141,7 +141,103 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredTaskLists = applyFilters(taskLists, filters);
+  // ユーザー
+  const [staffName, setStaffName] = useState("");
+  const staffNameChange = (staffName) => {
+    setStaffName(staffName);
+  };
+  // 日付(から～)
+  const [fromDate, setFromDate] = useState("");
+  const fromDateChange = (fromDate) => {
+    setFromDate(fromDate);
+  };
+  // 日付(～まで)
+  const [toDate, setToDate] = useState("");
+  const toDateChange = (toDate) => {
+    setToDate(toDate);
+  };
+  // ステータス
+  const [status, setStatus] = useState("");
+  const statusChange = (status) => {
+    setStatus(status);
+  };
+  // ユーザー絞り込み
+  function matchStaffName(entity, searchvalue) {
+    const result =
+      entity !== null
+        ? entity.staff_name.match(searchvalue)
+        : searchvalue !== "" && searchvalue !== undefined
+        ? ""
+        : blank.match("");
+    return result;
+  }
+  // 日付フォーマット
+  function formatDateToISO(dateString) {
+    if (!dateString) {
+      return null;
+    }
+    const dateObj = new Date(dateString);
+    if (isNaN(dateObj.getTime())) {
+      return null;
+    }
+    const isoDate = dateObj.toISOString().split("T")[0];
+    return isoDate;
+  }
+  // 行動日絞り込み
+  const blank = "";
+  function filterDateInRange(date, startDate, endDate) {
+    const currentDate = new Date(date);
+    var formatStartDate = null;
+    var formatEndDate = null;
+    if (startDate !== null) {
+      formatStartDate = new Date(startDate);
+      formatStartDate.setDate(formatStartDate.getDate() + 1);
+    }
+    if (endDate !== null) {
+      formatEndDate = new Date(endDate);
+      formatEndDate.setDate(formatEndDate.getDate() + 1);
+    }
+    if (
+      (formatStartDate && currentDate < formatStartDate) ||
+      (formatEndDate && currentDate > formatEndDate)
+    ) {
+      return null;
+    } else {
+      return blank.match("");
+    }
+  }
+  function searchStatus(value) {
+    let status;
+
+    switch (value) {
+      case "完了":
+        status = "completed";
+        break;
+      case "期限超過":
+        status = "overdueday";
+        break;
+      case "未完了":
+        status = "pending";
+        break;
+      case "本日期限":
+        status = "dueday";
+    }
+
+    return status;
+  }
+  // 絞り込み
+  let searchtaskLists = taskLists.filter(
+    (taskList) =>
+      matchStaffName(taskList.corporationstaffEntity, staffName) &&
+      filterDateInRange(
+        taskList.deadline,
+        formatDateToISO(fromDate),
+        formatDateToISO(toDate)
+      ) &&
+      taskList.status.match(searchStatus(status))
+  );
+
+  const filteredTaskLists = applyFilters(searchtaskLists, filters);
   const paginatedTaskLists = applyPagination(filteredTaskLists, page, limit);
   const theme = useTheme();
 
@@ -177,13 +273,6 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
     mutate(taskList);
   };
 
-  // ユーザー
-  const [staffName, setStaffName] = useState("");
-  const staffNameChange = (staffName) => {
-    setStaffName(staffName);
-  };
-  console.log(staffName);
-
   return (
     <Card>
       <CardHeader
@@ -193,7 +282,14 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
           </Typography>
         }
         sx={{ mt: -2 }}
-        action={<Search staffNameChange={staffNameChange} />}
+        action={
+          <Search
+            staffNameChange={staffNameChange}
+            fromDateChange={fromDateChange}
+            toDateChange={toDateChange}
+            statusChange={statusChange}
+          />
+        }
       />
       <Divider />
       <DashboardTaskLog
