@@ -12,13 +12,30 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 
-const searchList = [
+//リスト_リスト情報
+const salesListNameList = [
   { label: "test" },
-  { label: "JUSHINSEO" },
-  { label: "渡邉弥叶" },
+  { label: "テスト用企業リスト5" },
+  { label: "レポートテスト用企業リスト" },
+];
+//ユーザー_リスト情報
+const memberNameList = [{ label: "渡邉弥叶" }, { label: "山田太郎" }];
+//行動種類_リスト情報
+const executeBigResultList = [
   { label: "受付拒否" },
+  { label: "受付突破" },
+  { label: "担当者拒否" },
+  { label: "担当者止まり" },
+  { label: "アポ" },
+  { label: "未送信" },
   { label: "送信済み" },
+];
+//小項目_リスト情報
+const executeSmallResultList = [
   { label: "電話番号なし" },
+  { label: "不通" },
+  { label: "お問い合わせフォーム" },
+  { label: "日程打診" },
 ];
 
 function Search(props) {
@@ -92,7 +109,7 @@ function Search(props) {
         <Grid item xs={2}>
           <Autocomplete
             disablePortal
-            options={searchList}
+            options={salesListNameList}
             sx={{ m: margin, pb: paddingBotton }}
             renderInput={(params) => (
               <TextField {...params} size="small" label="リスト" />
@@ -111,7 +128,7 @@ function Search(props) {
         <Grid item xs={2}>
           <Autocomplete
             disablePortal
-            options={searchList}
+            options={memberNameList}
             sx={{ m: margin, pb: paddingBotton }}
             renderInput={(params) => (
               <TextField {...params} size="small" label="ユーザー" />
@@ -122,7 +139,7 @@ function Search(props) {
         <Grid item xs={2}>
           <Autocomplete
             disablePortal
-            options={searchList}
+            options={executeBigResultList}
             sx={{ m: margin, pb: paddingBotton }}
             renderInput={(params) => (
               <TextField {...params} size="small" label="行動種類" />
@@ -133,7 +150,7 @@ function Search(props) {
         <Grid item xs={2}>
           <Autocomplete
             disablePortal
-            options={searchList}
+            options={executeBigResultList}
             sx={{ m: margin, pb: paddingBotton }}
             renderInput={(params) => (
               <TextField {...params} size="small" label="大項目" />
@@ -143,7 +160,7 @@ function Search(props) {
         <Grid item xs={2}>
           <Autocomplete
             disablePortal
-            options={searchList}
+            options={executeSmallResultList}
             sx={{ m: margin, pb: paddingBotton }}
             renderInput={(params) => (
               <TextField {...params} size="small" label="小項目" />
