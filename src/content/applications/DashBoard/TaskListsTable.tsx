@@ -176,6 +176,14 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
     e.preventDefault();
     mutate(taskList);
   };
+
+  // ユーザー
+  const [staffName, setStaffName] = useState("");
+  const staffNameChange = (staffName) => {
+    setStaffName(staffName);
+  };
+  console.log(staffName);
+
   return (
     <Card>
       <CardHeader
@@ -185,7 +193,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
           </Typography>
         }
         sx={{ mt: -2 }}
-        action={<Search />}
+        action={<Search staffNameChange={staffNameChange} />}
       />
       <Divider />
       <DashboardTaskLog

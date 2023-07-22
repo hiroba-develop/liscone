@@ -16,6 +16,9 @@ const searchList = [
   { label: "test" },
   { label: "JUSHINSEO" },
   { label: "渡邉弥叶" },
+  { label: "受付拒否" },
+  { label: "送信済み" },
+  { label: "電話番号なし" },
 ];
 
 function Search(props) {
@@ -23,11 +26,6 @@ function Search(props) {
   const corporationNameChange = (event) => {
     const value = event.target.value;
     props.corporationNameChange(value);
-  };
-  // 法人番号
-  const corporateNumberChange = (event) => {
-    const value = event.target.value;
-    props.corporateNumberChange(value);
   };
   //リスト
   const salesListNameChange = (event) => {
@@ -45,20 +43,26 @@ function Search(props) {
     props.memberNameChange(value);
   };
   //行動種類
-  const actionTypeChange = (event) => {
+  const executeBigResultChange = (event) => {
     const value = event.target.innerText;
-    props.actionTypeChange(value);
-  };
-  //大項目
-  const majorItemChange = (event) => {
-    const value = event.target.innerText;
-    props.majorItemChange(value);
+    props.executeBigResultChange(value);
   };
   //小項目
-  const minorItemChange = (event) => {
+  const executeSmallResultChange = (event) => {
     const value = event.target.innerText;
-    props.minorItemChange(value);
+    props.executeSmallResultChange(value);
   };
+  //日付(から～)
+  const fromDateChange = (event) => {
+    const value = event.$d;
+    props.fromDateChange(value);
+  };
+  //日付(～まで)
+  const toDateChange = (event) => {
+    const value = event.$d;
+    props.toDateChange(value);
+  };
+
   const margin = 0.5;
   const paddingBotton = 1.5;
   return (
@@ -75,6 +79,7 @@ function Search(props) {
             label="企業名"
             size="small"
             sx={{ m: margin, pb: paddingBotton }}
+            onChange={corporationNameChange}
           />
         </Grid>
         <Grid item xs={2}>
@@ -92,6 +97,7 @@ function Search(props) {
             renderInput={(params) => (
               <TextField {...params} size="small" label="リスト" />
             )}
+            onChange={salesListNameChange}
           />
         </Grid>
         <Grid item xs={2}>
@@ -99,6 +105,7 @@ function Search(props) {
             label="担当者"
             size="small"
             sx={{ m: margin, pb: paddingBotton }}
+            onChange={staffNameChange}
           />
         </Grid>
         <Grid item xs={2}>
@@ -109,6 +116,7 @@ function Search(props) {
             renderInput={(params) => (
               <TextField {...params} size="small" label="ユーザー" />
             )}
+            onChange={memberNameChange}
           />
         </Grid>
         <Grid item xs={2}>
@@ -119,6 +127,7 @@ function Search(props) {
             renderInput={(params) => (
               <TextField {...params} size="small" label="行動種類" />
             )}
+            onChange={executeBigResultChange}
           />
         </Grid>
         <Grid item xs={2}>
@@ -139,12 +148,11 @@ function Search(props) {
             renderInput={(params) => (
               <TextField {...params} size="small" label="小項目" />
             )}
+            onChange={executeSmallResultChange}
           />
         </Grid>
         <Grid item xs={5} sx={{ mt: -2 }}>
-          <Typography sx={{ fontSize: 16, pl: 1, mb: -1 }}>
-            アクション日
-          </Typography>
+          <Typography sx={{ fontSize: 16, pl: 1, mb: -1 }}>行動日</Typography>
           <Stack sx={{ m: 1 }} direction="row">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer
@@ -162,6 +170,7 @@ function Search(props) {
                       error: false,
                     },
                   }}
+                  onChange={fromDateChange}
                 />
               </DemoContainer>
             </LocalizationProvider>
@@ -182,6 +191,7 @@ function Search(props) {
                       error: false,
                     },
                   }}
+                  onChange={toDateChange}
                 />
               </DemoContainer>
             </LocalizationProvider>

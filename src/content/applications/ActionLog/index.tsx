@@ -13,11 +13,6 @@ function Lists() {
   const corporationNameChange = (corporationName) => {
     setCorporationName(corporationName);
   };
-  // 法人番号
-  const [corporateNumber, setCorporateNumber] = useState("");
-  const corporateNumberChange = (comparyNumber) => {
-    setCorporateNumber(comparyNumber);
-  };
   // リスト
   const [salesListName, setSalesListName] = useState("");
   const salesListNameChange = (salesListName) => {
@@ -34,19 +29,24 @@ function Lists() {
     setMemberName(memberName);
   };
   // 行動種類
-  const [actionType, setActionType] = useState("");
-  const actionTypeChange = (actionType) => {
-    setActionType(actionType);
-  };
-  // 大項目
-  const [majorItem, setMajorItem] = useState("");
-  const majorItemChange = (majorItem) => {
-    setMajorItem(majorItem);
+  const [executeBigResult, setExecuteBigResult] = useState("");
+  const executeBigResultChange = (executeBigResult) => {
+    setExecuteBigResult(executeBigResult);
   };
   // 小項目
-  const [minorItem, setMinorItem] = useState("");
-  const minorItemChange = (minorItem) => {
-    setMinorItem(minorItem);
+  const [executeSmallResult, setExecuteSmallResult] = useState("");
+  const executeSmallResultChange = (executeSmallResult) => {
+    setExecuteSmallResult(executeSmallResult);
+  };
+  // 日付(から～)
+  const [fromDate, setFromDate] = useState("");
+  const fromDateChange = (fromDate) => {
+    setFromDate(fromDate);
+  };
+  // 日付(～まで)
+  const [toDate, setToDate] = useState("");
+  const toDateChange = (toDate) => {
+    setToDate(toDate);
   };
   return (
     <>
@@ -64,24 +64,24 @@ function Lists() {
           <Grid item xs={16}>
             <Search
               corporationNameChange={corporationNameChange}
-              corporateNumberChange={corporateNumberChange}
               salesListNameChange={salesListNameChange}
               staffNameChange={staffNameChange}
               memberNameChange={memberNameChange}
-              actionTypeChange={actionTypeChange}
-              majorItemChange={majorItemChange}
-              minorItemChange={minorItemChange}
+              executeBigResultChange={executeBigResultChange}
+              executeSmallResultChange={executeSmallResultChange}
+              fromDateChange={fromDateChange}
+              toDateChange={toDateChange}
             />
             <Box>
               <ListData
                 searchCorporationName={corporationName}
-                searchCorporateNumber={corporateNumber}
                 searchSalesListName={salesListName}
                 searchStaffName={staffName}
                 searchMemberName={memberName}
-                searchActionType={actionType}
-                searchMajorItem={majorItem}
-                searchMinorItem={minorItem}
+                searchExecuteBigResult={executeBigResult}
+                searchExecuteSmallResult={executeSmallResult}
+                searchFromDate={fromDate}
+                searchToDate={toDate}
               />
             </Box>
           </Grid>

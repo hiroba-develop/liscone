@@ -21,13 +21,13 @@ interface ActionListsProps {
   className?: string;
   actionLists: ActionList[];
   searchCorporationName: string;
-  searchCorporateNumber: string;
   searchSalesListName: string;
   searchStaffName: string;
   searchMemberName: string;
-  searchActionType: string;
-  searchMajorItem: string;
-  searchMinorItem: string;
+  searchExecuteBigResult: string;
+  searchExecuteSmallResult: string;
+  searchFromDate: string;
+  searchToDate: string;
 }
 
 const applyFilters = (actionList: ActionList[]): ActionList[] => {
@@ -48,19 +48,81 @@ const applyPagination = (
 const ActionLists: FC<ActionListsProps> = ({
   actionLists,
   searchCorporationName,
-  searchCorporateNumber,
   searchSalesListName,
   searchStaffName,
   searchMemberName,
-  searchActionType,
-  searchMajorItem,
-  searchMinorItem,
+  searchExecuteBigResult,
+  searchExecuteSmallResult,
+  searchFromDate,
+  searchToDate,
 }) => {
-  // function entityNullAvoidance(entity, value, searchvalue) {
-  //   const result = entity !== null ? value.match(searchvalue) : "";
-  //   return result;
-  // }
   const blank = "";
+  // 担当者絞り込み
+  function matchStaffName(entity, searchvalue) {
+    const result =
+      entity !== null
+        ? entity.staff_name.match(searchvalue)
+        : searchvalue !== ""
+        ? ""
+        : blank.match("");
+    return result;
+  }
+  // 行動種類絞り込み
+  function matchExecuteBigResult(entity, searchvalue) {
+    const result =
+      entity !== null && entity !== ""
+        ? CODE.BIG_RESULT.find((e) => e.key === entity).code.match(searchvalue)
+        : searchvalue !== "" && searchvalue !== undefined
+        ? ""
+        : blank.match("");
+    return result;
+  }
+  // 小項目絞り込み
+  function matchExecuteSmallResult(entity, searchvalue) {
+    const result =
+      entity !== null && entity !== ""
+        ? CODE.SMALL_RESULT.find((e) => e.key === entity).code.match(
+            searchvalue
+          )
+        : searchvalue !== "" && searchvalue !== undefined
+        ? ""
+        : blank.match("");
+    return result;
+  }
+  // 日付フォーマット
+  function formatDateToISO(dateString) {
+    if (!dateString) {
+      return null;
+    }
+    const dateObj = new Date(dateString);
+    if (isNaN(dateObj.getTime())) {
+      return null;
+    }
+    const isoDate = dateObj.toISOString().split("T")[0];
+    return isoDate;
+  }
+  // 行動日絞り込み
+  function filterDateInRange(date, startDate, endDate) {
+    const currentDate = new Date(date);
+    var formatStartDate = null;
+    var formatEndDate = null;
+    if (startDate !== null) {
+      formatStartDate = new Date(startDate);
+      formatStartDate.setDate(formatStartDate.getDate() + 1);
+    }
+    if (endDate !== null) {
+      formatEndDate = new Date(endDate);
+      formatEndDate.setDate(formatEndDate.getDate() + 1);
+    }
+    if (
+      (formatStartDate && currentDate < formatStartDate) ||
+      (formatEndDate && currentDate > formatEndDate)
+    ) {
+      return null;
+    } else {
+      return blank.match("");
+    }
+  }
   // 絞り込み
   let searchactionLists = actionLists.filter(
     (actionList) =>
@@ -68,17 +130,21 @@ const ActionLists: FC<ActionListsProps> = ({
         searchCorporationName
       ) &&
       actionList.saleslistEntity.sales_list_name.match(searchSalesListName) &&
-      actionList.memberEntity !== null
-        ? actionList.memberEntity.member_name.match(searchMemberName)
-        : blank.match(searchMemberName)
-    // &&
-    // actionList.corporationstaffEntity !== null
-    //   ? actionList.corporationstaffEntity.staff_name.match(searchStaffName)
-    //   : blank.match(searchStaffName)
-    // &&
-    // actionList.execute_big_result.match(searchMajorItem)
-    // &&
-    // actionList.execute_small_result.match(searchMinorItem)
+      actionList.memberEntity.member_name.match(searchMemberName) &&
+      matchStaffName(actionList.corporationstaffEntity, searchStaffName) &&
+      matchExecuteBigResult(
+        actionList.execute_big_result,
+        searchExecuteBigResult
+      ) &&
+      matchExecuteSmallResult(
+        actionList.execute_small_result,
+        searchExecuteSmallResult
+      ) &&
+      filterDateInRange(
+        actionList.execute_date,
+        formatDateToISO(searchFromDate),
+        formatDateToISO(searchToDate)
+      )
   );
 
   const [page, setPage] = useState<number>(0);
@@ -110,7 +176,7 @@ const ActionLists: FC<ActionListsProps> = ({
               <TableCell align="left">行動日</TableCell>
               <TableCell align="left">リスト</TableCell>
               <TableCell align="left">担当者</TableCell>
-              <TableCell align="left">行動結果</TableCell>
+              <TableCell align="left">行動種類</TableCell>
               <TableCell align="left">小項目</TableCell>
               <TableCell align="left">コメント</TableCell>
               <TableCell align="left">ユーザー</TableCell>

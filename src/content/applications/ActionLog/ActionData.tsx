@@ -31,13 +31,13 @@ function ActionLists(props) {
       <ActionListsTable
         actionLists={actionLists}
         searchCorporationName={props.searchCorporationName}
-        searchCorporateNumber={props.searchCorporateNumber}
         searchSalesListName={props.searchSalesListName}
         searchStaffName={props.searchStaffName}
         searchMemberName={props.searchMemberName}
-        searchActionType={props.searchActionType}
-        searchMajorItem={props.searchMajorItem}
-        searchMinorItem={props.searchMinorItem}
+        searchExecuteBigResult={props.searchExecuteBigResult}
+        searchExecuteSmallResult={props.searchExecuteSmallResult}
+        searchFromDate={props.searchFromDate}
+        searchToDate={props.searchToDate}
       />
     </Card>
   );
