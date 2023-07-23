@@ -64,6 +64,7 @@ function Search(props) {
             sx={{ m: 1 }}
             renderInput={(params) => <TextField {...params} label="ソース" />}
             onChange={profileSourceTypeChange}
+            clearIcon={null}
           />
         </Grid>
         <Grid item xs={2}>

@@ -299,6 +299,7 @@ const Search = (props) => {
             sx={{ m: 1 }}
             renderInput={(params) => <TextField {...params} label="業種" />}
             onChange={businessCategoryChange}
+            clearIcon={null}
           />
         </Grid>
         <Grid item xs={2}>
@@ -309,6 +310,7 @@ const Search = (props) => {
             sx={{ m: 1 }}
             renderInput={(params) => <TextField {...params} label="都道府県" />}
             onChange={prefecturesChange}
+            clearIcon={null}
           />
         </Grid>
         <Grid item xs={2}>
@@ -327,6 +329,7 @@ const Search = (props) => {
             sx={{ m: 1 }}
             renderInput={(params) => <TextField {...params} label="上場" />}
             onChange={corporationListStatusChange}
+            clearIcon={null}
           />
         </Grid>
       </Grid>
@@ -341,6 +344,7 @@ const Search = (props) => {
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={minSalesAmountChange}
+              clearIcon={null}
             />
             <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
             <Autocomplete
@@ -350,6 +354,7 @@ const Search = (props) => {
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={maxSalesAmountChange}
+              clearIcon={null}
             />
           </Stack>
         </Grid>
@@ -363,6 +368,7 @@ const Search = (props) => {
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={minEmployeeNumberChange}
+              clearIcon={null}
             />
             <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
             <Autocomplete
@@ -372,6 +378,7 @@ const Search = (props) => {
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={maxEmployeeNumberChange}
+              clearIcon={null}
             />
           </Stack>
         </Grid>
@@ -385,6 +392,7 @@ const Search = (props) => {
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={minEstablishmentYearChange}
+              clearIcon={null}
             />
             <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
             <Autocomplete
@@ -394,6 +402,7 @@ const Search = (props) => {
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={maxEstablishmentYearChange}
+              clearIcon={null}
             />
           </Stack>
         </Grid>
@@ -407,6 +416,7 @@ const Search = (props) => {
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={minCapitalStockChange}
+              clearIcon={null}
             />
             <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
             <Autocomplete
@@ -416,6 +426,7 @@ const Search = (props) => {
               sx={{ minWidth: 130 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={maxCapitalStockChange}
+              clearIcon={null}
             />
           </Stack>
         </Grid>

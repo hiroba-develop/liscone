@@ -1,10 +1,6 @@
-import React, { useState } from "react";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import {
   Autocomplete,
   Box,
-  Checkbox,
   Grid,
   Stack,
   TextField,
@@ -31,13 +27,11 @@ function Search(props) {
   // ユーザー
   const staffNameChange = (event) => {
     const value = event.target.innerText;
-    console.log(value);
     props.staffNameChange(value);
   };
   //日付(から～)
   const fromDateChange = (event) => {
     const value = event.$d;
-    console.log(value);
     props.fromDateChange(value);
   };
   //日付(～まで)
@@ -48,12 +42,9 @@ function Search(props) {
   // ステータス
   const statusChange = (event) => {
     const value = event.target.innerText;
-    console.log(value);
     props.statusChange(value);
   };
 
-  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-  const checkedIcon = <CheckBoxIcon fontSize="small" />;
   return (
     <Box>
       <Stack sx={{ m: 1 }} direction="row">
@@ -77,6 +68,7 @@ function Search(props) {
                 />
               )}
               onChange={staffNameChange}
+              clearIcon={null}
             />
           </Grid>
           <Grid item xs={6}>
@@ -147,6 +139,7 @@ function Search(props) {
                 />
               )}
               onChange={statusChange}
+              clearIcon={null}
             />
           </Grid>
         </Grid>
