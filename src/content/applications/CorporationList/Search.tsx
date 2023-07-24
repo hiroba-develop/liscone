@@ -334,14 +334,14 @@ const Search = (props) => {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-        <Grid item xs={3}>
+        <Grid item xs={6}>
           <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>売上</Typography>
           <Stack sx={{ m: 1 }} direction="row">
             <Autocomplete
               disablePortal
               options={minSalesAmount}
               size="small"
-              sx={{ minWidth: 130 }}
+              sx={{ minWidth: 120 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={minSalesAmountChange}
               clearIcon={null}
@@ -351,21 +351,21 @@ const Search = (props) => {
               disablePortal
               options={maxSalesAmount}
               size="small"
-              sx={{ minWidth: 130 }}
+              sx={{ minWidth: 120 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={maxSalesAmountChange}
               clearIcon={null}
             />
           </Stack>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6}>
           <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>従業員数</Typography>
           <Stack sx={{ m: 1 }} direction="row">
             <Autocomplete
               disablePortal
               options={minEmployeeNumber}
               size="small"
-              sx={{ minWidth: 130 }}
+              sx={{ minWidth: 120 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={minEmployeeNumberChange}
               clearIcon={null}
@@ -375,21 +375,21 @@ const Search = (props) => {
               disablePortal
               options={maxEmployeeNumber}
               size="small"
-              sx={{ minWidth: 130 }}
+              sx={{ minWidth: 120 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={maxEmployeeNumberChange}
               clearIcon={null}
             />
           </Stack>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6}>
           <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>設立</Typography>
           <Stack sx={{ m: 1 }} direction="row">
             <Autocomplete
               disablePortal
               options={minEstablishmentYear}
               size="small"
-              sx={{ minWidth: 130 }}
+              sx={{ minWidth: 120 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={minEstablishmentYearChange}
               clearIcon={null}
@@ -399,21 +399,21 @@ const Search = (props) => {
               disablePortal
               options={maxEstablishmentYear}
               size="small"
-              sx={{ minWidth: 130 }}
+              sx={{ minWidth: 120 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={maxEstablishmentYearChange}
               clearIcon={null}
             />
           </Stack>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6}>
           <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>資本金</Typography>
           <Stack sx={{ m: 1 }} direction="row">
             <Autocomplete
               disablePortal
               options={minCapitalStock}
               size="small"
-              sx={{ minWidth: 130 }}
+              sx={{ minWidth: 120 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={minCapitalStockChange}
               clearIcon={null}
@@ -423,7 +423,7 @@ const Search = (props) => {
               disablePortal
               options={maxCapitalStock}
               size="small"
-              sx={{ minWidth: 130 }}
+              sx={{ minWidth: 120 }}
               renderInput={(params) => <TextField {...params} label="" />}
               onChange={maxCapitalStockChange}
               clearIcon={null}

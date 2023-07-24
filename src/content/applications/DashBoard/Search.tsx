@@ -13,10 +13,11 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 function Search(props) {
   const user = [
-    { label: "大友玲奈" },
-    { label: "関 一子" },
-    { label: "奥谷 一子" },
-    { label: "高橋一子" },
+    { label: "佐野麻美" },
+    { label: "キタギシマキ" },
+    { label: "渡邊弥叶" },
+    { label: "オオトモレナ" },
+    { label: "JUSHINSEO" },
   ];
   const status = [
     { label: "完了" },
