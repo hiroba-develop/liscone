@@ -127,7 +127,7 @@ function SalesCorpInfo({ staffList, salesList }) {
         }}
       >
         <Button
-          sx={{ my: 5, borderRadius: 0.5, backgroundColor: "#109DBC" }}
+          sx={{ my: 7, borderRadius: 0.5, backgroundColor: "#109DBC" }}
           fullWidth
           variant="contained"
           onClick={editTaskLogOpen}

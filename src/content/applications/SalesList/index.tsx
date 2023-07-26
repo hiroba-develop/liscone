@@ -16,6 +16,7 @@ function Lists() {
           direction="row"
           justifyContent="center"
           alignItems="stretch"
+          sx={{ mt: 1 }}
           spacing={3}
         >
           <Grid item xs={16}>

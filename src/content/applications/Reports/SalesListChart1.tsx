@@ -298,7 +298,7 @@ function SalesListChart1({ donutData, barData1, barData2 }) {
             options={bar2Options}
             series={barData2}
             type="bar"
-            height={525}
+            height={500}
           />
         </Box>
       </Grid>

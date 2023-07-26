@@ -235,20 +235,15 @@ const CorporationLists: FC<CorporationListsProps> = ({
     {
       field: "representative_phone_number",
       headerName: "代表電話番号",
-      width: 200,
+      width: 150,
     },
     { field: "representative_name", headerName: "代表者名", width: 100 },
     {
       field: "home_page",
       headerName: "Webサイト",
-      width: 150,
-      // renderCell: (params) => {
-      //   return (
-      //     <a href="{params.row.value}" target="_blank">
-      //       {params.value}
-      //     </a>
-      //   );
-      // },
+      width: 200,
+      maxWidth: 300,
+      renderCell: renderCellExpand,
     },
     {
       field: "sales_amount",

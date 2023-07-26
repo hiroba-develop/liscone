@@ -18,34 +18,34 @@ function Lists() {
       <Helmet>
         <title>企業詳細①</title>
       </Helmet>
+      <Typography
+        sx={{
+          position: "absolute",
+          top: "64px",
+          ml: 2,
+          width: "100%",
+          color: "gray",
+          bgcolor: "#F6F6FA",
+          py: 1,
+          fontSize: 20,
+        }}
+      >
+        {corporationList.corporation_name}(法人番号:
+        {corporationList.corporate_number})
+      </Typography>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "70px",
+          pl: "95%",
+          color: "gray",
+        }}
+      >
+        <IconButton onClick={() => navigate("/salesTask/salesList")}>
+          <CloseIcon sx={{ color: "gray" }} />
+        </IconButton>
+      </Box>
       <Container maxWidth="lg">
-        <Typography
-          sx={{
-            position: "absolute",
-            top: "70px",
-            left: "0",
-            width: "99%",
-            color: "gray",
-            bgcolor: "#F6F6FA",
-            py: 1,
-            fontSize: 20,
-          }}
-        >
-          {corporationList.corporation_name}(法人番号:
-          {corporationList.corporate_number})
-        </Typography>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "75px",
-            pl: "93%",
-            color: "gray",
-          }}
-        >
-          <IconButton onClick={() => navigate("/corporation/corporationList")}>
-            <CloseIcon sx={{ color: "gray" }} />
-          </IconButton>
-        </Box>
         <Box
           sx={{
             position: "absolute",
@@ -53,7 +53,7 @@ function Lists() {
             left: "0",
             color: "gray",
             mt: 1,
-            ml: 1,
+            ml: 3,
             display: "flex",
             flexDirection: "row",
           }}
@@ -72,7 +72,7 @@ function Lists() {
           sx={{
             position: "absolute",
             top: "125px",
-            left: "15%",
+            left: "25%",
             color: "gray",
             mt: 1,
             ml: 1,
@@ -90,7 +90,7 @@ function Lists() {
             {corporationList.home_page}
           </Typography>
         </Box>
-        <Box sx={{ mt: 10 }}>
+        <Box sx={{ mt: 13 }}>
           <CorporationDetails1ReferenceListData {...corporationList} />
         </Box>
         <Divider />

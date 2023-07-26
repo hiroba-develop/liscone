@@ -35,6 +35,7 @@ function DashBoard() {
       </Helmet>
       <Container maxWidth="lg">
         <Grid
+          sx={{ mt: 1 }}
           container
           direction="row"
           justifyContent="center"

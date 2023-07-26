@@ -91,6 +91,7 @@ function DashBoard() {
       <Container maxWidth="lg" fixed={true}>
         <Grid
           container
+          sx={{ mt: 1 }}
           direction="row"
           justifyContent="center"
           alignItems="stretch"

@@ -26,39 +26,39 @@ function Lists() {
       <Helmet>
         <title>担当者詳細②</title>
       </Helmet>
+      <Typography
+        sx={{
+          position: "absolute",
+          top: "64px",
+          left: "0",
+          width: "100%",
+          color: "white",
+          bgcolor: "#66788A",
+          py: 1,
+          fontSize: 20,
+        }}
+      >
+        　{staffList.staff.staff_name}
+      </Typography>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "64px",
+          pl: "95%",
+          color: "white",
+        }}
+      >
+        <IconButton
+          onClick={() =>
+            navigate("/salesTask/salesListStaffDetails", {
+              state: [salesList, salesListStatistic],
+            })
+          }
+        >
+          <CloseIcon sx={{ color: "white" }} />
+        </IconButton>
+      </Box>
       <Container maxWidth="lg">
-        <Typography
-          sx={{
-            position: "absolute",
-            top: "70px",
-            left: "0",
-            width: "99%",
-            color: "white",
-            bgcolor: "#66788A",
-            py: 1,
-            fontSize: 20,
-          }}
-        >
-          　{staffList.staff.staff_name}
-        </Typography>
-        <Box
-          sx={{
-            position: "absolute",
-            top: "75px",
-            pl: "93%",
-            color: "white",
-          }}
-        >
-          <IconButton
-            onClick={() =>
-              navigate("/salesTask/salesListStaffDetails", {
-                state: [salesList, salesListStatistic],
-              })
-            }
-          >
-            <CloseIcon sx={{ color: "white" }} />
-          </IconButton>
-        </Box>
         <SalesCorpInfo staffList={staffList} salesList={salesList} />
         <Box
           sx={{

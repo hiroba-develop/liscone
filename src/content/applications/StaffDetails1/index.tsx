@@ -18,41 +18,46 @@ function Lists() {
       <Helmet>
         <title>担当者詳細①</title>
       </Helmet>
-      <Container maxWidth="lg">
-        <Grid container spacing={2}>
-          <Grid item lg={2}>
-            <Typography
-              sx={{
-                position: "flex",
-                top: "40px",
-                color: "gray",
-                bgcolor: "#F6F6FA",
-                py: 1,
-                fontSize: 20,
-              }}
-            >
-              {staffList.staff_name}
-            </Typography>
-          </Grid>
-          <Grid item lg={2}>
-            <Box
-              sx={{
-                position: "flex",
-                top: "40px",
-                pl: 100,
-              }}
-            >
-              <IconButton onClick={() => navigate("/staff/staffList")}>
-                <CloseIcon
-                  sx={{
-                    color: "gray",
-                  }}
-                />
-              </IconButton>
-            </Box>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item lg={2}>
+          <Typography
+            sx={{
+              position: "flex",
+              mt: 1,
+              ml: 2,
+              color: "gray",
+              bgcolor: "#F6F6FA",
+              py: 1,
+              fontSize: 20,
+            }}
+          >
+            {staffList.staff_name}
+          </Typography>
         </Grid>
-        <Box>
+        <Grid item lg={2}>
+          <Box
+            sx={{
+              position: "flex",
+              mt: 1,
+              pl: 108,
+            }}
+          >
+            <IconButton onClick={() => navigate("/salesTask/salesList")}>
+              <CloseIcon
+                sx={{
+                  color: "gray",
+                }}
+              />
+            </IconButton>
+          </Box>
+        </Grid>
+      </Grid>
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            mt: 3,
+          }}
+        >
           <StaffDetails1ReferenceListData staffList={staffList} />
         </Box>
         <Typography
