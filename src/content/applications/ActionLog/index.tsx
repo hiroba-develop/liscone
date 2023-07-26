@@ -59,6 +59,7 @@ function Lists() {
           direction="row"
           justifyContent="center"
           alignItems="stretch"
+          sx={{ mt: 1 }}
           spacing={3}
         >
           <Grid item xs={16}>
@@ -72,7 +73,7 @@ function Lists() {
               fromDateChange={fromDateChange}
               toDateChange={toDateChange}
             />
-            <Box>
+            <Box sx={{ mt: 3 }}>
               <ListData
                 searchCorporationName={corporationName}
                 searchSalesListName={salesListName}
