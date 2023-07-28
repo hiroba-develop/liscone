@@ -5,6 +5,7 @@ import {
   CardHeader,
   Checkbox,
   Divider,
+  Popover,
   Table,
   TableBody,
   TableCell,
@@ -95,6 +96,16 @@ const applyPagination = (
 
 const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
   const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   const [taskLogOpen, setTaskLogOpen] = useState(false);
   const [taskList, setTaskList] = useState([]);
@@ -449,20 +460,32 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                     </Tooltip>
                   </TableCell>
                   <TableCell align="left">
-                    <Tooltip title="Delete" arrow>
-                      <Button
-                        sx={{
-                          "&:hover": { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main,
-                        }}
-                        color="inherit"
-                        size="small"
-                        startIcon={
-                          <img src="/static/images/Delete.svg" alt="delete" />
-                        }
-                        onClick={(e) => deleteTask(e, taskList)}
-                      ></Button>
-                    </Tooltip>
+                    <Button
+                      aria-describedby={id}
+                      sx={{
+                        "&:hover": { background: theme.colors.error.lighter },
+                        color: theme.palette.error.main,
+                      }}
+                      color="inherit"
+                      size="small"
+                      startIcon={
+                        <img src="/static/images/Delete.svg" alt="delete" />
+                      }
+                      onClick={handleClick}
+                    ></Button>
+                    <Popover
+                      id={id}
+                      open={open}
+                      anchorEl={anchorEl}
+                      onClose={handleClose}
+                      onClick={(e) => deleteTask(e, taskList)}
+                      anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left",
+                      }}
+                    >
+                      <Typography sx={{ p: 2, color: "red" }}>削除</Typography>
+                    </Popover>
                   </TableCell>
                 </TableRow>
               );
