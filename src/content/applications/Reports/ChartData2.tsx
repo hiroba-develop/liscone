@@ -1,9 +1,11 @@
 import {
   Card,
   CardHeader,
+  Checkbox,
   Grid,
+  ListItemText,
   MenuItem,
-  TextField,
+  Select,
   Typography,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
@@ -24,18 +26,48 @@ function ChartData2() {
   const [salesLists, setSalesLists] = useState<SalesList[]>([]);
   //검색==========================================================================
   //멤버
-  //리스트
-  const [saleListSelected, setSaleListSelected] = useState("");
-  const [minDate, setMinDate] = useState("");
-  const [maxDate, setMaxDate] = useState("");
-  const [memberSelect, setMemberSelect] = useState("");
-  const setMemberSelectChange = (e) => {
-    setMemberSelect(e.target.value);
+  const [memberSelect, setMemberSelect] = useState<string[]>([]);
+  const [memberIdSelect, setMemberIdSelect] = useState([]);
+
+  const setMemberSelectChange = (event) => {
+    const names = event.target.value;
+
+    setMemberSelect(
+      // On autofill we get a stringified value.
+      typeof names === "string" ? names.split(",") : names
+    );
   };
 
-  const setSaleListSelectedChange = (e) => {
-    setSaleListSelected(e.target.value);
+  const setMemberIdSelectChange = (checked, id) => {
+    if (checked) {
+      setMemberIdSelect((prev) => [...prev, id]);
+    } else {
+      setMemberIdSelect(memberIdSelect.filter((el) => el !== id));
+    }
   };
+  //리스트
+  const [saleListSelect, setSaleListSelect] = useState<string[]>([]);
+  const [saleListNumSelect, setSaleListNumSelect] = useState([]);
+
+  const setSaleListSelectChange = (event) => {
+    const names = event.target.value;
+
+    setSaleListSelect(
+      // On autofill we get a stringified value.
+      typeof names === "string" ? names.split(",") : names
+    );
+  };
+
+  const setSaleListNumSelectChange = (checked, id) => {
+    if (checked) {
+      setSaleListNumSelect((prev) => [...prev, id]);
+    } else {
+      setSaleListNumSelect(saleListNumSelect.filter((el) => el !== id));
+    }
+  };
+
+  const [minDate, setMinDate] = useState("");
+  const [maxDate, setMaxDate] = useState("");
 
   useEffect(() => {
     const getSalesLists = async () => {
@@ -61,8 +93,8 @@ function ChartData2() {
           `${config().apiUrl}/saleslists/proceed`,
           {
             params: {
-              member_id: memberSelect,
-              sales_list_number: saleListSelected,
+              member_id: memberIdSelect,
+              sales_list_number: saleListNumSelect,
               created_dateFrom: minDate,
               created_dateTo: maxDate,
             },
@@ -92,7 +124,7 @@ function ChartData2() {
     };
 
     getListProceed();
-  }, [memberSelect, saleListSelected, minDate, maxDate]);
+  }, [memberIdSelect, saleListNumSelect, minDate, maxDate]);
 
   const [barData1, setBarData1] = useState([]);
   useEffect(() => {
@@ -102,8 +134,8 @@ function ChartData2() {
           `${config().apiUrl}/salestasks/taskBR`,
           {
             params: {
-              member_id: memberSelect,
-              sales_list_number: saleListSelected,
+              member_id: memberIdSelect,
+              sales_list_number: saleListNumSelect,
               execute_dateFrom: minDate,
               execute_dateTo: maxDate,
             },
@@ -129,7 +161,7 @@ function ChartData2() {
     };
 
     getBR();
-  }, [memberSelect, saleListSelected, minDate, maxDate]);
+  }, [memberIdSelect, saleListNumSelect, minDate, maxDate]);
 
   const [barData2, setBarData2] = useState([]);
   useEffect(() => {
@@ -139,8 +171,8 @@ function ChartData2() {
           `${config().apiUrl}/salestasks/taskSR`,
           {
             params: {
-              member_id: memberSelect,
-              sales_list_number: saleListSelected,
+              member_id: memberIdSelect,
+              sales_list_number: saleListNumSelect,
               execute_dateFrom: minDate,
               execute_dateTo: maxDate,
             },
@@ -166,7 +198,7 @@ function ChartData2() {
     };
 
     getSR();
-  }, [memberSelect, saleListSelected, minDate, maxDate]);
+  }, [memberIdSelect, saleListNumSelect, minDate, maxDate]);
 
   return (
     <Card>
@@ -191,27 +223,36 @@ function ChartData2() {
           <Typography
             alignItems="center"
             sx={{
-              ml: 3,
               fontSize: 12,
+              ml: 3,
             }}
           >
             ユーザー：
           </Typography>
-          <TextField
+          <Select
             sx={{
               mr: 0,
               minWidth: "150px",
             }}
             size="small"
             id="members"
+            multiple
             value={memberSelect}
-            select
             onChange={setMemberSelectChange}
+            renderValue={(selected) => selected.join(", ")}
           >
             {members.map((option) => (
-              <MenuItem value={option.member_id}>{option.member_name}</MenuItem>
+              <MenuItem key={option.member_id} value={option.member_name}>
+                <Checkbox
+                  onChange={(e) =>
+                    setMemberIdSelectChange(e.target.checked, option.member_id)
+                  }
+                  checked={memberSelect.indexOf(option.member_name) > -1}
+                />
+                <ListItemText primary={option.member_name} />
+              </MenuItem>
             ))}
-          </TextField>
+          </Select>
         </Grid>
         <Grid
           sx={{
@@ -232,23 +273,38 @@ function ChartData2() {
           >
             リスト名：
           </Typography>
-          <TextField
+          <Select
             sx={{
               mr: 0,
               minWidth: "150px",
             }}
             size="small"
             id="listnames"
-            value={saleListSelected}
-            onChange={setSaleListSelectedChange}
-            select
+            multiple
+            value={saleListSelect}
+            onChange={setSaleListSelectChange}
+            renderValue={(selected) => selected.join(", ")}
           >
             {salesLists.map((option) => (
-              <MenuItem value={option.sales_list_number}>
-                {option.sales_list_name}
+              <MenuItem
+                key={option.sales_list_number}
+                value={option.sales_list_name}
+              >
+                <Checkbox
+                  onChange={(e) =>
+                    setSaleListNumSelectChange(
+                      e.target.checked,
+                      option.sales_list_number
+                    )
+                  }
+                  checked={
+                    saleListNumSelect.indexOf(option.sales_list_number) > -1
+                  }
+                />
+                <ListItemText primary={option.sales_list_name} />
               </MenuItem>
             ))}
-          </TextField>
+          </Select>
         </Grid>
         <Grid
           sx={{
@@ -271,7 +327,7 @@ function ChartData2() {
               <DatePicker
                 label=""
                 format={"YYYY-MM-DD"}
-                value={minDate}
+                defaultValue={minDate}
                 slotProps={{
                   textField: {
                     size: "small",
@@ -284,7 +340,7 @@ function ChartData2() {
               />
             </DemoContainer>
           </LocalizationProvider>
-          <Typography sx={{ fontSize: 12, p: 0.5 }}>-</Typography>
+          <Typography sx={{ fontSize: 16, p: 0.5 }}>-</Typography>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer
               components={["DatePicker"]}
@@ -293,9 +349,8 @@ function ChartData2() {
               }}
             >
               <DatePicker
-                label=""
                 format={"YYYY-MM-DD"}
-                value={maxDate}
+                defaultValue={maxDate}
                 slotProps={{
                   textField: {
                     size: "small",
@@ -314,9 +369,6 @@ function ChartData2() {
         donutData={donutData}
         barData1={barData1}
         barData2={barData2}
-        // searchCorporateNumber={props.searchCorporateNumber}
-        // searchCorporationName={props.searchCorporationName}
-        // searchIndustry={props.searchIndustry}
       />
     </Card>
   );
