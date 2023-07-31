@@ -107,15 +107,23 @@ const CorporationLists: FC<CorporationListsProps> = ({
 
   //範囲条件内か確認
   function isWithinRange(value, minValue, maxValue) {
-    minValue =
-      minValue !== undefined && minValue !== "" && minValue !== null
-        ? minValue
-        : 0;
-    maxValue =
-      maxValue !== undefined && maxValue !== "" && maxValue !== null
-        ? maxValue
-        : 100000000000000;
-    return value >= minValue && value <= maxValue;
+    if (maxValue !== "" || minValue !== "") {
+      minValue =
+        minValue !== undefined && minValue !== "" && minValue !== null
+          ? minValue
+          : 0;
+      maxValue =
+        maxValue !== undefined && maxValue !== "" && maxValue !== null
+          ? maxValue
+          : 100000000000000;
+      if (value !== null) {
+        return value >= minValue && value <= maxValue;
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
   }
   // 絞り込み
   let searchCorporationLists = corporationLists.filter(
@@ -151,8 +159,6 @@ const CorporationLists: FC<CorporationListsProps> = ({
         convertToNumber(searchMaxCapitalStock)
       )
   );
-  console.log(searchMinSalesAmount);
-  console.log(searchMaxSalesAmount);
 
   //数値の後ろに桁をつける処理
   function convertToMyriadSystem(number) {

@@ -157,8 +157,6 @@ const maxEmployeeNumber = [
 ];
 
 const minEstablishmentYear = [
-  { label: "2023ø" },
-  { label: "2022" },
   { label: "2018" },
   { label: "2013" },
   { label: "1993" },
@@ -166,6 +164,7 @@ const minEstablishmentYear = [
 ];
 
 const maxEstablishmentYear = [
+  { label: "2023" },
   { label: "2018" },
   { label: "2013" },
   { label: "1993" },
