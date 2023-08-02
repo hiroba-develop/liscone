@@ -232,6 +232,7 @@ function ChartData2() {
           <Select
             sx={{
               mr: 0,
+              maxWidth: "150px",
               minWidth: "150px",
             }}
             size="small"
@@ -276,6 +277,7 @@ function ChartData2() {
           <Select
             sx={{
               mr: 0,
+              maxWidth: "150px",
               minWidth: "150px",
             }}
             size="small"

@@ -9,7 +9,12 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Tooltip,
+  TooltipProps,
   Typography,
+  makeStyles,
+  styled,
+  tooltipClasses,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { ChangeEvent, FC, useState } from "react";
@@ -29,7 +34,16 @@ interface ActionListsProps {
   searchFromDate: string;
   searchToDate: string;
 }
-
+const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}));
 const applyFilters = (actionList: ActionList[]): ActionList[] => {
   return actionList.filter((actionList) => {
     let matches = true;
@@ -172,13 +186,27 @@ const ActionLists: FC<ActionListsProps> = ({
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="left">企業名</TableCell>
+              <TableCell
+                sx={{
+                  maxWidth: "150px",
+                }}
+                align="left"
+              >
+                企業名
+              </TableCell>
               <TableCell align="left">行動日</TableCell>
               <TableCell align="left">リスト</TableCell>
               <TableCell align="left">担当者</TableCell>
               <TableCell align="left">行動種類</TableCell>
               <TableCell align="left">小項目</TableCell>
-              <TableCell align="left">コメント</TableCell>
+              <TableCell
+                sx={{
+                  maxWidth: "150px",
+                }}
+                align="left"
+              >
+                コメント
+              </TableCell>
               <TableCell align="left">ユーザー</TableCell>
               <TableCell align="left">タスク</TableCell>
               <TableCell align="left">タスク期限</TableCell>
@@ -188,16 +216,24 @@ const ActionLists: FC<ActionListsProps> = ({
             {paginatedActionLists.map((actionList) => {
               return (
                 <TableRow hover key={actionList.task_number}>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
+                  <TableCell
+                    sx={{
+                      maxWidth: "150px",
+                    }}
+                  >
+                    <LightTooltip
+                      title={actionList.corporationEntity.corporation_name}
                     >
-                      {actionList.corporationEntity.corporation_name}
-                    </Typography>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        color="text.primary"
+                        gutterBottom
+                        noWrap
+                      >
+                        {actionList.corporationEntity.corporation_name}
+                      </Typography>
+                    </LightTooltip>
                   </TableCell>
                   <TableCell>
                     <Typography
@@ -266,16 +302,22 @@ const ActionLists: FC<ActionListsProps> = ({
                         : ""}
                     </Typography>
                   </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {actionList.comment}
-                    </Typography>
+                  <TableCell
+                    sx={{
+                      maxWidth: "150px",
+                    }}
+                  >
+                    <LightTooltip title={actionList.comment}>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        color="text.primary"
+                        gutterBottom
+                        noWrap
+                      >
+                        {actionList.comment}
+                      </Typography>
+                    </LightTooltip>
                   </TableCell>
                   <TableCell>
                     <Typography

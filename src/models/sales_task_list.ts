@@ -5,6 +5,7 @@ export interface TaskList {
   status: TaskStatus;
   task_name: string;
   deadline: string;
+  member_id: string;
   execute_date: string;
   comment: string;
   corporationstaffEntity: {

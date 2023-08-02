@@ -242,6 +242,7 @@ function ChartData1() {
             sx={{
               mr: 0,
               minWidth: "150px",
+              maxWidth: "150px",
             }}
             size="small"
             id="members"
@@ -286,6 +287,7 @@ function ChartData1() {
             sx={{
               mr: 0,
               minWidth: "150px",
+              maxWidth: "150px",
             }}
             size="small"
             id="listnames"

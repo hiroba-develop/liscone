@@ -10,15 +10,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { useRecoilValue } from "recoil";
+import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 
 function Search(props) {
-  const user = [
-    { label: "佐野麻美" },
-    { label: "キタギシマキ" },
-    { label: "渡邊弥叶" },
-    { label: "オオトモレナ" },
-    { label: "JUSHINSEO" },
-  ];
+  const user = useRecoilValue(membersAtom);
   const status = [
     { label: "完了" },
     { label: "未完了" },
@@ -58,17 +54,10 @@ function Search(props) {
               id="checkboxes-tags-demo"
               options={user}
               disableCloseOnSelect
-              getOptionLabel={(option) => option.label}
+              getOptionLabel={(option) => option.member_name}
               style={{ width: 200, marginTop: 10 }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="ユーザー"
-                  size="small"
-                  placeholder="Favorites"
-                />
-              )}
-              onChange={staffNameChange}
+              renderInput={(params) => <TextField {...params} size="small" />}
+              onChange={(option) => staffNameChange(option)}
               clearIcon={null}
             />
           </Grid>
@@ -131,14 +120,7 @@ function Search(props) {
               disableCloseOnSelect
               getOptionLabel={(option) => option.label}
               style={{ width: 200, marginTop: 10 }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="ステータス"
-                  size="small"
-                  placeholder="Favorites"
-                />
-              )}
+              renderInput={(params) => <TextField {...params} size="small" />}
               onChange={statusChange}
               clearIcon={null}
             />

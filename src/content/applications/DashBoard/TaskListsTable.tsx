@@ -14,8 +14,10 @@ import {
   TablePagination,
   TableRow,
   Tooltip,
+  TooltipProps,
   Typography,
-  useTheme,
+  styled,
+  tooltipClasses,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { ChangeEvent, FC, FormEvent, useState } from "react";
@@ -44,6 +46,18 @@ interface SalesTaskListsProps {
 interface Filters {
   status?: TaskStatus;
 }
+
+const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+}));
+
 const getTaskName = (taskName) => {
   const action = CODE.ACTION.find((e) => e.key === taskName);
   return action.code;
@@ -250,7 +264,6 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
 
   const filteredTaskLists = applyFilters(searchtaskLists, filters);
   const paginatedTaskLists = applyPagination(filteredTaskLists, page, limit);
-  const theme = useTheme();
 
   const [taskUpdateOpen, setTaskUpdateOpen] = useState(false);
   const editTaskUpdateOpen = (e, taskList) => {
@@ -322,10 +335,19 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
               <TableCell align="left">ステータス</TableCell>
               <TableCell align="left">タスク</TableCell>
               <TableCell align="left">期日</TableCell>
-              <TableCell align="left">架電先企業</TableCell>
+              <TableCell
+                sx={{
+                  maxWidth: "150px",
+                }}
+                align="left"
+              >
+                架電先企業
+              </TableCell>
               <TableCell align="left">架電先担当</TableCell>
               <TableCell align="left">電話番号</TableCell>
-              <TableCell align="left">コメント</TableCell>
+              <TableCell sx={{ maxWidth: "150px" }} align="left">
+                コメント
+              </TableCell>
               <TableCell align="left">完了</TableCell>
               <TableCell align="left">編集</TableCell>
               <TableCell align="left">削除</TableCell>
@@ -374,7 +396,12 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                       {taskList.deadline}
                     </Typography>
                   </TableCell>
-                  <TableCell align="left">
+                  <TableCell
+                    sx={{
+                      maxWidth: "150px",
+                    }}
+                    align="left"
+                  >
                     <Typography
                       variant="body1"
                       fontWeight="bold"
@@ -414,25 +441,22 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                         : ""}
                     </Typography>
                   </TableCell>
-                  <TableCell align="left">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {taskList.comment}
-                    </Typography>
+                  <TableCell sx={{ maxWidth: "150px" }} align="left">
+                    <LightTooltip title={taskList.comment}>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        color="text.primary"
+                        gutterBottom
+                        noWrap
+                      >
+                        {taskList.comment}
+                      </Typography>
+                    </LightTooltip>
                   </TableCell>
                   <TableCell padding="checkbox">
                     <Tooltip title="Task Complete" arrow>
                       <Button
-                        sx={{
-                          "&:hover": { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main,
-                        }}
-                        color="inherit"
                         size="small"
                         startIcon={
                           <img src="/static/images/tickbox.svg" alt="tickbox" />
@@ -441,16 +465,9 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                       />
                     </Tooltip>
                   </TableCell>
-                  <TableCell align="left">
+                  <TableCell padding="checkbox">
                     <Tooltip title="Edit" arrow>
                       <Button
-                        sx={{
-                          "&:hover": {
-                            background: theme.colors.primary.lighter,
-                          },
-                          color: theme.palette.primary.main,
-                        }}
-                        color="inherit"
                         size="small"
                         startIcon={
                           <img src="/static/images/Edit.svg" alt="edit" />
@@ -459,14 +476,9 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                       ></Button>
                     </Tooltip>
                   </TableCell>
-                  <TableCell align="left">
+                  <TableCell padding="checkbox">
                     <Button
                       aria-describedby={id}
-                      sx={{
-                        "&:hover": { background: theme.colors.error.lighter },
-                        color: theme.palette.error.main,
-                      }}
-                      color="inherit"
                       size="small"
                       startIcon={
                         <img src="/static/images/Delete.svg" alt="delete" />
@@ -478,13 +490,17 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                       open={open}
                       anchorEl={anchorEl}
                       onClose={handleClose}
-                      onClick={(e) => deleteTask(e, taskList)}
                       anchorOrigin={{
                         vertical: "bottom",
                         horizontal: "left",
                       }}
                     >
-                      <Typography sx={{ p: 2, color: "red" }}>削除</Typography>
+                      <Button
+                        onClick={(e) => deleteTask(e, taskList)}
+                        sx={{ p: 2, color: "red" }}
+                      >
+                        削除
+                      </Button>
                     </Popover>
                   </TableCell>
                 </TableRow>

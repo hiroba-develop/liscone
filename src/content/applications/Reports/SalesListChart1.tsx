@@ -77,7 +77,7 @@ function SalesListChart1({ donutData, barData1, barData2 }) {
         columnWidth: "100%",
       },
     },
-    colors: ["#2E0462", "#B8E5E6", "#41B8D5", "#119DBC", "#586680"],
+    colors: ["#2E0462", "#B8E5E6", "#41B8D5", "#119DBC", "#586680", "#31356E"],
     dataLabels: {
       enabled: false,
     },
@@ -101,6 +101,7 @@ function SalesListChart1({ donutData, barData1, barData2 }) {
       "担当者拒否",
       "担当者止まり",
       "担当者突破",
+      "送信済み",
     ],
     grid: {
       strokeDashArray: 5,
