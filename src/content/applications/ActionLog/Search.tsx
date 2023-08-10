@@ -144,20 +144,9 @@ function Search(props) {
             options={executeBigResultList}
             sx={{ m: margin, pb: paddingBotton }}
             renderInput={(params) => (
-              <TextField {...params} size="small" label="行動種類" />
-            )}
-            onChange={executeBigResultChange}
-            clearIcon={null}
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <Autocomplete
-            disablePortal
-            options={executeBigResultList}
-            sx={{ m: margin, pb: paddingBotton }}
-            renderInput={(params) => (
               <TextField {...params} size="small" label="大項目" />
             )}
+            onChange={executeBigResultChange}
             clearIcon={null}
           />
         </Grid>

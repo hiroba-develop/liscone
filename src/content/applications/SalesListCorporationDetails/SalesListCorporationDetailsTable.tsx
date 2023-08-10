@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Card, Typography, CardHeader, Button } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import { FC } from "react";
@@ -12,6 +12,8 @@ import { SalesList } from "src/models/sales_list";
 import { SalesListStatistic } from "src/models/sales_list_statistic";
 import { CODE } from "src/utility/constants/Code";
 import { renderCellExpand } from "src/utility/renderexpand";
+import AddIcon from "@mui/icons-material/Add";
+import CorporationLists from "../CorporationList/CorporationListsTable";
 
 interface SalesListsProps {
   className?: string;
@@ -168,8 +170,88 @@ const SalesLists: FC<SalesListsProps> = ({
     });
   };
 
+  // csvダウンロード
+  function getFormattedDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    return `${year}${month}${day}`;
+  }
+
+  function downloadCSV(content, charset) {
+    const fileName = `company_list_${getFormattedDate()}.csv`;
+    const blob = new Blob([new Uint8Array([0xef, 0xbb, 0xbf]), content], {
+      type: "text/csv;charset=" + charset,
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function convertObjectsToCSV() {
+    const objIterator = iterateObjects(salesDetailsLists);
+    const csvStrings = [];
+    for (const obj of objIterator) {
+      const csvString = objectToCSV(obj);
+      csvStrings.push(csvString);
+    }
+    const combinedCSV = csvStrings.join("\n");
+    downloadCSV(combinedCSV, "utf-8");
+  }
+
+  function* iterateObjects(objArray) {
+    for (const obj of objArray) {
+      yield obj;
+    }
+  }
+
+  function objectToCSV(obj) {
+    const csvRows = [];
+    const keys = Object.keys(obj);
+    for (const key of keys) {
+      const value = obj[key];
+      var csvRow = "";
+      // 指定されたキーの値が特定の値の場合は処理をスキップ
+      if (
+        key === "sales_list_number" ||
+        key === "corporation_id" ||
+        key === "transaction_status" ||
+        key === "taskCount"
+      ) {
+        continue;
+      }
+
+      if (value == null) {
+        csvRow = `"${key}", ${value}`;
+      } else {
+        csvRow = `"${key}", "${value}"`;
+      }
+      csvRows.push(csvRow);
+    }
+    return csvRows.join("\n");
+  }
+
   return (
     <Card>
+      <CardHeader
+        action={
+          <Box>
+            <Button
+              sx={{ borderRadius: 0.5, backgroundColor: "#109DBC" }}
+              fullWidth
+              variant="contained"
+              onClick={convertObjectsToCSV}
+            >
+              <AddIcon />
+              　csv出力
+            </Button>
+          </Box>
+        }
+      />
       <Box sx={{ height: 400, maxWidth: 2000 }}>
         <DataGrid
           rows={salesDetailsLists}
