@@ -36,6 +36,7 @@ interface CorporationListsProps {
   searchMaxEstablishmentYear: string;
   searchMinCapitalStock: string;
   searchMaxCapitalStock: string;
+  searchSearchClick: number;
 }
 
 const getStatusLabel = (
@@ -77,6 +78,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
   searchMaxEstablishmentYear,
   searchMinCapitalStock,
   searchMaxCapitalStock,
+  searchSearchClick,
 }) => {
   // 項目値から桁を取る
   function convertToNumber(amount) {
@@ -126,39 +128,71 @@ const CorporationLists: FC<CorporationListsProps> = ({
     }
   }
   // 絞り込み
-  let searchCorporationLists = corporationLists.filter(
-    (corporationList) =>
-      corporationList.corporate_number.match(searchCorporateNumber) &&
-      corporationList.corporation_name.match(searchCorporationName) &&
-      corporationList.business_category.match(searchIndustry) &&
-      corporationList.address.match(searchPrefectures) &&
-      corporationList.representative_phone_number.match(
-        searchRepresentativePhoneNumber
-      ) &&
-      corporationList.listing_status.match(
-        getStatusValue(searchCorporationListStatus)
-      ) &&
-      isWithinRange(
-        corporationList.sales_amount,
-        convertToNumber(searchMinSalesAmount),
-        convertToNumber(searchMaxSalesAmount)
-      ) &&
-      isWithinRange(
-        corporationList.employee_number,
-        searchMinEmployeeNumber,
-        searchMaxEmployeeNumber
-      ) &&
-      isWithinRange(
-        corporationList.establishment_year,
-        searchMinEstablishmentYear,
-        searchMaxEstablishmentYear
-      ) &&
-      isWithinRange(
-        corporationList.capital_stock,
-        convertToNumber(searchMinCapitalStock),
-        convertToNumber(searchMaxCapitalStock)
-      )
-  );
+  let searchCorporationLists;
+  if (searchSearchClick === 1) {
+    searchCorporationLists = corporationLists.filter(
+      (corporationList) =>
+        corporationList.corporate_number.match(searchCorporateNumber) &&
+        corporationList.corporation_name.match(searchCorporationName) &&
+        corporationList.business_category.match(searchIndustry) &&
+        corporationList.address.match(searchPrefectures) &&
+        corporationList.representative_phone_number.match(
+          searchRepresentativePhoneNumber
+        ) &&
+        corporationList.listing_status.match(
+          getStatusValue(searchCorporationListStatus)
+        ) &&
+        isWithinRange(
+          corporationList.sales_amount,
+          convertToNumber(searchMinSalesAmount),
+          convertToNumber(searchMaxSalesAmount)
+        ) &&
+        isWithinRange(
+          corporationList.employee_number,
+          searchMinEmployeeNumber,
+          searchMaxEmployeeNumber
+        ) &&
+        isWithinRange(
+          corporationList.establishment_year,
+          searchMinEstablishmentYear,
+          searchMaxEstablishmentYear
+        ) &&
+        isWithinRange(
+          corporationList.capital_stock,
+          convertToNumber(searchMinCapitalStock),
+          convertToNumber(searchMaxCapitalStock)
+        )
+    );
+  } else if (searchSearchClick === 2) {
+    const rows = [];
+    searchCorporationLists = rows;
+  } else {
+    const rows = [];
+    searchCorporationLists = rows;
+  }
+  //Gridの中央の文章
+  let localeText = {};
+  if (searchSearchClick === 1) {
+    if (searchCorporationLists.length > 10000) {
+      localeText = {
+        noRowsLabel: `検索結果は ${searchCorporationLists.length}件です。　検索条件を追加してください`,
+      };
+      const rows = [];
+      searchCorporationLists = rows;
+    } else {
+      localeText = {
+        noRowsLabel: `検索結果は ${searchCorporationLists.length}件です`,
+      };
+    }
+  } else if (searchSearchClick === 2) {
+    localeText = {
+      noRowsLabel: "検索値が変更されました",
+    };
+  } else {
+    localeText = {
+      noRowsLabel: "絞り込みの値を設定してください",
+    };
+  }
 
   //数値の後ろに桁をつける処理
   function convertToMyriadSystem(number) {
@@ -181,6 +215,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
     const digits = ["", "万", "億", "兆"];
     return digits[digitIndex];
   }
+  console.log(searchMinEmployeeNumber);
 
   const [checkItems, setCheckItems] = useState([]);
   const [listCreateOpen, setListCreateOpen] = useState(false);
@@ -348,6 +383,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
           rows={searchCorporationLists}
           getRowId={(row: any) => row.corporation_id}
           columns={columns}
+          localeText={localeText}
           // initialState={{
           //   pagination: {
           //     paginationModel: {

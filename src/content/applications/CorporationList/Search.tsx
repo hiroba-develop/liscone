@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import {
   Autocomplete,
@@ -6,7 +7,9 @@ import {
   Stack,
   TextField,
   Typography,
+  Button,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 const businessCategory = [
   { label: "農業・林業・鉱業" },
@@ -198,71 +201,105 @@ const maxCapitalStock = [
 ];
 
 const Search = (props) => {
+  var searchClickValue;
   // 法人番号
   const corporateNumberChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.value;
     props.corporateNumberChange(value);
   };
   // 会社名・法人名
   const corporationNameChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.value;
     props.corporationNameChange(value);
   };
   //業種
   const businessCategoryChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.businessCategoryChange(value);
   };
   //都道府県
   const prefecturesChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.prefecturesChange(value);
   };
   //代表電話番号
   const representativePhoneNumberChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.value;
     props.representativePhoneNumberChange(value);
   };
   //上場
   const corporationListStatusChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.corporationListStatusChange(value);
   };
   //売上
   const minSalesAmountChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.minSalesAmountChange(value);
   };
   const maxSalesAmountChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.maxSalesAmountChange(value);
   };
   //従業員数
   const minEmployeeNumberChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.minEmployeeNumberChange(value);
   };
   const maxEmployeeNumberChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.maxEmployeeNumberChange(value);
   };
   //設立
   const minEstablishmentYearChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.minEstablishmentYearChange(value);
   };
   const maxEstablishmentYearChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.maxEstablishmentYearChange(value);
   };
   //資本金
   const minCapitalStockChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.minCapitalStockChange(value);
   };
   const maxCapitalStockChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.maxCapitalStockChange(value);
+  };
+  //検索ボタン
+  const searchClick = () => {
+    searchClickValue = 1;
+    props.searchClickChange(searchClickValue);
   };
 
   return (
@@ -428,6 +465,16 @@ const Search = (props) => {
               clearIcon={null}
             />
           </Stack>
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            sx={{ borderRadius: 0.5, backgroundColor: "#109DBC", mx: 1, mb: 1 }}
+            variant="contained"
+            onClick={searchClick}
+          >
+            <SearchIcon />
+            　検索
+          </Button>
         </Grid>
       </Grid>
     </Card>

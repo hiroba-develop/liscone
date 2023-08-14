@@ -82,6 +82,11 @@ function DashBoard() {
   const setMaxCapitalStockChange = (maxCapitalStock) => {
     setMaxCapitalStock(maxCapitalStock);
   };
+  //検索ボタン
+  const [searchClick, setSearchClick] = useState("");
+  const setSearchClickChange = (searchClick) => {
+    setSearchClick(searchClick);
+  };
 
   return (
     <>
@@ -115,6 +120,7 @@ function DashBoard() {
               maxEstablishmentYearChange={setMaxEstablishmentYearChange}
               minCapitalStockChange={setMinCapitalStockChange}
               maxCapitalStockChange={setMaxCapitalStockChange}
+              searchClickChange={setSearchClickChange}
             />
           </Grid>
         </Grid>
@@ -135,6 +141,7 @@ function DashBoard() {
               searchMaxEstablishmentYear={maxEstablishmentYear}
               searchMinCapitalStock={minCapitalStock}
               searchMaxCapitalStock={maxCapitalStock}
+              searchSearchClick={searchClick}
             />
           </Box>
         </Grid>

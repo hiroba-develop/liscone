@@ -42,6 +42,7 @@ function CorporationLists(props) {
         searchMaxEstablishmentYear={props.searchMaxEstablishmentYear}
         searchMinCapitalStock={props.searchMinCapitalStock}
         searchMaxCapitalStock={props.searchMaxCapitalStock}
+        searchSearchClick={props.searchSearchClick}
       />
     </Card>
   );
