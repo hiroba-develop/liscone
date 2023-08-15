@@ -197,7 +197,7 @@ const ActionLists: FC<ActionListsProps> = ({
               <TableCell align="left">行動日</TableCell>
               <TableCell align="left">リスト</TableCell>
               <TableCell align="left">担当者</TableCell>
-              <TableCell align="left">行動種類</TableCell>
+              <TableCell align="left">大項目</TableCell>
               <TableCell align="left">小項目</TableCell>
               <TableCell
                 sx={{
