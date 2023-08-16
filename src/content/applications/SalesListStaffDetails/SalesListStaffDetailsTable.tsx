@@ -9,6 +9,8 @@ import {
   TablePagination,
   TableRow,
   Typography,
+  CardHeader,
+  Button,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { ChangeEvent, FC, useState } from "react";
@@ -16,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { SalesList } from "src/models/sales_list";
 import { SalesListStatistic } from "src/models/sales_list_statistic";
 import { StaffDetails2List } from "src/models/staff_details2_list";
+import AddIcon from "@mui/icons-material/Add";
 
 interface StaffDetails2ListProps {
   className?: string;
@@ -58,9 +61,86 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
   const paginatedSalesLists = applyPagination(staffLists, page, limit);
 
   const navigate = useNavigate();
+  // csvダウンロード
+  function getFormattedDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    return `${year}${month}${day}`;
+  }
+
+  function downloadCSV(content, charset) {
+    const fileName = `personal_list_${getFormattedDate()}.csv`;
+    const blob = new Blob([new Uint8Array([0xef, 0xbb, 0xbf]), content], {
+      type: "text/csv;charset=" + charset,
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function convertObjectsToCSV() {
+    const objIterator = iterateObjects(staffLists);
+    const csvStrings = [];
+    var title = 0;
+    for (const obj of objIterator) {
+      const csvString = objectToCSV(obj, title);
+      csvStrings.push(csvString);
+      title++;
+    }
+    const combinedCSV = csvStrings.join("\n");
+    downloadCSV(combinedCSV, "utf-8");
+  }
+
+  function* iterateObjects(objArray) {
+    for (const obj of objArray) {
+      yield obj;
+    }
+  }
+
+  function objectToCSV(obj, title) {
+    var csvRows = [];
+    const keys = Object.keys(obj);
+    var csvRow;
+    for (const key of keys) {
+      const value = obj[key];
+      if (key === "corporation") {
+        if (title === 0) {
+          csvRow = `corporation_name,job_position,staff_name,profile_source_type,profile_link\n"${value.corporation_name}"`;
+          csvRows.push(csvRow);
+        } else {
+          csvRow = `"${value.corporation_name}"`;
+          csvRows.push(csvRow);
+        }
+      } else if (key === "staff") {
+        csvRow = `"${value.job_position}","${value.staff_name}","${value.profile_source_type}","${value.profile_link}"`;
+        csvRows.push(csvRow);
+      }
+    }
+    return csvRows;
+  }
 
   return (
     <Card>
+      <CardHeader
+        action={
+          <Box>
+            <Button
+              sx={{ borderRadius: 0.5, backgroundColor: "#109DBC" }}
+              fullWidth
+              variant="contained"
+              onClick={convertObjectsToCSV}
+            >
+              <AddIcon />
+              　csv出力
+            </Button>
+          </Box>
+        }
+      />
       <TableContainer>
         <Table>
           <TableHead>
