@@ -195,9 +195,11 @@ const SalesLists: FC<SalesListsProps> = ({
   function convertObjectsToCSV() {
     const objIterator = iterateObjects(salesDetailsLists);
     const csvStrings = [];
+    var title = 0;
     for (const obj of objIterator) {
-      const csvString = objectToCSV(obj);
+      const csvString = objectToCSV(obj, title);
       csvStrings.push(csvString);
+      title++;
     }
     const combinedCSV = csvStrings.join("\n");
     downloadCSV(combinedCSV, "utf-8");
@@ -209,12 +211,12 @@ const SalesLists: FC<SalesListsProps> = ({
     }
   }
 
-  function objectToCSV(obj) {
-    const csvRows = [];
+  function objectToCSV(obj, title) {
+    var csvRows = [];
     const keys = Object.keys(obj);
+    var csvRow;
     for (const key of keys) {
       const value = obj[key];
-      var csvRow = "";
       // 指定されたキーの値が特定の値の場合は処理をスキップ
       if (
         key === "sales_list_number" ||
@@ -226,13 +228,16 @@ const SalesLists: FC<SalesListsProps> = ({
       }
 
       if (value == null) {
-        csvRow = `"${key}", ${value}`;
+        csvRow = `${value}`;
       } else {
-        csvRow = `"${key}", "${value}"`;
+        csvRow = `"${value}"`;
+      }
+      if (key === "corporate_number" && title === 0) {
+        csvRow = `corporate_number,corporation_name,business_category,zip_code,address,representative_phone_number,representative_name,home_page,sales_amount,employee_number,establishment_year,capital_stock,listing_status\n"${value}"`;
       }
       csvRows.push(csvRow);
     }
-    return csvRows.join("\n");
+    return csvRows;
   }
 
   return (
