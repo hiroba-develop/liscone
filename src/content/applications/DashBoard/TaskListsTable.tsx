@@ -65,7 +65,7 @@ const getTaskName = (taskName) => {
 
 const getStatusLabel = (taskStatus: TaskStatus): JSX.Element => {
   const map = {
-    overdueday: {
+    overday: {
       text: "期限超過",
       color: "error",
     },
@@ -239,15 +239,15 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
         status = "completed";
         break;
       case "期限超過":
-        status = "overdueday";
+        status = "overday";
         break;
       case "未完了":
         status = "pending";
         break;
       case "本日期限":
         status = "dueday";
+        break;
     }
-
     return status;
   }
   // 絞り込み

@@ -29,7 +29,7 @@ function TaskLists() {
             } else if (element.deadline === today) {
               element.status = "dueday";
             } else if (element.deadline < today) {
-              element.status = "overdueday";
+              element.status = "overday";
             } else {
               element.status = "pending";
             }
@@ -43,7 +43,6 @@ function TaskLists() {
 
     getTasks();
   }, [auth.userId]);
-
   return (
     <Card>
       <TaskListsTable taskLists={taskLists} />
