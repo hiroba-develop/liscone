@@ -11,34 +11,35 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-
-//リスト_リスト情報
-const salesListNameList = [
-  { label: "test" },
-  { label: "テスト用企業リスト5" },
-  { label: "レポートテスト用企業リスト" },
-];
-//ユーザー_リスト情報
-const memberNameList = [{ label: "渡邉弥叶" }, { label: "山田太郎" }];
-//行動種類_リスト情報
-const executeBigResultList = [
-  { label: "受付拒否" },
-  { label: "受付突破" },
-  { label: "担当者拒否" },
-  { label: "担当者止まり" },
-  { label: "アポ" },
-  { label: "未送信" },
-  { label: "送信済み" },
-];
-//小項目_リスト情報
-const executeSmallResultList = [
-  { label: "電話番号なし" },
-  { label: "不通" },
-  { label: "お問い合わせフォーム" },
-  { label: "日程打診" },
-];
+import { useRecoilValue } from "recoil";
+import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 
 function Search(props) {
+  //リスト_リスト情報
+  const salesListNameList = [
+    { label: "test" },
+    { label: "テスト用企業リスト5" },
+    { label: "レポートテスト用企業リスト" },
+  ];
+  //ユーザー_リスト情報
+  const user = useRecoilValue(membersAtom);
+  //行動種類_リスト情報
+  const executeBigResultList = [
+    { label: "受付拒否" },
+    { label: "受付突破" },
+    { label: "担当者拒否" },
+    { label: "担当者止まり" },
+    { label: "アポ" },
+    { label: "未送信" },
+    { label: "送信済み" },
+  ];
+  //小項目_リスト情報
+  const executeSmallResultList = [
+    { label: "電話番号なし" },
+    { label: "不通" },
+    { label: "お問い合わせフォーム" },
+    { label: "日程打診" },
+  ];
   // 企業名
   const corporationNameChange = (event) => {
     const value = event.target.value;
@@ -128,13 +129,15 @@ function Search(props) {
         </Grid>
         <Grid item xs={2}>
           <Autocomplete
-            disablePortal
-            options={memberNameList}
+            id="checkboxes-tags-demo"
+            options={user}
             sx={{ m: margin, pb: paddingBotton }}
+            disableCloseOnSelect
+            getOptionLabel={(option) => option.member_name}
             renderInput={(params) => (
               <TextField {...params} size="small" label="ユーザー" />
             )}
-            onChange={memberNameChange}
+            onChange={(option) => memberNameChange(option)}
             clearIcon={null}
           />
         </Grid>
