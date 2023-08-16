@@ -180,7 +180,9 @@ const SalesLists: FC<SalesListsProps> = ({
   }
 
   function downloadCSV(content, charset) {
-    const fileName = `company_list_${getFormattedDate()}.csv`;
+    const fileName = `company_list_${
+      salesStatistic.sales_list_name
+    }_${getFormattedDate()}.csv`;
     const blob = new Blob([new Uint8Array([0xef, 0xbb, 0xbf]), content], {
       type: "text/csv;charset=" + charset,
     });
