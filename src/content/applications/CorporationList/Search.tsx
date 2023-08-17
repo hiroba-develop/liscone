@@ -67,6 +67,7 @@ const businessCategory = [
   { label: "運輸" },
   { label: "倉庫" },
   { label: "官公庁・団体" },
+  { label: "地方自治体" },
 ];
 
 const prefectures = [
@@ -119,7 +120,11 @@ const prefectures = [
   { label: "沖縄県" },
 ];
 
-const listingStatus = [{ label: "上場" }, { label: "未上場" }];
+const listingStatus = [
+  { label: "上場" },
+  { label: "未上場" },
+  { label: "未確認" },
+];
 
 const minSalesAmount = [
   { label: "1億円" },

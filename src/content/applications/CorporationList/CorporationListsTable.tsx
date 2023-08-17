@@ -80,117 +80,49 @@ const CorporationLists: FC<CorporationListsProps> = ({
   searchMaxCapitalStock,
   searchSearchClick,
 }) => {
-  // 項目値から桁を取る
-  function convertToNumber(amount) {
-    const units = {
-      万円: 10000,
-      億円: 100000000,
-      兆円: 1000000000000,
-    };
-
-    const unitPattern = /(\d+)\s*([万億兆]円)/;
-    const match = unitPattern.exec(amount);
-
-    if (match && match[2] && units.hasOwnProperty(match[2])) {
-      const value = parseInt(match[1]);
-      const unit = match[2];
-      return value * units[unit];
-    }
-
-    return "";
-  }
-  function getStatusValue(listingStatus) {
-    return listingStatus === "上場"
-      ? "Y"
-      : listingStatus === "未上場"
-      ? "N"
-      : "";
-  }
-
-  //範囲条件内か確認
-  function isWithinRange(value, minValue, maxValue) {
-    if (maxValue !== "" || minValue !== "") {
-      minValue =
-        minValue !== undefined && minValue !== "" && minValue !== null
-          ? minValue
-          : 0;
-      maxValue =
-        maxValue !== undefined && maxValue !== "" && maxValue !== null
-          ? maxValue
-          : 100000000000000;
-      if (value !== null) {
-        return value >= minValue && value <= maxValue;
-      } else {
-        return false;
-      }
-    } else {
-      return true;
-    }
-  }
-  // 絞り込み
-  let searchCorporationLists;
-  if (searchSearchClick === 1) {
-    searchCorporationLists = corporationLists.filter(
-      (corporationList) =>
-        corporationList.corporate_number.match(searchCorporateNumber) &&
-        corporationList.corporation_name.match(searchCorporationName) &&
-        corporationList.business_category.match(searchIndustry) &&
-        corporationList.address.match(searchPrefectures) &&
-        corporationList.representative_phone_number.match(
-          searchRepresentativePhoneNumber
-        ) &&
-        corporationList.listing_status.match(
-          getStatusValue(searchCorporationListStatus)
-        ) &&
-        isWithinRange(
-          corporationList.sales_amount,
-          convertToNumber(searchMinSalesAmount),
-          convertToNumber(searchMaxSalesAmount)
-        ) &&
-        isWithinRange(
-          corporationList.employee_number,
-          searchMinEmployeeNumber,
-          searchMaxEmployeeNumber
-        ) &&
-        isWithinRange(
-          corporationList.establishment_year,
-          searchMinEstablishmentYear,
-          searchMaxEstablishmentYear
-        ) &&
-        isWithinRange(
-          corporationList.capital_stock,
-          convertToNumber(searchMinCapitalStock),
-          convertToNumber(searchMaxCapitalStock)
-        )
-    );
-  } else if (searchSearchClick === 2) {
-    const rows = [];
-    searchCorporationLists = rows;
-  } else {
-    const rows = [];
-    searchCorporationLists = rows;
-  }
   //Gridの中央の文章
   let localeText = {};
   if (searchSearchClick === 1) {
-    if (searchCorporationLists.length > 10000) {
+    if (corporationLists.length > 10000) {
       localeText = {
-        noRowsLabel: `検索結果は ${searchCorporationLists.length}件です。　検索条件を追加してください`,
+        noRowsLabel: `検索結果は ${corporationLists.length}件です。　検索条件を追加してください`,
       };
       const rows = [];
-      searchCorporationLists = rows;
-    } else {
+      corporationLists = rows;
+    }
+    if (corporationLists.length === 0) {
       localeText = {
-        noRowsLabel: `検索結果は ${searchCorporationLists.length}件です`,
+        noRowsLabel: `検索結果は 0件です。　検索条件を変更してください`,
+      };
+      const rows = [];
+      corporationLists = rows;
+    }
+    if (
+      searchCorporateNumber === "" &&
+      searchCorporationName === "" &&
+      searchIndustry === "" &&
+      searchPrefectures === "" &&
+      searchRepresentativePhoneNumber === "" &&
+      searchCorporationListStatus === "" &&
+      searchMinSalesAmount === "" &&
+      searchMaxSalesAmount === "" &&
+      searchMinEmployeeNumber === "" &&
+      searchMaxEmployeeNumber === "" &&
+      searchMinEstablishmentYear === "" &&
+      searchMaxEstablishmentYear === "" &&
+      searchMinCapitalStock === "" &&
+      searchMaxCapitalStock === ""
+    ) {
+      const rows = [];
+      corporationLists = rows;
+      localeText = {
+        noRowsLabel: "データ件数が多すぎるため、条件を絞り込んで下さい",
       };
     }
-  } else if (searchSearchClick === 2) {
-    localeText = {
-      noRowsLabel: "検索値が変更されました",
-    };
   } else {
     localeText = {
-      noRowsLabel: "絞り込みの値を設定してください",
+      noRowsLabel:
+        "絞り込み条件を選択または入力して「検索」ボタンを押下してください",
     };
   }
 
@@ -215,7 +147,6 @@ const CorporationLists: FC<CorporationListsProps> = ({
     const digits = ["", "万", "億", "兆"];
     return digits[digitIndex];
   }
-  console.log(searchMinEmployeeNumber);
 
   const [checkItems, setCheckItems] = useState([]);
   const [listCreateOpen, setListCreateOpen] = useState(false);
@@ -380,7 +311,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
             fontWeight: "bold",
           }}
           rowHeight={70}
-          rows={searchCorporationLists}
+          rows={corporationLists}
           getRowId={(row: any) => row.corporation_id}
           columns={columns}
           localeText={localeText}
@@ -396,7 +327,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
           disableRowSelectionOnClick
           onRowSelectionModelChange={(ids) => {
             const selectedIDs = new Set(ids);
-            const selectedRows = searchCorporationLists.filter((row) =>
+            const selectedRows = corporationLists.filter((row) =>
               selectedIDs.has(row.corporation_id)
             );
 
