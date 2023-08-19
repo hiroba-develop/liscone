@@ -22,6 +22,7 @@ import { renderCellExpand } from "src/utility/renderexpand";
 interface CorporationListsProps {
   className?: string;
   corporationLists: CorporationList[];
+  corporationListsCount: number;
   searchCorporateNumber: string;
   searchCorporationName: string;
   searchIndustry: string;
@@ -51,7 +52,7 @@ const getStatusLabel = (
       text: "未上場",
       color: "warn",
     },
-    "": {
+    U: {
       text: "未確認",
       color: "error",
     },
@@ -64,6 +65,7 @@ const getStatusLabel = (
 
 const CorporationLists: FC<CorporationListsProps> = ({
   corporationLists,
+  corporationListsCount,
   searchCorporateNumber,
   searchCorporationName,
   searchIndustry,
@@ -83,14 +85,14 @@ const CorporationLists: FC<CorporationListsProps> = ({
   //Gridの中央の文章
   let localeText = {};
   if (searchSearchClick === 1) {
-    if (corporationLists.length > 10000) {
+    if (corporationListsCount > 10000) {
       localeText = {
-        noRowsLabel: `検索結果は ${corporationLists.length}件です。　検索条件を追加してください`,
+        noRowsLabel: `検索結果は ${corporationListsCount}件です。　検索条件を追加してください`,
       };
       const rows = [];
       corporationLists = rows;
     }
-    if (corporationLists.length === 0) {
+    if (corporationListsCount === 0) {
       localeText = {
         noRowsLabel: `検索結果は 0件です。　検索条件を変更してください`,
       };

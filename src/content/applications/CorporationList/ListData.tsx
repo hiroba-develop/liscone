@@ -1,12 +1,40 @@
 import { Card } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { CorporationList } from "src/models/corporation_list";
 import { config } from "src/utility/config/AppConfig";
 import CorporationListsTable from "./CorporationListsTable";
 
 function CorporationLists(props) {
   const [corporationLists, setCorporations] = useState<CorporationList[]>([]);
+  const [corporationListsCount, setCorporationsCount] = useState<number>(0);
+  let searchCorporationListStatus;
+  if (props.searchCorporationListStatus === "上場") {
+    searchCorporationListStatus = "Y";
+  } else if (props.searchCorporationListStatus === "未上場") {
+    searchCorporationListStatus = "N";
+  } else {
+    searchCorporationListStatus = "U";
+  }
+  function convertToNumber(amount) {
+    const units = {
+      万円: 10000,
+      億円: 100000000,
+      兆円: 1000000000000,
+    };
+    const unitPattern = /(\d+)\s*([万億兆]円)/;
+    const match = unitPattern.exec(amount);
+    if (match && match[2] && units.hasOwnProperty(match[2])) {
+      const value = parseInt(match[1]);
+      const unit = match[2];
+      return value * units[unit];
+    }
+    return "";
+  }
+  const searchMinSalesAmount = convertToNumber(props.searchMinSalesAmount);
+  const searchMaxSalesAmount = convertToNumber(props.searchMaxSalesAmount);
+  const searchMinCapitalStock = convertToNumber(props.searchMinCapitalStock);
+  const searchMaxCapitalStock = convertToNumber(props.searchMaxCapitalStock);
   useEffect(() => {
     if (props.searchSearchClick === 1) {
       if (
@@ -25,45 +53,11 @@ function CorporationLists(props) {
         props.searchMinCapitalStock !== "" ||
         props.searchMaxCapitalStock !== ""
       ) {
-        var searchCorporationListStatus;
-        if (props.searchCorporationListStatus === "上場") {
-          searchCorporationListStatus = "Y";
-        } else if (props.searchCorporationListStatus === "未上場") {
-          searchCorporationListStatus = "N";
-        } else {
-          searchCorporationListStatus = "";
-        }
-        function convertToNumber(amount) {
-          const units = {
-            万円: 10000,
-            億円: 100000000,
-            兆円: 1000000000000,
-          };
-          const unitPattern = /(\d+)\s*([万億兆]円)/;
-          const match = unitPattern.exec(amount);
-          if (match && match[2] && units.hasOwnProperty(match[2])) {
-            const value = parseInt(match[1]);
-            const unit = match[2];
-            return value * units[unit];
-          }
-          return "";
-        }
-        const searchMinSalesAmount = convertToNumber(
-          props.searchMinSalesAmount
-        );
-        const searchMaxSalesAmount = convertToNumber(
-          props.searchMaxSalesAmount
-        );
-        const searchMinCapitalStock = convertToNumber(
-          props.searchMinCapitalStock
-        );
-        const searchMaxCapitalStock = convertToNumber(
-          props.searchMaxCapitalStock
-        );
         const getCorporations = async () => {
           try {
-            const response = await axios.get(
-              `${config().apiUrl}/corporations/search`,
+            console.log("件数SQL実行");
+            const responseCount = await axios.get(
+              `${config().apiUrl}/corporations/searchCount`,
               {
                 params: {
                   searchCorporateNumber: props.searchCorporateNumber,
@@ -84,9 +78,38 @@ function CorporationLists(props) {
                 },
               }
             );
+            if (responseCount.statusText === "OK") {
+              setCorporationsCount(responseCount.data);
+              if (responseCount.data < 10000) {
+                const response = await axios.get(
+                  `${config().apiUrl}/corporations/search`,
+                  {
+                    params: {
+                      searchCorporateNumber: props.searchCorporateNumber,
+                      searchCorporationName: props.searchCorporationName,
+                      searchIndustry: props.searchIndustry,
+                      searchPrefectures: props.searchPrefectures,
+                      searchRepresentativePhoneNumber:
+                        props.searchRepresentativePhoneNumber,
+                      searchCorporationListStatus: searchCorporationListStatus,
+                      searchMinSalesAmount: searchMinSalesAmount,
+                      searchMaxSalesAmount: searchMaxSalesAmount,
+                      searchMinEmployeeNumber: props.searchMinEmployeeNumber,
+                      searchMaxEmployeeNumber: props.searchMaxEmployeeNumber,
+                      searchMinEstablishmentYear:
+                        props.searchMinEstablishmentYear,
+                      searchMaxEstablishmentYear:
+                        props.searchMaxEstablishmentYear,
+                      searchMinCapitalStock: searchMinCapitalStock,
+                      searchMaxCapitalStock: searchMaxCapitalStock,
+                    },
+                  }
+                );
 
-            if (response.statusText === "OK") {
-              setCorporations(response.data);
+                if (response.statusText === "OK") {
+                  setCorporations(response.data);
+                }
+              }
             }
           } catch (error) {
             console.error(error);
@@ -102,6 +125,7 @@ function CorporationLists(props) {
     <Card>
       <CorporationListsTable
         corporationLists={corporationLists}
+        corporationListsCount={corporationListsCount}
         searchCorporateNumber={props.searchCorporateNumber}
         searchCorporationName={props.searchCorporationName}
         searchIndustry={props.searchIndustry}
