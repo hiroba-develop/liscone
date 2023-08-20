@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { TaskList } from "src/models/sales_task_list";
+import { MemberList } from "src/models/member_list";
 import { config } from "src/utility/config/AppConfig";
 import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import TaskListsTable from "./TaskListsTable";
@@ -10,12 +11,23 @@ import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function TaskLists() {
   const [taskLists, setTasks] = useState<TaskList[]>([]);
-  const auth = useRecoilValue(authAtom);
+  const [memberLists, setMemberLists] = useState<MemberList[]>([]);
+  const authUser = useRecoilValue(authAtom);
   useEffect(() => {
     const getTasks = async () => {
       try {
+        const responseUser = await axios.get(
+          `${config().apiUrl}/members/allMemberId`,
+          {
+            params: {
+              memberId: authUser.userId,
+            },
+          }
+        );
+        if (responseUser.statusText === "OK") {
+          setMemberLists(responseUser.data);
+        }
         const response = await axios.get(`${config().apiUrl}/salestasks`);
-
         if (response.statusText === "OK") {
           const current = new Date();
           const today = `${current.getFullYear()}-${
@@ -42,10 +54,11 @@ function TaskLists() {
     };
 
     getTasks();
-  }, [auth.userId]);
+  }, [authUser.userId]);
+
   return (
     <Card>
-      <TaskListsTable taskLists={taskLists} />
+      <TaskListsTable taskLists={taskLists} memberLists={memberLists} />
     </Card>
   );
 }

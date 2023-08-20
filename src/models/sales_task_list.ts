@@ -15,4 +15,9 @@ export interface TaskList {
     representative_phone_number: string;
     corporation_name: string;
   };
+  memberslist: {
+    company_code: string;
+    member_id: string;
+    member_name: string;
+  };
 }

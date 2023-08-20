@@ -26,6 +26,7 @@ import Label from "src/components/Label";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { TaskList, TaskStatus } from "src/models/sales_task_list";
+import { MemberList } from "src/models/member_list";
 import { config } from "src/utility/config/AppConfig";
 import { CODE } from "src/utility/constants/Code";
 import { NavigatePath } from "src/utility/constants/NavigatePath";
@@ -41,6 +42,7 @@ import Search from "./Search";
 interface SalesTaskListsProps {
   className?: string;
   taskLists: TaskList[];
+  memberLists: MemberList[];
 }
 
 interface Filters {
@@ -108,7 +110,7 @@ const applyPagination = (
   return taskLists.slice(page * limit, page * limit + limit);
 };
 
-const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
+const TaskLists: FC<SalesTaskListsProps> = ({ taskLists, memberLists }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -190,7 +192,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
   function matchStaffName(entity, searchvalue) {
     const result =
       entity !== null
-        ? entity.staff_name.match(searchvalue)
+        ? entity.match(searchvalue)
         : searchvalue !== "" && searchvalue !== undefined
         ? ""
         : blank.match("");
@@ -253,7 +255,8 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
   // 絞り込み
   let searchtaskLists = taskLists.filter(
     (taskList) =>
-      matchStaffName(taskList.corporationstaffEntity, staffName) &&
+      taskList.memberslist.company_code.match(memberLists[0].company_code) &&
+      matchStaffName(taskList.memberslist.member_name, staffName) &&
       filterDateInRange(
         taskList.deadline,
         formatDateToISO(fromDate),
@@ -344,6 +347,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                 架電先企業
               </TableCell>
               <TableCell align="left">架電先担当</TableCell>
+              <TableCell align="left">ユーザー</TableCell>
               <TableCell align="left">電話番号</TableCell>
               <TableCell sx={{ maxWidth: "150px" }} align="left">
                 コメント
@@ -424,6 +428,19 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                     >
                       {taskList.corporationstaffEntity !== null
                         ? taskList.corporationstaffEntity.staff_name
+                        : ""}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {taskList.memberslist !== null
+                        ? taskList.memberslist.member_name
                         : ""}
                     </Typography>
                   </TableCell>
