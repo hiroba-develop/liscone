@@ -101,7 +101,7 @@ function signIn() {
         if (storeAuthChecked) {
           setLSAuthState({ userId: auth.userId, pw: auth.userPw });
         } else {
-          setLSAuthState({ userId: "", pw: "" });
+          setLSAuthState({ userId: auth.userId, pw: auth.userPw });
         }
         setAuthState({
           userId: data.member_id,

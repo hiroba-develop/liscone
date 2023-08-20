@@ -5,27 +5,52 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { config } from "src/utility/config/AppConfig";
 import { commonErrorCallback } from "src/utility/http/ApiService";
+import { useRecoilValue } from "recoil";
+import { lsAuthAtom } from "src/utility/recoil/auth/Auth.atom";
 
 function ActionLists(props) {
   const [actionLists, setActionLogs] = useState<ActionList[]>([]);
+  const authState = useRecoilValue(lsAuthAtom);
 
   useEffect(() => {
-    const getActionLogs = async () => {
+    const fetchUserAndActionLogs = async () => {
       try {
-        const response = await axios.get(
-          `${config().apiUrl}/actionlogs/search`
+        const responseUser = await axios.get(
+          `${config().apiUrl}/members/allMemberId`,
+          {
+            params: {
+              memberId: authState.userId,
+            },
+          }
         );
 
-        if (response.statusText === "OK") {
-          setActionLogs(response.data);
+        if (responseUser.status === 200) {
+          const newUserLogs = responseUser.data;
+          console.log(newUserLogs);
+
+          if (newUserLogs.length > 0 && newUserLogs[0].company_code !== "") {
+            const responseAction = await axios.get(
+              `${config().apiUrl}/actionlogs/search`,
+              {
+                params: {
+                  companyCode: newUserLogs[0].company_code,
+                },
+              }
+            );
+
+            if (responseAction.status === 200) {
+              setActionLogs(responseAction.data);
+            }
+          }
         }
       } catch (error) {
         commonErrorCallback(error);
       }
     };
 
-    getActionLogs();
-  }, []);
+    fetchUserAndActionLogs();
+  }, [authState.userId]);
+
   return (
     <Card>
       <ActionListsTable
