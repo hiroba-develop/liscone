@@ -55,7 +55,6 @@ function CorporationLists(props) {
       ) {
         const getCorporations = async () => {
           try {
-            console.log("件数SQL実行");
             const responseCount = await axios.get(
               `${config().apiUrl}/corporations/searchCount`,
               {

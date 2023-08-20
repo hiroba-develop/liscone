@@ -26,7 +26,6 @@ function ActionLists(props) {
 
         if (responseUser.status === 200) {
           const newUserLogs = responseUser.data;
-          console.log(newUserLogs);
 
           if (newUserLogs.length > 0 && newUserLogs[0].company_code !== "") {
             const responseAction = await axios.get(
