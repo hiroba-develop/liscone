@@ -17,7 +17,7 @@ const SalesLists = ({ staffDetails1List }) => {
         text: "未上場",
         color: "warn",
       },
-      "": {
+      U: {
         text: "未確認",
         color: "error",
       },

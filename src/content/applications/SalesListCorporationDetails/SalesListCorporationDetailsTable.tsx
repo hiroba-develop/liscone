@@ -39,7 +39,7 @@ const SalesLists: FC<SalesListsProps> = ({
         text: "未上場",
         color: "warn",
       },
-      "": {
+      U: {
         text: "未確認",
         color: "error",
       },
