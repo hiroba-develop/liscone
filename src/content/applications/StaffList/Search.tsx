@@ -5,31 +5,47 @@ import {
   Stack,
   Grid,
   Autocomplete,
+  Button,
 } from "@mui/material";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import SearchIcon from "@mui/icons-material/Search";
 
 const source = [{ label: "人事異動" }, { label: "Wantedly" }];
 
 function Search(props) {
+  var searchClickValue;
   // 企業名
   const corporationNameChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.value;
     props.corporationNameChange(value);
   };
   // 役職
   const jobPositionChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.value;
     props.jobPositionChange(value);
   };
   //リスト
   const profileSourceTypeChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.profileSourceTypeChange(value);
   };
   // 担当者
   const staffNameChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
     const value = event.target.value;
     props.staffNameChange(value);
+  };
+  //検索ボタン
+  const searchClick = () => {
+    searchClickValue = 1;
+    props.searchClickChange(searchClickValue);
   };
   return (
     <Card>
@@ -74,6 +90,20 @@ function Search(props) {
             sx={{ m: 1 }}
             onChange={staffNameChange}
           />
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            sx={{
+              borderRadius: 0.5,
+              backgroundColor: "#109DBC",
+              m: 1,
+            }}
+            variant="contained"
+            onClick={searchClick}
+          >
+            <SearchIcon />
+            　検索
+          </Button>
         </Grid>
       </Grid>
     </Card>

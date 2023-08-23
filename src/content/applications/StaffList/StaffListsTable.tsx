@@ -1,25 +1,10 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardHeader,
-  Checkbox,
-  Divider,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Card, CardHeader, Divider } from "@mui/material";
 import PropTypes from "prop-types";
-import { ChangeEvent, FC, useState } from "react";
+import { FC, useState } from "react";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 import AddIcon from "@mui/icons-material/Add";
-import { useNavigate } from "react-router-dom";
-import { StaffList, StaffListRoles } from "src/models/staff_list";
+import { StaffList } from "src/models/staff_list";
 import ListCreate from "../PopUp/ListCreate";
 
 interface StaffListsProps {
@@ -29,51 +14,8 @@ interface StaffListsProps {
   searchJobPosition: string;
   searchProfileSourceType: string;
   searchStaffName: string;
+  searchSearchClick: number;
 }
-
-interface Filters {
-  status?: StaffListRoles;
-}
-
-// const getStatusLabel = (staffListRoles: StaffListRoles): JSX.Element => {
-//   const map = {
-//     marketing: {
-//       text: "マーケティング",
-//       color: "error",
-//     },
-//     sales: {
-//       text: "営業",
-//       color: "warn",
-//     },
-//   };
-
-//   const { text, color }: any = map[staffListRoles];
-
-//   return <Label color={color}>{text}</Label>;
-// };
-
-const applyFilters = (
-  staffList: StaffList[],
-  filters: Filters
-): StaffList[] => {
-  return staffList.filter((staffList) => {
-    let matches = true;
-
-    if (filters.status && staffList.role !== filters.status) {
-      matches = false;
-    }
-
-    return matches;
-  });
-};
-
-const applyPagination = (
-  staffLists: StaffList[],
-  page: number,
-  limit: number
-): StaffList[] => {
-  return staffLists.slice(page * limit, page * limit + limit);
-};
 
 const StaffLists: FC<StaffListsProps> = ({
   staffLists,
@@ -81,33 +23,43 @@ const StaffLists: FC<StaffListsProps> = ({
   searchJobPosition,
   searchProfileSourceType,
   searchStaffName,
+  searchSearchClick,
 }) => {
-  let searchStaffLists = staffLists.filter(
-    (staffList) =>
-      staffList.corporationEntity.corporation_name.match(
-        searchCorporationName
-      ) &&
-      staffList.job_position.match(searchJobPosition) &&
-      staffList.profile_source_type.match(searchProfileSourceType) &&
-      staffList.staff_name.match(searchStaffName)
-  );
-
-  const [page, setPage] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(5);
-  const [filters] = useState<Filters>({
-    status: null,
-  });
-
-  const handlePageChange = (event: any, newPage: number): void => {
-    setPage(newPage);
-  };
-
-  const handleLimitChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    setLimit(parseInt(event.target.value));
-  };
-
-  const filteredStaffLists = applyFilters(searchStaffLists, filters);
-  const paginatedStaffLists = applyPagination(filteredStaffLists, page, limit);
+  //Gridの中央の文章
+  let localeText = {};
+  if (searchSearchClick === 1) {
+    if (staffLists.length > 10000) {
+      localeText = {
+        noRowsLabel: `検索結果は ${staffLists.length}件です。　検索条件を追加してください`,
+      };
+      const rows = [];
+      staffLists = rows;
+    }
+    if (staffLists.length === 0) {
+      localeText = {
+        noRowsLabel: `検索結果は 0件です。　検索条件を変更してください`,
+      };
+      const rows = [];
+      staffLists = rows;
+    }
+    if (
+      searchCorporationName === "" &&
+      searchJobPosition === "" &&
+      searchProfileSourceType === "" &&
+      searchStaffName === ""
+    ) {
+      const rows = [];
+      staffLists = rows;
+      localeText = {
+        noRowsLabel: "データ件数が多すぎるため、条件を絞り込んで下さい",
+      };
+    }
+  } else {
+    localeText = {
+      noRowsLabel:
+        "絞り込み条件を選択または入力して「検索」ボタンを押下してください",
+    };
+  }
 
   const [checkItems, setCheckItems] = useState([]);
   const [listCreateOpen, setListCreateOpen] = useState(false);
@@ -118,34 +70,26 @@ const StaffLists: FC<StaffListsProps> = ({
     setListCreateOpen(true);
   };
 
-  const navigate = useNavigate();
-
-  // 체크박스 단일 선택
-  const handleSingleCheck = (checked, row) => {
-    if (checked) {
-      // 단일 선택 시 체크된 아이템을 배열에 추가
-      setCheckItems((prev) => [...prev, row]);
-    } else {
-      // 단일 선택 해제 시 체크된 아이템을 제외한 배열 (필터)
-      setCheckItems(checkItems.filter((el) => el.staff_id !== row.staff_id));
-    }
-  };
-  // 체크박스 전체 선택
-  const handleAllCheck = (checked) => {
-    if (checked) {
-      const stfArray = [];
-      // 전체 선택 클릭 시 데이터의 모든 아이템(id)를 담은 배열로 checkItems 상태 업데이트
-      searchStaffLists.forEach((el) => {
-        stfArray.push(el);
-      });
-      setCheckItems(stfArray);
-    } else {
-      // 전체 선택 해제 시 checkItems 를 빈 배열로 상태 업데이트
-      setCheckItems([]);
-    }
-  };
   const isChecked = checkItems.length > 0;
   const disabled = !isChecked;
+
+  // DATAGRID
+  const columns: GridColDef[] = [
+    {
+      field: "corporationEntity",
+      headerName: "会社名・法人名",
+      flex: 3,
+      valueGetter: (params) => params.row.corporationEntity.corporation_name,
+    },
+    { field: "job_position", headerName: "役職", flex: 4 },
+    { field: "staff_name", headerName: "氏名", flex: 1 },
+    {
+      field: "profile_source_type",
+      headerName: "アカウントソース",
+      flex: 1.5,
+    },
+    { field: "profile_link", headerName: "プロフィールリンク", flex: 4 },
+  ];
 
   return (
     <Card>
@@ -172,119 +116,31 @@ const StaffLists: FC<StaffListsProps> = ({
         salesListType={salesListType}
       />
       <Divider />
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  onChange={(e) => handleAllCheck(e.target.checked)}
-                  checked={
-                    checkItems.length === staffLists.length ? true : false
-                  }
-                />
-              </TableCell>
-              <TableCell align="left">会社名・法人名</TableCell>
-              <TableCell align="left">役職</TableCell>
-              <TableCell align="left">氏名</TableCell>
-              <TableCell align="left">アカウントソース</TableCell>
-              <TableCell align="left">プロフィールリンク</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedStaffLists.map((staffList) => {
-              const isStaffListSelected = checkItems.includes(staffList);
-              return (
-                <TableRow hover key={staffList.staff_id}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      name={`select-${staffList.staff_id}`}
-                      onChange={(e) =>
-                        handleSingleCheck(e.target.checked, staffList)
-                      }
-                      checked={isStaffListSelected}
-                    />
-                  </TableCell>
-                  <TableCell align="left">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                      onClick={() =>
-                        navigate("/staff/staffDetails1", {
-                          state: staffList,
-                        })
-                      }
-                      sx={{ textDecoration: "underline" }}
-                    >
-                      {staffList.corporationEntity.corporation_name}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="left">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {staffList.job_position}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="left">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {staffList.staff_name}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="left">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {staffList.profile_source_type}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="left">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {staffList.profile_link}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Box p={2}>
-        <TablePagination
-          component="div"
-          count={filteredStaffLists.length}
-          onPageChange={handlePageChange}
-          onRowsPerPageChange={handleLimitChange}
-          page={page}
-          rowsPerPage={limit}
-          rowsPerPageOptions={[5, 10, 20, 30]}
+      <div style={{ height: 450, width: "100%" }}>
+        <DataGrid
+          sx={{
+            border: 0,
+            borderRadius: 0,
+            fontFamily: "'Noto Sans JP', sans-serif",
+            fontWeight: "bold",
+          }}
+          rowHeight={70}
+          rows={staffLists}
+          getRowId={(row: any) => row.staff_id}
+          columns={columns}
+          localeText={localeText}
+          checkboxSelection
+          disableRowSelectionOnClick
+          onRowSelectionModelChange={(ids) => {
+            const selectedIDs = new Set(ids);
+            const selectedRows = staffLists.filter((row) =>
+              selectedIDs.has(row.staff_id)
+            );
+
+            setCheckItems(selectedRows);
+          }}
         />
-      </Box>
+      </div>
     </Card>
   );
 };

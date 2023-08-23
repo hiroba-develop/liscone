@@ -317,14 +317,6 @@ const CorporationLists: FC<CorporationListsProps> = ({
           getRowId={(row: any) => row.corporation_id}
           columns={columns}
           localeText={localeText}
-          // initialState={{
-          //   pagination: {
-          //     paginationModel: {
-          //       pageSize: 5,
-          //     },
-          //   },
-          // }}
-          // pageSizeOptions={[5, 10, 20, 30]}
           checkboxSelection
           disableRowSelectionOnClick
           onRowSelectionModelChange={(ids) => {

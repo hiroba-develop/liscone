@@ -10,22 +10,40 @@ function StaffLists(props) {
   const [staffLists, setStaffs] = useState<StaffList[]>([]);
 
   useEffect(() => {
-    const getStaffs = async () => {
-      try {
-        const response = await axios.get(
-          `${config().apiUrl}/corporationstaffs`
-        );
+    if (props.searchSearchClick === 1) {
+      if (
+        props.searchCorporationName !== "" ||
+        props.searchJobPosition !== "" ||
+        props.searchProfileSourceType !== "" ||
+        props.searchStaffName !== ""
+      ) {
+        const getStaffs = async () => {
+          try {
+            const response = await axios.get(
+              `${config().apiUrl}/corporationstaffs/search`,
+              {
+                params: {
+                  searchCorporationName: props.searchCorporationName,
+                  searchJobPosition: props.searchJobPosition,
+                  searchProfileSourceType: props.searchProfileSourceType,
+                  searchStaffName: props.searchStaffName,
+                },
+              }
+            );
 
-        if (response.statusText === "OK") {
-          setStaffs(response.data);
-        }
-      } catch (error) {
-        commonErrorCallback(error);
+            if (response.statusText === "OK") {
+              setStaffs(response.data);
+            }
+          } catch (error) {
+            commonErrorCallback(error);
+          }
+        };
+
+        getStaffs();
       }
-    };
-
-    getStaffs();
-  }, []);
+    }
+  }, [props.searchSearchClick]);
+  console.log(staffLists);
 
   return (
     <Card>
@@ -35,6 +53,7 @@ function StaffLists(props) {
         searchJobPosition={props.searchJobPosition}
         searchProfileSourceType={props.searchProfileSourceType}
         searchStaffName={props.searchStaffName}
+        searchSearchClick={props.searchSearchClick}
       />
     </Card>
   );

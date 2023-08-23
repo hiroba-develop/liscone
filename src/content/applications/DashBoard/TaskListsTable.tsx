@@ -26,7 +26,6 @@ import Label from "src/components/Label";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { TaskList, TaskStatus } from "src/models/sales_task_list";
-import { MemberList } from "src/models/member_list";
 import { config } from "src/utility/config/AppConfig";
 import { CODE } from "src/utility/constants/Code";
 import { NavigatePath } from "src/utility/constants/NavigatePath";
@@ -42,7 +41,6 @@ import Search from "./Search";
 interface SalesTaskListsProps {
   className?: string;
   taskLists: TaskList[];
-  memberLists: MemberList[];
 }
 
 interface Filters {
@@ -110,7 +108,7 @@ const applyPagination = (
   return taskLists.slice(page * limit, page * limit + limit);
 };
 
-const TaskLists: FC<SalesTaskListsProps> = ({ taskLists, memberLists }) => {
+const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -255,7 +253,6 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists, memberLists }) => {
   // 絞り込み
   let searchtaskLists = taskLists.filter(
     (taskList) =>
-      taskList.memberslist.company_code.match(memberLists[0].company_code) &&
       matchStaffName(taskList.memberslist.member_name, staffName) &&
       filterDateInRange(
         taskList.deadline,

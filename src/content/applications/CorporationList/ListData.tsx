@@ -1,6 +1,6 @@
 import { Card } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { CorporationList } from "src/models/corporation_list";
 import { config } from "src/utility/config/AppConfig";
 import CorporationListsTable from "./CorporationListsTable";
@@ -119,6 +119,7 @@ function CorporationLists(props) {
       }
     }
   }, [props.searchSearchClick]);
+  console.log(corporationLists);
 
   return (
     <Card>

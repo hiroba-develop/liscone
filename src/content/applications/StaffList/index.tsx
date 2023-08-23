@@ -28,6 +28,11 @@ function DashBoard() {
   const staffNameChange = (staffName) => {
     setStaffName(staffName);
   };
+  //検索ボタン
+  const [searchClick, setSearchClick] = useState("");
+  const setSearchClickChange = (searchClick) => {
+    setSearchClick(searchClick);
+  };
   return (
     <>
       <Helmet>
@@ -49,6 +54,7 @@ function DashBoard() {
                 jobPositionChange={jobPositionChange}
                 profileSourceTypeChange={profileSourceTypeChange}
                 staffNameChange={staffNameChange}
+                searchClickChange={setSearchClickChange}
               />
             </Box>
             <RecentOrders
@@ -56,6 +62,7 @@ function DashBoard() {
               searchJobPosition={jobPosition}
               searchProfileSourceType={profileSourceType}
               searchStaffName={staffName}
+              searchSearchClick={searchClick}
             />
           </Grid>
         </Grid>
