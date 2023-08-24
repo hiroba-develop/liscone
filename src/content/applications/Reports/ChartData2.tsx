@@ -18,10 +18,12 @@ import { useRecoilValue } from "recoil";
 import { SalesList } from "src/models/sales_list";
 import { config } from "src/utility/config/AppConfig";
 import { commonErrorCallback } from "src/utility/http/ApiService";
+import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 import SalesListChart2 from "./SalesListChart2";
 
 function ChartData2() {
+  const auth = useRecoilValue(authAtom);
   const members = useRecoilValue(membersAtom);
   const [salesLists, setSalesLists] = useState<SalesList[]>([]);
   //검색==========================================================================
@@ -72,7 +74,14 @@ function ChartData2() {
   useEffect(() => {
     const getSalesLists = async () => {
       try {
-        const response = await axios.get(`${config().apiUrl}/saleslists`);
+        const response = await axios.get(
+          `${config().apiUrl}/saleslists/companyCode`,
+          {
+            params: {
+              companyCode: auth.coId,
+            },
+          }
+        );
 
         if (response.statusText === "OK") {
           setSalesLists(response.data);

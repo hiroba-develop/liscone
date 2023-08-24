@@ -119,7 +119,6 @@ function CorporationLists(props) {
       }
     }
   }, [props.searchSearchClick]);
-  console.log(corporationLists);
 
   return (
     <Card>

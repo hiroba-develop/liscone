@@ -23,6 +23,7 @@ function TaskLists() {
           }
         );
         if (response.statusText === "OK") {
+          console.log(response.data);
           const current = new Date();
           const today = `${current.getFullYear()}-${
             current.getMonth() < 10 ? "0" : ""

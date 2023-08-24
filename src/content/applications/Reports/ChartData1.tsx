@@ -79,7 +79,14 @@ function ChartData1() {
     ]);
     const getSalesLists = async () => {
       try {
-        const response = await axios.get(`${config().apiUrl}/saleslists`);
+        const response = await axios.get(
+          `${config().apiUrl}/saleslists/companyCode`,
+          {
+            params: {
+              companyCode: auth.coId,
+            },
+          }
+        );
 
         if (response.statusText === "OK") {
           setSalesLists(response.data);

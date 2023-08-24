@@ -6,6 +6,7 @@ import {
   Stack,
   TextField,
   Typography,
+  MenuItem,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -13,33 +14,14 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { useRecoilValue } from "recoil";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
+import { useState } from "react";
+import { CODE } from "src/utility/constants/Code";
 
 function Search(props) {
   //リスト_リスト情報
-  const salesListNameList = [
-    { label: "test" },
-    { label: "テスト用企業リスト5" },
-    { label: "レポートテスト用企業リスト" },
-  ];
+  const salesListNameList = props.selectSalesListNames;
   //ユーザー_リスト情報
   const user = useRecoilValue(membersAtom);
-  //行動種類_リスト情報
-  const executeBigResultList = [
-    { label: "受付拒否" },
-    { label: "受付突破" },
-    { label: "担当者拒否" },
-    { label: "担当者止まり" },
-    { label: "アポ" },
-    { label: "未送信" },
-    { label: "送信済み" },
-  ];
-  //小項目_リスト情報
-  const executeSmallResultList = [
-    { label: "電話番号なし" },
-    { label: "不通" },
-    { label: "お問い合わせフォーム" },
-    { label: "日程打診" },
-  ];
   // 企業名
   const corporationNameChange = (event) => {
     const value = event.target.value;
@@ -60,16 +42,38 @@ function Search(props) {
     const value = event.target.innerText;
     props.memberNameChange(value);
   };
-  //行動種類
+  // 大項目
+  const [BRSelected, setBRSelected] = useState("");
   const executeBigResultChange = (event) => {
     const value = event.target.innerText;
+    setBRSelected(value);
     props.executeBigResultChange(value);
   };
-  //小項目
+
+  // 小項目
   const executeSmallResultChange = (event) => {
     const value = event.target.innerText;
     props.executeSmallResultChange(value);
   };
+  const smallResult = () => {
+    if (BRSelected === "受付拒否") {
+      return CODE.SMALL_RESULT_BR01;
+    } else if (BRSelected === "受付突破") {
+      return CODE.SMALL_RESULT_BR02;
+    } else if (BRSelected === "担当者拒否") {
+      return CODE.SMALL_RESULT_BR03;
+    } else if (BRSelected === "担当者止まり") {
+      return CODE.SMALL_RESULT_BR04;
+    } else if (BRSelected === "担当者突破") {
+      return CODE.SMALL_RESULT_BR05;
+    } else if (BRSelected === "送信済み") {
+      return CODE.SMALL_RESULT_BR06;
+    } else {
+      return [];
+    }
+  };
+  const bigResultArray = smallResult();
+
   //日付(から～)
   const fromDateChange = (event) => {
     const value = event.$d;
@@ -80,7 +84,6 @@ function Search(props) {
     const value = event.$d;
     props.toDateChange(value);
   };
-
   const margin = 0.5;
   const paddingBotton = 1.5;
   return (
@@ -107,7 +110,7 @@ function Search(props) {
             sx={{ m: margin, pb: paddingBotton }}
           />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Autocomplete
             disablePortal
             options={salesListNameList}
@@ -143,23 +146,32 @@ function Search(props) {
         </Grid>
         <Grid item xs={2}>
           <Autocomplete
-            disablePortal
-            options={executeBigResultList}
-            sx={{ m: margin, pb: paddingBotton }}
+            options={CODE.BIG_RESULT}
+            getOptionLabel={(option) => option.code}
+            size="small"
             renderInput={(params) => (
-              <TextField {...params} size="small" label="大項目" />
+              <TextField
+                {...params}
+                label="大項目"
+                sx={{ m: margin, pb: paddingBotton }}
+              />
             )}
             onChange={executeBigResultChange}
             clearIcon={null}
           />
         </Grid>
+
         <Grid item xs={2}>
           <Autocomplete
-            disablePortal
-            options={executeSmallResultList}
-            sx={{ m: margin, pb: paddingBotton }}
+            options={bigResultArray}
+            getOptionLabel={(option) => option.code}
+            size="small"
             renderInput={(params) => (
-              <TextField {...params} size="small" label="小項目" />
+              <TextField
+                {...params}
+                label="小項目"
+                sx={{ m: margin, pb: paddingBotton }}
+              />
             )}
             onChange={executeSmallResultChange}
             clearIcon={null}
