@@ -346,10 +346,12 @@ const maxCapitalStock = [
 ];
 
 const Search = (props) => {
-  var searchClickValue;
+  const [clickValue, setClickValue] = useState<number>(0);
+  let searchClickValue = 0;
   // 法人番号
   const corporateNumberChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.value;
     props.corporateNumberChange(value);
@@ -357,6 +359,7 @@ const Search = (props) => {
   // 会社名・法人名
   const corporationNameChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.value;
     props.corporationNameChange(value);
@@ -364,6 +367,7 @@ const Search = (props) => {
   //業種
   const businessCategoryChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.businessCategoryChange(value);
@@ -371,6 +375,7 @@ const Search = (props) => {
   //都道府県
   const prefecturesChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.prefecturesChange(value);
@@ -378,6 +383,7 @@ const Search = (props) => {
   //代表電話番号
   const representativePhoneNumberChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.value;
     props.representativePhoneNumberChange(value);
@@ -385,6 +391,7 @@ const Search = (props) => {
   //上場
   const corporationListStatusChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.corporationListStatusChange(value);
@@ -392,12 +399,14 @@ const Search = (props) => {
   //売上
   const minSalesAmountChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.minSalesAmountChange(value);
   };
   const maxSalesAmountChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.maxSalesAmountChange(value);
@@ -405,12 +414,14 @@ const Search = (props) => {
   //従業員数
   const minEmployeeNumberChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.minEmployeeNumberChange(value);
   };
   const maxEmployeeNumberChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.maxEmployeeNumberChange(value);
@@ -418,12 +429,14 @@ const Search = (props) => {
   //設立
   const minEstablishmentYearChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.minEstablishmentYearChange(value);
   };
   const maxEstablishmentYearChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.maxEstablishmentYearChange(value);
@@ -431,12 +444,14 @@ const Search = (props) => {
   //資本金
   const minCapitalStockChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.minCapitalStockChange(value);
   };
   const maxCapitalStockChange = (event) => {
     searchClickValue = 2;
+    setClickValue(2);
     props.searchClickChange(searchClickValue);
     const value = event.target.innerText;
     props.maxCapitalStockChange(value);
@@ -444,8 +459,18 @@ const Search = (props) => {
   //検索ボタン
   const searchClick = () => {
     searchClickValue = 1;
+    setClickValue(1);
     props.searchClickChange(searchClickValue);
   };
+
+  let clickValueFlg = true;
+  if (clickValue === 2) {
+    clickValueFlg = false;
+    console.log(clickValue);
+  } else if (clickValue === 0 || clickValue === 1) {
+    clickValueFlg = true;
+    console.log(clickValue);
+  }
 
   return (
     <Card>
@@ -615,6 +640,7 @@ const Search = (props) => {
           <Button
             sx={{ borderRadius: 0.5, backgroundColor: "#109DBC", mx: 1, mb: 1 }}
             variant="contained"
+            disabled={clickValueFlg}
             onClick={searchClick}
           >
             <SearchIcon />

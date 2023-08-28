@@ -23,6 +23,7 @@ interface CorporationListsProps {
   className?: string;
   corporationLists: CorporationList[];
   corporationListsCount: number;
+  localeTextValue: string;
   searchCorporateNumber: string;
   searchCorporationName: string;
   searchIndustry: string;
@@ -66,6 +67,7 @@ const getStatusLabel = (
 const CorporationLists: FC<CorporationListsProps> = ({
   corporationLists,
   corporationListsCount,
+  localeTextValue,
   searchCorporateNumber,
   searchCorporationName,
   searchIndustry,
@@ -83,50 +85,9 @@ const CorporationLists: FC<CorporationListsProps> = ({
   searchSearchClick,
 }) => {
   //Gridの中央の文章
-  let localeText = {};
-  if (searchSearchClick === 1) {
-    if (corporationListsCount > 10000) {
-      localeText = {
-        noRowsLabel: `検索結果は ${corporationListsCount}件です。　検索条件を追加してください`,
-      };
-      const rows = [];
-      corporationLists = rows;
-    }
-    if (corporationListsCount === 0) {
-      localeText = {
-        noRowsLabel: `検索結果は 0件です。　検索条件を変更してください`,
-      };
-      const rows = [];
-      corporationLists = rows;
-    }
-    if (
-      searchCorporateNumber === "" &&
-      searchCorporationName === "" &&
-      searchIndustry === "" &&
-      searchPrefectures === "" &&
-      searchRepresentativePhoneNumber === "" &&
-      searchCorporationListStatus === "" &&
-      searchMinSalesAmount === "" &&
-      searchMaxSalesAmount === "" &&
-      searchMinEmployeeNumber === "" &&
-      searchMaxEmployeeNumber === "" &&
-      searchMinEstablishmentYear === "" &&
-      searchMaxEstablishmentYear === "" &&
-      searchMinCapitalStock === "" &&
-      searchMaxCapitalStock === ""
-    ) {
-      const rows = [];
-      corporationLists = rows;
-      localeText = {
-        noRowsLabel: "データ件数が多すぎるため、条件を絞り込んで下さい",
-      };
-    }
-  } else {
-    localeText = {
-      noRowsLabel:
-        "絞り込み条件を選択または入力して「検索」ボタンを押下してください",
-    };
-  }
+  let localeText = {
+    noRowsLabel: localeTextValue,
+  };
 
   //数値の後ろに桁をつける処理
   function convertToMyriadSystem(number) {

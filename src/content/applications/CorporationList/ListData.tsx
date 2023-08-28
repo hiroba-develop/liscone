@@ -8,13 +8,17 @@ import CorporationListsTable from "./CorporationListsTable";
 function CorporationLists(props) {
   const [corporationLists, setCorporations] = useState<CorporationList[]>([]);
   const [corporationListsCount, setCorporationsCount] = useState<number>(0);
+  const [localeTextValue, setLocaleTextValue] = useState<string>("");
+
   let searchCorporationListStatus;
   if (props.searchCorporationListStatus === "上場") {
     searchCorporationListStatus = "Y";
   } else if (props.searchCorporationListStatus === "未上場") {
     searchCorporationListStatus = "N";
-  } else {
+  } else if (props.searchCorporationListStatus === "未確認") {
     searchCorporationListStatus = "U";
+  } else {
+    searchCorporationListStatus = "";
   }
   function convertToNumber(amount) {
     const units = {
@@ -35,8 +39,10 @@ function CorporationLists(props) {
   const searchMaxSalesAmount = convertToNumber(props.searchMaxSalesAmount);
   const searchMinCapitalStock = convertToNumber(props.searchMinCapitalStock);
   const searchMaxCapitalStock = convertToNumber(props.searchMaxCapitalStock);
+
   useEffect(() => {
     if (props.searchSearchClick === 1) {
+      setCorporations([]);
       if (
         props.searchCorporateNumber !== "" ||
         props.searchCorporationName !== "" ||
@@ -53,6 +59,7 @@ function CorporationLists(props) {
         props.searchMinCapitalStock !== "" ||
         props.searchMaxCapitalStock !== ""
       ) {
+        setLocaleTextValue("検索中です。");
         const getCorporations = async () => {
           try {
             const responseCount = await axios.get(
@@ -79,7 +86,10 @@ function CorporationLists(props) {
             );
             if (responseCount.statusText === "OK") {
               setCorporationsCount(responseCount.data);
-              if (responseCount.data < 10000) {
+              if (responseCount.data >= 1 && responseCount.data <= 10000) {
+                setLocaleTextValue(
+                  ` ${responseCount.data}件ヒットしました。データを表示しています。`
+                );
                 const response = await axios.get(
                   `${config().apiUrl}/corporations/search`,
                   {
@@ -108,6 +118,14 @@ function CorporationLists(props) {
                 if (response.statusText === "OK") {
                   setCorporations(response.data);
                 }
+              } else if (responseCount.data > 10000) {
+                setLocaleTextValue(
+                  `検索結果は ${responseCount.data}件です。　検索条件を追加してください`
+                );
+              } else if (responseCount.data === 0) {
+                setLocaleTextValue(
+                  "検索結果は 0件です。　検索条件を変更してください"
+                );
               }
             }
           } catch (error) {
@@ -116,7 +134,13 @@ function CorporationLists(props) {
         };
 
         getCorporations();
+      } else {
+        setLocaleTextValue("データ件数が多すぎるため、条件を絞り込んで下さい");
       }
+    } else {
+      setLocaleTextValue(
+        "絞り込み条件を選択または入力して「検索」ボタンを押下してください"
+      );
     }
   }, [props.searchSearchClick]);
 
@@ -125,6 +149,7 @@ function CorporationLists(props) {
       <CorporationListsTable
         corporationLists={corporationLists}
         corporationListsCount={corporationListsCount}
+        localeTextValue={localeTextValue}
         searchCorporateNumber={props.searchCorporateNumber}
         searchCorporationName={props.searchCorporationName}
         searchIndustry={props.searchIndustry}
