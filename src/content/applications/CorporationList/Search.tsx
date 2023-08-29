@@ -466,10 +466,8 @@ const Search = (props) => {
   let clickValueFlg = true;
   if (clickValue === 2) {
     clickValueFlg = false;
-    console.log(clickValue);
   } else if (clickValue === 0 || clickValue === 1) {
     clickValueFlg = true;
-    console.log(clickValue);
   }
 
   return (
