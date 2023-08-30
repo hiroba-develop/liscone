@@ -50,12 +50,18 @@ const SalesLists: FC<SalesListsProps> = ({
     return <Label color={color}>{text}</Label>;
   };
   const columns: GridColDef[] = [
-    { field: "corporate_number", headerName: "法人番号", width: 130 },
+    {
+      field: "corporate_number",
+      headerName: "法人番号",
+      width: 130,
+      valueGetter: (params) => params.row.corporationEntity.corporate_number,
+    },
     {
       field: "corporation_name",
       headerName: "会社名・法人名",
       width: 150,
       maxWidth: 300,
+      valueGetter: (params) => params.row.corporationEntity.corporation_name,
       renderCell: (params) => {
         return (
           <Typography
@@ -75,26 +81,42 @@ const SalesLists: FC<SalesListsProps> = ({
       headerName: "業種",
       width: 100,
       maxWidth: 200,
+      valueGetter: (params) => params.row.corporationEntity.business_category,
       renderCell: renderCellExpand,
     },
-    { field: "zipCode", headerName: "郵便番号", width: 150 },
+    {
+      field: "zipCode",
+      headerName: "郵便番号",
+      width: 150,
+      valueGetter: (params) => params.row.corporationEntity.zip_code,
+    },
     {
       field: "address",
       headerName: "本社住所",
       width: 300,
       maxWidth: 500,
+      valueGetter: (params) => params.row.corporationEntity.address,
       renderCell: renderCellExpand,
     },
     {
       field: "representative_phone_number",
       headerName: "代表電話番号",
       width: 200,
+      valueGetter: (params) =>
+        params.row.corporationEntity.representative_phone_number,
     },
-    { field: "representative_name", headerName: "代表者名", width: 100 },
+    {
+      field: "representative_name",
+      headerName: "代表者名",
+      width: 100,
+      valueGetter: (params) => params.row.corporationEntity.representative_name,
+    },
     {
       field: "home_page",
       headerName: "Webサイト",
       width: 200,
+      valueGetter: (params) => params.row.corporationEntity.home_page,
+
       // renderCell: (params) => {
       //   return (
       //     <a href="{params.row.value}" target="_blank">
@@ -109,6 +131,8 @@ const SalesLists: FC<SalesListsProps> = ({
       headerAlign: "left",
       align: "left",
       width: 100,
+      valueGetter: (params) => params.row.corporationEntity.sales_amount,
+
       type: "number",
     },
     {
@@ -117,6 +141,8 @@ const SalesLists: FC<SalesListsProps> = ({
       headerAlign: "left",
       align: "left",
       width: 100,
+      valueGetter: (params) => params.row.corporationEntity.employee_number,
+
       type: "number",
     },
     {
@@ -125,6 +151,8 @@ const SalesLists: FC<SalesListsProps> = ({
       headerAlign: "left",
       align: "left",
       width: 100,
+      valueGetter: (params) => params.row.corporationEntity.establishment_year,
+
       type: "number",
     },
     {
@@ -133,27 +161,26 @@ const SalesLists: FC<SalesListsProps> = ({
       headerAlign: "left",
       align: "left",
       width: 100,
+      valueGetter: (params) => params.row.corporationEntity.capital_stock,
+
       type: "number",
     },
     {
       field: "listing_status",
       headerName: "上場",
       width: 80,
+      valueGetter: (params) => params.row.corporationEntity.listing_status,
+
       align: "center",
       renderCell: (params) => {
         return getStatusLabel(params.value);
       },
     },
     {
-      field: "taskCount",
-      headerName: "行動ログ数",
-      width: 100,
-      type: "number",
-    },
-    {
       field: "transaction_status",
       headerName: "取引ステータス",
       width: 80,
+      valueGetter: (params) => params.row.transaction_status,
       align: "center",
       renderCell: (params) => {
         return params.value !== null && params.value !== ""
