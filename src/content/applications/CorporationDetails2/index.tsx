@@ -39,8 +39,8 @@ function Lists() {
           fontSize: 20,
         }}
       >
-        　{corporationList.corporation_name}(法人番号:
-        {corporationList.corporate_number})
+        　{corporationList.corporationEntity.corporation_name}(法人番号:
+        {corporationList.corporationEntity.corporate_number})
       </Typography>
       <Box
         sx={{
@@ -80,7 +80,7 @@ function Lists() {
               ml: 1,
             }}
           >
-            {corporationList.representative_phone_number}
+            {corporationList.corporationEntity.representative_phone_number}
           </Typography>
         </Box>
         <Box
@@ -102,22 +102,24 @@ function Lists() {
               ml: 1,
             }}
           >
-            {corporationList.home_page}
+            {corporationList.corporationEntity.home_page}
           </Typography>
         </Box>
         <SalesCorpInfo
-          corporationList={corporationList}
+          corporationList={corporationList.corporationEntity}
           salesList={salesList}
         />
         <Box sx={{ mt: 12 }}>
-          <CorporationDetails1ReferenceListData {...corporationList} />
+          <CorporationDetails1ReferenceListData
+            {...corporationList.corporationEntity}
+          />
         </Box>
         <Box sx={{ mt: 5 }}>
-          <CorporationDetails1ListData {...corporationList} />
+          <CorporationDetails1ListData {...corporationList.corporationEntity} />
         </Box>
         <ActionHistoryListData
           salesList={salesList}
-          listDetails={corporationList}
+          listDetails={corporationList.corporationEntity}
         />
       </Container>
       <Footer />

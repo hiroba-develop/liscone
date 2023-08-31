@@ -7,6 +7,7 @@ import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function ListLists({ salesList, listDetails }) {
   const [actionLists, setActionLogs] = useState<ActionList[]>([]);
+  console.log(listDetails);
 
   useEffect(() => {
     const getActionLogs = async () => {
@@ -31,6 +32,7 @@ function ListLists({ salesList, listDetails }) {
 
     getActionLogs();
   }, [listDetails, salesList]);
+  console.log(actionLists);
 
   return <ActionHistoryTable actionLists={actionLists} />;
 }

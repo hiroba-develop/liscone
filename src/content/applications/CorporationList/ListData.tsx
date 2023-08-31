@@ -148,23 +148,7 @@ function CorporationLists(props) {
     <Card>
       <CorporationListsTable
         corporationLists={corporationLists}
-        corporationListsCount={corporationListsCount}
         localeTextValue={localeTextValue}
-        searchCorporateNumber={props.searchCorporateNumber}
-        searchCorporationName={props.searchCorporationName}
-        searchIndustry={props.searchIndustry}
-        searchPrefectures={props.searchPrefectures}
-        searchRepresentativePhoneNumber={props.searchRepresentativePhoneNumber}
-        searchCorporationListStatus={props.searchCorporationListStatus}
-        searchMinSalesAmount={props.searchMinSalesAmount}
-        searchMaxSalesAmount={props.searchMaxSalesAmount}
-        searchMinEmployeeNumber={props.searchMinEmployeeNumber}
-        searchMaxEmployeeNumber={props.searchMaxEmployeeNumber}
-        searchMinEstablishmentYear={props.searchMinEstablishmentYear}
-        searchMaxEstablishmentYear={props.searchMaxEstablishmentYear}
-        searchMinCapitalStock={props.searchMinCapitalStock}
-        searchMaxCapitalStock={props.searchMaxCapitalStock}
-        searchSearchClick={props.searchSearchClick}
       />
     </Card>
   );

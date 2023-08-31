@@ -305,18 +305,32 @@ const maxEmployeeNumber = [
 ];
 
 const minEstablishmentYear = [
-  { label: "2018" },
-  { label: "2013" },
-  { label: "1993" },
-  { label: "1973" },
+  { label: "2020" },
+  { label: "2015" },
+  { label: "2010" },
+  { label: "2005" },
+  { label: "2000" },
+  { label: "1995" },
+  { label: "1990" },
+  { label: "1985" },
+  { label: "1980" },
+  { label: "1975" },
+  { label: "1970" },
 ];
 
 const maxEstablishmentYear = [
   { label: "2023" },
-  { label: "2018" },
-  { label: "2013" },
-  { label: "1993" },
-  { label: "1973" },
+  { label: "2020" },
+  { label: "2015" },
+  { label: "2010" },
+  { label: "2005" },
+  { label: "2000" },
+  { label: "1995" },
+  { label: "1990" },
+  { label: "1985" },
+  { label: "1980" },
+  { label: "1975" },
+  { label: "1970" },
 ];
 
 const minCapitalStock = [

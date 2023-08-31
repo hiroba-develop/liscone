@@ -246,25 +246,39 @@ const SalesLists: FC<SalesListsProps> = ({
     var csvRow;
     for (const key of keys) {
       const value = obj[key];
-      // 指定されたキーの値が特定の値の場合は処理をスキップ
-      if (
-        key === "sales_list_number" ||
-        key === "corporation_id" ||
-        key === "transaction_status" ||
-        key === "taskCount"
-      ) {
-        continue;
+      if (key === "corporationEntity") {
+        if (title === 0) {
+          csvRow = `corporate_number,corporation_name,business_category,zip_code,address,representative_phone_number,representative_name,home_page,sales_amount,employee_number,establishment_year,capital_stock,listing_status\n${value.corporate_number},${value.corporation_name},${value.business_category},${value.zip_code},${value.address},${value.representative_phone_number},${value.representative_name},${value.home_page},${value.sales_amount},${value.employee_number},${value.establishment_year},${value.capital_stock},${value.listing_status}`;
+          csvRows.push(csvRow);
+        } else {
+          csvRow = `"${value.corporate_number}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.corporation_name}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.business_category}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.zip_code}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.address}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.representative_phone_number}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.representative_name}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.home_page}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.sales_amount}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.employee_number}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.establishment_year}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.capital_stock}"`;
+          csvRows.push(csvRow);
+          csvRow = `"${value.listing_status}"`;
+          csvRows.push(csvRow);
+        }
       }
-
-      if (value == null) {
-        csvRow = `${value}`;
-      } else {
-        csvRow = `"${value}"`;
-      }
-      if (key === "corporate_number" && title === 0) {
-        csvRow = `corporate_number,corporation_name,business_category,zip_code,address,representative_phone_number,representative_name,home_page,sales_amount,employee_number,establishment_year,capital_stock,listing_status\n"${value}"`;
-      }
-      csvRows.push(csvRow);
     }
     return csvRows;
   }

@@ -9,57 +9,15 @@ import ListCreate from "../PopUp/ListCreate";
 
 interface StaffListsProps {
   className?: string;
+  localeTextValue: string;
   staffLists: StaffList[];
-  searchCorporationName: string;
-  searchJobPosition: string;
-  searchProfileSourceType: string;
-  searchStaffName: string;
-  searchSearchClick: number;
 }
 
-const StaffLists: FC<StaffListsProps> = ({
-  staffLists,
-  searchCorporationName,
-  searchJobPosition,
-  searchProfileSourceType,
-  searchStaffName,
-  searchSearchClick,
-}) => {
+const StaffLists: FC<StaffListsProps> = ({ localeTextValue, staffLists }) => {
   //Gridの中央の文章
-  let localeText = {};
-  if (searchSearchClick === 1) {
-    if (staffLists.length > 10000) {
-      localeText = {
-        noRowsLabel: `検索結果は ${staffLists.length}件です。　検索条件を追加してください`,
-      };
-      const rows = [];
-      staffLists = rows;
-    }
-    if (staffLists.length === 0) {
-      localeText = {
-        noRowsLabel: `検索結果は 0件です。　検索条件を変更してください`,
-      };
-      const rows = [];
-      staffLists = rows;
-    }
-    if (
-      searchCorporationName === "" &&
-      searchJobPosition === "" &&
-      searchProfileSourceType === "" &&
-      searchStaffName === ""
-    ) {
-      const rows = [];
-      staffLists = rows;
-      localeText = {
-        noRowsLabel: "データ件数が多すぎるため、条件を絞り込んで下さい",
-      };
-    }
-  } else {
-    localeText = {
-      noRowsLabel:
-        "絞り込み条件を選択または入力して「検索」ボタンを押下してください",
-    };
-  }
+  let localeText = {
+    noRowsLabel: localeTextValue,
+  };
 
   const [checkItems, setCheckItems] = useState([]);
   const [listCreateOpen, setListCreateOpen] = useState(false);

@@ -22,23 +22,7 @@ import { renderCellExpand } from "src/utility/renderexpand";
 interface CorporationListsProps {
   className?: string;
   corporationLists: CorporationList[];
-  corporationListsCount: number;
   localeTextValue: string;
-  searchCorporateNumber: string;
-  searchCorporationName: string;
-  searchIndustry: string;
-  searchPrefectures: string;
-  searchRepresentativePhoneNumber: string;
-  searchCorporationListStatus: string;
-  searchMinSalesAmount: string;
-  searchMaxSalesAmount: string;
-  searchMinEmployeeNumber: string;
-  searchMaxEmployeeNumber: string;
-  searchMinEstablishmentYear: string;
-  searchMaxEstablishmentYear: string;
-  searchMinCapitalStock: string;
-  searchMaxCapitalStock: string;
-  searchSearchClick: number;
 }
 
 const getStatusLabel = (
@@ -66,23 +50,7 @@ const getStatusLabel = (
 
 const CorporationLists: FC<CorporationListsProps> = ({
   corporationLists,
-  corporationListsCount,
   localeTextValue,
-  searchCorporateNumber,
-  searchCorporationName,
-  searchIndustry,
-  searchPrefectures,
-  searchRepresentativePhoneNumber,
-  searchCorporationListStatus,
-  searchMinSalesAmount,
-  searchMaxSalesAmount,
-  searchMinEmployeeNumber,
-  searchMaxEmployeeNumber,
-  searchMinEstablishmentYear,
-  searchMaxEstablishmentYear,
-  searchMinCapitalStock,
-  searchMaxCapitalStock,
-  searchSearchClick,
 }) => {
   //Gridの中央の文章
   let localeText = {

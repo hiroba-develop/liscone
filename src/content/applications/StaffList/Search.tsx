@@ -10,7 +10,12 @@ import {
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import SearchIcon from "@mui/icons-material/Search";
 
-const source = [{ label: "人事異動" }, { label: "Wantedly" }];
+const source = [
+  { label: "人事異動" },
+  { label: "Wantedly" },
+  { label: "Linkedin" },
+  { label: "meety" },
+];
 
 function Search(props) {
   var searchClickValue;
