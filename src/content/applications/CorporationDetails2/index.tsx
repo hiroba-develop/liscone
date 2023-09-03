@@ -22,6 +22,7 @@ function Lists() {
     SalesListStatistic
   ];
 
+  console.log(corporationList);
   return (
     <>
       <Helmet>
@@ -107,6 +108,7 @@ function Lists() {
         </Box>
         <SalesCorpInfo
           corporationList={corporationList.corporationEntity}
+          saleslistEntity={corporationList.saleslistEntity}
           salesList={salesList}
         />
         <Box sx={{ mt: 12 }}>

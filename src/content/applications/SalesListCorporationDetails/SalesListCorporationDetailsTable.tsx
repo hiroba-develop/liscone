@@ -192,6 +192,7 @@ const SalesLists: FC<SalesListsProps> = ({
   const navigate = useNavigate();
 
   const handleCorpNameEvent = (event, corporationList) => {
+    console.log(corporationList);
     navigate("/salesTask/corporationDetails2", {
       state: [corporationList.row, salesList, salesStatistic],
     });

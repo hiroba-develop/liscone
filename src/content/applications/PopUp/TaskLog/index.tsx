@@ -30,6 +30,7 @@ const TaskLog = ({
   setTaskLogOpen,
   staffList,
   corporationList,
+  saleslistEntity,
 }) => {
   const current = new Date();
   const today = `${current.getFullYear()}-${
@@ -84,7 +85,7 @@ const TaskLog = ({
       const param = {
         task_name: ActionSelected,
         member_id: auth.userId,
-        sales_list_number: corporationList.sales_list_number,
+        sales_list_number: saleslistEntity.sales_list_number,
         sales_corporation_id: corporationList.corporation_id,
         sales_staff_id: StaffSelected,
         execute_date: BRSelected !== "" || SRSelected !== "" ? today : "",
@@ -99,7 +100,7 @@ const TaskLog = ({
         const param = {
           member_id: MemberSelected,
           task_name: ActionSelected2,
-          sales_list_number: corporationList.sales_list_number,
+          sales_list_number: saleslistEntity.sales_list_number,
           sales_corporation_id: corporationList.corporation_id,
           deadline: startDate,
           comment: comments,

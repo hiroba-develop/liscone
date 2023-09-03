@@ -19,7 +19,7 @@ import { productsAtom } from "src/utility/recoil/comp/Products.atom";
 import TaskLog from "../PopUp/TaskLog";
 import axios from "axios";
 
-function SalesCorpInfo({ corporationList, salesList }) {
+function SalesCorpInfo({ corporationList, saleslistEntity, salesList }) {
   useEffect(() => {
     const getStaffs = async () => {
       try {
@@ -74,7 +74,7 @@ function SalesCorpInfo({ corporationList, salesList }) {
       try {
         const param = {
           transaction_status: changedStatus,
-          sales_list_number: salesList.sales_list_number,
+          sales_list_number: saleslistEntity.sales_list_number,
           sales_list_type: salesList.sales_list_type,
           corporation_id: corporationList.corporation_id,
         };
@@ -103,7 +103,7 @@ function SalesCorpInfo({ corporationList, salesList }) {
       try {
         const param = {
           memo: changedMemo,
-          sales_list_number: salesList.sales_list_number,
+          sales_list_number: saleslistEntity.sales_list_number,
           corporation_id: corporationList.corporation_id,
         };
         await post<any>(`${config().apiUrl}/saleslists/corpMemoChange`, param);
@@ -141,6 +141,7 @@ function SalesCorpInfo({ corporationList, salesList }) {
         setTaskLogOpen={setTaskLogOpen}
         staffList={staffList}
         corporationList={corporationList}
+        saleslistEntity={saleslistEntity}
       />
       <Card
         sx={{
