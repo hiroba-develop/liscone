@@ -246,7 +246,7 @@ const DashboardTaskLog = ({
                   ? CODE.BIG_RESULT_AC01.map((option) => (
                       <MenuItem value={option.key}>{option.code}</MenuItem>
                     ))
-                  : ActionSelected === "AC02"
+                  : taskList.task_name === "AC02"
                   ? CODE.BIG_RESULT_AC02.map((option) => (
                       <MenuItem value={option.key}>{option.code}</MenuItem>
                     ))

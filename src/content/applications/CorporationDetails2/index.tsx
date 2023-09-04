@@ -22,7 +22,6 @@ function Lists() {
     SalesListStatistic
   ];
 
-  console.log(corporationList);
   return (
     <>
       <Helmet>
