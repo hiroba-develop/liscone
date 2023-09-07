@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
 import { SalesList } from "src/models/sales_list";
-import { StaffDetails2List } from "src/models/staff_details2_list";
+import { SalesListStaff } from "src/models/sales_list_staff";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
 import SalesCorpInfo from "./SalesStaffInfo";
 import StaffDetails2ListData from "./StaffDetails2ListData";
@@ -16,7 +16,7 @@ function Lists() {
   const location = useLocation();
 
   const [staffList, salesList, salesListStatistic] = location.state as [
-    StaffDetails2List,
+    SalesListStaff,
     SalesList,
     SalesListStatistic
   ];
@@ -38,7 +38,7 @@ function Lists() {
           fontSize: 20,
         }}
       >
-        　{staffList.staff.staff_name}
+        　{staffList.staff_staff_name}
       </Typography>
       <Box
         sx={{

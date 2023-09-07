@@ -4,7 +4,7 @@ import Label from "src/components/Label";
 import { CorporationListStatus } from "src/models/staff_details_list";
 import { renderCellExpand } from "src/utility/renderexpand";
 
-const SalesLists = ({ staffDetails2List }) => {
+const SalesLists = ({ staffList }) => {
   const getStatusLabel = (
     corporationListStatus: CorporationListStatus
   ): JSX.Element => {
@@ -28,37 +28,45 @@ const SalesLists = ({ staffDetails2List }) => {
     return <Label color={color}>{text}</Label>;
   };
   const columns: GridColDef[] = [
-    { field: "corporate_number", headerName: "法人番号", width: 130 },
     {
-      field: "corporation_name",
+      field: "corporation_corporate_number",
+      headerName: "法人番号",
+      width: 130,
+    },
+    {
+      field: "corporation_corporation_name",
       headerName: "会社名・法人名",
       width: 150,
       maxWidth: 300,
       renderCell: renderCellExpand,
     },
     {
-      field: "business_category",
+      field: "corporation_business_category",
       headerName: "業種",
       width: 100,
       maxWidth: 200,
       renderCell: renderCellExpand,
     },
-    { field: "zipCode", headerName: "郵便番号", width: 150 },
+    { field: "corporation_zip_code", headerName: "郵便番号", width: 150 },
     {
-      field: "address",
+      field: "corporation_address",
       headerName: "本社住所",
       width: 300,
       maxWidth: 500,
       renderCell: renderCellExpand,
     },
     {
-      field: "representative_phone_number",
+      field: "corporation_representative_phone_number",
       headerName: "代表電話番号",
       width: 200,
     },
-    { field: "representative_name", headerName: "代表者名", width: 100 },
     {
-      field: "home_page",
+      field: "corporation_representative_name",
+      headerName: "代表者名",
+      width: 100,
+    },
+    {
+      field: "corporation_home_page",
       headerName: "Webサイト",
       width: 200,
       // renderCell: (params) => {
@@ -70,7 +78,7 @@ const SalesLists = ({ staffDetails2List }) => {
       // },
     },
     {
-      field: "sales_amount",
+      field: "corporation_sales_amount",
       headerName: "売上",
       headerAlign: "left",
       align: "left",
@@ -78,7 +86,7 @@ const SalesLists = ({ staffDetails2List }) => {
       type: "number",
     },
     {
-      field: "employee_number",
+      field: "corporation_employee_number",
       headerName: "従業員数",
       headerAlign: "left",
       align: "left",
@@ -86,7 +94,7 @@ const SalesLists = ({ staffDetails2List }) => {
       type: "number",
     },
     {
-      field: "establishment_year",
+      field: "corporation_establishment_year",
       headerName: "設立",
       headerAlign: "left",
       align: "left",
@@ -94,7 +102,7 @@ const SalesLists = ({ staffDetails2List }) => {
       type: "number",
     },
     {
-      field: "capital_stock",
+      field: "corporation_capital_stock",
       headerName: "資本金",
       headerAlign: "left",
       align: "left",
@@ -102,7 +110,7 @@ const SalesLists = ({ staffDetails2List }) => {
       type: "number",
     },
     {
-      field: "listing_status",
+      field: "corporation_listing_status",
       headerName: "上場",
       width: 80,
       align: "center",
@@ -116,8 +124,8 @@ const SalesLists = ({ staffDetails2List }) => {
     <Card>
       <Box sx={{ height: 150, maxWidth: 2000 }}>
         <DataGrid
-          rows={[staffDetails2List]}
-          getRowId={(row: any) => row.corporation_id}
+          rows={[staffList]}
+          getRowId={(row: any) => row.corporation_corporation_id}
           columns={columns}
           hideFooterPagination
           hideFooterSelectedRowCount

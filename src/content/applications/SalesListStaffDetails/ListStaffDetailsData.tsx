@@ -1,13 +1,13 @@
 import { Card } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { StaffDetails2List } from "src/models/staff_details2_list";
+import { SalesListStaff } from "src/models/sales_list_staff";
 import { config } from "src/utility/config/AppConfig";
 import SalesListStaffDetailsTable from "./SalesListStaffDetailsTable";
 import { commonErrorCallback } from "src/utility/http/ApiService";
 
 function ListLists({ salesList, salesListStatistic }) {
-  const [staffLists, setStaffLists] = useState<StaffDetails2List[]>([]);
+  const [staffLists, setStaffLists] = useState<SalesListStaff[]>([]);
 
   useEffect(() => {
     const getSalesDetailLists = async () => {
@@ -22,7 +22,7 @@ function ListLists({ salesList, salesListStatistic }) {
         );
 
         if (response.statusText === "OK") {
-          setStaffLists(response.data.salesStaffs);
+          setStaffLists(response.data);
         }
       } catch (error) {
         commonErrorCallback(error);

@@ -222,7 +222,7 @@ const TaskLog = ({
                 value={ActionSelected}
                 onChange={handleActionSelect}
               >
-                {CODE._ACTION.map((option) => (
+                {CODE.ACTION.map((option) => (
                   <MenuItem value={option.key}>{option.code}</MenuItem>
                 ))}
               </TextField>
@@ -263,6 +263,14 @@ const TaskLog = ({
                     ))
                   : ActionSelected === "AC02"
                   ? CODE.BIG_RESULT_AC02.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : ActionSelected === "AC03"
+                  ? CODE.BIG_RESULT_AC03.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : ActionSelected === "AC04"
+                  ? CODE.BIG_RESULT_AC04.map((option) => (
                       <MenuItem value={option.key}>{option.code}</MenuItem>
                     ))
                   : ""}
@@ -308,6 +316,18 @@ const TaskLog = ({
                     ))
                   : BRSelected === "BR06"
                   ? CODE.SMALL_RESULT_BR06.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : BRSelected === "BR07"
+                  ? CODE.SMALL_RESULT_BR07.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : BRSelected === "BR08"
+                  ? CODE.SMALL_RESULT_BR08.map((option) => (
+                      <MenuItem value={option.key}>{option.code}</MenuItem>
+                    ))
+                  : BRSelected === "BR09"
+                  ? CODE.SMALL_RESULT_BR09.map((option) => (
                       <MenuItem value={option.key}>{option.code}</MenuItem>
                     ))
                   : ""}
@@ -378,7 +398,7 @@ const TaskLog = ({
                 value={ActionSelected2}
                 onChange={handleActionSelect2}
               >
-                {CODE._ACTION.map((option) => (
+                {CODE.ACTION.map((option) => (
                   <MenuItem value={option.key}>{option.code}</MenuItem>
                 ))}
               </TextField>

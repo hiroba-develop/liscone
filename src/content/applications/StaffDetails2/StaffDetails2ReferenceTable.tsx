@@ -12,11 +12,11 @@ import {
 import { FC } from "react";
 
 import LaunchIcon from "@mui/icons-material/Launch";
-import { StaffDetails2List } from "src/models/staff_details2_list";
+import { SalesListStaff } from "src/models/sales_list_staff";
 
 interface StaffListsProps {
   className?: string;
-  staffList: StaffDetails2List;
+  staffList: SalesListStaff;
 }
 
 const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
@@ -35,7 +35,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow hover key={staffList.staff_id}>
+            <TableRow hover key={staffList.staff_staff_id}>
               <TableCell align="left">
                 <Typography
                   variant="body1"
@@ -44,7 +44,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {staffList.corporation.corporation_name}
+                  {staffList.corporation_corporation_name}
                 </Typography>
               </TableCell>
               <TableCell align="left">
@@ -55,7 +55,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {staffList.staff.job_position}
+                  {staffList.staff_job_position}
                 </Typography>
               </TableCell>
               <TableCell align="left">
@@ -66,7 +66,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {staffList.staff.role}
+                  {staffList.role}
                 </Typography>
               </TableCell>
               <TableCell align="left">
@@ -77,7 +77,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {staffList.staff.staff_name}
+                  {staffList.staff_staff_name}
                 </Typography>
               </TableCell>
               <TableCell
@@ -91,9 +91,9 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   sx={{
                     color: "black",
                   }}
-                  href={staffList.staff.profile_link}
+                  href={staffList.staff_profile_link}
                 >
-                  {staffList.staff.profile_link}
+                  {staffList.staff_profile_link}
                   <LaunchIcon
                     sx={{
                       ml: 1,
@@ -111,7 +111,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   gutterBottom
                   noWrap
                 >
-                  {staffList.staff.other_information}
+                  {staffList.staff_other_information}
                 </Typography>
               </TableCell>
             </TableRow>

@@ -17,17 +17,17 @@ import { ChangeEvent, FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SalesList } from "src/models/sales_list";
 import { SalesListStatistic } from "src/models/sales_list_statistic";
-import { StaffDetails2List } from "src/models/staff_details2_list";
+import { SalesListStaff } from "src/models/sales_list_staff";
 import AddIcon from "@mui/icons-material/Add";
 
 interface StaffDetails2ListProps {
   className?: string;
-  staffList: StaffDetails2List[];
+  staffList: SalesListStaff[];
   selectedSalesList: SalesList;
   salesListStatistic: SalesListStatistic;
 }
 
-const applyFilters = (staffLists: StaffDetails2List[]): StaffDetails2List[] => {
+const applyFilters = (staffLists: SalesListStaff[]): SalesListStaff[] => {
   return staffLists.filter((staffList) => {
     let matches = true;
     return matches;
@@ -35,10 +35,10 @@ const applyFilters = (staffLists: StaffDetails2List[]): StaffDetails2List[] => {
 };
 
 const applyPagination = (
-  staffLists: StaffDetails2List[],
+  staffLists: SalesListStaff[],
   page: number,
   limit: number
-): StaffDetails2List[] => {
+): SalesListStaff[] => {
   return staffLists.slice(page * limit, page * limit + limit);
 };
 const StaffLists: FC<StaffDetails2ListProps> = ({
@@ -110,17 +110,20 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
     var csvRow;
     for (const key of keys) {
       const value = obj[key];
-      if (key === "corporation") {
-        if (title === 0) {
-          csvRow = `corporation_name,job_position,staff_name,profile_source_type,profile_link\n"${value.corporation_name}"`;
+      if (
+        key === "corporation_corporation_name" ||
+        key === "staff_job_position" ||
+        key === "staff_staff_name" ||
+        key === "staff_profile_source_type" ||
+        key === "staff_profile_link"
+      ) {
+        if (title === 0 && key === "corporation_corporation_name") {
+          csvRow = `corporation_name,job_position,staff_name,profile_source_type,profile_link\n"${value}"`;
           csvRows.push(csvRow);
         } else {
-          csvRow = `"${value.corporation_name}"`;
+          csvRow = `"${value}"`;
           csvRows.push(csvRow);
         }
-      } else if (key === "staff") {
-        csvRow = `"${value.job_position}","${value.staff_name}","${value.profile_source_type}","${value.profile_link}"`;
-        csvRows.push(csvRow);
       }
     }
     return csvRows;
@@ -157,7 +160,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
           <TableBody>
             {paginatedSalesLists.map((staffList) => {
               return (
-                <TableRow hover key={staffList.staff_id}>
+                <TableRow hover key={staffList.staff_staff_id}>
                   <TableCell align="left">
                     <Typography
                       variant="body1"
@@ -172,7 +175,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       }
                       sx={{ textDecoration: "underline" }}
                     >
-                      {staffList.corporation.corporation_name}
+                      {staffList.corporation_corporation_name}
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
@@ -183,7 +186,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {staffList.staff.job_position}
+                      {staffList.staff_job_position}
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
@@ -194,7 +197,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {staffList.staff.staff_name}
+                      {staffList.staff_staff_name}
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
@@ -205,7 +208,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {staffList.staff.profile_source_type}
+                      {staffList.staff_profile_source_type}
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
@@ -216,7 +219,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       gutterBottom
                       noWrap
                     >
-                      {staffList.staff.profile_link}
+                      {staffList.staff_profile_link}
                     </Typography>
                   </TableCell>
                 </TableRow>

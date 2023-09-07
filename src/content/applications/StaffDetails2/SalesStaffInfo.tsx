@@ -27,7 +27,7 @@ function SalesCorpInfo({ staffList, salesList }) {
           `${config().apiUrl}/corporationstaffs/id_name_bycorporation`,
           {
             params: {
-              corporationId: staffList.corporation.corporation_id,
+              corporationId: staffList.corporation_corporation_id,
             },
           }
         );
@@ -44,7 +44,9 @@ function SalesCorpInfo({ staffList, salesList }) {
 
   const [taskLogOpen, setTaskLogOpen] = useState(false);
   const [tranStatusSelected, setTranStatusSelected] = useState(
-    staffList.transaction_status === null ? "" : staffList.transaction_status
+    staffList.salesStaffs_transaction_status === null
+      ? ""
+      : staffList.salesStaffs_transaction_status
   );
   const [corpStaffList, setStaffs] = useState([]);
   const editTaskLogOpen = () => {
@@ -73,8 +75,8 @@ function SalesCorpInfo({ staffList, salesList }) {
         const param = {
           transaction_status: changedStatus,
           sales_list_number: salesList.sales_list_number,
-          corporation_id: staffList.corporation.corporation_id,
-          staff_id: staffList.staff_id,
+          corporation_id: staffList.corporation_corporation_id,
+          staff_id: staffList.staff_staff_id,
         };
         await post<any>(
           `${config().apiUrl}/saleslists/staffTranStatusChange`,
@@ -182,12 +184,12 @@ function SalesCorpInfo({ staffList, salesList }) {
             <TextField
               id="memo"
               fullWidth
-              defaultValue={staffList.memo}
+              defaultValue={staffList.salesStaffs_memo}
               size="small"
               sx={{ mt: 1 }}
               onBlur={memoChange}
             >
-              {staffList.memo}
+              {staffList.salesStaffs_memo}
             </TextField>
           </Grid>
           <Grid item xs={2} sx={{ my: 1, ml: 2 }}>

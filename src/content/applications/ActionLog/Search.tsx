@@ -64,10 +64,16 @@ function Search(props) {
       return CODE.SMALL_RESULT_BR03;
     } else if (BRSelected === "担当者止まり") {
       return CODE.SMALL_RESULT_BR04;
-    } else if (BRSelected === "担当者突破") {
+    } else if (BRSelected === "アポ") {
       return CODE.SMALL_RESULT_BR05;
     } else if (BRSelected === "送信済み") {
       return CODE.SMALL_RESULT_BR06;
+    } else if (BRSelected === "未送信") {
+      return CODE.SMALL_RESULT_BR07;
+    } else if (BRSelected === "実施済み") {
+      return CODE.SMALL_RESULT_BR08;
+    } else if (BRSelected === "未実施") {
+      return CODE.SMALL_RESULT_BR09;
     } else {
       return [];
     }

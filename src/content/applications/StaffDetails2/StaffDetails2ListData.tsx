@@ -4,7 +4,7 @@ import StaffDetails2Table from "./StaffDetails2Table";
 function ListLists({ staffList }) {
   return (
     <Card sx={{ mt: 5 }}>
-      <StaffDetails2Table staffDetails2List={staffList.corporation} />
+      <StaffDetails2Table staffList={staffList} />
     </Card>
   );
 }
