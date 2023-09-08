@@ -44,31 +44,87 @@ const SMALL_RESULT = [
   { key: "SR05", code: "受電代行" },
   { key: "SR06", code: "伝言を残した" },
   { key: "SR07", code: "該当者/該当部署なし" },
-  { key: "SR08", code: "アポ" },
-  { key: "SR09", code: "HPからお問合せ" },
-  { key: "SR10", code: "資料送付" },
-  { key: "SR11", code: "コンテンツ案内" },
-  { key: "SR12", code: "日程送付済み" },
-  { key: "SR13", code: "リマインド" },
-  { key: "SR14", code: "実施済み" },
+  { key: "SR08", code: "HPからお問合せ" },
+  { key: "SR09", code: "ニーズなし" },
+  { key: "SR10", code: "予算NG" },
+  { key: "SR11", code: "決裁権限なし" },
+  { key: "SR12", code: "時期不明" },
+  { key: "SR13", code: "ランクA" },
+  { key: "SR14", code: "ランクB" },
+  { key: "SR15", code: "ランクC" },
+  { key: "SR16", code: "ランクD" },
+  { key: "SR17", code: "ランクE" },
+  { key: "SR18", code: "資料送付" },
+  { key: "SR19", code: "コンテンツ案内" },
+  { key: "SR20", code: "状況伺い" },
+  { key: "SR21", code: "日程送付済み" },
+  { key: "SR22", code: "リマインド" },
+  { key: "SR23", code: "実施済み" },
 ];
-const SMALL_RESULT_BR01 = [{ key: "SR01", code: "不通" }];
-const SMALL_RESULT_BR02 = [{ key: "SR02", code: "営業お断り" }];
-const SMALL_RESULT_BR03 = [{ key: "SR03", code: "不在" }];
-const SMALL_RESULT_BR04 = [{ key: "SR04", code: "リモートワーク" }];
-const SMALL_RESULT_BR05 = [
+const SMALL_RESULT_BR01 = [
+  { key: "SR01", code: "不通" },
+  { key: "SR02", code: "営業お断り" },
+  { key: "SR03", code: "不在" },
+  { key: "SR04", code: "リモートワーク" },
   { key: "SR05", code: "受電代行" },
   { key: "SR06", code: "伝言を残した" },
   { key: "SR07", code: "該当者/該当部署なし" },
-  { key: "SR08", code: "アポ" },
-  { key: "SR09", code: "HPからお問合せ" },
+  { key: "SR08", code: "HPからお問合せ" },
 ];
-const SMALL_RESULT_BR06 = [{ key: "SR10", code: "資料送付" }];
-const SMALL_RESULT_BR07 = [{ key: "SR11", code: "コンテンツ案内" }];
-const SMALL_RESULT_BR08 = [{ key: "SR12", code: "日程送付済み" }];
+const SMALL_RESULT_BR02 = [
+  { key: "SR02", code: "営業お断り" },
+  { key: "SR03", code: "不在" },
+  { key: "SR04", code: "リモートワーク" },
+  { key: "SR06", code: "伝言を残した" },
+  { key: "SR07", code: "該当者/該当部署なし" },
+  { key: "SR08", code: "HPからお問合せ" },
+];
+const SMALL_RESULT_BR03 = [
+  { key: "SR01", code: "不通" },
+  { key: "SR02", code: "営業お断り" },
+  { key: "SR07", code: "該当者/該当部署なし" },
+  { key: "SR08", code: "HPからお問合せ" },
+  { key: "SR09", code: "ニーズなし" },
+  { key: "SR10", code: "予算NG" },
+  { key: "SR11", code: "決裁権限なし" },
+  { key: "SR12", code: "時期不明" },
+];
+const SMALL_RESULT_BR04 = [
+  { key: "SR01", code: "不通" },
+  { key: "SR02", code: "営業お断り" },
+  { key: "SR07", code: "該当者/該当部署なし" },
+  { key: "SR08", code: "HPからお問合せ" },
+  { key: "SR09", code: "ニーズなし" },
+  { key: "SR10", code: "予算NG" },
+  { key: "SR11", code: "決裁権限なし" },
+  { key: "SR12", code: "時期不明" },
+];
+const SMALL_RESULT_BR05 = [
+  { key: "SR13", code: "ランクA" },
+  { key: "SR14", code: "ランクB" },
+  { key: "SR15", code: "ランクC" },
+  { key: "SR16", code: "ランクD" },
+  { key: "SR17", code: "ランクE" },
+];
+const SMALL_RESULT_BR06 = [
+  { key: "SR18", code: "資料送付" },
+  { key: "SR19", code: "コンテンツ案内" },
+  { key: "SR20", code: "状況伺い" },
+];
+const SMALL_RESULT_BR07 = [
+  { key: "SR18", code: "資料送付" },
+  { key: "SR19", code: "コンテンツ案内" },
+  { key: "SR20", code: "状況伺い" },
+];
+const SMALL_RESULT_BR08 = [
+  { key: "SR21", code: "日程送付済み" },
+  { key: "SR22", code: "リマインド" },
+  { key: "SR23", code: "実施済み" },
+];
 const SMALL_RESULT_BR09 = [
-  { key: "SR13", code: "リマインド" },
-  { key: "SR14", code: "実施済み" },
+  { key: "SR21", code: "日程送付済み" },
+  { key: "SR22", code: "リマインド" },
+  { key: "SR23", code: "実施済み" },
 ];
 
 const TRAN_STATUS = [
