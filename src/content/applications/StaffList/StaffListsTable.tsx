@@ -1,7 +1,15 @@
-import { Box, Button, Card, CardHeader, Divider } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardHeader,
+  Divider,
+  Typography,
+} from "@mui/material";
 import PropTypes from "prop-types";
 import { FC, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 
 import AddIcon from "@mui/icons-material/Add";
 import { StaffList } from "src/models/staff_list";
@@ -31,6 +39,13 @@ const StaffLists: FC<StaffListsProps> = ({ localeTextValue, staffLists }) => {
   const isChecked = checkItems.length > 0;
   const disabled = !isChecked;
 
+  const navigate = useNavigate();
+  const handlestaffListEvent = (event, staffList) => {
+    navigate("/staff/staffDetails1", {
+      state: staffList.row,
+    });
+  };
+
   // DATAGRID
   const columns: GridColDef[] = [
     {
@@ -40,7 +55,24 @@ const StaffLists: FC<StaffListsProps> = ({ localeTextValue, staffLists }) => {
       valueGetter: (params) => params.row.corporationEntity.corporation_name,
     },
     { field: "job_position", headerName: "役職", flex: 4 },
-    { field: "staff_name", headerName: "氏名", flex: 1 },
+    {
+      field: "staff_name",
+      headerName: "氏名",
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <Typography
+            fontWeight="bold"
+            sx={{ textDecoration: "underline" }}
+            onClick={(event) => {
+              handlestaffListEvent(event, params);
+            }}
+          >
+            {params.value}
+          </Typography>
+        );
+      },
+    },
     {
       field: "profile_source_type",
       headerName: "アカウントソース",
