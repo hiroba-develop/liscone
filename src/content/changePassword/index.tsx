@@ -24,6 +24,7 @@ import {
 } from "src/utility/http/ApiService";
 import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import ErrorIcon from "../applications/icon/ErrorIcon";
+import CryptoJS from "crypto-js";
 
 const MainContent = styled(Box)(
   ({ theme }) => `
@@ -117,10 +118,14 @@ function changePassword() {
   const { mutate, isError } = useWrapMuation<any, any>(
     ["changepassword"],
     async (data) => {
+      const sha256Hash = CryptoJS.SHA256(data.newPass).toString(
+        CryptoJS.enc.Hex
+      );
+      console.log(sha256Hash);
       const param = {
         member_id: auth.userId,
         password: data.tmpPass,
-        newpassword: data.newPass,
+        newpassword: sha256Hash,
       };
 
       return await post<any>(

@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Helmet } from "react-helmet-async";
-
+import CryptoJS from "crypto-js";
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
@@ -89,9 +89,12 @@ function signIn() {
   const { mutate, isError } = useWrapMuation<any, any>(
     ["login"],
     async (data) => {
+      const sha256Hash = CryptoJS.SHA256(data.userPw).toString(
+        CryptoJS.enc.Hex
+      );
       const param = {
         member_id: data.userId,
-        password: data.userPw,
+        password: sha256Hash,
       };
 
       return await post<any>(`${config().apiUrl}/members/login`, param);
@@ -242,6 +245,7 @@ function signIn() {
       )}
       <Helmet>
         <title>LisCone ログイン</title>
+        <meta name="description" content="LisConne説明文" />
       </Helmet>
       <MainContent>
         <Container maxWidth="sm">
