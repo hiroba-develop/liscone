@@ -244,8 +244,8 @@ function signIn() {
         </Snackbar>
       )}
       <Helmet>
-        <title>LisCone ログイン</title>
-        <meta name="description" content="LisConne説明文" />
+        <title>Lisconne ログイン</title>
+        <meta name="description" content="Lisconne" />
       </Helmet>
       <MainContent>
         <Container maxWidth="sm">

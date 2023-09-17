@@ -470,24 +470,31 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                   </TableCell>
                   <TableCell padding="checkbox">
                     <Tooltip title="Task Complete" arrow>
-                      <Button
-                        size="small"
-                        startIcon={
-                          <img src="/static/images/tickbox.svg" alt="tickbox" />
-                        }
-                        onClick={() => editTaskLogOpen(taskList)}
-                      />
+                      {taskList.status !== "completed" && (
+                        <Button
+                          size="small"
+                          startIcon={
+                            <img
+                              src="/static/images/tickbox.svg"
+                              alt="tickbox"
+                            />
+                          }
+                          onClick={() => editTaskLogOpen(taskList)}
+                        />
+                      )}
                     </Tooltip>
                   </TableCell>
                   <TableCell padding="checkbox">
                     <Tooltip title="Edit" arrow>
-                      <Button
-                        size="small"
-                        startIcon={
-                          <img src="/static/images/Edit.svg" alt="edit" />
-                        }
-                        onClick={(e) => editTaskUpdateOpen(e, taskList)}
-                      ></Button>
+                      {taskList.status !== "completed" && (
+                        <Button
+                          size="small"
+                          startIcon={
+                            <img src="/static/images/Edit.svg" alt="edit" />
+                          }
+                          onClick={(e) => editTaskUpdateOpen(e, taskList)}
+                        />
+                      )}
                     </Tooltip>
                   </TableCell>
                   <TableCell padding="checkbox">
