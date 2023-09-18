@@ -17,11 +17,13 @@ import { FormEvent, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { config } from "src/utility/config/AppConfig";
 import { CODE } from "src/utility/constants/Code";
+import { useNavigate } from "react-router";
 import {
   commonErrorCallback,
   post,
   useWrapMuation,
 } from "src/utility/http/ApiService";
+import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 
 const DashboardTaskLog = ({
@@ -30,6 +32,7 @@ const DashboardTaskLog = ({
   taskList,
   staffList,
 }) => {
+  const navigate = useNavigate();
   const current = new Date();
   const today = `${current.getFullYear()}-${
     current.getMonth() < 10 ? "0" : ""
@@ -37,6 +40,7 @@ const DashboardTaskLog = ({
     current.getDate() < 10 ? "0" : ""
   }${current.getDate()}`;
   const members = useRecoilValue(membersAtom);
+  const auth = useRecoilValue(authAtom);
   const [MemberSelected, setMemberSelected] = useState("");
   const handleMemberSelect = (e) => {
     setMemberSelected(e.target.value);
@@ -106,9 +110,12 @@ const DashboardTaskLog = ({
     },
     {
       onSuccess: (data) => {
+        alert("登録完了しました");
         setTaskLogOpen(false);
+        navigate("/action/actionLog");
       },
       onError: (error) => {
+        alert("エラーが発生しました");
         commonErrorCallback(error);
         alert(error.response.data.message);
       },
@@ -150,6 +157,10 @@ const DashboardTaskLog = ({
       const action = CODE.ACTION.find((e) => e.key === taskName);
       return action.code;
     };
+
+    const salesStaff = members.find(function (member) {
+      return member.member_id === auth.userId;
+    });
 
     return (
       <Modal open={taskLogOpen} onClose={taskLogClose}>
@@ -431,11 +442,14 @@ const DashboardTaskLog = ({
                 style={{ width: 150 }}
                 onChange={handleMemberSelect}
               >
-                {members.map((option) => (
+                {/* {members.map((option) => (
                   <MenuItem value={option.member_id}>
                     {option.member_name}
                   </MenuItem>
-                ))}
+                ))} */}
+                <MenuItem value={salesStaff.member_id}>
+                  {salesStaff.member_name}
+                </MenuItem>
               </TextField>
             </Box>
             <Box
