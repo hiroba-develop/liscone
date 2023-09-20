@@ -160,9 +160,6 @@ const TaskLog = ({
     //   const action = CODE.ACTION.find((e) => e.key === taskName);
     //   return action.code;
     // };
-    const salesStaff = members.find(function (member) {
-      return member.member_id === auth.userId;
-    });
 
     return (
       <Modal open={taskLogOpen} onClose={taskLogClose}>

@@ -371,7 +371,7 @@ const TaskLogStaffList = ({
                     {option.staff_name}
                   </MenuItem>
                 ))} */}
-                <MenuItem value={staffList.staff_id}>
+                <MenuItem value={staffList.staff_staff_id}>
                   {staffList.staff_staff_name}
                 </MenuItem>
               </TextField>

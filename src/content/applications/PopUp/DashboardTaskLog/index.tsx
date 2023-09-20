@@ -156,10 +156,6 @@ const DashboardTaskLog = ({
       return action.code;
     };
 
-    const salesStaff = members.find(function (member) {
-      return member.member_id === auth.userId;
-    });
-
     return (
       <Modal open={taskLogOpen} onClose={taskLogClose}>
         <Box sx={editModal}>
@@ -357,14 +353,11 @@ const DashboardTaskLog = ({
                 value={StaffSelected}
                 onChange={handleStaffSelect}
               >
-                {/* {staffList.map((option) => (
+                {staffList.map((option) => (
                   <MenuItem value={option.staff_id}>
                     {option.staff_name}
                   </MenuItem>
-                ))} */}
-                <MenuItem value={staffList.staff_id}>
-                  {staffList.staff_staff_name}
-                </MenuItem>
+                ))}
               </TextField>
             </Box>
             <Box
