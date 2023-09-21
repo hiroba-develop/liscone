@@ -121,7 +121,6 @@ function changePassword() {
       const sha256Hash = CryptoJS.SHA256(data.newPass).toString(
         CryptoJS.enc.Hex
       );
-      console.log(sha256Hash);
       const param = {
         member_id: auth.userId,
         password: data.tmpPass,

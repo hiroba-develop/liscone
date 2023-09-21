@@ -82,7 +82,6 @@ const DashboardTaskLog = ({
         execute_big_result: BRSelected,
         execute_small_result: SRSelected,
       };
-
       await post<any>(`${config().apiUrl}/salesTasks/updateTask`, param);
       if (ActionSelected) {
         const param = {
@@ -93,10 +92,7 @@ const DashboardTaskLog = ({
             taskList.corporationEntity !== null
               ? taskList.corporationEntity.corporation_id
               : "",
-          sales_staff_id:
-            taskList.corporationstaffEntity !== null
-              ? taskList.corporationstaffEntity.staff_id
-              : "",
+          sales_staff_id: StaffSelected,
           deadline: startDate,
           comment: comments,
         };
