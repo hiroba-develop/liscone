@@ -341,9 +341,9 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
                 }}
                 align="left"
               >
-                架電先企業
+                営業先企業
               </TableCell>
-              <TableCell align="left">架電先担当</TableCell>
+              <TableCell align="left">営業先担当者</TableCell>
               <TableCell align="left">ユーザー</TableCell>
               <TableCell align="left">電話番号</TableCell>
               <TableCell sx={{ maxWidth: "150px" }} align="left">

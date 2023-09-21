@@ -196,7 +196,7 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
               <TextField
                 id="members"
                 select
-                label="営業担当者"
+                label="ユーザー"
                 key={taskList.member_id}
                 defaultValue={taskList.member_id}
                 value={MemberSelected}

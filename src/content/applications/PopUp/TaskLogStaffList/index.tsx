@@ -346,7 +346,7 @@ const TaskLogStaffList = ({
                 pt: 1,
               }}
             >
-              架電先：
+              営業先：
             </Box>
             <Box
               sx={{
@@ -447,7 +447,7 @@ const TaskLogStaffList = ({
               <TextField
                 id="members"
                 select
-                label="営業担当者"
+                label="ユーザー"
                 value={MemberSelected}
                 style={{ width: 150 }}
                 onChange={handleMemberSelect}
