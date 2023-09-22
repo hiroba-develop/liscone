@@ -22,7 +22,6 @@ import {
   post,
   useWrapMuation,
 } from "src/utility/http/ApiService";
-import { authAtom } from "src/utility/recoil/auth/Auth.atom";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 
 const DashboardTaskLog = ({
@@ -38,7 +37,6 @@ const DashboardTaskLog = ({
     current.getDate() < 10 ? "0" : ""
   }${current.getDate()}`;
   const members = useRecoilValue(membersAtom);
-  const auth = useRecoilValue(authAtom);
   const [MemberSelected, setMemberSelected] = useState("");
   const handleMemberSelect = (e) => {
     setMemberSelected(e.target.value);
@@ -54,10 +52,10 @@ const DashboardTaskLog = ({
     setSRSelected(e.target.value);
   };
 
-  const [StaffSelected, setStaffSelected] = useState("");
-  const handleStaffSelect = (e) => {
-    setStaffSelected(e.target.value);
-  };
+  // const [StaffSelected, setStaffSelected] = useState("");
+  // const handleStaffSelect = (e) => {
+  //   setStaffSelected(e.target.value);
+  // };
 
   const [ActionSelected, setActionSelected] = useState("");
   const handleActionSelect = (e) => {
@@ -92,7 +90,10 @@ const DashboardTaskLog = ({
             taskList.corporationEntity !== null
               ? taskList.corporationEntity.corporation_id
               : "",
-          sales_staff_id: StaffSelected,
+          sales_staff_id:
+            taskList.corporationstaffEntity === null
+              ? ""
+              : taskList.corporationstaffEntity.staff_id,
           deadline: startDate,
           comment: comments,
         };
@@ -336,25 +337,20 @@ const DashboardTaskLog = ({
                 position: "absolute",
                 top: "40%",
                 left: "25%",
-                minWidth: 300,
+                minWidth: 250,
                 mt: 2,
                 ml: 2,
               }}
             >
               <TextField
-                id="staff"
                 fullWidth
-                select
-                label="担当者"
-                value={StaffSelected}
-                onChange={handleStaffSelect}
-              >
-                {staffList.map((option) => (
-                  <MenuItem value={option.staff_id}>
-                    {option.staff_name}
-                  </MenuItem>
-                ))}
-              </TextField>
+                disabled
+                defaultValue={
+                  taskList.corporationstaffEntity === null
+                    ? ""
+                    : taskList.corporationstaffEntity.staff_name
+                }
+              />
             </Box>
             <Box
               sx={{

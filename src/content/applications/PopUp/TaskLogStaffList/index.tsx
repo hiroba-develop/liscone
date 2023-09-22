@@ -55,10 +55,10 @@ const TaskLogStaffList = ({
     setSRSelected(e.target.value);
   };
 
-  const [StaffSelected, setStaffSelected] = useState("");
-  const handleStaffSelect = (e) => {
-    setStaffSelected(e.target.value);
-  };
+  // const [StaffSelected, setStaffSelected] = useState("");
+  // const handleStaffSelect = (e) => {
+  //   setStaffSelected(e.target.value);
+  // };
 
   const [ActionSelected, setActionSelected] = useState("");
   const handleActionSelect = (e) => {
@@ -87,7 +87,8 @@ const TaskLogStaffList = ({
         member_id: auth.userId,
         sales_list_number: salesList.sales_list_number,
         sales_corporation_id: staffList.corporation_corporation_id,
-        sales_staff_id: StaffSelected,
+        sales_staff_id:
+          staffList.staff_staff_id === null ? "" : staffList.staff_staff_id,
         execute_date: BRSelected !== "" || SRSelected !== "" ? today : "",
         execute_big_result: BRSelected,
         execute_small_result: SRSelected,
@@ -359,22 +360,14 @@ const TaskLogStaffList = ({
               }}
             >
               <TextField
-                id="staff"
                 fullWidth
-                select
-                label="担当者"
-                value={StaffSelected}
-                onChange={handleStaffSelect}
-              >
-                {/* {corpStaffList.map((option) => (
-                  <MenuItem value={option.staff_id}>
-                    {option.staff_name}
-                  </MenuItem>
-                ))} */}
-                <MenuItem value={staffList.staff_staff_id}>
-                  {staffList.staff_staff_name}
-                </MenuItem>
-              </TextField>
+                disabled
+                defaultValue={
+                  staffList.staff_staff_name === null
+                    ? ""
+                    : staffList.staff_staff_name
+                }
+              />
             </Box>
             <Box
               sx={{

@@ -552,7 +552,7 @@ const Search = (props) => {
         </Grid>
       </Grid>
       <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>売上</Typography>
           <Stack sx={{ m: 1 }} direction="row">
             <Autocomplete
@@ -576,7 +576,7 @@ const Search = (props) => {
             />
           </Stack>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>従業員数</Typography>
           <Stack sx={{ m: 1 }} direction="row">
             <Autocomplete
@@ -600,7 +600,7 @@ const Search = (props) => {
             />
           </Stack>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>設立</Typography>
           <Stack sx={{ m: 1 }} direction="row">
             <Autocomplete
@@ -624,7 +624,7 @@ const Search = (props) => {
             />
           </Stack>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>資本金</Typography>
           <Stack sx={{ m: 1 }} direction="row">
             <Autocomplete
