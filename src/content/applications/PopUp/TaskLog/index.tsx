@@ -102,6 +102,8 @@ const TaskLog = ({
           task_name: ActionSelected2,
           sales_list_number: saleslistEntity.sales_list_number,
           sales_corporation_id: corporationList.corporation_id,
+          sales_staff_id:
+            staffList.staff_staff_id === null ? "" : staffList.staff_staff_id,
           deadline: startDate,
           comment: comments,
         };
@@ -120,7 +122,6 @@ const TaskLog = ({
       onError: (error) => {
         alert("エラーが発生しました");
         commonErrorCallback(error);
-        alert(error.response.data.message);
       },
     }
   );

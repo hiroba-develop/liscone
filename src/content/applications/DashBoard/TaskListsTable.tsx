@@ -127,7 +127,7 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
   const editTaskLogOpen = (taskList) => {
     const getStaffs = async () => {
       try {
-        const response = await axios.get(
+        const responseStaffs = await axios.get(
           `${config().apiUrl}/corporationstaffs/id_name_bycorporation`,
           {
             params: {
@@ -136,8 +136,8 @@ const TaskLists: FC<SalesTaskListsProps> = ({ taskLists }) => {
           }
         );
 
-        if (response.statusText === "OK") {
-          setStaffs(response.data);
+        if (responseStaffs.statusText === "OK") {
+          setStaffs(responseStaffs.data);
         }
       } catch (error) {
         commonErrorCallback(error);

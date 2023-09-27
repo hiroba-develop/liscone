@@ -13,7 +13,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { config } from "src/utility/config/AppConfig";
 import { CODE } from "src/utility/constants/Code";
@@ -23,6 +23,7 @@ import {
   useWrapMuation,
 } from "src/utility/http/ApiService";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
+import axios from "axios";
 
 const DashboardTaskLog = ({
   taskLogOpen,
@@ -30,6 +31,29 @@ const DashboardTaskLog = ({
   taskList,
   staffList,
 }) => {
+  console.log(taskList.sales_list_number);
+  const [salesList, setSalesList] = useState([]);
+  useEffect(() => {
+    const getSaleslist = async () => {
+      try {
+        const responseSalesList = await axios.get(
+          `${config().apiUrl}/saleslists/saleslistnumber`,
+          {
+            params: {
+              salesListNumber: taskList.sales_list_number,
+            },
+          }
+        );
+        if (responseSalesList.statusText === "OK") {
+          setSalesList(responseSalesList.data);
+        }
+      } catch (error) {
+        commonErrorCallback(error);
+      }
+    };
+    getSaleslist();
+  }, [taskList.sales_list_number]);
+
   const current = new Date();
   const today = `${current.getFullYear()}-${
     current.getMonth() < 10 ? "0" : ""
@@ -52,10 +76,10 @@ const DashboardTaskLog = ({
     setSRSelected(e.target.value);
   };
 
-  // const [StaffSelected, setStaffSelected] = useState("");
-  // const handleStaffSelect = (e) => {
-  //   setStaffSelected(e.target.value);
-  // };
+  const [StaffSelected, setStaffSelected] = useState("");
+  const handleStaffSelect = (e) => {
+    setStaffSelected(e.target.value);
+  };
 
   const [ActionSelected, setActionSelected] = useState("");
   const handleActionSelect = (e) => {
@@ -151,6 +175,39 @@ const DashboardTaskLog = ({
     const getTaskName = (taskName) => {
       const action = CODE.ACTION.find((e) => e.key === taskName);
       return action.code;
+    };
+
+    const getStaffName = (salesList, taskList) => {
+      console.log(salesList);
+      console.log(taskList);
+      if (salesList.saleslist_sales_list_type === "01") {
+        return (
+          <TextField
+            id="staff"
+            fullWidth
+            select
+            label="担当者"
+            value={StaffSelected}
+            onChange={handleStaffSelect}
+          >
+            {staffList.map((option) => (
+              <MenuItem value={option.staff_id}>{option.staff_name}</MenuItem>
+            ))}
+          </TextField>
+        );
+      } else {
+        return (
+          <TextField
+            fullWidth
+            disabled
+            defaultValue={
+              taskList.corporationstaffEntity === null
+                ? ""
+                : taskList.corporationstaffEntity.staff_name
+            }
+          />
+        );
+      }
     };
 
     return (
@@ -342,15 +399,7 @@ const DashboardTaskLog = ({
                 ml: 2,
               }}
             >
-              <TextField
-                fullWidth
-                disabled
-                defaultValue={
-                  taskList.corporationstaffEntity === null
-                    ? ""
-                    : taskList.corporationstaffEntity.staff_name
-                }
-              />
+              {getStaffName(salesList, taskList)}
             </Box>
             <Box
               sx={{

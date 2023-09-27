@@ -143,13 +143,7 @@ function SalesCorpInfo({ corporationList, saleslistEntity, salesList }) {
         corporationList={corporationList}
         saleslistEntity={saleslistEntity}
       />
-      <Card
-        sx={{
-          position: "absolute",
-          top: "180px",
-          minWidth: "1170px",
-        }}
-      >
+      <Card sx={{ mt: -5, mb: -8 }}>
         <Grid container spacing={1}>
           <Grid item xs={2} sx={{ my: 1, ml: 2 }}>
             <Typography fontWeight="bold" sx={{ fontSize: 16, pt: 1 }}>

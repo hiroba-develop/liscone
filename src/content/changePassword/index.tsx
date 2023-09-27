@@ -118,13 +118,16 @@ function changePassword() {
   const { mutate, isError } = useWrapMuation<any, any>(
     ["changepassword"],
     async (data) => {
-      const sha256Hash = CryptoJS.SHA256(data.newPass).toString(
+      const sha256HashTmpPass = CryptoJS.SHA256(data.tmpPass).toString(
+        CryptoJS.enc.Hex
+      );
+      const sha256HashNewPass = CryptoJS.SHA256(data.newPass).toString(
         CryptoJS.enc.Hex
       );
       const param = {
         member_id: auth.userId,
-        password: data.tmpPass,
-        newpassword: sha256Hash,
+        password: sha256HashTmpPass,
+        newpassword: sha256HashNewPass,
       };
 
       return await post<any>(
