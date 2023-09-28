@@ -31,7 +31,6 @@ const DashboardTaskLog = ({
   taskList,
   staffList,
 }) => {
-  console.log(taskList.sales_list_number);
   const [salesList, setSalesList] = useState([]);
   useEffect(() => {
     const getSaleslist = async () => {
@@ -94,7 +93,7 @@ const DashboardTaskLog = ({
   const handleComments = (e) => {
     setComments(e.target.value);
   };
-
+  console.log(taskList);
   const { mutate } = useWrapMuation<any, any>(
     ["updateAndCreateTask"],
     async (data) => {
@@ -116,7 +115,7 @@ const DashboardTaskLog = ({
               : "",
           sales_staff_id:
             taskList.corporationstaffEntity === null
-              ? ""
+              ? StaffSelected
               : taskList.corporationstaffEntity.staff_id,
           deadline: startDate,
           comment: comments,
@@ -178,8 +177,6 @@ const DashboardTaskLog = ({
     };
 
     const getStaffName = (salesList, taskList) => {
-      console.log(salesList);
-      console.log(taskList);
       if (salesList.saleslist_sales_list_type === "01") {
         return (
           <TextField
