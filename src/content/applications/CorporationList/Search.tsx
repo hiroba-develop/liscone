@@ -10,7 +10,7 @@ import {
   Button,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { styled, lighten, darken } from "@mui/system";
+import { styled } from "@mui/system";
 
 const businessCategory = [
   { industry: "情報通信業", sector: "翻訳・ローカリゼーション" },
@@ -292,8 +292,8 @@ const businessCategory = [
   },
   { industry: "サービス業（他に分類されないもの）", sector: "サービス" },
   { industry: "サービス業（他に分類されないもの）", sector: "その他" },
-  { industry: "分類不能の産業", sector: "その他" },
   { industry: "分類不能の産業", sector: "特殊法人・その他団体" },
+  { industry: "分類不能の産業", sector: "その他" },
 ];
 
 const prefectures = [

@@ -41,6 +41,10 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
   const [startDate, setStartDate] = useState<Dayjs | null>(
     dayjs(taskList.deadline)
   );
+  const [comments, setComments] = useState("");
+  const handleComments = (e) => {
+    setComments(e.target.value);
+  };
 
   const { mutate } = useWrapMuation<any, any>(
     ["updateSalesTask"],
@@ -50,6 +54,7 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
         task_name: ActionSelected,
         deadline: startDate.format("YYYY-MM-DD"),
         member_id: MemberSelected,
+        comment: comments,
       };
 
       await post<any>(`${config().apiUrl}/salesTasks/updateSalesTask`, param);
@@ -230,8 +235,11 @@ const TaskUpdate = ({ taskUpdateOpen, setTaskUpdateOpen, taskList }) => {
               }}
             >
               <TextField
+                id="comments"
                 variant="outlined"
                 multiline
+                value={comments}
+                onChange={handleComments}
                 inputProps={{
                   style: {
                     width: 500,

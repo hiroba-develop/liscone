@@ -24,14 +24,24 @@ import {
 } from "src/utility/http/ApiService";
 import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 import axios from "axios";
-
 const DashboardTaskLog = ({
   taskLogOpen,
   setTaskLogOpen,
   taskList,
   staffList,
 }) => {
-  const [salesList, setSalesList] = useState([]);
+  interface TasklogStaffList {
+    saleslist_created: string;
+    saleslist_created_by: string;
+    saleslist_member_id: string;
+    saleslist_modified: string;
+    saleslist_modified_by: string;
+    saleslist_sales_list_name: string;
+    saleslist_sales_list_number: string;
+    saleslist_sales_list_type: string;
+    saleslist_sales_product_number: string;
+  }
+  const [salesList, setSalesList] = useState<TasklogStaffList>();
   useEffect(() => {
     const getSaleslist = async () => {
       try {
@@ -45,6 +55,7 @@ const DashboardTaskLog = ({
         );
         if (responseSalesList.statusText === "OK") {
           setSalesList(responseSalesList.data);
+          console.log(responseSalesList.data);
         }
       } catch (error) {
         commonErrorCallback(error);
@@ -93,7 +104,6 @@ const DashboardTaskLog = ({
   const handleComments = (e) => {
     setComments(e.target.value);
   };
-  console.log(taskList);
   const { mutate } = useWrapMuation<any, any>(
     ["updateAndCreateTask"],
     async (data) => {
@@ -102,6 +112,10 @@ const DashboardTaskLog = ({
         execute_date: today,
         execute_big_result: BRSelected,
         execute_small_result: SRSelected,
+        sales_staff_id:
+          salesList.saleslist_sales_list_type === "01"
+            ? StaffSelected
+            : taskList.corporationstaffEntity.staff_id,
       };
       await post<any>(`${config().apiUrl}/salesTasks/updateTask`, param);
       if (ActionSelected) {
@@ -113,10 +127,6 @@ const DashboardTaskLog = ({
             taskList.corporationEntity !== null
               ? taskList.corporationEntity.corporation_id
               : "",
-          sales_staff_id:
-            taskList.corporationstaffEntity === null
-              ? StaffSelected
-              : taskList.corporationstaffEntity.staff_id,
           deadline: startDate,
           comment: comments,
         };
