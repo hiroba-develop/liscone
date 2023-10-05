@@ -65,11 +65,9 @@ const DashboardTaskLog = ({
   }, [taskList.sales_list_number]);
 
   const current = new Date();
-  const today = `${current.getFullYear()}-${
-    current.getMonth() < 10 ? "0" : ""
-  }${current.getMonth() + 1}-${
-    current.getDate() < 10 ? "0" : ""
-  }${current.getDate()}`;
+  const today = `${current.getFullYear()}-${current.getMonth() < 9 ? "0" : ""}${
+    current.getMonth() + 1
+  }-${current.getDate() < 10 ? "0" : ""}${current.getDate()}`;
   const members = useRecoilValue(membersAtom);
   const [MemberSelected, setMemberSelected] = useState("");
   const handleMemberSelect = (e) => {
