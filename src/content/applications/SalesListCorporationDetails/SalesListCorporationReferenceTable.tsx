@@ -26,6 +26,10 @@ const getStatusLabel = (salesListStatus: SalesListStatus): JSX.Element => {
       text: "担当者リスト",
       color: "info",
     },
+    "03": {
+      text: "インポートリスト",
+      color: "success",
+    },
   };
 
   const { text, color }: any = map[salesListStatus];

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, Button, Input } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import * as XLSX from "xlsx";
+import Import from "../PopUp/Import/ListData";
 
-function csvImport() {
+function CsvImport() {
+  const [importPopOpen, setImportPopOpen] = useState(false);
   const data = [
     {
       法人番号: "",
@@ -21,6 +23,7 @@ function csvImport() {
       その他: "",
     },
   ];
+  const [sheetDatas, setSheetDatas] = useState([]);
 
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(data);
@@ -44,9 +47,9 @@ function csvImport() {
       // シートのデータを配列に変換
       const sheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-      // ファイルのデータがsheetDataに格納されます
-      console.log(sheetData);
       // ここでデータの加工などの処理を行います
+      setSheetDatas(sheetData);
+      setImportPopOpen(true);
     };
 
     reader.readAsBinaryString(file);
@@ -54,6 +57,11 @@ function csvImport() {
 
   return (
     <>
+      <Import
+        importPopOpen={importPopOpen}
+        setImportPopOpen={setImportPopOpen}
+        sheetDatas={sheetDatas}
+      />
       <Grid container sx={{ my: 1 }}>
         <Grid item xs={7.5} />
         <Grid item xs={2.5}>
@@ -79,4 +87,4 @@ function csvImport() {
   );
 }
 
-export default csvImport;
+export default CsvImport;
