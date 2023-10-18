@@ -72,7 +72,7 @@ const SalesLists: FC<SalesListsProps> = ({
                   ],
                 });
               } else if (params.row.sales_list_type === "03") {
-                navigate("/salesTask/salesListCorporationDetails", {
+                navigate("/salesTask/salesListImportDetails", {
                   state: [
                     salesLists.find(
                       (e) =>

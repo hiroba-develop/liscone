@@ -53,7 +53,6 @@ const ListCreate = ({
   const { mutate, isError } = useWrapMuation<any, any>(
     ["createlist"],
     async (data) => {
-      console.log(data);
       const param = {
         datas: data,
         member_id: MemberSelected,

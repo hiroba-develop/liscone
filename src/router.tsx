@@ -40,7 +40,9 @@ const SalesListCorporationDetails = Loader(
 const SalesListStaffDetails = Loader(
   lazy(() => import("src/content/applications/SalesListStaffDetails"))
 );
-
+const SalesListImportDetails = Loader(
+  lazy(() => import("src/content/applications/SalesListImportDetails"))
+);
 const CorporationDetails1 = Loader(
   lazy(() => import("src/content/applications/CorporationDetails1"))
 );
@@ -53,8 +55,11 @@ const StaffDetails1 = Loader(
 const StaffDetails2 = Loader(
   lazy(() => import("src/content/applications/StaffDetails2"))
 );
+const ImportDetails = Loader(
+  lazy(() => import("src/content/applications/ImportDetails"))
+);
+
 const Reports = Loader(lazy(() => import("src/content/applications/Reports")));
-// const Setting = Loader(lazy(() => import("src/content/applications/Setting")));
 
 const routes: RouteObject[] = [
   {
@@ -156,12 +161,20 @@ const routes: RouteObject[] = [
         element: <SalesListStaffDetails />,
       },
       {
+        path: "salesListImportDetails",
+        element: <SalesListImportDetails />,
+      },
+      {
         path: "corporationDetails2",
         element: <CorporationDetails2 />,
       },
       {
         path: "staffDetails2",
         element: <StaffDetails2 />,
+      },
+      {
+        path: "ImportDetails",
+        element: <ImportDetails />,
       },
     ],
   },
