@@ -13,7 +13,6 @@ import { SalesListStatistic } from "src/models/sales_list_statistic";
 import { CODE } from "src/utility/constants/Code";
 import { renderCellExpand } from "src/utility/renderexpand";
 import AddIcon from "@mui/icons-material/Add";
-import CorporationLists from "../CorporationList/CorporationListsTable";
 
 interface SalesListsProps {
   className?: string;
@@ -51,17 +50,15 @@ const SalesLists: FC<SalesListsProps> = ({
   };
   const columns: GridColDef[] = [
     {
-      field: "corporate_number",
+      field: "corporation_id",
       headerName: "法人番号",
       width: 130,
-      valueGetter: (params) => params.row.corporationEntity.corporate_number,
     },
     {
       field: "corporation_name",
       headerName: "会社名・法人名",
       width: 150,
       maxWidth: 300,
-      valueGetter: (params) => params.row.corporationEntity.corporation_name,
       renderCell: (params) => {
         return (
           <Typography
@@ -77,53 +74,31 @@ const SalesLists: FC<SalesListsProps> = ({
       },
     },
     {
-      field: "business_category",
-      headerName: "業種",
-      width: 100,
-      maxWidth: 200,
-      valueGetter: (params) => params.row.corporationEntity.business_category,
-      renderCell: renderCellExpand,
-    },
-    {
-      field: "zipCode",
+      field: "zip_code",
       headerName: "郵便番号",
       width: 150,
-      valueGetter: (params) => params.row.corporationEntity.zip_code,
     },
     {
       field: "address",
       headerName: "本社住所",
       width: 300,
       maxWidth: 500,
-      valueGetter: (params) => params.row.corporationEntity.address,
       renderCell: renderCellExpand,
     },
     {
       field: "representative_phone_number",
       headerName: "代表電話番号",
       width: 200,
-      valueGetter: (params) =>
-        params.row.corporationEntity.representative_phone_number,
     },
     {
       field: "representative_name",
       headerName: "代表者名",
       width: 100,
-      valueGetter: (params) => params.row.corporationEntity.representative_name,
     },
     {
       field: "home_page",
       headerName: "Webサイト",
       width: 200,
-      valueGetter: (params) => params.row.corporationEntity.home_page,
-
-      // renderCell: (params) => {
-      //   return (
-      //     <a href="{params.row.value}" target="_blank">
-      //       {params.value}
-      //     </a>
-      //   );
-      // },
     },
     {
       field: "sales_amount",
@@ -131,8 +106,6 @@ const SalesLists: FC<SalesListsProps> = ({
       headerAlign: "left",
       align: "left",
       width: 100,
-      valueGetter: (params) => params.row.corporationEntity.sales_amount,
-
       type: "number",
     },
     {
@@ -141,8 +114,6 @@ const SalesLists: FC<SalesListsProps> = ({
       headerAlign: "left",
       align: "left",
       width: 100,
-      valueGetter: (params) => params.row.corporationEntity.employee_number,
-
       type: "number",
     },
     {
@@ -151,8 +122,6 @@ const SalesLists: FC<SalesListsProps> = ({
       headerAlign: "left",
       align: "left",
       width: 100,
-      valueGetter: (params) => params.row.corporationEntity.establishment_year,
-
       type: "number",
     },
     {
@@ -161,16 +130,12 @@ const SalesLists: FC<SalesListsProps> = ({
       headerAlign: "left",
       align: "left",
       width: 100,
-      valueGetter: (params) => params.row.corporationEntity.capital_stock,
-
       type: "number",
     },
     {
       field: "listing_status",
       headerName: "上場",
       width: 80,
-      valueGetter: (params) => params.row.corporationEntity.listing_status,
-
       align: "center",
       renderCell: (params) => {
         return getStatusLabel(params.value);
@@ -180,7 +145,6 @@ const SalesLists: FC<SalesListsProps> = ({
       field: "transaction_status",
       headerName: "取引ステータス",
       width: 150,
-      valueGetter: (params) => params.row.transaction_status,
       align: "center",
       renderCell: (params) => {
         return params.value !== null && params.value !== ""
@@ -188,11 +152,19 @@ const SalesLists: FC<SalesListsProps> = ({
           : "";
       },
     },
+    {
+      field: "memo",
+      headerName: "メモ",
+      headerAlign: "left",
+      align: "left",
+      width: 100,
+      type: "number",
+    },
   ];
   const navigate = useNavigate();
 
   const handleCorpNameEvent = (event, corporationList) => {
-    navigate("/salesTask/corporationDetails2", {
+    navigate("/salesTask/importDetails", {
       state: [corporationList.row, salesList, salesStatistic],
     });
   };

@@ -25,6 +25,10 @@ const getStatusLabel = (salesListStatus: SalesListStatus): JSX.Element => {
       text: "担当者リスト",
       color: "info",
     },
+    "03": {
+      text: "インポートリスト",
+      color: "success",
+    },
   };
 
   const { text, color }: any = map[salesListStatus];
@@ -57,8 +61,18 @@ const SalesLists: FC<SalesListsProps> = ({
                     params.row,
                   ],
                 });
-              } else {
+              } else if (params.row.sales_list_type === "02") {
                 navigate("/salesTask/salesListStaffDetails", {
+                  state: [
+                    salesLists.find(
+                      (e) =>
+                        e.sales_list_number === params.row.sales_list_number
+                    ),
+                    params.row,
+                  ],
+                });
+              } else if (params.row.sales_list_type === "03") {
+                navigate("/salesTask/salesListImportDetails", {
                   state: [
                     salesLists.find(
                       (e) =>
@@ -135,7 +149,7 @@ const SalesLists: FC<SalesListsProps> = ({
     {
       field: "sales_list_type",
       headerName: "リスト種類",
-      width: 100,
+      width: 150,
       renderCell: (params) => {
         return getStatusLabel(params.value);
       },

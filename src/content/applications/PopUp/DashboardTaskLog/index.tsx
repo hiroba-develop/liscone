@@ -55,7 +55,6 @@ const DashboardTaskLog = ({
         );
         if (responseSalesList.statusText === "OK") {
           setSalesList(responseSalesList.data);
-          console.log(responseSalesList.data);
         }
       } catch (error) {
         commonErrorCallback(error);
