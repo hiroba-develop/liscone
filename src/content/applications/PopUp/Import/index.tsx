@@ -182,8 +182,8 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
       bgcolor: "background.paper",
       boxShadow: 0,
       p: 20,
-      minWidth: 1400,
-      minHeight: 800,
+      minWidth: 1200,
+      minHeight: 600,
       width: "auto",
     };
     const editModalTitle = {
