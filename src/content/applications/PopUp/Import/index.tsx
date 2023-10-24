@@ -183,7 +183,7 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
       boxShadow: 0,
       p: 20,
       minWidth: 1400,
-      minHeight: 800,
+      minHeight: 600,
       width: "auto",
     };
     const editModalTitle = {
@@ -246,7 +246,7 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                 position: "absolute",
                 top: "50px",
                 left: "0",
-                maxHeight: "700px",
+                maxHeight: "480px",
                 width: "100%",
               }}
             >
