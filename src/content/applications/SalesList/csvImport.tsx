@@ -63,8 +63,8 @@ function CsvImport() {
         sheetDatas={sheetDatas}
       />
       <Grid container sx={{ my: 1 }}>
-        <Grid item xs={7.5} />
-        <Grid item xs={2.5}>
+        <Grid item xs={7} />
+        <Grid item xs={3}>
           <Button variant="contained" onClick={exportToExcel}>
             <FileDownloadIcon />
             　フォーマットダウンロード

@@ -197,6 +197,10 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
       pl: 2,
       fontSize: 20,
     };
+    if (importSourceData.length >= 10000) {
+      alert("インポートできるのは１万件までです。");
+      return null;
+    }
 
     return (
       <>
@@ -281,6 +285,7 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                     const isSheetDataListSelected = selectedSheetData.includes(
                       sheetDataList.No
                     );
+                    console.log(sheetDataList);
                     return (
                       <TableRow key={sheetDataList.No} hover>
                         <TableCell align="left">
@@ -315,15 +320,17 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                           </Typography>
                         </TableCell>
                         <TableCell align="left">
-                          <RadioGroup
-                            aria-labelledby="demo-controlled-radio-buttons-group"
-                            name="controlled-radio-buttons-group"
-                            value={value}
-                            onChange={(event) => handleChange(event, rowNo)}
-                          >
-                            {sheetDataList.corporateDatas.map(
-                              (corporateData) => {
-                                return (
+                          {sheetDataList.corporateDatas.map((corporateData) => {
+                            if (sheetDataList.corporateDatas.length === 1) {
+                              return (
+                                <RadioGroup
+                                  aria-labelledby="demo-controlled-radio-buttons-group"
+                                  name="controlled-radio-buttons-group"
+                                  defaultValue={corporateData.corporate_number}
+                                  onChange={(event) =>
+                                    handleChange(event, rowNo)
+                                  }
+                                >
                                   <Stack>
                                     <FormControlLabel
                                       value={corporateData.corporate_number}
@@ -331,10 +338,29 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                                       label=""
                                     />
                                   </Stack>
-                                );
-                              }
-                            )}
-                          </RadioGroup>
+                                </RadioGroup>
+                              );
+                            } else {
+                              return (
+                                <RadioGroup
+                                  aria-labelledby="demo-controlled-radio-buttons-group"
+                                  name="controlled-radio-buttons-group"
+                                  value={value}
+                                  onChange={(event) =>
+                                    handleChange(event, rowNo)
+                                  }
+                                >
+                                  <Stack>
+                                    <FormControlLabel
+                                      value={corporateData.corporate_number}
+                                      control={<Radio sx={{ my: -1 }} />}
+                                      label=""
+                                    />
+                                  </Stack>
+                                </RadioGroup>
+                              );
+                            }
+                          })}
                         </TableCell>
                         <TableCell align="left">
                           <Typography

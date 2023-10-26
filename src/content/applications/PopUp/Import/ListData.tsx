@@ -60,6 +60,43 @@ const Import = ({ importPopOpen, setImportPopOpen, sheetDatas }) => {
 
           if (responseImports.statusText === "OK") {
             dataObject.corporateDatas = responseImports.data;
+            if (
+              dataObject.capitalStock !== undefined &&
+              dataObject.capitalStock !== ""
+            ) {
+              dataObject.capitalStock = parseInt(dataObject.capitalStock);
+            }
+            if (
+              dataObject.employeeNumber !== undefined &&
+              dataObject.employeeNumber !== ""
+            ) {
+              dataObject.employeeNumber = parseInt(dataObject.employeeNumber);
+            }
+            if (
+              dataObject.establishmentYear !== undefined &&
+              dataObject.establishmentYear !== ""
+            ) {
+              dataObject.establishmentYear = parseInt(
+                dataObject.establishmentYear
+              );
+            }
+            if (
+              dataObject.salesAmount !== undefined &&
+              dataObject.salesAmount !== ""
+            ) {
+              dataObject.salesAmount = parseInt(dataObject.salesAmount);
+            }
+            console.log(dataObject);
+
+            if (
+              Number.isNaN(dataObject.capitalStock) ||
+              Number.isNaN(dataObject.employeeNumber) ||
+              Number.isNaN(dataObject.establishmentYear) ||
+              Number.isNaN(dataObject.salesAmount)
+            ) {
+              alert("売上、従業員数、設立、資本金は数字のみ入力可能です。");
+              return null;
+            }
           }
         } catch (error) {
           commonErrorCallback(error);

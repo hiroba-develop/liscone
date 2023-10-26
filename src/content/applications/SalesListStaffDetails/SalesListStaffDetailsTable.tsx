@@ -118,7 +118,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
         key === "staff_profile_link"
       ) {
         if (title === 0 && key === "corporation_corporation_name") {
-          csvRow = `corporation_name,job_position,staff_name,profile_source_type,profile_link\n"${value}"`;
+          csvRow = `corporation_name,staff_name,job_position,profile_source_type,profile_link\n"${value}"`;
           csvRows.push(csvRow);
         } else {
           csvRow = `"${value}"`;
