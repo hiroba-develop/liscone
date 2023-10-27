@@ -51,9 +51,8 @@ const Import = ({ importPopOpen, setImportPopOpen, sheetDatas }) => {
       // フィルター後のデータを処理
       for (const dataObject of filteredSheetDataObjects) {
         console.log(dataObject);
-        let zipCodeHead3Digits = "";
         if (dataObject.zipCode !== undefined && dataObject.zipCode !== "") {
-          zipCodeHead3Digits = dataObject.zipCode.substring(0, 3);
+          dataObject.zipCode = dataObject.zipCode.substring(0, 3);
         }
         try {
           const responseImports = await axios.get(
@@ -63,7 +62,7 @@ const Import = ({ importPopOpen, setImportPopOpen, sheetDatas }) => {
                 corporateNumber: dataObject.corporateNumber,
                 homePage: dataObject.homePage,
                 corporationName: dataObject.corporationName,
-                zipCode: zipCodeHead3Digits,
+                zipCode: dataObject.zipCode,
               },
             }
           );
