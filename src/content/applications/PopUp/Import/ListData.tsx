@@ -43,9 +43,18 @@ const Import = ({ importPopOpen, setImportPopOpen, sheetDatas }) => {
 
   const [importData, setImportData] = useState([]);
   useEffect(() => {
+    if (filteredSheetDataObjects.length >= 10000) {
+      alert("インポートできるのは１万件までです。");
+      return null;
+    }
     const fetchData = async () => {
       // フィルター後のデータを処理
       for (const dataObject of filteredSheetDataObjects) {
+        console.log(dataObject);
+        let zipCodeHead3Digits = "";
+        if (dataObject.zipCode !== undefined && dataObject.zipCode !== "") {
+          zipCodeHead3Digits = dataObject.zipCode.substring(0, 3);
+        }
         try {
           const responseImports = await axios.get(
             `${config().apiUrl}/corporations/searchImport`,
@@ -54,6 +63,7 @@ const Import = ({ importPopOpen, setImportPopOpen, sheetDatas }) => {
                 corporateNumber: dataObject.corporateNumber,
                 homePage: dataObject.homePage,
                 corporationName: dataObject.corporationName,
+                zipCode: zipCodeHead3Digits,
               },
             }
           );
@@ -86,7 +96,6 @@ const Import = ({ importPopOpen, setImportPopOpen, sheetDatas }) => {
             ) {
               dataObject.salesAmount = parseInt(dataObject.salesAmount);
             }
-            console.log(dataObject);
 
             if (
               Number.isNaN(dataObject.capitalStock) ||
