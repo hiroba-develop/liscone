@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Button, Input } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import * as XLSX from "xlsx";
@@ -26,30 +26,7 @@ function csvImport() {
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    XLSX.writeFile(wb, `company_list_format.xlsx`);
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const data = e.target.result;
-      const workbook = XLSX.read(data, { type: "binary" });
-
-      // ワークブックのシートを取得
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-
-      // シートのデータを配列に変換
-      const sheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-      // ファイルのデータがsheetDataに格納されます
-      console.log(sheetData);
-      // ここでデータの加工などの処理を行います
-    };
-
-    reader.readAsBinaryString(file);
+    XLSX.writeFile(wb, `LisConneExcelFormat.xlsx`);
   };
 
   return (
@@ -63,15 +40,9 @@ function csvImport() {
           </Button>
         </Grid>
         <Grid item xs={2}>
-          <Button variant="contained" component="label">
+          <Button variant="contained">
             <FileUploadIcon />
             　Excelインポート
-            <Input
-              type="file"
-              inputProps={{ accept: ".xlsx" }}
-              onChange={handleFileChange}
-              sx={{ display: "none" }}
-            />
           </Button>
         </Grid>
       </Grid>
