@@ -28,8 +28,8 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
       ...prevValues,
       [rowNo]: event.target.value,
     }));
+    setValue(event.target.value);
   };
-
   const [selectCheck, setselectCheck] = useState({});
   const handleChangeCheck = (event, rowNo) => {
     setselectCheck((prevValues) => ({
@@ -38,133 +38,68 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
     }));
   };
 
-  const customKeys = [
-    "import_corporateNumber",
-    "import_corporationName",
-    "import_zipCode",
-    "import_address",
-    "import_representativePhoneNumber",
-    "import_representativeName",
-    "import_homePage",
-    "import_salesAmount",
-    "import_employeeNumber",
-    "import_establishmentYear",
-    "import_capitalStock",
-    "import_other",
-    "selectCorporateNumber",
-    "corporateCheck",
-  ];
-  const mergedImportDatas = importSourceData
+  const customKeys = ["rowNo", "corporateNumber", "corporateCheck", "other"];
+  const importIntermediateDatas = importSourceData
     .map((rowData) => {
       const obj = {};
-      customKeys.forEach((key) => {
-        switch (key) {
-          case "import_corporateNumber":
-            obj[key] = rowData.corporateNumber;
-            break;
-          case "import_corporationName":
-            obj[key] = rowData.corporationName;
-            break;
-          case "import_zipCode":
-            obj[key] = rowData.zipCode;
-            break;
-          case "import_address":
-            obj[key] = rowData.address;
-            break;
-          case "import_representativePhoneNumber":
-            obj[key] = rowData.representativePhoneNumber;
-            break;
-          case "import_representativeName":
-            obj[key] = rowData.representativeName;
-            break;
-          case "import_homePage":
-            obj[key] = rowData.homePage;
-            break;
-          case "import_salesAmount":
-            obj[key] = rowData.salesAmount;
-            break;
-          case "import_employeeNumber":
-            obj[key] = rowData.employeeNumber;
-            break;
-          case "import_establishmentYear":
-            obj[key] = rowData.establishmentYear;
-            break;
-          case "import_capitalStock":
-            obj[key] = rowData.capitalStock;
-            break;
-          case "import_other":
-            obj[key] = rowData.other;
-            break;
-          case "selectCorporateNumber":
-            obj[key] = selectValue[rowData.No];
-            break;
-          case "corporateCheck":
-            obj[key] = selectCheck[rowData.No];
-            break;
+      for (let i = 0; i < customKeys.length; i++) {
+        const key = customKeys[i];
+        if (key === "rowNo") {
+          obj[key] = rowData.No;
         }
-      });
+        if (key === "corporateNumber") {
+          obj[key] = selectValue[rowData.No];
+        }
+        if (key === "corporateCheck") {
+          obj[key] = selectCheck[rowData.No];
+        }
+        if (key === "other") {
+          obj[key] = rowData.other;
+        }
+      }
       return obj;
     })
     .filter(
       (item) =>
-        item.corporateCheck === true && item.selectCorporateNumber !== undefined
+        item.corporateCheck === true && item.corporateNumber !== undefined
     );
 
   const editImportDatas = [];
-  for (const importIntermediateData of mergedImportDatas) {
+  for (const importIntermediateData of importIntermediateDatas) {
+    const corporateNumber = importIntermediateData.corporateNumber;
+    const memo = importIntermediateData.other;
+
     // 指定の corporation_id に一致する corporateDatas を取得
     const foundCorporateDatas = importSourceData
       .map((element) => element.corporateDatas || [])
       .flat()
-      .filter(
-        (data) =>
-          data.corporation_id === importIntermediateData.selectCorporateNumber
-      );
+      .filter((data) => data.corporation_id === corporateNumber);
 
-    // プロパティを追加
+    // memo プロパティを追加
     foundCorporateDatas.forEach((data) => {
-      data.import_zipCode = importIntermediateData.import_zipCode;
-      data.import_address = importIntermediateData.import_address;
-      data.import_representativePhoneNumber =
-        importIntermediateData.import_representativePhoneNumber;
-      data.import_representativeName =
-        importIntermediateData.import_representativeName;
-      data.import_homePage = importIntermediateData.import_homePage;
-      data.import_salesAmount = parseInt(
-        importIntermediateData.import_salesAmount
-      );
-      data.import_employeeNumber = parseInt(
-        importIntermediateData.import_employeeNumber
-      );
-      data.import_establishmentYear = parseInt(
-        importIntermediateData.import_establishmentYear
-      );
-      data.import_capitalStock = parseInt(
-        importIntermediateData.import_capitalStock
-      );
-      data.import_other = importIntermediateData.import_other;
+      data.memo = memo;
     });
 
     // 配列に結果を追加
     editImportDatas.push(...foundCorporateDatas);
   }
-
   function removeCorporateNumber(data) {
     // 各オブジェクトからcorporate_numberを削除
     const result = data.map((obj) => {
       const { corporate_number, ...rest } = obj;
       return rest;
     });
+
     return result;
   }
-
   // corporate_numberを削除した結果を表示
   const editImportData = removeCorporateNumber(editImportDatas);
+  console.log(editImportData);
 
   const [listCreateOpen, setListCreateOpen] = useState(false);
   const [salesListType, setsalesListType] = useState("");
 
-  const isChecked = mergedImportDatas.length > 0;
+  const isChecked = importIntermediateDatas.length > 0;
   const disabled = !isChecked;
   const editListCreateOpen = () => {
     setsalesListType("03");
@@ -327,7 +262,7 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                                   <Stack>
                                     <FormControlLabel
                                       value={corporateData.corporate_number}
-                                      control={<Radio sx={{ my: -1 }} />}
+                                      control={<Radio sx={{ my: -0.3 }} />}
                                       label=""
                                     />
                                   </Stack>
@@ -346,15 +281,47 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                           >
                             {sheetDataList.corporateDatas.map(
                               (corporateData) => {
-                                if (corporateData.corporation_name) {
-                                  return (
-                                    <Stack sx={{ my: 0.5 }}>
-                                      {corporateData.corporation_name}
-                                    </Stack>
-                                  );
-                                } else {
-                                  return <Stack sx={{ my: 0.5 }}>　</Stack>;
-                                }
+                                return (
+                                  <Stack sx={{ my: 2 }}>
+                                    {corporateData.corporation_name}
+                                  </Stack>
+                                );
+                              }
+                            )}
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="left">
+                          {sheetDataList.corporateDatas.map((corporateData) => {
+                            return (
+                              <Typography
+                                variant="body1"
+                                fontWeight="bold"
+                                color="text.primary"
+                                gutterBottom
+                                noWrap
+                              >
+                                <Stack sx={{ my: 1.8 }}>
+                                  {corporateData.business_category}
+                                </Stack>
+                              </Typography>
+                            );
+                          })}
+                        </TableCell>
+                        <TableCell align="left">
+                          <Typography
+                            variant="body1"
+                            fontWeight="bold"
+                            color="text.primary"
+                            gutterBottom
+                            noWrap
+                          >
+                            {sheetDataList.corporateDatas.map(
+                              (corporateData) => {
+                                return (
+                                  <Stack sx={{ my: 1.8 }}>
+                                    {corporateData.home_page}
+                                  </Stack>
+                                );
                               }
                             )}
                           </Typography>
@@ -369,15 +336,11 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                           >
                             {sheetDataList.corporateDatas.map(
                               (corporateData) => {
-                                if (corporateData.business_category) {
-                                  return (
-                                    <Stack sx={{ my: 0.5 }}>
-                                      {corporateData.business_category}
-                                    </Stack>
-                                  );
-                                } else {
-                                  return <Stack sx={{ my: 0.5 }}>　</Stack>;
-                                }
+                                return (
+                                  <Stack sx={{ my: 1.8 }}>
+                                    {corporateData.address}
+                                  </Stack>
+                                );
                               }
                             )}
                           </Typography>
@@ -392,15 +355,11 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                           >
                             {sheetDataList.corporateDatas.map(
                               (corporateData) => {
-                                if (corporateData.home_page) {
-                                  return (
-                                    <Stack sx={{ my: 0.5 }}>
-                                      {corporateData.home_page}
-                                    </Stack>
-                                  );
-                                } else {
-                                  return <Stack sx={{ my: 0.5 }}>　</Stack>;
-                                }
+                                return (
+                                  <Stack sx={{ my: 1.8 }}>
+                                    {corporateData.representative_phone_number}
+                                  </Stack>
+                                );
                               }
                             )}
                           </Typography>
@@ -415,63 +374,11 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                           >
                             {sheetDataList.corporateDatas.map(
                               (corporateData) => {
-                                if (corporateData.address) {
-                                  return (
-                                    <Stack sx={{ my: 0.5 }}>
-                                      {corporateData.address}
-                                    </Stack>
-                                  );
-                                } else {
-                                  return <Stack sx={{ my: 0.5 }}>　</Stack>;
-                                }
-                              }
-                            )}
-                          </Typography>
-                        </TableCell>
-                        <TableCell align="left">
-                          <Typography
-                            variant="body1"
-                            fontWeight="bold"
-                            color="text.primary"
-                            gutterBottom
-                            noWrap
-                          >
-                            {sheetDataList.corporateDatas.map(
-                              (corporateData) => {
-                                if (corporateData.representative_phone_number) {
-                                  return (
-                                    <Stack sx={{ my: 0.5 }}>
-                                      {
-                                        corporateData.representative_phone_number
-                                      }
-                                    </Stack>
-                                  );
-                                } else {
-                                  return <Stack sx={{ my: 0.5 }}>　</Stack>;
-                                }
-                              }
-                            )}
-                          </Typography>
-                        </TableCell>
-                        <TableCell align="left">
-                          <Typography
-                            variant="body1"
-                            fontWeight="bold"
-                            color="text.primary"
-                            gutterBottom
-                            noWrap
-                          >
-                            {sheetDataList.corporateDatas.map(
-                              (corporateData) => {
-                                if (corporateData.corporate_number) {
-                                  return (
-                                    <Stack sx={{ my: 0.5 }}>
-                                      {corporateData.corporate_number}
-                                    </Stack>
-                                  );
-                                } else {
-                                  return <Stack sx={{ my: 0.5 }}>　</Stack>;
-                                }
+                                return (
+                                  <Stack sx={{ my: 1.8 }}>
+                                    {corporateData.corporate_number}
+                                  </Stack>
+                                );
                               }
                             )}
                           </Typography>
