@@ -17,7 +17,7 @@ import {
   RadioGroup,
   FormControlLabel,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ListCreate from "../ListCreate";
 
 const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
@@ -36,21 +36,7 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
       ...prevValues,
       [rowNo]: event.target.checked,
     }));
-    console.log(selectCheck);
   };
-  useEffect(() => {
-    const newSelectCheck = {};
-    importSourceData.forEach((sheetDataList) => {
-      const rowNo = sheetDataList.No;
-      if (sheetDataList.corporateDatas.length === 1) {
-        newSelectCheck[rowNo] = true;
-      }
-    });
-    setselectCheck((prevValues) => ({
-      ...prevValues,
-      ...newSelectCheck,
-    }));
-  }, [importSourceData]);
 
   const customKeys = [
     "import_corporateNumber",
@@ -211,6 +197,11 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
       pl: 2,
       fontSize: 20,
     };
+    if (importSourceData.length >= 10000) {
+      alert("インポートできるのは１万件までです。");
+      return null;
+    }
+
     return (
       <>
         <ListCreate
@@ -294,6 +285,7 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                     const isSheetDataListSelected = selectedSheetData.includes(
                       sheetDataList.No
                     );
+                    console.log(sheetDataList);
                     return (
                       <TableRow key={sheetDataList.No} hover>
                         <TableCell align="left">
@@ -308,24 +300,13 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                           </Typography>
                         </TableCell>
                         <TableCell padding="checkbox">
-                          {sheetDataList.corporateDatas.length === 1 ? (
-                            <Checkbox
-                              color="primary"
-                              value={isSheetDataListSelected}
-                              defaultChecked
-                              onChange={(event) =>
-                                handleChangeCheck(event, rowNo)
-                              }
-                            />
-                          ) : (
-                            <Checkbox
-                              color="primary"
-                              value={isSheetDataListSelected}
-                              onChange={(event) =>
-                                handleChangeCheck(event, rowNo)
-                              }
-                            />
-                          )}
+                          <Checkbox
+                            color="primary"
+                            value={isSheetDataListSelected}
+                            onChange={(event) =>
+                              handleChangeCheck(event, rowNo)
+                            }
+                          />
                         </TableCell>
                         <TableCell align="left">
                           <Typography
@@ -339,23 +320,47 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                           </Typography>
                         </TableCell>
                         <TableCell align="left">
-                          <RadioGroup
-                            aria-labelledby="demo-controlled-radio-buttons-group"
-                            name="controlled-radio-buttons-group"
-                            value={value}
-                            onChange={(event) => handleChange(event, rowNo)}
-                          >
-                            {sheetDataList.corporateDatas.map(
-                              (corporateData) => (
-                                <FormControlLabel
-                                  key={corporateData.corporate_number}
-                                  value={corporateData.corporate_number}
-                                  control={<Radio sx={{ my: -1 }} />}
-                                  label=""
-                                />
-                              )
-                            )}
-                          </RadioGroup>
+                          {sheetDataList.corporateDatas.map((corporateData) => {
+                            if (sheetDataList.corporateDatas.length === 1) {
+                              return (
+                                <RadioGroup
+                                  aria-labelledby="demo-controlled-radio-buttons-group"
+                                  name="controlled-radio-buttons-group"
+                                  defaultValue={corporateData.corporate_number}
+                                  onChange={(event) =>
+                                    handleChange(event, rowNo)
+                                  }
+                                >
+                                  <Stack>
+                                    <FormControlLabel
+                                      value={corporateData.corporate_number}
+                                      control={<Radio sx={{ my: -1 }} />}
+                                      label=""
+                                    />
+                                  </Stack>
+                                </RadioGroup>
+                              );
+                            } else {
+                              return (
+                                <RadioGroup
+                                  aria-labelledby="demo-controlled-radio-buttons-group"
+                                  name="controlled-radio-buttons-group"
+                                  value={value}
+                                  onChange={(event) =>
+                                    handleChange(event, rowNo)
+                                  }
+                                >
+                                  <Stack>
+                                    <FormControlLabel
+                                      value={corporateData.corporate_number}
+                                      control={<Radio sx={{ my: -1 }} />}
+                                      label=""
+                                    />
+                                  </Stack>
+                                </RadioGroup>
+                              );
+                            }
+                          })}
                         </TableCell>
                         <TableCell align="left">
                           <Typography
