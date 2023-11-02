@@ -246,7 +246,7 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
                 position: "absolute",
                 top: "50px",
                 left: "0",
-                maxHeight: "480px",
+                maxHeight: "700px",
                 width: "100%",
               }}
             >
