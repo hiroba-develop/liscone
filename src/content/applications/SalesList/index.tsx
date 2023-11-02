@@ -3,7 +3,6 @@ import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 
 import ListData from "./ListData";
-import CSVImport from "./csvImport";
 
 function Lists() {
   return (
@@ -12,14 +11,12 @@ function Lists() {
         <title>リスト一覧</title>
       </Helmet>
       <Container maxWidth="lg">
-        <Grid sx={{ mt: 2 }}>
-          <CSVImport />
-        </Grid>
         <Grid
           container
           direction="row"
           justifyContent="center"
           alignItems="stretch"
+          sx={{ mt: 1 }}
           spacing={3}
         >
           <Grid item xs={16}>
