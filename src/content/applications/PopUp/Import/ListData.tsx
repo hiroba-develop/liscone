@@ -47,7 +47,7 @@ const Import = ({ importPopOpen, setImportPopOpen, sheetDatas }) => {
     const fetchData = async () => {
       // フィルター後のデータを処理
       for (const dataObject of sheetDataObjects) {
-        if (dataObject.zipCode !== undefined && dataObject.zipCode !== "") {
+        if (dataObject.zipCode !== undefined || dataObject.zipCode !== "") {
           dataObject.zipCode = dataObject.zipCode.substring(0, 3);
         }
         console.log(dataObject.corporationName);
