@@ -182,7 +182,7 @@ const Import = ({ importPopOpen, setImportPopOpen, importSourceData }) => {
       bgcolor: "background.paper",
       boxShadow: 0,
       p: 20,
-      minWidth: 1400,
+      minWidth: 1200,
       minHeight: 600,
       width: "auto",
     };
