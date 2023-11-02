@@ -179,7 +179,7 @@ const SalesLists: FC<SalesListsProps> = ({
     {
       field: "transaction_status",
       headerName: "取引ステータス",
-      width: 150,
+      width: 80,
       valueGetter: (params) => params.row.transaction_status,
       align: "center",
       renderCell: (params) => {
