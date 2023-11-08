@@ -125,7 +125,7 @@ function Search(props) {
               <TextField {...params} size="small" label="リスト" />
             )}
             onChange={salesListNameChange}
-            clearIcon={null}
+            
           />
         </Grid>
         <Grid item xs={2}>
@@ -147,7 +147,7 @@ function Search(props) {
               <TextField {...params} size="small" label="ユーザー" />
             )}
             onChange={(option) => memberNameChange(option)}
-            clearIcon={null}
+            
           />
         </Grid>
         <Grid item xs={2}>
@@ -163,7 +163,7 @@ function Search(props) {
               />
             )}
             onChange={executeBigResultChange}
-            clearIcon={null}
+            
           />
         </Grid>
 
@@ -180,7 +180,7 @@ function Search(props) {
               />
             )}
             onChange={executeSmallResultChange}
-            clearIcon={null}
+            
           />
         </Grid>
         <Grid item xs={5} sx={{ mt: -2 }}>

@@ -58,7 +58,7 @@ function Search(props) {
               style={{ width: 200, marginTop: 10 }}
               renderInput={(params) => <TextField {...params} size="small" />}
               onChange={(option) => staffNameChange(option)}
-              clearIcon={null}
+              
             />
           </Grid>
           <Grid item xs={6}>
@@ -122,7 +122,7 @@ function Search(props) {
               style={{ width: 200, marginTop: 10 }}
               renderInput={(params) => <TextField {...params} size="small" />}
               onChange={statusChange}
-              clearIcon={null}
+              
             />
           </Grid>
         </Grid>
