@@ -42,6 +42,10 @@ function Lists() {
     return null;
   }
 
+  const handleWebpage = (event, params) => {
+    window.open(params, "_blank");
+  };
+
   return (
     <>
       <Helmet>
@@ -120,6 +124,10 @@ function Lists() {
             sx={{
               fontSize: 16,
               ml: 1,
+              textDecoration: "underline",
+            }}
+            onClick={(event) => {
+              handleWebpage(event, corporationList.corporationEntity.home_page);
             }}
           >
             {corporationList.corporationEntity.home_page}
