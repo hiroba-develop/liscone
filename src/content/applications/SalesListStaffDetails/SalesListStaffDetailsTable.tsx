@@ -129,6 +129,18 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
     return csvRows;
   }
 
+  const handleCorpNameEvent = (staffList, salesList, salesStatistic) => {
+    // 子ウィンドウを開く
+    const popup = window.open("/salesTask/staffDetails2", "_blank");
+
+    // 子ウィンドウにメッセージを送信
+    popup.onload = () =>
+      popup.postMessage(
+        [staffList, salesList, salesStatistic],
+        window.location.origin
+      );
+  };
+
   return (
     <Card>
       <CardHeader
@@ -168,11 +180,13 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       color="text.primary"
                       gutterBottom
                       noWrap
-                      onClick={() =>
-                        navigate("/salesTask/staffDetails2", {
-                          state: [staffList, salesList, salesStatistic],
-                        })
-                      }
+                      onClick={(event) => {
+                        handleCorpNameEvent(
+                          staffList,
+                          salesList,
+                          salesStatistic
+                        );
+                      }}
                       sx={{ textDecoration: "underline" }}
                     >
                       {staffList.corporation_corporation_name}

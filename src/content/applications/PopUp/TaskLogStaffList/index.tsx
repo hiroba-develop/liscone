@@ -116,7 +116,8 @@ const TaskLogStaffList = ({
       onSuccess: (data) => {
         alert("登録完了しました");
         setTaskLogOpen(false);
-        window.location.reload();
+        // window.location.reload();
+        window.close();
       },
       onError: (error) => {
         alert("エラーが発生しました");

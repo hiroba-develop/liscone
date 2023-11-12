@@ -2,7 +2,6 @@ import { Box, Card, Typography, CardHeader, Button } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import PropTypes from "prop-types";
 import { FC } from "react";
-import { useNavigate } from "react-router-dom";
 import Label from "src/components/Label";
 import {
   CorporationListStatus,
@@ -13,7 +12,6 @@ import { SalesListStatistic } from "src/models/sales_list_statistic";
 import { CODE } from "src/utility/constants/Code";
 import { renderCellExpand } from "src/utility/renderexpand";
 import AddIcon from "@mui/icons-material/Add";
-import CorporationLists from "../CorporationList/CorporationListsTable";
 
 interface SalesListsProps {
   className?: string;
@@ -189,12 +187,17 @@ const SalesLists: FC<SalesListsProps> = ({
       },
     },
   ];
-  const navigate = useNavigate();
 
   const handleCorpNameEvent = (event, corporationList) => {
-    navigate("/salesTask/corporationDetails2", {
-      state: [corporationList.row, salesList, salesStatistic],
-    });
+    // 子ウィンドウを開く
+    const popup = window.open("/salesTask/corporationDetails2", "_blank");
+
+    // 子ウィンドウにメッセージを送信
+    popup.onload = () =>
+      popup.postMessage(
+        [corporationList.row, salesList, salesStatistic],
+        window.location.origin
+      );
   };
 
   // csvダウンロード

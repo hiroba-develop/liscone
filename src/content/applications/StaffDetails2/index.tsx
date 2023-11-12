@@ -1,25 +1,44 @@
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, Container, IconButton, Typography } from "@mui/material";
 import { Helmet } from "react-helmet-async";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
-import { SalesList } from "src/models/sales_list";
-import { SalesListStaff } from "src/models/sales_list_staff";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
 import SalesCorpInfo from "./SalesStaffInfo";
 import StaffDetails2ListData from "./StaffDetails2ListData";
 import StaffDetails2ReferenceListData from "./StaffDetails2ReferenceListData";
-import { SalesListStatistic } from "src/models/sales_list_statistic";
+import { useState, useEffect } from "react";
 
 function Lists() {
+  const [staffList, setStaffList] = useState(undefined);
+  const [salesList, setSalesList] = useState(undefined);
+  const [salesListStatistic, setSalesListStatistic] = useState(undefined);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const [staffList, salesList, salesListStatistic] = location.state as [
-    SalesListStaff,
-    SalesList,
-    SalesListStatistic
-  ];
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data[0]) {
+        setStaffList(event.data[0]);
+      }
+      if (event.data[1]) {
+        setSalesList(event.data[1]);
+      }
+      if (event.data[2]) {
+        setSalesListStatistic(event.data[2]);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      // コンポーネントがアンマウントされる際にイベントリスナーをクリーンアップ
+      window.removeEventListener("message", handleMessage);
+    };
+  }, [staffList, salesList, salesListStatistic]);
+
+  if (!staffList || !salesList || !salesListStatistic) {
+    return null;
+  }
 
   return (
     <>
