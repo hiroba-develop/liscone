@@ -77,6 +77,7 @@ function StaffLists(props) {
       );
     }
   }, [props.searchSearchClick]);
+  console.log(staffLists);
 
   return (
     <Card>

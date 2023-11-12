@@ -141,6 +141,10 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
       );
   };
 
+  const handleWebpage = (event, params) => {
+    window.open(params, "_blank");
+  };
+
   return (
     <Card>
       <CardHeader
@@ -167,6 +171,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
               <TableCell align="left">氏名</TableCell>
               <TableCell align="left">アカウントソース</TableCell>
               <TableCell align="left">プロフィールリンク</TableCell>
+              <TableCell align="left">メモ</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -232,8 +237,23 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       color="text.primary"
                       gutterBottom
                       noWrap
+                      sx={{ textDecoration: "underline" }}
+                      onClick={(event) => {
+                        handleWebpage(event, staffList.staff_profile_link);
+                      }}
                     >
                       {staffList.staff_profile_link}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {staffList.staff_other_information}
                     </Typography>
                   </TableCell>
                 </TableRow>

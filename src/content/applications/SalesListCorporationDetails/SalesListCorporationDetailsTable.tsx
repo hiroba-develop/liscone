@@ -114,14 +114,19 @@ const SalesLists: FC<SalesListsProps> = ({
       headerName: "Webサイト",
       width: 200,
       valueGetter: (params) => params.row.corporationEntity.home_page,
-
-      // renderCell: (params) => {
-      //   return (
-      //     <a href="{params.row.value}" target="_blank">
-      //       {params.value}
-      //     </a>
-      //   );
-      // },
+      renderCell: (params) => {
+        return (
+          <Typography
+            fontWeight="bold"
+            sx={{ textDecoration: "underline" }}
+            onClick={(event) => {
+              handleWebpage(event, params);
+            }}
+          >
+            {params.value}
+          </Typography>
+        );
+      },
     },
     {
       field: "sales_amount",
@@ -198,6 +203,9 @@ const SalesLists: FC<SalesListsProps> = ({
         [corporationList.row, salesList, salesStatistic],
         window.location.origin
       );
+  };
+  const handleWebpage = (event, params) => {
+    window.open(params.value, "_blank");
   };
 
   // csvダウンロード

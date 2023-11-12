@@ -45,6 +45,9 @@ const StaffLists: FC<StaffListsProps> = ({ localeTextValue, staffLists }) => {
       state: staffList.row,
     });
   };
+  const handleprofileLink = (event, params) => {
+    window.open(params.value, "_blank");
+  };
 
   // DATAGRID
   const columns: GridColDef[] = [
@@ -58,7 +61,7 @@ const StaffLists: FC<StaffListsProps> = ({ localeTextValue, staffLists }) => {
     {
       field: "staff_name",
       headerName: "氏名",
-      flex: 1,
+      flex: 2,
       renderCell: (params) => {
         return (
           <Typography
@@ -78,7 +81,29 @@ const StaffLists: FC<StaffListsProps> = ({ localeTextValue, staffLists }) => {
       headerName: "アカウントソース",
       flex: 1.5,
     },
-    { field: "profile_link", headerName: "プロフィールリンク", flex: 4 },
+    {
+      field: "profile_link",
+      headerName: "プロフィールリンク",
+      flex: 4,
+      renderCell: (params) => {
+        return (
+          <Typography
+            fontWeight="bold"
+            sx={{ textDecoration: "underline" }}
+            onClick={(event) => {
+              handleprofileLink(event, params);
+            }}
+          >
+            {params.value}
+          </Typography>
+        );
+      },
+    },
+    {
+      field: "other_information",
+      headerName: "メモ",
+      flex: 2,
+    },
   ];
 
   return (
