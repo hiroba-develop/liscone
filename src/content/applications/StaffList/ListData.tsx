@@ -8,27 +8,92 @@ import { config } from "src/utility/config/AppConfig";
 function StaffLists(props) {
   const [staffLists, setStaffs] = useState<StaffList[]>([]);
   const [localeTextValue, setLocaleTextValue] = useState<string>("");
+  // 正規表現でスペースまたは全角スペースで分割して配列に変換
+  const searchJobPositionArray = props.searchJobPosition.split(/\s+/);
+  let searchJobPosition1 = "";
+  let searchJobPosition2 = "";
+  let searchJobPosition3 = "";
+  let searchJobPosition4 = "";
+  let searchJobPosition5 = "";
+  if (searchJobPositionArray[0] !== undefined) {
+    searchJobPosition1 = searchJobPositionArray[0];
+  }
+  if (searchJobPositionArray[1] !== undefined) {
+    searchJobPosition2 = searchJobPositionArray[1];
+  }
+  if (searchJobPositionArray[2] !== undefined) {
+    searchJobPosition3 = searchJobPositionArray[2];
+  }
+  if (searchJobPositionArray[3] !== undefined) {
+    searchJobPosition4 = searchJobPositionArray[3];
+  }
+  if (searchJobPositionArray[4] !== undefined) {
+    searchJobPosition5 = searchJobPositionArray[4];
+  }
+
+  const searchDepartmentArray = props.searchDepartment.split(/\s+/);
+  let searchDepartment1 = "";
+  let searchDepartment2 = "";
+  let searchDepartment3 = "";
+  let searchDepartment4 = "";
+  let searchDepartment5 = "";
+  if (searchDepartmentArray[0] !== undefined) {
+    searchDepartment1 = searchDepartmentArray[0];
+  }
+  if (searchJobPositionArray[1] !== undefined) {
+    searchDepartment2 = searchDepartmentArray[1];
+  }
+  if (searchJobPositionArray[2] !== undefined) {
+    searchDepartment3 = searchDepartmentArray[2];
+  }
+  if (searchJobPositionArray[3] !== undefined) {
+    searchDepartment4 = searchDepartmentArray[3];
+  }
+  if (searchJobPositionArray[4] !== undefined) {
+    searchDepartment5 = searchDepartmentArray[4];
+  }
+  const searchCorporationName =
+    props.searchCorporationName.trim() === ""
+      ? ""
+      : props.searchCorporationName;
+  const searchJobPosition =
+    props.searchJobPosition.trim() === "" ? "" : props.searchJobPosition;
+  const searchDepartment =
+    props.searchDepartment.trim() === "" ? "" : props.searchDepartment;
+  const searchStaffName =
+    props.searchStaffName.trim() === "" ? "" : props.searchStaffName;
 
   useEffect(() => {
     if (props.searchSearchClick === 1) {
       setStaffs([]);
       if (
-        props.searchCorporationName !== "" ||
-        props.searchJobPosition !== "" ||
-        props.searchProfileSourceType !== "" ||
-        props.searchStaffName !== ""
+        searchCorporationName !== "" ||
+        searchJobPosition !== "" ||
+        searchDepartment !== "" ||
+        props.searchProfileSourceType !== undefined ||
+        searchStaffName !== ""
       ) {
         setLocaleTextValue("検索中です。");
+
         const getCorporations = async () => {
           try {
             const responseCount = await axios.get(
               `${config().apiUrl}/corporationstaffs/searchChickCount`,
               {
                 params: {
-                  searchCorporationName: props.searchCorporationName,
-                  searchJobPosition: props.searchJobPosition,
+                  searchCorporationName: searchCorporationName,
+                  searchJobPosition1: searchJobPosition1,
+                  searchJobPosition2: searchJobPosition2,
+                  searchJobPosition3: searchJobPosition3,
+                  searchJobPosition4: searchJobPosition4,
+                  searchJobPosition5: searchJobPosition5,
+                  searchDepartment1: searchDepartment1,
+                  searchDepartment2: searchDepartment2,
+                  searchDepartment3: searchDepartment3,
+                  searchDepartment4: searchDepartment4,
+                  searchDepartment5: searchDepartment5,
                   searchProfileSourceType: props.searchProfileSourceType,
-                  searchStaffName: props.searchStaffName,
+                  searchStaffName: searchStaffName,
                 },
               }
             );
@@ -41,10 +106,19 @@ function StaffLists(props) {
                   `${config().apiUrl}/corporationstaffs/searchChick`,
                   {
                     params: {
-                      searchCorporationName: props.searchCorporationName,
-                      searchJobPosition: props.searchJobPosition,
+                      searchCorporationName: searchCorporationName,
+                      searchJobPosition1: searchJobPosition1,
+                      searchJobPosition2: searchJobPosition2,
+                      searchJobPosition3: searchJobPosition3,
+                      searchJobPosition4: searchJobPosition4,
+                      searchJobPosition5: searchJobPosition5,
+                      searchDepartment1: searchDepartment1,
+                      searchDepartment2: searchDepartment2,
+                      searchDepartment3: searchDepartment3,
+                      searchDepartment4: searchDepartment4,
+                      searchDepartment5: searchDepartment5,
                       searchProfileSourceType: props.searchProfileSourceType,
-                      searchStaffName: props.searchStaffName,
+                      searchStaffName: searchStaffName,
                     },
                   }
                 );
@@ -77,7 +151,6 @@ function StaffLists(props) {
       );
     }
   }, [props.searchSearchClick]);
-  console.log(staffLists);
 
   return (
     <Card>

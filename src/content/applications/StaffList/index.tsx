@@ -8,22 +8,27 @@ import RecentOrders from "./ListData";
 import Search from "./Search";
 
 function DashBoard() {
-  // 企業名
+  // 法人名
   const [corporationName, setCorporationName] = useState("");
   const corporationNameChange = (corporationName) => {
     setCorporationName(corporationName);
   };
-  // 法人番号
+  // 役職
   const [jobPosition, setJobPosition] = useState("");
   const jobPositionChange = (jobPosition) => {
     setJobPosition(jobPosition);
   };
-  // リスト
+  // 部署
+  const [department, setDepartment] = useState("");
+  const departmentChange = (department) => {
+    setDepartment(department);
+  };
+  // ソース
   const [profileSourceType, setProfileSourceType] = useState("");
   const profileSourceTypeChange = (profileSourceType) => {
     setProfileSourceType(profileSourceType);
   };
-  // 担当者
+  // 担当者名
   const [staffName, setStaffName] = useState("");
   const staffNameChange = (staffName) => {
     setStaffName(staffName);
@@ -52,6 +57,7 @@ function DashBoard() {
               <Search
                 corporationNameChange={corporationNameChange}
                 jobPositionChange={jobPositionChange}
+                departmentChange={departmentChange}
                 profileSourceTypeChange={profileSourceTypeChange}
                 staffNameChange={staffNameChange}
                 searchClickChange={setSearchClickChange}
@@ -60,6 +66,7 @@ function DashBoard() {
             <RecentOrders
               searchCorporationName={corporationName}
               searchJobPosition={jobPosition}
+              searchDepartment={department}
               searchProfileSourceType={profileSourceType}
               searchStaffName={staffName}
               searchSearchClick={searchClick}

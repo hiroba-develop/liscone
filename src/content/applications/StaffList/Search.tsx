@@ -33,6 +33,13 @@ function Search(props) {
     const value = event.target.value;
     props.jobPositionChange(value);
   };
+  // 部署
+  const departmentChange = (event) => {
+    searchClickValue = 2;
+    props.searchClickChange(searchClickValue);
+    const value = event.target.value;
+    props.departmentChange(value);
+  };
   //リスト
   const profileSourceTypeChange = (event) => {
     searchClickValue = 2;
@@ -78,6 +85,14 @@ function Search(props) {
           />
         </Grid>
         <Grid item xs={2}>
+          <TextField
+            label="部署"
+            size="small"
+            sx={{ m: 1 }}
+            onChange={departmentChange}
+          />
+        </Grid>
+        <Grid item xs={2}>
           <Autocomplete
             disablePortal
             options={source}
@@ -85,7 +100,6 @@ function Search(props) {
             sx={{ m: 1 }}
             renderInput={(params) => <TextField {...params} label="ソース" />}
             onChange={profileSourceTypeChange}
-            
           />
         </Grid>
         <Grid item xs={2}>
