@@ -11,7 +11,6 @@ import { FC, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
 import Label from "src/components/Label";
 import {
   CorporationList,
@@ -83,13 +82,13 @@ const CorporationLists: FC<CorporationListsProps> = ({
   const [listCreateOpen, setListCreateOpen] = useState(false);
   const [salesListType, setsalesListType] = useState("");
 
-  // 체크된 아이템을 담을 배열
-  const navigate = useNavigate();
-
   const handleCorpNameEvent = (event, corporationList) => {
-    navigate("/corporation/corporationDetails1", {
-      state: corporationList.row,
-    });
+    // 子ウィンドウを開く
+    const popup = window.open("/corporation/corporationDetails1", "_blank");
+
+    // 子ウィンドウにメッセージを送信
+    popup.onload = () =>
+      popup.postMessage([corporationList.row], window.location.origin);
   };
 
   const isChecked = checkItems.length > 0;

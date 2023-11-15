@@ -9,7 +9,6 @@ import {
 import PropTypes from "prop-types";
 import { FC, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
 
 import AddIcon from "@mui/icons-material/Add";
 import { StaffList } from "src/models/staff_list";
@@ -39,11 +38,13 @@ const StaffLists: FC<StaffListsProps> = ({ localeTextValue, staffLists }) => {
   const isChecked = checkItems.length > 0;
   const disabled = !isChecked;
 
-  const navigate = useNavigate();
   const handlestaffListEvent = (event, staffList) => {
-    navigate("/staff/staffDetails1", {
-      state: staffList.row,
-    });
+    // 子ウィンドウを開く
+    const popup = window.open("/staff/staffDetails1", "_blank");
+
+    // 子ウィンドウにメッセージを送信
+    popup.onload = () =>
+      popup.postMessage([staffList.row], window.location.origin);
   };
   const handleprofileLink = (event, params) => {
     window.open(params.value, "_blank");

@@ -2,16 +2,33 @@ import { Container, Typography, Box, IconButton, Grid } from "@mui/material";
 import { Helmet } from "react-helmet-async";
 import Footer from "src/components/Footer";
 import CloseIcon from "@mui/icons-material/Close";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import StaffDetails1ListData from "./StaffDetails1ListData";
 import StaffDetails1ReferenceListData from "./StaffDetails1ReferenceListData";
-import { StaffList } from "src/models/staff_list";
+import { useState, useEffect } from "react";
 
 function Lists() {
   const navigate = useNavigate();
-  const location = useLocation();
+  const [staffList, setStaffList] = useState(undefined);
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data[0]) {
+        setStaffList(event.data[0]);
+      }
+    };
 
-  const staffList = location.state as StaffList;
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      // コンポーネントがアンマウントされる際にイベントリスナーをクリーンアップ
+      window.removeEventListener("message", handleMessage);
+    };
+  }, [staffList]);
+  console.log(staffList);
+
+  if (!staffList) {
+    return null;
+  }
 
   return (
     <>

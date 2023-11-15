@@ -78,18 +78,18 @@ function Search(props) {
         </Grid>
         <Grid item xs={2}>
           <TextField
-            label="役職"
-            size="small"
-            sx={{ m: 1 }}
-            onChange={jobPositionChange}
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
             label="部署"
             size="small"
             sx={{ m: 1 }}
             onChange={departmentChange}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <TextField
+            label="役職"
+            size="small"
+            sx={{ m: 1 }}
+            onChange={jobPositionChange}
           />
         </Grid>
         <Grid item xs={2}>

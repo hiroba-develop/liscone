@@ -3,16 +3,35 @@ import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import WebAssetIcon from "@mui/icons-material/WebAsset";
 import { Box, Container, Divider, IconButton, Typography } from "@mui/material";
 import { Helmet } from "react-helmet-async";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
 import CorporationDetails1ListData from "./CorporationDetails1ListData";
 import CorporationDetails1ReferenceListData from "./CorporationDetails1ReferenceListData";
-import { CorporationList } from "src/models/corporation_list";
+import { useState, useEffect } from "react";
 
 function Lists() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const corporationList = location.state as CorporationList;
+  const [corporationList, setCorporationList] = useState(undefined);
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data[0]) {
+        setCorporationList(event.data[0]);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      // コンポーネントがアンマウントされる際にイベントリスナーをクリーンアップ
+      window.removeEventListener("message", handleMessage);
+    };
+  }, [corporationList]);
+  console.log(corporationList);
+
+  if (!corporationList) {
+    return null;
+  }
+
   return (
     <>
       <Helmet>

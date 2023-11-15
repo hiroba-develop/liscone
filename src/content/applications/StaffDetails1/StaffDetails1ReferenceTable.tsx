@@ -58,7 +58,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
               <TableCell align="left">部署</TableCell>
               <TableCell align="left">氏名</TableCell>
               <TableCell align="left">アカウントソース</TableCell>
-              <TableCell align="left">その他</TableCell>
+              <TableCell align="left">プロフィールリンク</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -107,6 +107,17 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   {staffList.staff_name}
                 </Typography>
               </TableCell>
+              <TableCell align="left">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.profile_source_type}
+                </Typography>
+              </TableCell>
               <TableCell
                 align="left"
                 sx={{
@@ -119,6 +130,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                     color: "black",
                   }}
                   href={staffList.profile_link}
+                  target="_blank"
                 >
                   {staffList.profile_link}
                   <LaunchIcon
@@ -129,17 +141,6 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                     }}
                   />
                 </Button>
-              </TableCell>
-              <TableCell align="left">
-                <Typography
-                  variant="body1"
-                  fontWeight="bold"
-                  color="text.primary"
-                  gutterBottom
-                  noWrap
-                >
-                  {staffList.other_information}
-                </Typography>
               </TableCell>
             </TableRow>
           </TableBody>
