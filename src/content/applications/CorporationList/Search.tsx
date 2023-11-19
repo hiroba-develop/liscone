@@ -563,12 +563,58 @@ const Search = (props) => {
     props.searchClickChange(searchClickValue);
   };
 
+  // 役職
+  const jobPositionChange = (event) => {
+    searchClickValue = 4;
+    setClickValue(4);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.value;
+    props.jobPositionChange(value);
+  };
+  // 部署
+  const departmentChange = (event) => {
+    searchClickValue = 4;
+    setClickValue(4);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.value;
+    props.departmentChange(value);
+  };
+  //リスト
+  const profileSourceTypeChange = (event) => {
+    searchClickValue = 4;
+    setClickValue(4);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.profileSourceTypeChange(value);
+  };
+  // 担当者
+  const staffNameChange = (event) => {
+    searchClickValue = 4;
+    setClickValue(4);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.value;
+    props.staffNameChange(value);
+  };
+  //検索ボタン
+  const searchStaffClick = () => {
+    searchClickValue = 3;
+    setClickValue(3);
+    props.searchClickChange(searchClickValue);
+  };
+
   let clickValueFlg = true;
   if (clickValue === 2) {
     clickValueFlg = false;
   } else if (clickValue === 0 || clickValue === 1) {
     clickValueFlg = true;
   }
+  let clickStaffValueFlg = true;
+  if (clickValue === 4) {
+    clickStaffValueFlg = false;
+  } else if (clickValue === 2 || clickValue === 3) {
+    clickStaffValueFlg = true;
+  }
+
   const industryOptions = businessCategory.map((industryOption) => ({
     industry: industryOption.industry,
     ...industryOption,
@@ -581,196 +627,277 @@ const Search = (props) => {
     backgroundColor: "#109DBC",
   }));
 
+  const source = [
+    { label: "人事異動" },
+    { label: "Wantedly" },
+    { label: "Linkedin" },
+    { label: "meety" },
+  ];
+
+  let staffSearch;
+  if (
+    clickValue === 1 ||
+    clickValue === 2 ||
+    clickValue === 3 ||
+    clickValue === 4
+  ) {
+    staffSearch = (
+      <Card sx={{ mt: 1 }}>
+        <Stack sx={{ m: 1 }} direction="row">
+          <ManageSearchIcon />
+          <Typography fontWeight="bold" sx={{ fontSize: 16, pl: 1 }}>
+            絞り込み
+          </Typography>
+        </Stack>
+        <Grid container spacing={1} sx={{ mb: 1 }}>
+          {/* <Grid item xs={2}>
+            <TextField
+              label="法人名"
+              size="small"
+              sx={{ m: 1 }}
+              onChange={corporationNameChange}
+            />
+          </Grid> */}
+          <Grid item xs={2}>
+            <TextField
+              label="部署"
+              size="small"
+              sx={{ m: 1 }}
+              onChange={departmentChange}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              label="役職"
+              size="small"
+              sx={{ m: 1 }}
+              onChange={jobPositionChange}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Autocomplete
+              disablePortal
+              options={source}
+              size="small"
+              sx={{ m: 1 }}
+              renderInput={(params) => <TextField {...params} label="ソース" />}
+              onChange={profileSourceTypeChange}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              label="担当者名"
+              size="small"
+              sx={{ m: 1 }}
+              onChange={staffNameChange}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Button
+              sx={{
+                borderRadius: 0.5,
+                backgroundColor: "#109DBC",
+                m: 1,
+              }}
+              variant="contained"
+              disabled={clickStaffValueFlg}
+              onClick={searchStaffClick}
+            >
+              <SearchIcon />
+              　検索
+            </Button>
+          </Grid>
+        </Grid>
+      </Card>
+    );
+  }
+
   return (
-    <Card>
-      <Stack sx={{ m: 1 }} direction="row">
-        <ManageSearchIcon />
-        <Typography fontWeight="bold" sx={{ fontSize: 16, pl: 1 }}>
-          絞り込み
-        </Typography>
-      </Stack>
-      <Grid container spacing={0}>
-        <Grid item xs={2}>
-          <TextField
-            label="法人番号"
-            size="small"
-            sx={{ m: 1 }}
-            onChange={corporateNumberChange}
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            label="会社名・法人名"
-            size="small"
-            sx={{ m: 1 }}
-            onChange={corporationNameChange}
-          />
-        </Grid>
-        <Grid item xs={3.5}>
-          <Autocomplete
-            id="grouped-demo"
-            options={industryOptions}
-            groupBy={(industryOption) => industryOption.industry}
-            getOptionLabel={(industryOption) => industryOption.sector}
-            size="small"
-            sx={{ m: 1 }}
-            renderInput={(params) => <TextField {...params} label="業種" />}
-            onChange={businessCategoryChange}
-            
-            renderGroup={(params) => (
-              <li key={params.key}>
-                <GroupHeader>{params.group}</GroupHeader>
-                {params.children}
-              </li>
-            )}
-          />
-        </Grid>
-        <Grid item xs={1.5}>
-          <Autocomplete
-            disablePortal
-            options={prefectures}
-            size="small"
-            sx={{ m: 1 }}
-            renderInput={(params) => <TextField {...params} label="都道府県" />}
-            onChange={prefecturesChange}
-            
-          />
-        </Grid>
-        <Grid item xs={1.5}>
-          <TextField
-            label="電話番号"
-            size="small"
-            sx={{ m: 1 }}
-            onChange={representativePhoneNumberChange}
-          />
-        </Grid>
-        <Grid item xs={1.5}>
-          <Autocomplete
-            disablePortal
-            options={listingStatus}
-            size="small"
-            sx={{ m: 1 }}
-            renderInput={(params) => <TextField {...params} label="上場" />}
-            onChange={corporationListStatusChange}
-            
-          />
-        </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={3}>
-          <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>売上</Typography>
-          <Stack sx={{ m: 1 }} direction="row">
+    <>
+      <Card>
+        <Stack sx={{ m: 1 }} direction="row">
+          <ManageSearchIcon />
+          <Typography fontWeight="bold" sx={{ fontSize: 16, pl: 1 }}>
+            絞り込み
+          </Typography>
+        </Stack>
+        <Grid container spacing={0}>
+          <Grid item xs={2}>
+            <TextField
+              label="法人番号"
+              size="small"
+              sx={{ m: 1 }}
+              onChange={corporateNumberChange}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <TextField
+              label="会社名・法人名"
+              size="small"
+              sx={{ m: 1 }}
+              onChange={corporationNameChange}
+            />
+          </Grid>
+          <Grid item xs={3.5}>
+            <Autocomplete
+              id="grouped-demo"
+              options={industryOptions}
+              groupBy={(industryOption) => industryOption.industry}
+              getOptionLabel={(industryOption) => industryOption.sector}
+              size="small"
+              sx={{ m: 1 }}
+              renderInput={(params) => <TextField {...params} label="業種" />}
+              onChange={businessCategoryChange}
+              renderGroup={(params) => (
+                <li key={params.key}>
+                  <GroupHeader>{params.group}</GroupHeader>
+                  {params.children}
+                </li>
+              )}
+            />
+          </Grid>
+          <Grid item xs={1.5}>
             <Autocomplete
               disablePortal
-              options={minSalesAmount}
+              options={prefectures}
               size="small"
-              sx={{ minWidth: 120 }}
-              renderInput={(params) => <TextField {...params} label="" />}
-              onChange={minSalesAmountChange}
-              
+              sx={{ m: 1 }}
+              renderInput={(params) => (
+                <TextField {...params} label="都道府県" />
+              )}
+              onChange={prefecturesChange}
             />
-            <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
+          </Grid>
+          <Grid item xs={1.5}>
+            <TextField
+              label="電話番号"
+              size="small"
+              sx={{ m: 1 }}
+              onChange={representativePhoneNumberChange}
+            />
+          </Grid>
+          <Grid item xs={1.5}>
             <Autocomplete
               disablePortal
-              options={maxSalesAmount}
+              options={listingStatus}
               size="small"
-              sx={{ minWidth: 120 }}
-              renderInput={(params) => <TextField {...params} label="" />}
-              onChange={maxSalesAmountChange}
-              
+              sx={{ m: 1 }}
+              renderInput={(params) => <TextField {...params} label="上場" />}
+              onChange={corporationListStatusChange}
             />
-          </Stack>
+          </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>従業員数</Typography>
-          <Stack sx={{ m: 1 }} direction="row">
-            <Autocomplete
-              disablePortal
-              options={minEmployeeNumber}
-              size="small"
-              sx={{ minWidth: 120 }}
-              renderInput={(params) => <TextField {...params} label="" />}
-              onChange={minEmployeeNumberChange}
-              
-            />
-            <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
-            <Autocomplete
-              disablePortal
-              options={maxEmployeeNumber}
-              size="small"
-              sx={{ minWidth: 120 }}
-              renderInput={(params) => <TextField {...params} label="" />}
-              onChange={maxEmployeeNumberChange}
-              
-            />
-          </Stack>
+        <Grid container spacing={1}>
+          <Grid item xs={3}>
+            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>売上</Typography>
+            <Stack sx={{ m: 1 }} direction="row">
+              <Autocomplete
+                disablePortal
+                options={minSalesAmount}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={minSalesAmountChange}
+              />
+              <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
+              <Autocomplete
+                disablePortal
+                options={maxSalesAmount}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={maxSalesAmountChange}
+              />
+            </Stack>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>
+              従業員数
+            </Typography>
+            <Stack sx={{ m: 1 }} direction="row">
+              <Autocomplete
+                disablePortal
+                options={minEmployeeNumber}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={minEmployeeNumberChange}
+              />
+              <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
+              <Autocomplete
+                disablePortal
+                options={maxEmployeeNumber}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={maxEmployeeNumberChange}
+              />
+            </Stack>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>設立</Typography>
+            <Stack sx={{ m: 1 }} direction="row">
+              <Autocomplete
+                disablePortal
+                options={minEstablishmentYear}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={minEstablishmentYearChange}
+              />
+              <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
+              <Autocomplete
+                disablePortal
+                options={maxEstablishmentYear}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={maxEstablishmentYearChange}
+              />
+            </Stack>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>資本金</Typography>
+            <Stack sx={{ m: 1 }} direction="row">
+              <Autocomplete
+                disablePortal
+                options={minCapitalStock}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={minCapitalStockChange}
+              />
+              <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
+              <Autocomplete
+                disablePortal
+                options={maxCapitalStock}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={maxCapitalStockChange}
+              />
+            </Stack>
+          </Grid>
+          <Grid item xs={2}>
+            <Button
+              sx={{
+                borderRadius: 0.5,
+                backgroundColor: "#109DBC",
+                mx: 1,
+                mb: 1,
+              }}
+              variant="contained"
+              disabled={clickValueFlg}
+              onClick={searchClick}
+            >
+              <SearchIcon />
+              　検索
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>設立</Typography>
-          <Stack sx={{ m: 1 }} direction="row">
-            <Autocomplete
-              disablePortal
-              options={minEstablishmentYear}
-              size="small"
-              sx={{ minWidth: 120 }}
-              renderInput={(params) => <TextField {...params} label="" />}
-              onChange={minEstablishmentYearChange}
-              
-            />
-            <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
-            <Autocomplete
-              disablePortal
-              options={maxEstablishmentYear}
-              size="small"
-              sx={{ minWidth: 120 }}
-              renderInput={(params) => <TextField {...params} label="" />}
-              onChange={maxEstablishmentYearChange}
-              
-            />
-          </Stack>
-        </Grid>
-        <Grid item xs={3}>
-          <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>資本金</Typography>
-          <Stack sx={{ m: 1 }} direction="row">
-            <Autocomplete
-              disablePortal
-              options={minCapitalStock}
-              size="small"
-              sx={{ minWidth: 120 }}
-              renderInput={(params) => <TextField {...params} label="" />}
-              onChange={minCapitalStockChange}
-              
-            />
-            <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
-            <Autocomplete
-              disablePortal
-              options={maxCapitalStock}
-              size="small"
-              sx={{ minWidth: 120 }}
-              renderInput={(params) => <TextField {...params} label="" />}
-              onChange={maxCapitalStockChange}
-              
-            />
-          </Stack>
-        </Grid>
-        <Grid item xs={2}>
-          <Button
-            sx={{
-              borderRadius: 0.5,
-              backgroundColor: "#109DBC",
-              mx: 1,
-              mb: 1,
-            }}
-            variant="contained"
-            disabled={clickValueFlg}
-            onClick={searchClick}
-          >
-            <SearchIcon />
-            　検索
-          </Button>
-        </Grid>
-      </Grid>
-    </Card>
+      </Card>
+      {staffSearch}
+    </>
   );
 };
 

@@ -24,7 +24,6 @@ function Lists() {
       window.removeEventListener("message", handleMessage);
     };
   }, [staffList]);
-  console.log(staffList);
 
   if (!staffList) {
     return null;

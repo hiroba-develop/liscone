@@ -16,11 +16,13 @@ import {
   CorporationList,
   CorporationListStatus,
 } from "src/models/corporation_list";
+import { StaffList } from "src/models/staff_list";
 import ListCreate from "../PopUp/ListCreate";
 import { renderCellExpand } from "src/utility/renderexpand";
 interface CorporationListsProps {
   className?: string;
   corporationLists: CorporationList[];
+  staffLists: StaffList[];
   localeTextValue: string;
 }
 
@@ -49,12 +51,24 @@ const getStatusLabel = (
 
 const CorporationLists: FC<CorporationListsProps> = ({
   corporationLists,
+  staffLists,
   localeTextValue,
 }) => {
   //Gridの中央の文章
   let localeText = {
     noRowsLabel: localeTextValue,
   };
+
+  // 担当者検索処理
+  const corporationIds = staffLists.map((item) => item.corporation_id);
+  const uniqueCorporationIds = [...new Set(corporationIds)];
+  let filtercorporationLists = corporationLists.filter((item) => {
+    return uniqueCorporationIds.includes(item.corporation_id);
+  });
+  const newCrporationLists =
+    filtercorporationLists.length === 0
+      ? corporationLists
+      : filtercorporationLists;
 
   //数値の後ろに桁をつける処理
   function convertToMyriadSystem(number) {
@@ -241,7 +255,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
             fontWeight: "bold",
           }}
           rowHeight={70}
-          rows={corporationLists}
+          rows={newCrporationLists}
           getRowId={(row: any) => row.corporation_id}
           columns={columns}
           localeText={localeText}
@@ -249,7 +263,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
           disableRowSelectionOnClick
           onRowSelectionModelChange={(ids) => {
             const selectedIDs = new Set(ids);
-            const selectedRows = corporationLists.filter((row) =>
+            const selectedRows = newCrporationLists.filter((row) =>
               selectedIDs.has(row.corporation_id)
             );
 

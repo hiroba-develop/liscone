@@ -26,7 +26,10 @@ function Lists() {
       window.removeEventListener("message", handleMessage);
     };
   }, [corporationList]);
-  console.log(corporationList);
+
+  const handleWebpage = (event, params) => {
+    window.open(params, "_blank");
+  };
 
   if (!corporationList) {
     return null;
@@ -104,6 +107,10 @@ function Lists() {
             sx={{
               fontSize: 16,
               ml: 1,
+              textDecoration: "underline",
+            }}
+            onClick={(event) => {
+              handleWebpage(event, corporationList.home_page);
             }}
           >
             {corporationList.home_page}

@@ -88,6 +88,27 @@ function DashBoard() {
     setSearchClick(searchClick);
   };
 
+  // 役職
+  const [jobPosition, setJobPosition] = useState("");
+  const jobPositionChange = (jobPosition) => {
+    setJobPosition(jobPosition);
+  };
+  // 部署
+  const [department, setDepartment] = useState("");
+  const departmentChange = (department) => {
+    setDepartment(department);
+  };
+  // ソース
+  const [profileSourceType, setProfileSourceType] = useState("");
+  const profileSourceTypeChange = (profileSourceType) => {
+    setProfileSourceType(profileSourceType);
+  };
+  // 担当者名
+  const [staffName, setStaffName] = useState("");
+  const staffNameChange = (staffName) => {
+    setStaffName(staffName);
+  };
+
   return (
     <>
       <Helmet>
@@ -121,6 +142,10 @@ function DashBoard() {
               minCapitalStockChange={setMinCapitalStockChange}
               maxCapitalStockChange={setMaxCapitalStockChange}
               searchClickChange={setSearchClickChange}
+              jobPositionChange={jobPositionChange}
+              departmentChange={departmentChange}
+              profileSourceTypeChange={profileSourceTypeChange}
+              staffNameChange={staffNameChange}
             />
           </Grid>
         </Grid>
@@ -142,6 +167,10 @@ function DashBoard() {
               searchMinCapitalStock={minCapitalStock}
               searchMaxCapitalStock={maxCapitalStock}
               searchSearchClick={searchClick}
+              searchJobPosition={jobPosition}
+              searchDepartment={department}
+              searchProfileSourceType={profileSourceType}
+              searchStaffName={staffName}
             />
           </Box>
         </Grid>
