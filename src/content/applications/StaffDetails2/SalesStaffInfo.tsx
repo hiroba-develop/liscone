@@ -19,7 +19,8 @@ import { productsAtom } from "src/utility/recoil/comp/Products.atom";
 import axios from "axios";
 import TaskLogStaffList from "../PopUp/TaskLogStaffList";
 
-function SalesCorpInfo({ staffList, salesList }) {
+function SalesCorpInfo({ staffList, salesList, salesStaff }) {
+  console.log(salesStaff);
   useEffect(() => {
     const getStaffs = async () => {
       try {
@@ -41,13 +42,20 @@ function SalesCorpInfo({ staffList, salesList }) {
     };
     getStaffs();
   }, [staffList]);
-
+  let transaction_status;
+  let memo;
+  if (salesStaff) {
+    transaction_status = salesStaff.transaction_status;
+    memo = salesStaff.memo;
+  } else {
+    transaction_status = "";
+    memo = "";
+  }
+  console.log(transaction_status);
+  console.log(memo);
   const [taskLogOpen, setTaskLogOpen] = useState(false);
-  const [tranStatusSelected, setTranStatusSelected] = useState(
-    staffList.salesStaffs_transaction_status === null
-      ? ""
-      : staffList.salesStaffs_transaction_status
-  );
+  const [tranStatusSelected, setTranStatusSelected] =
+    useState(transaction_status);
   const [corpStaffList, setStaffs] = useState([]);
   const editTaskLogOpen = () => {
     setTaskLogOpen(true);
@@ -95,6 +103,7 @@ function SalesCorpInfo({ staffList, salesList }) {
   };
 
   const memoChange = (e) => {
+    console.log(e.target.value);
     const changedMemo = e.target.value;
     if (changedMemo === null) {
       return;
@@ -104,8 +113,8 @@ function SalesCorpInfo({ staffList, salesList }) {
         const param = {
           memo: changedMemo,
           sales_list_number: salesList.sales_list_number,
-          corporation_id: staffList.corporation.corporation_id,
-          staff_id: staffList.staff_id,
+          corporation_id: staffList.corporation_corporation_id,
+          staff_id: staffList.staff_staff_id,
         };
         await post<any>(`${config().apiUrl}/saleslists/staffMemoChange`, param);
 
@@ -118,6 +127,7 @@ function SalesCorpInfo({ staffList, salesList }) {
     };
     updateMemo();
   };
+
   return (
     <>
       <Box
@@ -160,6 +170,7 @@ function SalesCorpInfo({ staffList, salesList }) {
             </Typography>
             <FormControl fullWidth size="small">
               <Select
+                defaultValue={transaction_status}
                 value={tranStatusSelected}
                 fullWidth
                 sx={{ mt: 1 }}
@@ -178,12 +189,12 @@ function SalesCorpInfo({ staffList, salesList }) {
             <TextField
               id="memo"
               fullWidth
-              defaultValue={staffList.salesStaffs_memo}
+              defaultValue={memo}
               size="small"
               sx={{ mt: 1 }}
               onBlur={memoChange}
             >
-              {staffList.salesStaffs_memo}
+              {memo}
             </TextField>
           </Grid>
           <Grid item xs={2} sx={{ my: 1, ml: 2 }}>

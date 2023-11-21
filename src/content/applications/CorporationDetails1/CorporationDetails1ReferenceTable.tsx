@@ -1,5 +1,5 @@
 import Label from "src/components/Label";
-import { Box, Card } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CorporationListStatus } from "src/models/corporation_list";
 import { renderCellExpand } from "src/utility/renderexpand";
@@ -60,13 +60,19 @@ const SalesLists = ({ corporationList }) => {
       field: "home_page",
       headerName: "Webサイト",
       width: 200,
-      // renderCell: (params) => {
-      //   return (
-      //     <a href="{params.row.value}" target="_blank">
-      //       {params.value}
-      //     </a>
-      //   );
-      // },
+      renderCell: (params) => {
+        return (
+          <Typography
+            fontWeight="bold"
+            sx={{ textDecoration: "underline" }}
+            onClick={(event) => {
+              handleWebpage(event, params.value);
+            }}
+          >
+            {params.value}
+          </Typography>
+        );
+      },
     },
     {
       field: "sales_amount",
@@ -110,6 +116,9 @@ const SalesLists = ({ corporationList }) => {
       },
     },
   ];
+  const handleWebpage = (event, params) => {
+    window.open(params, "_blank");
+  };
 
   return (
     <Card>

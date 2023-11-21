@@ -24,6 +24,7 @@ interface CorporationListsProps {
   corporationLists: CorporationList[];
   staffLists: StaffList[];
   localeTextValue: string;
+  searchSearchClick: number;
 }
 
 const getStatusLabel = (
@@ -53,6 +54,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
   corporationLists,
   staffLists,
   localeTextValue,
+  searchSearchClick,
 }) => {
   //Gridの中央の文章
   let localeText = {
@@ -65,10 +67,13 @@ const CorporationLists: FC<CorporationListsProps> = ({
   let filtercorporationLists = corporationLists.filter((item) => {
     return uniqueCorporationIds.includes(item.corporation_id);
   });
-  const newCrporationLists =
-    filtercorporationLists.length === 0
-      ? corporationLists
-      : filtercorporationLists;
+
+  let newCrporationLists;
+  if (filtercorporationLists.length === 0) {
+    newCrporationLists = corporationLists;
+  } else {
+    newCrporationLists = filtercorporationLists;
+  }
 
   //数値の後ろに桁をつける処理
   function convertToMyriadSystem(number) {
@@ -103,6 +108,9 @@ const CorporationLists: FC<CorporationListsProps> = ({
     // 子ウィンドウにメッセージを送信
     popup.onload = () =>
       popup.postMessage([corporationList.row], window.location.origin);
+  };
+  const handleWebpage = (event, params) => {
+    window.open(params, "_blank");
   };
 
   const isChecked = checkItems.length > 0;
@@ -159,7 +167,19 @@ const CorporationLists: FC<CorporationListsProps> = ({
       headerName: "Webサイト",
       width: 200,
       maxWidth: 300,
-      renderCell: renderCellExpand,
+      renderCell: (params) => {
+        return (
+          <Typography
+            fontWeight="bold"
+            sx={{ textDecoration: "underline" }}
+            onClick={(event) => {
+              handleWebpage(event, params.value);
+            }}
+          >
+            {params.value}
+          </Typography>
+        );
+      },
     },
     {
       field: "sales_amount",

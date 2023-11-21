@@ -19,7 +19,13 @@ import { productsAtom } from "src/utility/recoil/comp/Products.atom";
 import TaskLog from "../PopUp/TaskLog";
 import axios from "axios";
 
-function SalesCorpInfo({ corporationList, saleslistEntity, salesList }) {
+function SalesCorpInfo({
+  corporationList,
+  saleslistEntity,
+  salesList,
+  salesCorporation,
+}) {
+  const [staffList, setStaffs] = useState([]);
   useEffect(() => {
     const getStaffs = async () => {
       try {
@@ -42,13 +48,20 @@ function SalesCorpInfo({ corporationList, saleslistEntity, salesList }) {
     getStaffs();
   }, [corporationList]);
 
+  let transaction_status;
+  let memo;
+  if (salesCorporation) {
+    transaction_status = salesCorporation.transaction_status;
+    memo = salesCorporation.memo;
+  } else {
+    transaction_status = "";
+    memo = "";
+  }
+
   const [taskLogOpen, setTaskLogOpen] = useState(false);
-  const [tranStatusSelected, setTranStatusSelected] = useState(
-    corporationList.transaction_status === null
-      ? ""
-      : corporationList.transaction_status
-  );
-  const [staffList, setStaffs] = useState([]);
+  const [tranStatusSelected, setTranStatusSelected] =
+    useState(transaction_status);
+
   const editTaskLogOpen = () => {
     setTaskLogOpen(true);
   };
@@ -159,6 +172,7 @@ function SalesCorpInfo({ corporationList, saleslistEntity, salesList }) {
             </Typography>
             <FormControl fullWidth size="small">
               <Select
+                defaultValue={transaction_status}
                 value={tranStatusSelected}
                 fullWidth
                 sx={{ mt: 1 }}
@@ -177,12 +191,12 @@ function SalesCorpInfo({ corporationList, saleslistEntity, salesList }) {
             <TextField
               id="memo"
               fullWidth
-              defaultValue={corporationList.memo}
+              defaultValue={memo}
               size="small"
               sx={{ mt: 1 }}
               onBlur={memoChange}
             >
-              {corporationList.memo}
+              {memo}
             </TextField>
           </Grid>
           <Grid item xs={2} sx={{ my: 1, ml: 2 }}>

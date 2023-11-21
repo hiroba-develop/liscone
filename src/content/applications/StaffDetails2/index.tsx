@@ -8,11 +8,15 @@ import SalesCorpInfo from "./SalesStaffInfo";
 import StaffDetails2ListData from "./StaffDetails2ListData";
 import StaffDetails2ReferenceListData from "./StaffDetails2ReferenceListData";
 import { useState, useEffect } from "react";
+import { config } from "src/utility/config/AppConfig";
+import { commonErrorCallback } from "src/utility/http/ApiService";
+import axios from "axios";
 
 function Lists() {
   const [staffList, setStaffList] = useState(undefined);
   const [salesList, setSalesList] = useState(undefined);
   const [salesListStatistic, setSalesListStatistic] = useState(undefined);
+  const [salesStaff, setSalesStaff] = useState(undefined);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,8 +39,30 @@ function Lists() {
       window.removeEventListener("message", handleMessage);
     };
   }, [staffList, salesList, salesListStatistic]);
+  useEffect(() => {
+    const getSalesStaff = async () => {
+      try {
+        const response = await axios.get(
+          `${config().apiUrl}/salescorporationstaffs/salesstaffinfo`,
+          {
+            params: {
+              staff_id: staffList.staff_staff_id,
+              sales_list_number: salesList.sales_list_number,
+            },
+          }
+        );
 
-  if (!staffList || !salesList || !salesListStatistic) {
+        if (response.statusText === "OK") {
+          setSalesStaff(response.data);
+        }
+      } catch (error) {
+        commonErrorCallback(error);
+      }
+    };
+    getSalesStaff();
+  }, [staffList, salesList, salesListStatistic]);
+
+  if (!staffList || !salesList || !salesListStatistic || !salesStaff) {
     return null;
   }
 
@@ -78,7 +104,11 @@ function Lists() {
         </IconButton>
       </Box>
       <Container maxWidth="lg">
-        <SalesCorpInfo staffList={staffList} salesList={salesList} />
+        <SalesCorpInfo
+          staffList={staffList}
+          salesList={salesList}
+          salesStaff={salesStaff}
+        />
         <Box
           sx={{
             position: "relative",

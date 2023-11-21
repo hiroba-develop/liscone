@@ -447,6 +447,8 @@ const maxCapitalStock = [
 
 const Search = (props) => {
   const [clickValue, setClickValue] = useState<number>(0);
+  const [corporateSearchClickFlg, setCorporateSearchClickFlg] =
+    useState<boolean>(false);
   let searchClickValue = 0;
   // 法人番号
   const corporateNumberChange = (event) => {
@@ -556,10 +558,11 @@ const Search = (props) => {
     const value = event.target.innerText;
     props.maxCapitalStockChange(value);
   };
-  //検索ボタン
+  //検索ボタン(企業検索)
   const searchClick = () => {
     searchClickValue = 1;
     setClickValue(1);
+    setCorporateSearchClickFlg(true);
     props.searchClickChange(searchClickValue);
   };
 
@@ -595,7 +598,7 @@ const Search = (props) => {
     const value = event.target.value;
     props.staffNameChange(value);
   };
-  //検索ボタン
+  //検索ボタン(担当者検索)
   const searchStaffClick = () => {
     searchClickValue = 3;
     setClickValue(3);
@@ -637,9 +640,9 @@ const Search = (props) => {
   let staffSearch;
   if (
     clickValue === 1 ||
-    clickValue === 2 ||
     clickValue === 3 ||
-    clickValue === 4
+    clickValue === 4 ||
+    corporateSearchClickFlg === true
   ) {
     staffSearch = (
       <Card sx={{ mt: 1 }}>

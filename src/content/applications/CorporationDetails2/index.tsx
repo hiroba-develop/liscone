@@ -10,11 +10,15 @@ import CorporationDetails1ListData from "../CorporationDetails1/CorporationDetai
 import CorporationDetails1ReferenceListData from "../CorporationDetails1/CorporationDetails1ReferenceListData";
 import SalesCorpInfo from "./SalesCorpInfo";
 import { useState, useEffect } from "react";
+import { config } from "src/utility/config/AppConfig";
+import { commonErrorCallback } from "src/utility/http/ApiService";
+import axios from "axios";
 
 function Lists() {
   const [corporationList, setCorporationList] = useState(undefined);
   const [salesList, setSalesList] = useState(undefined);
   const [salesListStatistic, setSalesListStatistic] = useState(undefined);
+  const [salesCorporation, setSalesCorporation] = useState(undefined);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,8 +41,35 @@ function Lists() {
       window.removeEventListener("message", handleMessage);
     };
   }, [corporationList, salesList, salesListStatistic]);
+  useEffect(() => {
+    const getSalesCorporation = async () => {
+      try {
+        const response = await axios.get(
+          `${config().apiUrl}/saleslists/salescorporationinfo`,
+          {
+            params: {
+              corporation_id: corporationList.corporation_id,
+              sales_list_number: salesList.sales_list_number,
+            },
+          }
+        );
 
-  if (!corporationList || !salesList || !salesListStatistic) {
+        if (response.statusText === "OK") {
+          setSalesCorporation(response.data);
+        }
+      } catch (error) {
+        commonErrorCallback(error);
+      }
+    };
+    getSalesCorporation();
+  }, [corporationList, salesList, salesListStatistic]);
+
+  if (
+    !corporationList ||
+    !salesList ||
+    !salesListStatistic ||
+    !salesCorporation
+  ) {
     return null;
   }
 
@@ -137,6 +168,7 @@ function Lists() {
           corporationList={corporationList.corporationEntity}
           saleslistEntity={corporationList.saleslistEntity}
           salesList={salesList}
+          salesCorporation={salesCorporation}
         />
         <Box sx={{ mt: 12 }}>
           <CorporationDetails1ReferenceListData

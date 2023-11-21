@@ -53,6 +53,9 @@ const SalesLists: FC<SalesListsProps> = ({
   const filteredSalesList = applyFilters(salesDetailsLists);
   const paginatedSalesLists = applyPagination(filteredSalesList, page, limit);
 
+  const handleWebpage = (event, params) => {
+    window.open(params, "_blank");
+  };
   return (
     <Card>
       <TableContainer>
@@ -64,6 +67,7 @@ const SalesLists: FC<SalesListsProps> = ({
               <TableCell align="left">氏名</TableCell>
               <TableCell align="left">アカウントソース</TableCell>
               <TableCell align="left">プロフィールリンク</TableCell>
+              <TableCell align="left">その他</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -119,8 +123,25 @@ const SalesLists: FC<SalesListsProps> = ({
                       color="text.primary"
                       gutterBottom
                       noWrap
+                      sx={{ textDecoration: "underline" }}
+                      onClick={(event) => {
+                        handleWebpage(
+                          event,
+                          CorporationDetailsList.profile_link
+                        );
+                      }}
                     >
                       {CorporationDetailsList.profile_link}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Typography
+                      variant="body1"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {CorporationDetailsList.other_information}
                     </Typography>
                   </TableCell>
                 </TableRow>
