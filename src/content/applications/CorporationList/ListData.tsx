@@ -234,7 +234,6 @@ function CorporationLists(props) {
 
             if (response.statusText === "OK") {
               setStaffs(response.data);
-              // alert("担当者検索を行いました。");
             }
           } catch (error) {
             console.error(error);
@@ -242,7 +241,7 @@ function CorporationLists(props) {
         };
         getStaffs();
       }
-      alert("担当者検索を行いました。");
+      // alert("担当者検索を行いました。");
     } else {
       setLocaleTextValue(
         "絞り込み条件を選択または入力して「検索」ボタンを押下してください"

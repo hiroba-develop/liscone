@@ -59,6 +59,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
               <TableCell align="left">氏名</TableCell>
               <TableCell align="left">アカウントソース</TableCell>
               <TableCell align="left">プロフィールリンク</TableCell>
+              <TableCell align="left">その他</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -141,6 +142,17 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                     }}
                   />
                 </Button>
+              </TableCell>
+              <TableCell align="left">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {staffList.other_information}
+                </Typography>
               </TableCell>
             </TableRow>
           </TableBody>

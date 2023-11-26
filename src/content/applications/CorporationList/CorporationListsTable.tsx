@@ -60,6 +60,9 @@ const CorporationLists: FC<CorporationListsProps> = ({
   let localeText = {
     noRowsLabel: localeTextValue,
   };
+  if (searchSearchClick === 3) {
+    alert("担当者検索中です。");
+  }
 
   // 担当者検索処理
   const corporationIds = staffLists.map((item) => item.corporation_id);

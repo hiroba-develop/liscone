@@ -102,7 +102,7 @@ const StaffLists: FC<StaffListsProps> = ({ localeTextValue, staffLists }) => {
     },
     {
       field: "other_information",
-      headerName: "メモ",
+      headerName: "その他",
       flex: 2,
     },
   ];
