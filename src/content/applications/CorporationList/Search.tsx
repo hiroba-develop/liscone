@@ -503,14 +503,14 @@ const Search = (props) => {
     searchClickValue = 2;
     setClickValue(2);
     props.searchClickChange(searchClickValue);
-    const value = event.target.innerText;
+    const value = event.target.value;
     props.minSalesAmountChange(value);
   };
   const maxSalesAmountChange = (event) => {
     searchClickValue = 2;
     setClickValue(2);
     props.searchClickChange(searchClickValue);
-    const value = event.target.innerText;
+    const value = event.target.value;
     props.maxSalesAmountChange(value);
   };
   //従業員数
@@ -518,14 +518,14 @@ const Search = (props) => {
     searchClickValue = 2;
     setClickValue(2);
     props.searchClickChange(searchClickValue);
-    const value = event.target.innerText;
+    const value = event.target.value;
     props.minEmployeeNumberChange(value);
   };
   const maxEmployeeNumberChange = (event) => {
     searchClickValue = 2;
     setClickValue(2);
     props.searchClickChange(searchClickValue);
-    const value = event.target.innerText;
+    const value = event.target.value;
     props.maxEmployeeNumberChange(value);
   };
   //設立
@@ -533,14 +533,14 @@ const Search = (props) => {
     searchClickValue = 2;
     setClickValue(2);
     props.searchClickChange(searchClickValue);
-    const value = event.target.innerText;
+    const value = event.target.value;
     props.minEstablishmentYearChange(value);
   };
   const maxEstablishmentYearChange = (event) => {
     searchClickValue = 2;
     setClickValue(2);
     props.searchClickChange(searchClickValue);
-    const value = event.target.innerText;
+    const value = event.target.value;
     props.maxEstablishmentYearChange(value);
   };
   //資本金
@@ -548,14 +548,14 @@ const Search = (props) => {
     searchClickValue = 2;
     setClickValue(2);
     props.searchClickChange(searchClickValue);
-    const value = event.target.innerText;
+    const value = event.target.value;
     props.minCapitalStockChange(value);
   };
   const maxCapitalStockChange = (event) => {
     searchClickValue = 2;
     setClickValue(2);
     props.searchClickChange(searchClickValue);
-    const value = event.target.innerText;
+    const value = event.target.value;
     props.maxCapitalStockChange(value);
   };
   //検索ボタン(企業検索)
@@ -792,91 +792,73 @@ const Search = (props) => {
         </Grid>
         <Grid container spacing={1}>
           <Grid item xs={3}>
-            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>売上</Typography>
+            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>
+              売上(百万円)
+            </Typography>
             <Stack sx={{ m: 1 }} direction="row">
-              <Autocomplete
-                disablePortal
-                options={minSalesAmount}
+              <TextField
+                label=""
                 size="small"
-                sx={{ minWidth: 120 }}
-                renderInput={(params) => <TextField {...params} label="" />}
                 onChange={minSalesAmountChange}
               />
-              <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
-              <Autocomplete
-                disablePortal
-                options={maxSalesAmount}
+              <Typography sx={{ fontSize: 14, p: 0.5 }}>―</Typography>
+              <TextField
+                label=""
                 size="small"
-                sx={{ minWidth: 120 }}
-                renderInput={(params) => <TextField {...params} label="" />}
                 onChange={maxSalesAmountChange}
               />
             </Stack>
           </Grid>
           <Grid item xs={3}>
             <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>
-              従業員数
+              従業員数(人)
             </Typography>
             <Stack sx={{ m: 1 }} direction="row">
-              <Autocomplete
-                disablePortal
-                options={minEmployeeNumber}
+              <TextField
+                label=""
                 size="small"
-                sx={{ minWidth: 120 }}
-                renderInput={(params) => <TextField {...params} label="" />}
                 onChange={minEmployeeNumberChange}
               />
-              <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
-              <Autocomplete
-                disablePortal
-                options={maxEmployeeNumber}
+              <Typography sx={{ fontSize: 14, p: 0.5 }}>―</Typography>
+              <TextField
+                label=""
                 size="small"
-                sx={{ minWidth: 120 }}
-                renderInput={(params) => <TextField {...params} label="" />}
                 onChange={maxEmployeeNumberChange}
               />
             </Stack>
           </Grid>
           <Grid item xs={3}>
-            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>設立</Typography>
+            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>
+              設立(年)
+            </Typography>
             <Stack sx={{ m: 1 }} direction="row">
-              <Autocomplete
-                disablePortal
-                options={minEstablishmentYear}
+              <TextField
+                label=""
                 size="small"
-                sx={{ minWidth: 120 }}
-                renderInput={(params) => <TextField {...params} label="" />}
                 onChange={minEstablishmentYearChange}
               />
-              <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
-              <Autocomplete
-                disablePortal
-                options={maxEstablishmentYear}
+              <Typography sx={{ fontSize: 14, p: 0.5 }}>―</Typography>
+              <TextField
+                label=""
                 size="small"
-                sx={{ minWidth: 120 }}
-                renderInput={(params) => <TextField {...params} label="" />}
                 onChange={maxEstablishmentYearChange}
               />
             </Stack>
           </Grid>
           <Grid item xs={3}>
-            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>資本金</Typography>
+            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>
+              資本金(百万円)
+            </Typography>
             <Stack sx={{ m: 1 }} direction="row">
-              <Autocomplete
-                disablePortal
-                options={minCapitalStock}
+              <TextField
+                label=""
                 size="small"
-                sx={{ minWidth: 120 }}
-                renderInput={(params) => <TextField {...params} label="" />}
                 onChange={minCapitalStockChange}
               />
-              <Typography sx={{ fontSize: 14, p: 0.5 }}>-</Typography>
-              <Autocomplete
-                disablePortal
-                options={maxCapitalStock}
+              <Typography sx={{ fontSize: 14, p: 0.5 }}>―</Typography>
+              <TextField
+                label=""
                 size="small"
-                sx={{ minWidth: 120 }}
-                renderInput={(params) => <TextField {...params} label="" />}
                 onChange={maxCapitalStockChange}
               />
             </Stack>

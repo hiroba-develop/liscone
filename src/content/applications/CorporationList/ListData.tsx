@@ -34,20 +34,28 @@ function CorporationLists(props) {
     searchPrefectures = props.searchPrefectures;
   }
   function convertToNumber(amount) {
-    const units = {
-      万円: 10000,
-      億円: 100000000,
-      兆円: 1000000000000,
-    };
-    const unitPattern = /(\d+)\s*([万億兆]円)/;
-    const match = unitPattern.exec(amount);
-    if (match && match[2] && units.hasOwnProperty(match[2])) {
-      const value = parseInt(match[1]);
-      const unit = match[2];
-      return value * units[unit];
+    if (amount === "") {
+      return "";
+    } else {
+      return amount * 1000000;
     }
-    return "";
   }
+
+  console.log(props.searchMinSalesAmount);
+  function NumberCheck(value) {
+    if (isNaN(value)) {
+      alert("半角数字で入力してください。");
+    }
+  }
+
+  NumberCheck(props.searchMinSalesAmount);
+  NumberCheck(props.searchMaxSalesAmount);
+  NumberCheck(props.searchMinEmployeeNumber);
+  NumberCheck(props.searchMaxEmployeeNumber);
+  NumberCheck(props.searchMinEstablishmentYear);
+  NumberCheck(props.searchMaxEstablishmentYear);
+  NumberCheck(props.searchMinCapitalStock);
+  NumberCheck(props.searchMaxCapitalStock);
   const searchMinSalesAmount = convertToNumber(props.searchMinSalesAmount);
   const searchMaxSalesAmount = convertToNumber(props.searchMaxSalesAmount);
   const searchMinCapitalStock = convertToNumber(props.searchMinCapitalStock);
