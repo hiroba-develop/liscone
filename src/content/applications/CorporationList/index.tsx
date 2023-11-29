@@ -108,6 +108,11 @@ function DashBoard() {
   const staffNameChange = (staffName) => {
     setStaffName(staffName);
   };
+  // 企業リスト件数
+  const [corporateListCount, setCorporateListCount] = useState("");
+  const corporateListCountChange = (corporateListCount) => {
+    setCorporateListCount(corporateListCount);
+  };
 
   return (
     <>
@@ -146,6 +151,7 @@ function DashBoard() {
               departmentChange={departmentChange}
               profileSourceTypeChange={profileSourceTypeChange}
               staffNameChange={staffNameChange}
+              corporateListCount={corporateListCount}
             />
           </Grid>
         </Grid>
@@ -171,6 +177,7 @@ function DashBoard() {
               searchDepartment={department}
               searchProfileSourceType={profileSourceType}
               searchStaffName={staffName}
+              corporateListCountChange={corporateListCountChange}
             />
           </Box>
         </Grid>

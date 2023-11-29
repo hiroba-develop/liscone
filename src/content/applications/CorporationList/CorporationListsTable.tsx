@@ -25,6 +25,10 @@ interface CorporationListsProps {
   staffLists: StaffList[];
   localeTextValue: string;
   searchSearchClick: number;
+  searchJobPosition: string;
+  searchDepartment: string;
+  searchProfileSourceType: string;
+  searchStaffName: string;
 }
 
 const getStatusLabel = (
@@ -55,27 +59,37 @@ const CorporationLists: FC<CorporationListsProps> = ({
   staffLists,
   localeTextValue,
   searchSearchClick,
+  searchJobPosition,
+  searchDepartment,
+  searchProfileSourceType,
+  searchStaffName,
 }) => {
   //Gridの中央の文章
   let localeText = {
     noRowsLabel: localeTextValue,
   };
-  if (searchSearchClick === 3) {
-    alert("担当者検索中です。");
-  }
-
   // 担当者検索処理
   const corporationIds = staffLists.map((item) => item.corporation_id);
   const uniqueCorporationIds = [...new Set(corporationIds)];
   let filtercorporationLists = corporationLists.filter((item) => {
     return uniqueCorporationIds.includes(item.corporation_id);
   });
-
-  let newCrporationLists;
-  if (filtercorporationLists.length === 0) {
-    newCrporationLists = corporationLists;
-  } else {
+  console.log(filtercorporationLists);
+  let newCrporationLists = [];
+  if (searchSearchClick === 3) {
     newCrporationLists = filtercorporationLists;
+  }
+  if (
+    searchJobPosition === "" &&
+    searchDepartment === "" &&
+    searchProfileSourceType === undefined &&
+    searchStaffName === "" &&
+    searchSearchClick === 3
+  ) {
+    newCrporationLists = corporationLists;
+  }
+  if (searchSearchClick === 1) {
+    newCrporationLists = corporationLists;
   }
 
   //数値の後ろに桁をつける処理

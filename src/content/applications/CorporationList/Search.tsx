@@ -637,6 +637,8 @@ const Search = (props) => {
     { label: "meety" },
   ];
 
+  console.log(props.corporateListCount);
+
   let staffSearch;
   if (
     clickValue === 1 ||
@@ -644,75 +646,79 @@ const Search = (props) => {
     clickValue === 4 ||
     corporateSearchClickFlg === true
   ) {
-    staffSearch = (
-      <Card sx={{ mt: 1 }}>
-        <Stack sx={{ m: 1 }} direction="row">
-          <ManageSearchIcon />
-          <Typography fontWeight="bold" sx={{ fontSize: 16, pl: 1 }}>
-            絞り込み
-          </Typography>
-        </Stack>
-        <Grid container spacing={1} sx={{ mb: 1 }}>
-          {/* <Grid item xs={2}>
-            <TextField
-              label="法人名"
-              size="small"
-              sx={{ m: 1 }}
-              onChange={corporationNameChange}
-            />
-          </Grid> */}
-          <Grid item xs={2}>
-            <TextField
-              label="部署"
-              size="small"
-              sx={{ m: 1 }}
-              onChange={departmentChange}
-            />
+    if (props.corporateListCount >= 1 && props.corporateListCount <= 10000) {
+      staffSearch = (
+        <Card sx={{ mt: 1 }}>
+          <Stack sx={{ m: 1 }} direction="row">
+            <ManageSearchIcon />
+            <Typography fontWeight="bold" sx={{ fontSize: 16, pl: 1 }}>
+              絞り込み
+            </Typography>
+          </Stack>
+          <Grid container spacing={1} sx={{ mb: 1 }}>
+            {/* <Grid item xs={2}>
+              <TextField
+                label="法人名"
+                size="small"
+                sx={{ m: 1 }}
+                onChange={corporationNameChange}
+              />
+            </Grid> */}
+            <Grid item xs={2}>
+              <TextField
+                label="部署"
+                size="small"
+                sx={{ m: 1 }}
+                onChange={departmentChange}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <TextField
+                label="役職"
+                size="small"
+                sx={{ m: 1 }}
+                onChange={jobPositionChange}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <Autocomplete
+                disablePortal
+                options={source}
+                size="small"
+                sx={{ m: 1 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="ソース" />
+                )}
+                onChange={profileSourceTypeChange}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <TextField
+                label="担当者名"
+                size="small"
+                sx={{ m: 1 }}
+                onChange={staffNameChange}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <Button
+                sx={{
+                  borderRadius: 0.5,
+                  backgroundColor: "#109DBC",
+                  m: 1,
+                }}
+                variant="contained"
+                disabled={clickStaffValueFlg}
+                onClick={searchStaffClick}
+              >
+                <SearchIcon />
+                　検索
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={2}>
-            <TextField
-              label="役職"
-              size="small"
-              sx={{ m: 1 }}
-              onChange={jobPositionChange}
-            />
-          </Grid>
-          <Grid item xs={2}>
-            <Autocomplete
-              disablePortal
-              options={source}
-              size="small"
-              sx={{ m: 1 }}
-              renderInput={(params) => <TextField {...params} label="ソース" />}
-              onChange={profileSourceTypeChange}
-            />
-          </Grid>
-          <Grid item xs={2}>
-            <TextField
-              label="担当者名"
-              size="small"
-              sx={{ m: 1 }}
-              onChange={staffNameChange}
-            />
-          </Grid>
-          <Grid item xs={2}>
-            <Button
-              sx={{
-                borderRadius: 0.5,
-                backgroundColor: "#109DBC",
-                m: 1,
-              }}
-              variant="contained"
-              disabled={clickStaffValueFlg}
-              onClick={searchStaffClick}
-            >
-              <SearchIcon />
-              　検索
-            </Button>
-          </Grid>
-        </Grid>
-      </Card>
-    );
+        </Card>
+      );
+    }
   }
 
   return (
@@ -833,13 +839,13 @@ const Search = (props) => {
             </Typography>
             <Stack sx={{ m: 1 }} direction="row">
               <TextField
-                label=""
+                label="yyyy"
                 size="small"
                 onChange={minEstablishmentYearChange}
               />
               <Typography sx={{ fontSize: 14, p: 0.5 }}>―</Typography>
               <TextField
-                label=""
+                label="yyyy"
                 size="small"
                 onChange={maxEstablishmentYearChange}
               />

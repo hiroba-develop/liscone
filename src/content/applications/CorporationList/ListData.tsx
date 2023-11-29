@@ -8,8 +8,14 @@ import CorporationListsTable from "./CorporationListsTable";
 
 function CorporationLists(props) {
   const [corporationLists, setCorporations] = useState<CorporationList[]>([]);
+  // const [corporationListsCount, setCorporationsCount] = useState<number>();
   const [localeTextValue, setLocaleTextValue] = useState<string>("");
   const searchSearchClick = props.searchSearchClick;
+  //検索ボタン(企業検索)
+  const corporationCount = (corporationListsCount) => {
+    props.corporateListCountChange(corporationListsCount);
+  };
+  console.log(props.searchSearchClick);
 
   let searchCorporationListStatus;
   if (props.searchCorporationListStatus === "上場") {
@@ -159,6 +165,7 @@ function CorporationLists(props) {
               }
             );
             if (responseCount.statusText === "OK") {
+              corporationCount(responseCount.data);
               if (responseCount.data >= 1 && responseCount.data <= 10000) {
                 setLocaleTextValue(
                   ` ${responseCount.data}件ヒットしました。データを表示しています。`
@@ -218,6 +225,7 @@ function CorporationLists(props) {
         props.searchProfileSourceType !== undefined ||
         searchStaffName !== ""
       ) {
+        setLocaleTextValue("担当者検索中です。");
         const getStaffs = async () => {
           try {
             const response = await axios.get(
@@ -264,6 +272,10 @@ function CorporationLists(props) {
         staffLists={staffLists}
         localeTextValue={localeTextValue}
         searchSearchClick={searchSearchClick}
+        searchJobPosition={searchJobPosition}
+        searchDepartment={searchDepartment}
+        searchProfileSourceType={props.searchProfileSourceType}
+        searchStaffName={searchStaffName}
       />
     </Card>
   );
