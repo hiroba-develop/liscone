@@ -20,7 +20,6 @@ import axios from "axios";
 import TaskLogStaffList from "../PopUp/TaskLogStaffList";
 
 function SalesCorpInfo({ staffList, salesList, salesStaff }) {
-  console.log(salesStaff);
   useEffect(() => {
     const getStaffs = async () => {
       try {
@@ -51,8 +50,6 @@ function SalesCorpInfo({ staffList, salesList, salesStaff }) {
     transaction_status = "";
     memo = "";
   }
-  console.log(transaction_status);
-  console.log(memo);
   const [taskLogOpen, setTaskLogOpen] = useState(false);
   const [tranStatusSelected, setTranStatusSelected] =
     useState(transaction_status);
@@ -103,7 +100,6 @@ function SalesCorpInfo({ staffList, salesList, salesStaff }) {
   };
 
   const memoChange = (e) => {
-    console.log(e.target.value);
     const changedMemo = e.target.value;
     if (changedMemo === null) {
       return;

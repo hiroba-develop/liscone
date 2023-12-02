@@ -15,7 +15,6 @@ function CorporationLists(props) {
   const corporationCount = (corporationListsCount) => {
     props.corporateListCountChange(corporationListsCount);
   };
-  console.log(props.searchSearchClick);
 
   let searchCorporationListStatus;
   if (props.searchCorporationListStatus === "上場") {
@@ -47,7 +46,6 @@ function CorporationLists(props) {
     }
   }
 
-  console.log(props.searchMinSalesAmount);
   function NumberCheck(value) {
     if (isNaN(value)) {
       alert("半角数字で入力してください。");
@@ -250,6 +248,11 @@ function CorporationLists(props) {
 
             if (response.statusText === "OK") {
               setStaffs(response.data);
+              setTimeout(() => {
+                setLocaleTextValue(
+                  "検索結果は 0件です。　検索条件を変更してください"
+                );
+              }, 2000);
             }
           } catch (error) {
             console.error(error);
@@ -257,7 +260,6 @@ function CorporationLists(props) {
         };
         getStaffs();
       }
-      // alert("担当者検索を行いました。");
     } else {
       setLocaleTextValue(
         "絞り込み条件を選択または入力して「検索」ボタンを押下してください"

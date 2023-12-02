@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -64,17 +64,12 @@ const CorporationLists: FC<CorporationListsProps> = ({
   searchProfileSourceType,
   searchStaffName,
 }) => {
-  //Gridの中央の文章
-  let localeText = {
-    noRowsLabel: localeTextValue,
-  };
   // 担当者検索処理
   const corporationIds = staffLists.map((item) => item.corporation_id);
   const uniqueCorporationIds = [...new Set(corporationIds)];
   let filtercorporationLists = corporationLists.filter((item) => {
     return uniqueCorporationIds.includes(item.corporation_id);
   });
-  console.log(filtercorporationLists);
   let newCrporationLists = [];
   if (searchSearchClick === 3) {
     newCrporationLists = filtercorporationLists;
@@ -91,6 +86,34 @@ const CorporationLists: FC<CorporationListsProps> = ({
   if (searchSearchClick === 1) {
     newCrporationLists = corporationLists;
   }
+  if (searchSearchClick === 4) {
+    if (filtercorporationLists.length === 0) {
+      newCrporationLists = corporationLists;
+    } else {
+      newCrporationLists = filtercorporationLists;
+    }
+  }
+  console.log(filtercorporationLists);
+
+  // if (
+  //   searchJobPosition !== "" ||
+  //   searchDepartment !== "" ||
+  //   searchProfileSourceType !== undefined ||
+  //   searchStaffName !== ""
+  // ) {
+  //   if (searchSearchClick === 3) {
+  //     setTimeout(() => {
+  //       if (filtercorporationLists.length === 0) {
+  //         localeTextValue = "検索結果は 0件です。 検索条件を変更してください";
+  //       }
+  //     }, 2000);
+  //   }
+  // }
+
+  //Gridの中央の文章
+  let localeText = {
+    noRowsLabel: localeTextValue,
+  };
 
   //数値の後ろに桁をつける処理
   function convertToMyriadSystem(number) {

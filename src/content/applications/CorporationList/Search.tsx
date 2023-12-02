@@ -637,7 +637,6 @@ const Search = (props) => {
     { label: "meety" },
   ];
 
-  console.log(props.corporateListCount);
 
   let staffSearch;
   if (
