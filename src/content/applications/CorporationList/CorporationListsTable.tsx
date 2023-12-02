@@ -93,22 +93,6 @@ const CorporationLists: FC<CorporationListsProps> = ({
       newCrporationLists = filtercorporationLists;
     }
   }
-  console.log(filtercorporationLists);
-
-  // if (
-  //   searchJobPosition !== "" ||
-  //   searchDepartment !== "" ||
-  //   searchProfileSourceType !== undefined ||
-  //   searchStaffName !== ""
-  // ) {
-  //   if (searchSearchClick === 3) {
-  //     setTimeout(() => {
-  //       if (filtercorporationLists.length === 0) {
-  //         localeTextValue = "検索結果は 0件です。 検索条件を変更してください";
-  //       }
-  //     }, 2000);
-  //   }
-  // }
 
   //Gridの中央の文章
   let localeText = {
