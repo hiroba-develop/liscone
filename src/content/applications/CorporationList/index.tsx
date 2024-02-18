@@ -82,10 +82,104 @@ function DashBoard() {
   const setMaxCapitalStockChange = (maxCapitalStock) => {
     setMaxCapitalStock(maxCapitalStock);
   };
+
+  //SNS
+  const [SNS, setSNS] = useState("");
+  const SNSChange = (SNS) => {
+    setSNS(SNS);
+  };
+
+  //レガシー企業レベル
+  const [legacyCompany, setLegacyCompany] = useState("");
+  const legacyCompanyChange = (legacyCompany) => {
+    setLegacyCompany(legacyCompany);
+  };
+
+  //人的資本経営レベル
+  const [humanCapitalRunning, setHumanCapitalRunning] = useState("");
+  const humanCapitalRunningChange = (humanCapitalRunning) => {
+    setHumanCapitalRunning(humanCapitalRunning);
+  };
+
+  //研修強化レベル
+  const [humanResourcesEducational, setHumanResourcesEducational] =
+    useState("");
+  const humanResourcesEducationalChange = (humanResourcesEducational) => {
+    setHumanResourcesEducational(humanResourcesEducational);
+  };
+
+  //新規事業推進レベル
+  const [newBusiness, setNewBusiness] = useState("");
+  const newBusinessChange = (newBusiness) => {
+    setNewBusiness(newBusiness);
+  };
+
+  //広告出稿
+  const [advertising, setAdvertising] = useState("");
+  const advertisingChange = (advertising) => {
+    setAdvertising(advertising);
+  };
+
+  //サイトPV数
+  const [minSitePV, setMinSitePV] = useState("");
+  const minSitePVChange = (minSitePV) => {
+    setMinSitePV(minSitePV);
+  };
+  const [maxSitePV, setMaxSitePV] = useState("");
+  const maxSitePVChange = (maxSitePV) => {
+    setMaxSitePV(maxSitePV);
+  };
+
+  //資料掲載
+  const [documentPublish, setDocumentPublish] = useState("");
+  const documentPublishChange = (documentPublish) => {
+    setDocumentPublish(documentPublish);
+  };
+
+  //平均年齢
+  const [minAverageAge, setMinAverageAge] = useState("");
+  const minAverageAgeChange = (minAverageAge) => {
+    setMinAverageAge(minAverageAge);
+  };
+  const [maxAverageAge, setMaxAverageAge] = useState("");
+  const maxAverageAgeChange = (maxAverageAge) => {
+    setMaxAverageAge(maxAverageAge);
+  };
+
+  //フリーテキスト
+  const [freeText, setFreeText] = useState("");
+  const freeTextChange = (freeText) => {
+    setFreeText(freeText);
+  };
+
+  //除外フリーテキスト
+  const [exclusionFreeText, setExclusionFreeText] = useState("");
+  const exclusionFreeTextChange = (exclusionFreeText) => {
+    setExclusionFreeText(exclusionFreeText);
+  };
+
   //検索ボタン
   const [searchClick, setSearchClick] = useState("");
   const setSearchClickChange = (searchClick) => {
     setSearchClick(searchClick);
+  };
+
+  // 大項目(採用)
+  const [recruitBigResult, setRecruitBigResult] = useState("");
+  const recruitBigResultChange = (recruitBigResult) => {
+    setRecruitBigResult(recruitBigResult);
+  };
+
+  // 中項目(採用)
+  const [recruitMiddleResult, setRecruitMiddleResult] = useState("");
+  const recruitMiddleResultChange = (recruitMiddleResult) => {
+    setRecruitMiddleResult(recruitMiddleResult);
+  };
+
+  // 小項目
+  const [recruitSmallResult, setRecruitSmallResult] = useState("");
+  const recruitSmallResultChange = (recruitSmallResult) => {
+    setRecruitSmallResult(recruitSmallResult);
   };
 
   // 役職
@@ -146,12 +240,28 @@ function DashBoard() {
               maxEstablishmentYearChange={setMaxEstablishmentYearChange}
               minCapitalStockChange={setMinCapitalStockChange}
               maxCapitalStockChange={setMaxCapitalStockChange}
+              SNSChange={SNSChange}
+              legacyCompanyChange={legacyCompanyChange}
+              humanCapitalRunningChange={humanCapitalRunningChange}
+              humanResourcesEducationalChange={humanResourcesEducationalChange}
+              newBusinessChange={newBusinessChange}
+              advertisingChange={advertisingChange}
+              minSitePVChange={minSitePVChange}
+              maxSitePVChange={maxSitePVChange}
+              documentPublishChange={documentPublishChange}
+              minAverageAgeChange={minAverageAgeChange}
+              maxAverageAgeChange={maxAverageAgeChange}
+              freeTextChange={freeTextChange}
+              exclusionFreeTextChange={exclusionFreeTextChange}
               searchClickChange={setSearchClickChange}
               jobPositionChange={jobPositionChange}
               departmentChange={departmentChange}
               profileSourceTypeChange={profileSourceTypeChange}
               staffNameChange={staffNameChange}
               corporateListCount={corporateListCount}
+              recruitBigResultChange={recruitBigResultChange}
+              recruitMiddleResultChange={recruitMiddleResultChange}
+              recruitSmallResultChange={recruitSmallResultChange}
             />
           </Grid>
         </Grid>
@@ -172,12 +282,28 @@ function DashBoard() {
               searchMaxEstablishmentYear={maxEstablishmentYear}
               searchMinCapitalStock={minCapitalStock}
               searchMaxCapitalStock={maxCapitalStock}
+              searchSNS={SNS}
+              searchLegacyCompany={legacyCompany}
+              searchHumanCapitalRunning={humanCapitalRunning}
+              searchHumanResourcesEducational={humanResourcesEducational}
+              searchNewBusiness={newBusiness}
+              searchAdvertising={advertising}
+              searchMinSitePV={minSitePV}
+              searchMaxSitePV={maxSitePV}
+              searchDocumentPublish={documentPublish}
+              searchMinAverageAge={minAverageAge}
+              searchMaxAverageAge={maxAverageAge}
+              searchFreeText={freeText}
+              searchExclusionFreeText={exclusionFreeText}
               searchSearchClick={searchClick}
               searchJobPosition={jobPosition}
               searchDepartment={department}
               searchProfileSourceType={profileSourceType}
               searchStaffName={staffName}
               corporateListCountChange={corporateListCountChange}
+              searchRecruitBigResult={recruitBigResult}
+              searchRecruitMiddleResult={recruitMiddleResult}
+              searchRecruitSmallResult={recruitSmallResult}
             />
           </Box>
         </Grid>

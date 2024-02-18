@@ -6,7 +6,10 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
 import CorporationDetails1ListData from "./CorporationDetails1ListData";
-import CorporationDetails1ReferenceListData from "./CorporationDetails1ReferenceListData";
+import CorporationDetails1Reference from "./CorporationDetails1Reference";
+import CorporationDetails2Reference from "./CorporationDetails2Reference";
+import CorporationDetails3Reference from "./CorporationDetails3Reference";
+import CorporationDetails4Reference from "./CorporationDetails4Reference";
 import { useState, useEffect } from "react";
 
 function Lists() {
@@ -34,7 +37,6 @@ function Lists() {
   if (!corporationList) {
     return null;
   }
-
   return (
     <>
       <Helmet>
@@ -117,7 +119,20 @@ function Lists() {
           </Typography>
         </Box>
         <Box sx={{ mt: 13 }}>
-          <CorporationDetails1ReferenceListData {...corporationList} />
+          {/* 会社情報 */}
+          <CorporationDetails1Reference {...corporationList} />
+        </Box>
+        <Box>
+          {/* 会社概要・平均年齢 */}
+          <CorporationDetails2Reference {...corporationList} />
+        </Box>
+        <Box sx={{ mt: 5 }}>
+          {/* サイトPV・Publishers・Ad Networks・SNS情報 */}
+          <CorporationDetails3Reference {...corporationList} />
+        </Box>
+        <Box sx={{ mt: 5 }}>
+          {/* 採用内容 */}
+          <CorporationDetails4Reference {...corporationList} />
         </Box>
         <Divider />
         <Typography
@@ -132,7 +147,7 @@ function Lists() {
         >
           担当者候補
         </Typography>
-        <Box>
+        <Box sx={{ mt: -4 }}>
           <CorporationDetails1ListData {...corporationList} />
         </Box>
       </Container>

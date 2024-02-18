@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/system";
+import { CODE } from "src/utility/constants/Code";
 
 const businessCategory = [
   { industry: "情報通信業", sector: "翻訳・ローカリゼーション" },
@@ -352,104 +353,93 @@ const listingStatus = [
   { label: "未確認" },
 ];
 
-const minSalesAmount = [
-  { label: "1億円" },
-  { label: "3億円" },
-  { label: "10億円" },
-  { label: "50億円" },
-  { label: "300億円" },
-  { label: "1000億円" },
+const SNS = [
+  { label: "LINE公式" },
+  { label: "X（Twitter）" },
+  { label: "Instagram" },
+  { label: "Tiktok" },
+  { label: "Youtube" },
+  { label: "Facebook" },
 ];
 
-const maxSalesAmount = [
-  { label: "1億円" },
-  { label: "3億円" },
-  { label: "10億円" },
-  { label: "50億円" },
-  { label: "300億円" },
-  { label: "1000億円" },
+const Level1to10 = [
+  { label: "1" },
+  { label: "2" },
+  { label: "3" },
+  { label: "4" },
+  { label: "5" },
+  { label: "6" },
+  { label: "7" },
+  { label: "8" },
+  { label: "9" },
+  { label: "10" },
 ];
 
-const minEmployeeNumber = [
+const MinSitePV = [
+  { label: "1K" },
+  { label: "5K" },
+  { label: "10K" },
+  { label: "50K" },
+  { label: "100K" },
+  { label: "500K" },
+  { label: "1M" },
+  { label: "5M" },
+  { label: "10M" },
+  { label: "20M" },
+];
+
+const MaxSitePV = [
+  { label: "5K" },
+  { label: "10K" },
+  { label: "50K" },
+  { label: "100K" },
+  { label: "500K" },
+  { label: "1M" },
+  { label: "5M" },
+  { label: "10M" },
+  { label: "20M" },
+  { label: "50M" },
+];
+
+const Documentpublish = [
+  { label: "ITトレンド" },
+  { label: "LISKUL" },
+  { label: "Boxil" },
+  { label: "アイティメディア" },
+];
+
+const MinAverageAge = [
+  { label: "20" },
+  { label: "25" },
+  { label: "30" },
+  { label: "35" },
+  { label: "40" },
+  { label: "45" },
   { label: "50" },
-  { label: "100" },
-  { label: "300" },
-  { label: "500" },
-  { label: "1000" },
-  { label: "3000" },
-  { label: "5000" },
+  { label: "55" },
+  { label: "60" },
 ];
 
-const maxEmployeeNumber = [
+const MaxAverageAge = [
+  { label: "25" },
+  { label: "30" },
+  { label: "35" },
+  { label: "40" },
+  { label: "45" },
   { label: "50" },
-  { label: "100" },
-  { label: "300" },
-  { label: "500" },
-  { label: "1000" },
-  { label: "3000" },
-  { label: "5000" },
+  { label: "55" },
+  { label: "60" },
+  { label: "65" },
 ];
 
-const minEstablishmentYear = [
-  { label: "2020" },
-  { label: "2015" },
-  { label: "2010" },
-  { label: "2005" },
-  { label: "2000" },
-  { label: "1995" },
-  { label: "1990" },
-  { label: "1985" },
-  { label: "1980" },
-  { label: "1975" },
-  { label: "1970" },
-];
-
-const maxEstablishmentYear = [
-  { label: "2023" },
-  { label: "2020" },
-  { label: "2015" },
-  { label: "2010" },
-  { label: "2005" },
-  { label: "2000" },
-  { label: "1995" },
-  { label: "1990" },
-  { label: "1985" },
-  { label: "1980" },
-  { label: "1975" },
-  { label: "1970" },
-];
-
-const minCapitalStock = [
-  { label: "100万円" },
-  { label: "500万円" },
-  { label: "1000万円" },
-  { label: "5000万円" },
-  { label: "1億円" },
-  { label: "10億円" },
-  { label: "100億円" },
-  { label: "1000億円" },
-  { label: "5000億円" },
-  { label: "1兆円" },
-];
-
-const maxCapitalStock = [
-  { label: "100万円" },
-  { label: "500万円" },
-  { label: "1000万円" },
-  { label: "5000万円" },
-  { label: "1億円" },
-  { label: "10億円" },
-  { label: "100億円" },
-  { label: "1000億円" },
-  { label: "5000億円" },
-  { label: "1兆円" },
-];
+const Advertising = [{ label: "有り" }, { label: "無し" }, { label: "未確認" }];
 
 const Search = (props) => {
   const [clickValue, setClickValue] = useState<number>(0);
   const [corporateSearchClickFlg, setCorporateSearchClickFlg] =
     useState<boolean>(false);
   let searchClickValue = 0;
+
   // 法人番号
   const corporateNumberChange = (event) => {
     searchClickValue = 2;
@@ -558,10 +548,159 @@ const Search = (props) => {
     const value = event.target.value;
     props.maxCapitalStockChange(value);
   };
+  //SNS
+  const SNSChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.SNSChange(value);
+  };
+
+  //レガシー企業レベル
+  const legacyCompanyChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.legacyCompanyChange(value);
+  };
+
+  //人的資本経営レベル
+  const humanCapitalRunningChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.humanCapitalRunningChange(value);
+  };
+
+  //研修強化レベル
+  const humanResourcesEducationalChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.humanResourcesEducationalChange(value);
+  };
+
+  //新規事業推進レベル
+  const newBusinessChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.newBusinessChange(value);
+  };
+
+  //広告出稿
+  const advertisingChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.advertisingChange(value);
+  };
+
+  //サイトPV数
+  const minSitePVChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.minSitePVChange(value);
+  };
+  const maxSitePVChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.maxSitePVChange(value);
+  };
+
+  //資料掲載
+  const documentPublishChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.documentPublishChange(value);
+  };
+
+  //平均年齢
+  const minAverageAgeChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.minAverageAgeChange(value);
+  };
+  const maxAverageAgeChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.maxAverageAgeChange(value);
+  };
+  // フリーテキスト
+  const freeTextChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.value;
+    props.freeTextChange(value);
+  };
+  // 除外フリーテキスト
+  const exclusionFreeTextChange = (event) => {
+    searchClickValue = 2;
+    setClickValue(2);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.value;
+    props.exclusionFreeTextChange(value);
+  };
+
   //検索ボタン(企業検索)
   const searchClick = () => {
     searchClickValue = 1;
     setClickValue(1);
+    setCorporateSearchClickFlg(true);
+    props.searchClickChange(searchClickValue);
+  };
+
+  // 大項目(採用)
+  const [BRSelected, setBRSelected] = useState("");
+  const recruitBigResultChange = (event) => {
+    searchClickValue = 6;
+    setClickValue(6);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    setBRSelected(value);
+    props.recruitBigResultChange(value);
+
+    setMRSelected(value);
+  };
+  // 中項目(採用)
+  const [MRSelected, setMRSelected] = useState("");
+  const recruitMiddleResultChange = (event) => {
+    searchClickValue = 6;
+    setClickValue(6);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    setMRSelected(value);
+    props.recruitMiddleResultChange(value);
+  };
+  // 小項目(採用)
+  const recruitSmallResultChange = (event) => {
+    searchClickValue = 6;
+    setClickValue(6);
+    props.searchClickChange(searchClickValue);
+    const value = event.target.innerText;
+    props.recruitSmallResultChange(value);
+  };
+  //検索ボタン(採用検索)
+  const searchRecruitClick = () => {
+    searchClickValue = 5;
+    setClickValue(5);
     setCorporateSearchClickFlg(true);
     props.searchClickChange(searchClickValue);
   };
@@ -605,11 +744,431 @@ const Search = (props) => {
     props.searchClickChange(searchClickValue);
   };
 
+  const middleResult = () => {
+    if (BRSelected === "営業職") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR01;
+    } else if (BRSelected === "企画・管理") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR02;
+    } else if (
+      BRSelected === "技術職（SE・インフラエンジニア・Webエンジニア）"
+    ) {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR03;
+    } else if (BRSelected === "技術職（組み込みソフトウェア）") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR04;
+    } else if (BRSelected === "技術職（機械・電気）") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR05;
+    } else if (BRSelected === "技術職（化学・素材・化粧品・トイレタリー）") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR06;
+    } else if (BRSelected === "技術職（食品・香料・飼料）") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR07;
+    } else if (
+      BRSelected === "技術職・専門職（建設・建築・不動産・プラント・工場）"
+    ) {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR08;
+    } else if (
+      BRSelected === "専門職（コンサルティングファーム・専門事務所・監査法人）"
+    ) {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR09;
+    } else if (BRSelected === "クリエイター・クリエイティブ職") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR10;
+    } else if (BRSelected === "販売・サービス職") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR11;
+    } else if (BRSelected === "公務員・教員・農林水産関連職") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR12;
+    } else if (BRSelected === "事務・アシスタント") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR13;
+    } else if (BRSelected === "医療系専門職") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR14;
+    } else if (BRSelected === "金融系専門職") {
+      return CODE.RECRUIT_MIDDLE_RESULT_RBR15;
+    } else {
+      return [];
+    }
+  };
+  const bigResultArray = middleResult();
+  const smallResult = () => {
+    if (MRSelected === "IT営業") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR01;
+    } else if (MRSelected === "半導体・電子部品・エレクトロニクス製品営業") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR02;
+    } else if (MRSelected === "自動車・装置・機械製品営業") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR03;
+    } else if (MRSelected === "原料・素材・化学製品営業") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR04;
+    } else if (MRSelected === "医療営業") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR05;
+    } else if (MRSelected === "食品・日用品・消費財営業") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR06;
+    } else if (MRSelected === "建設・土木・不動産・住宅営業") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR07;
+    } else if (MRSelected === "金融営業") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR08;
+    } else if (MRSelected === "広告・メディア営業") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR09;
+    } else if (MRSelected === "人材・求人広告営業") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR10;
+    } else if (MRSelected === "その他営業職") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR11;
+    } else if (MRSelected === "マーケティング・商品企画・広告宣伝") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR12;
+    } else if (MRSelected === "経理・財務・会計・内部統制") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR13;
+    } else if (MRSelected === "総務・法務・知財・内部監査") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR14;
+    } else if (MRSelected === "物流管理（企画）・購買・貿易") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR15;
+    } else if (
+      MRSelected === "データアナリスト・データサイエンティスト・リサーチャー"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR16;
+    } else if (MRSelected === "役員・事業統括マネジャー") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR17;
+    } else if (MRSelected === "経営企画・事業企画・営業企画") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR18;
+    } else if (MRSelected === "広報・IR") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR19;
+    } else if (MRSelected === "人事") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR20;
+    } else if (MRSelected === "ITコンサルタント・システムコンサルタント") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR21;
+    } else if (MRSelected === "プリセールス") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR22;
+    } else if (MRSelected === "業務系アプリケーションエンジニア・プログラマ") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR23;
+    } else if (MRSelected === "インフラエンジニア") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR24;
+    } else if (MRSelected === "サポート・ヘルプデスク") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR25;
+    } else if (MRSelected === "社内SE（社内情報システム）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR26;
+    } else if (MRSelected === "研究開発（R&D）エンジニア") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR27;
+    } else if (MRSelected === "品質管理") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR28;
+    } else if (MRSelected === "データサイエンティスト") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR29;
+    } else if (MRSelected === "プログラマ・Webサービス系エンジニア") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR30;
+    } else if (MRSelected === "スマホアプリ・ネイティブアプリ系エンジニア") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR31;
+    } else if (
+      MRSelected === "制御系ソフトウェア開発（通信・ネットワーク・IoT関連）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR32;
+    } else if (MRSelected === "セキュリティエンジニア") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR33;
+    } else if (
+      MRSelected === "基礎研究・先行開発・要素技術開発（組み込みソフトウエア）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR34;
+    } else if (
+      MRSelected === "プロジェクトマネージャー（組み込みソフトウエア）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR35;
+    } else if (
+      MRSelected ===
+      "アプリケーション・ミドルウェア・デバイスドライバ・ファームウェア"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR36;
+    } else if (
+      MRSelected ===
+      "品質管理・品質保証・テクニカルサポート（組み込みソフトウエア）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR37;
+    } else if (MRSelected === "評価・デバッグ（デバッガ―）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR38;
+    } else if (MRSelected === "ユーザーインタフェース") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR39;
+    } else if (MRSelected === "画像処理") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR40;
+    } else if (MRSelected === "音声処理") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR41;
+    } else if (MRSelected === "プリセールス・アプリケーションエンジニア") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR42;
+    } else if (MRSelected === "コンサルティング（品質・開発プロセスなど）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR43;
+    } else if (MRSelected === "基礎研究・先行開発・要素技術開発") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR44;
+    } else if (MRSelected === "機械設計") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR45;
+    } else if (MRSelected === "品質管理・品質保証") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR46;
+    } else if (MRSelected === "生産技術") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR47;
+    } else if (
+      MRSelected === "セールスエンジニア・アプリケーションエンジニア・FAE"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR48;
+    } else if (MRSelected === "サービスエンジニア・サポートエンジニア") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR49;
+    } else if (MRSelected === "その他技術職（機械・電気）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR50;
+    } else if (MRSelected === "CADオペレーター（機械）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR51;
+    } else if (MRSelected === "光学設計") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR52;
+    } else if (MRSelected === "CAE解析") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR53;
+    } else if (MRSelected === "回路設計") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR54;
+    } else if (MRSelected === "電気設計・シーケンス制御") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR55;
+    } else if (MRSelected === "評価・実験") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR56;
+    } else if (MRSelected === "製品企画・プロジェクトマネージャー") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR57;
+    } else if (MRSelected === "金型設計") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR58;
+    } else if (MRSelected === "製造（溶接・加工・組立など）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR59;
+    } else if (MRSelected === "生産管理・工場長") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR60;
+    } else if (MRSelected === "デバイス開発（半導体・太陽光・液晶・LEDなど）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR61;
+    } else if (
+      MRSelected === "プロセスエンジニア（半導体・太陽光・液晶・LEDなど）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR62;
+    } else if (MRSelected === "整備士") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR63;
+    } else if (MRSelected === "テクニカルライター（マニュアル制作）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR64;
+    } else if (MRSelected === "基礎・応用研究（化学）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR65;
+    } else if (MRSelected === "製品開発（化学）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR66;
+    } else if (MRSelected === "製造プロセス開発・工法開発（化学）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR67;
+    } else if (MRSelected === "品質管理（化学）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR68;
+    } else if (
+      MRSelected ===
+      "技術営業・アプリケーションエンジニア（化学・素材・化粧品・トイレタリー）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR69;
+    } else if (MRSelected === "その他製造・生産") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR70;
+    } else if (MRSelected === "分析・解析・測定・各種評価試験") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR71;
+    } else if (MRSelected === "基礎・応用研究（化粧品・トイレタリー）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR72;
+    } else if (MRSelected === "製品開発（化粧品・トイレタリー）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR73;
+    } else if (
+      MRSelected === "製造プロセス開発・工法開発（化粧品・トイレタリー）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR74;
+    } else if (MRSelected === "生産管理（化学・素材・化粧品・トイレタリー）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR75;
+    } else if (MRSelected === "品質管理（化粧品・トイレタリー）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR76;
+    } else if (MRSelected === "品質保証・監査・化学法規（化学）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR77;
+    } else if (MRSelected === "品質保証・監査・薬事（化粧品・トイレタリー）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR78;
+    } else if (MRSelected === "テクニカルサポート（技術系サポート職）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR79;
+    } else if (MRSelected === "製造・生産（化学）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR80;
+    } else if (MRSelected === "製造・生産（化粧品・トイレタリー）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR81;
+    } else if (MRSelected === "工場長（化学・素材・化粧品・トイレタリー）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR82;
+    } else if (MRSelected === "基礎・応用研究（食品・香料・飼料）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR83;
+    } else if (MRSelected === "製品開発（食品・香料・飼料）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR84;
+    } else if (
+      MRSelected === "製造プロセス開発・工法開発（食品・香料・飼料）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR85;
+    } else if (MRSelected === "生産管理（食品・香料・飼料）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR86;
+    } else if (MRSelected === "品質管理（食品・香料・飼料）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR87;
+    } else if (MRSelected === "品質保証・監査（食品・香料・飼料）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR88;
+    } else if (
+      MRSelected === "技術営業・アプリケーションエンジニア（食品・香料・飼料）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR89;
+    } else if (
+      MRSelected ===
+      "テクニカルサポート（技術系サポート職）（食品・香料・飼料）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR90;
+    } else if (MRSelected === "製造・生産（食品・香料・飼料）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR91;
+    } else if (
+      MRSelected === "分析・解析・測定・各種評価試験（食品・香料・飼料）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR92;
+    } else if (MRSelected === "工場長（食品・香料・飼料）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR93;
+    } else if (MRSelected === "技術開発・部材開発・解析・調査") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR94;
+    } else if (MRSelected === "建築設計・積算") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR95;
+    } else if (MRSelected === "施工管理") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR96;
+    } else if (
+      MRSelected === "その他建設・建築・不動産・プラント・工場関連職"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR97;
+    } else if (MRSelected === "プラント") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR98;
+    } else if (MRSelected === "職人・現場作業員") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR99;
+    } else if (MRSelected === "不動産開発") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR100;
+    } else if (MRSelected === "不動産運用・管理") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR101;
+    } else if (MRSelected === "施設管理（技術系）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR102;
+    } else if (MRSelected === "設備設計・積算") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR103;
+    } else if (MRSelected === "土木設計・測量") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR104;
+    } else if (
+      MRSelected === "工場ファシリティ・ユーティリティ・労働安全衛生"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR105;
+    } else if (MRSelected === "ビジネスコンサルタント") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR106;
+    } else if (MRSelected === "専門事務所（会計・監査法人・法律・労務）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR107;
+    } else if (MRSelected === "出版・広告・販促・印刷") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR108;
+    } else if (MRSelected === "映像・映画・音響・イベント・芸能関連") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR109;
+    } else if (
+      MRSelected === "ファッション（アパレル／アクセサリー／テキスタイル）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR110;
+    } else if (
+      MRSelected ===
+      "プロダクトデザイナー／インダストリアルデザイナー（工業デザイナー）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR111;
+    } else if (MRSelected === "その他クリエイティブ系職種") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR112;
+    } else if (MRSelected === "Web制作・モバイル（制作・開発）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR113;
+    } else if (MRSelected === "ソーシャル・ゲーム（制作・開発）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR114;
+    } else if (MRSelected === "店舗・販売") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR115;
+    } else if (MRSelected === "店舗開発・施設管理") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR116;
+    } else if (
+      MRSelected === "美容関連（理美容・エステ・マッサージ・美容部員）"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR117;
+    } else if (MRSelected === "旅行関連") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR118;
+    } else if (MRSelected === "宿泊施設・ホテル") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR119;
+    } else if (MRSelected === "運輸・物流サービス") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR120;
+    } else if (MRSelected === "警備／清掃／監視／保守") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR121;
+    } else if (
+      MRSelected === "テレマーケティング／カスタマーサポート／コールセンター"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR122;
+    } else if (
+      MRSelected === "教育／スクール／研修／塾講師／専門学校／英会話学校"
+    ) {
+      return CODE.RECRUIT_SMALL_RESULT_RMR123;
+    } else if (MRSelected === "バイヤー／MD") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR124;
+    } else if (MRSelected === "ブライダル・葬祭") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR125;
+    } else if (MRSelected === "公務員（地方・国家公務員）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR126;
+    } else if (MRSelected === "教員／日本語教師／学校・大学事務") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR127;
+    } else if (MRSelected === "農林水産関連職") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR128;
+    } else if (MRSelected === "経理事務・財務アシスタント") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR129;
+    } else if (MRSelected === "総務・法務・知財・人事アシスタント") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR130;
+    } else if (MRSelected === "購買・物流・貿易アシスタント") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR131;
+    } else if (MRSelected === "企画・マーケティングアシスタント") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR132;
+    } else if (MRSelected === "金融事務") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR133;
+    } else if (MRSelected === "医療事務") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR134;
+    } else if (MRSelected === "秘書・受付") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR135;
+    } else if (MRSelected === "通訳・翻訳") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR136;
+    } else if (MRSelected === "営業事務・一般事務") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR137;
+    } else if (MRSelected === "研究") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR138;
+    } else if (MRSelected === "臨床開発") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR139;
+    } else if (MRSelected === "薬事") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR140;
+    } else if (MRSelected === "品質管理・品質保証") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR141;
+    } else if (MRSelected === "技術サポート") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR142;
+    } else if (MRSelected === "生産・製造・プロセス開発（医療系）") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR143;
+    } else if (MRSelected === "メディカルアフェアーズ・学術") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR144;
+    } else if (MRSelected === "ライセンシング") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR145;
+    } else if (MRSelected === "医療・看護") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR146;
+    } else if (MRSelected === "薬剤") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR147;
+    } else if (MRSelected === "福祉") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR148;
+    } else if (MRSelected === "医療系マーケティング") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR149;
+    } else if (MRSelected === "開発") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR150;
+    } else if (MRSelected === "運用") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR151;
+    } else if (MRSelected === "投資銀行") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR152;
+    } else if (MRSelected === "リサーチ") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR153;
+    } else if (MRSelected === "審査・査定") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR154;
+    } else if (MRSelected === "バックオフィス") {
+      return CODE.RECRUIT_SMALL_RESULT_RMR155;
+    } else {
+      return [];
+    }
+  };
+  const middleResultArray = smallResult();
+
+  // clickValueの値
+  // 0:初期値
+  // 1:企業絞り込み変更時
+  // 2:企業絞り込み検索ボタン押下時
+  // 3:担当者絞り込み変更時
+  // 4:担当者絞り込み検索ボタン押下時
+  // 5:採用絞り込み変更時
+  // 6:採用絞り込み検索ボタン押下時
   let clickValueFlg = true;
   if (clickValue === 2) {
     clickValueFlg = false;
   } else if (clickValue === 0 || clickValue === 1) {
     clickValueFlg = true;
+  }
+  let clickRecruitValueFlg = true;
+  if (clickValue === 6) {
+    clickRecruitValueFlg = false;
+  } else if (clickValue === 0 || clickValue === 5) {
+    clickRecruitValueFlg = true;
   }
   let clickStaffValueFlg = true;
   if (clickValue === 4) {
@@ -637,12 +1196,12 @@ const Search = (props) => {
     { label: "meety" },
   ];
 
-
   let staffSearch;
   if (
     clickValue === 1 ||
     clickValue === 3 ||
     clickValue === 4 ||
+    clickValue === 5 ||
     corporateSearchClickFlg === true
   ) {
     if (props.corporateListCount >= 1 && props.corporateListCount <= 10000) {
@@ -651,18 +1210,10 @@ const Search = (props) => {
           <Stack sx={{ m: 1 }} direction="row">
             <ManageSearchIcon />
             <Typography fontWeight="bold" sx={{ fontSize: 16, pl: 1 }}>
-              絞り込み
+              担当者 絞り込み
             </Typography>
           </Stack>
           <Grid container spacing={1} sx={{ mb: 1 }}>
-            {/* <Grid item xs={2}>
-              <TextField
-                label="法人名"
-                size="small"
-                sx={{ m: 1 }}
-                onChange={corporationNameChange}
-              />
-            </Grid> */}
             <Grid item xs={2}>
               <TextField
                 label="部署"
@@ -726,7 +1277,7 @@ const Search = (props) => {
         <Stack sx={{ m: 1 }} direction="row">
           <ManageSearchIcon />
           <Typography fontWeight="bold" sx={{ fontSize: 16, pl: 1 }}>
-            絞り込み
+            企業 絞り込み
           </Typography>
         </Stack>
         <Grid container spacing={0}>
@@ -868,6 +1419,156 @@ const Search = (props) => {
               />
             </Stack>
           </Grid>
+          {/* <Grid item xs={2.4}>
+            <Autocomplete
+              disablePortal
+              options={Level1to10}
+              size="small"
+              sx={{ m: 1 }}
+              renderInput={(params) => (
+                <TextField {...params} label="レガシー企業レベル" />
+              )}
+              onChange={legacyCompanyChange}
+            />
+          </Grid>
+          <Grid item xs={2.4}>
+            <Autocomplete
+              disablePortal
+              options={Level1to10}
+              size="small"
+              sx={{ m: 1 }}
+              renderInput={(params) => (
+                <TextField {...params} label="人的資本経営レベル" />
+              )}
+              onChange={humanCapitalRunningChange}
+            />
+          </Grid>
+          <Grid item xs={2.4}>
+            <Autocomplete
+              disablePortal
+              options={Level1to10}
+              size="small"
+              sx={{ m: 1 }}
+              renderInput={(params) => (
+                <TextField {...params} label="研修強化レベル" />
+              )}
+              onChange={humanResourcesEducationalChange}
+            />
+          </Grid>
+          <Grid item xs={2.4}>
+            <Autocomplete
+              disablePortal
+              options={Level1to10}
+              size="small"
+              sx={{ m: 1 }}
+              renderInput={(params) => (
+                <TextField {...params} label="新規事業推進レベル" />
+              )}
+              onChange={newBusinessChange}
+            />
+          </Grid> */}
+          <Grid item xs={3}>
+            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>
+              サイトPV数
+            </Typography>
+            <Stack sx={{ m: 1 }} direction="row">
+              <Autocomplete
+                disablePortal
+                options={MinSitePV}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={minSitePVChange}
+              />
+              <Typography sx={{ fontSize: 14, p: 0.5 }}>―</Typography>
+              <Autocomplete
+                disablePortal
+                options={MaxSitePV}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={maxSitePVChange}
+              />
+            </Stack>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography sx={{ fontSize: 14, pl: 1, mb: -1 }}>
+              平均年齢
+            </Typography>
+            <Stack sx={{ m: 1 }} direction="row">
+              <Autocomplete
+                disablePortal
+                options={MinAverageAge}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={minAverageAgeChange}
+              />
+              <Typography sx={{ fontSize: 14, p: 0.5 }}>―</Typography>
+              <Autocomplete
+                disablePortal
+                options={MaxAverageAge}
+                size="small"
+                sx={{ minWidth: 120 }}
+                renderInput={(params) => <TextField {...params} label="" />}
+                onChange={maxAverageAgeChange}
+              />
+            </Stack>
+          </Grid>
+          <Grid item xs={2}>
+            <Autocomplete
+              disablePortal
+              options={Advertising}
+              size="small"
+              sx={{ m: 1, mt: 2 }}
+              renderInput={(params) => (
+                <TextField {...params} label="広告出稿" />
+              )}
+              onChange={advertisingChange}
+            />
+          </Grid>
+          {/* <Grid item xs={2.4}>
+            <Autocomplete
+              disablePortal
+              options={Documentpublish}
+              size="small"
+              sx={{ m: 1, mt: 2 }}
+              renderInput={(params) => (
+                <TextField {...params} label="資料掲載" />
+              )}
+              onChange={documentPublishChange}
+            />
+          </Grid>
+          <Grid item xs={2.4}>
+            <Autocomplete
+              disablePortal
+              options={SNS}
+              size="small"
+              sx={{ m: 1 }}
+              renderInput={(params) => (
+                <TextField {...params} label="SNSアカウント" />
+              )}
+              onChange={SNSChange}
+            />
+          </Grid> */}
+          <Grid item xs={4}></Grid>
+          <Grid item xs={4}>
+            <TextField
+              label="フリーテキスト"
+              size="small"
+              sx={{ m: 1, minWidth: 375 }}
+              onChange={freeTextChange}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <TextField
+              label="除外フリーテキスト"
+              size="small"
+              sx={{ m: 1, minWidth: 375 }}
+              onChange={exclusionFreeTextChange}
+            />
+          </Grid>
+          <Grid item xs={2}></Grid>
           <Grid item xs={2}>
             <Button
               sx={{
@@ -879,6 +1580,68 @@ const Search = (props) => {
               variant="contained"
               disabled={clickValueFlg}
               onClick={searchClick}
+            >
+              <SearchIcon />
+              　検索
+            </Button>
+          </Grid>
+        </Grid>
+      </Card>
+      <Card sx={{ mt: 1 }}>
+        <Stack sx={{ m: 1 }} direction="row">
+          <ManageSearchIcon />
+          <Typography fontWeight="bold" sx={{ fontSize: 16, pl: 1 }}>
+            採用 絞り込み
+          </Typography>
+        </Stack>
+        <Grid container spacing={0}>
+          <Grid item xs={4}>
+            <Autocomplete
+              options={CODE.RECRUIT_BIG_RESULT}
+              getOptionLabel={(option) => option.code}
+              size="small"
+              renderInput={(params) => (
+                <TextField {...params} label="募集中の職種" />
+              )}
+              sx={{ m: 1 }}
+              onChange={recruitBigResultChange}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <Autocomplete
+              options={bigResultArray}
+              getOptionLabel={(option) => option.code}
+              size="small"
+              renderInput={(params) => (
+                <TextField {...params} label="募集中の職種(中項目)" />
+              )}
+              sx={{ m: 1 }}
+              onChange={recruitMiddleResultChange}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <Autocomplete
+              options={middleResultArray}
+              getOptionLabel={(option) => option.code}
+              size="small"
+              renderInput={(params) => (
+                <TextField {...params} label="募集中の職種(小項目)" />
+              )}
+              sx={{ m: 1 }}
+              onChange={recruitSmallResultChange}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <Button
+              sx={{
+                borderRadius: 0.5,
+                backgroundColor: "#109DBC",
+                mx: 1,
+                mb: 1,
+              }}
+              variant="contained"
+              disabled={clickRecruitValueFlg}
+              onClick={searchRecruitClick}
             >
               <SearchIcon />
               　検索

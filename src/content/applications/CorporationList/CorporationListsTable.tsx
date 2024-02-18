@@ -8,7 +8,9 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { FC, useState, useEffect } from "react";
-
+import axios from "axios";
+import { config } from "src/utility/config/AppConfig";
+import { commonErrorCallback } from "src/utility/http/ApiService";
 import AddIcon from "@mui/icons-material/Add";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Label from "src/components/Label";
@@ -17,12 +19,14 @@ import {
   CorporationListStatus,
 } from "src/models/corporation_list";
 import { StaffList } from "src/models/staff_list";
+import { RecruitList } from "src/models/recruit_list";
 import ListCreate from "../PopUp/ListCreate";
 import { renderCellExpand } from "src/utility/renderexpand";
 interface CorporationListsProps {
   className?: string;
   corporationLists: CorporationList[];
   staffLists: StaffList[];
+  recruitLists: RecruitList[];
   localeTextValue: string;
   searchSearchClick: number;
   searchJobPosition: string;
@@ -57,6 +61,7 @@ const getStatusLabel = (
 const CorporationLists: FC<CorporationListsProps> = ({
   corporationLists,
   staffLists,
+  recruitLists,
   localeTextValue,
   searchSearchClick,
   searchJobPosition,
@@ -65,14 +70,14 @@ const CorporationLists: FC<CorporationListsProps> = ({
   searchStaffName,
 }) => {
   // 担当者検索処理
-  const corporationIds = staffLists.map((item) => item.corporation_id);
-  const uniqueCorporationIds = [...new Set(corporationIds)];
-  let filtercorporationLists = corporationLists.filter((item) => {
-    return uniqueCorporationIds.includes(item.corporation_id);
+  const staffCorporationIds = staffLists.map((item) => item.corporation_id);
+  const staffUniqueCorporationIds = [...new Set(staffCorporationIds)];
+  let staffFiltercorporationLists = corporationLists.filter((item) => {
+    return staffUniqueCorporationIds.includes(item.corporation_id);
   });
   let newCrporationLists = [];
   if (searchSearchClick === 3) {
-    newCrporationLists = filtercorporationLists;
+    newCrporationLists = staffFiltercorporationLists;
   }
   if (
     searchJobPosition === "" &&
@@ -87,10 +92,10 @@ const CorporationLists: FC<CorporationListsProps> = ({
     newCrporationLists = corporationLists;
   }
   if (searchSearchClick === 4) {
-    if (filtercorporationLists.length === 0) {
+    if (staffFiltercorporationLists.length === 0) {
       newCrporationLists = corporationLists;
     } else {
-      newCrporationLists = filtercorporationLists;
+      newCrporationLists = staffFiltercorporationLists;
     }
   }
   if (
@@ -100,14 +105,50 @@ const CorporationLists: FC<CorporationListsProps> = ({
     searchStaffName !== ""
   ) {
     if (searchSearchClick === 3) {
-      console.log(filtercorporationLists);
       setTimeout(() => {
-        if (filtercorporationLists.length === 0) {
+        if (staffFiltercorporationLists.length === 0) {
           localeTextValue = "検索結果は 0件です。 検索条件を変更してください";
         }
-        console.log(filtercorporationLists);
       }, 2000);
     }
+  }
+
+  // 採用検索処理
+  const [recruitCorporations, setRrecruitCorporations] = useState<
+    RecruitList[]
+  >([]);
+  let recruitUniqueCorporationIds = [];
+  useEffect(() => {
+    if (recruitLists.length) {
+      const recruitCorporationIds = recruitLists.map(
+        (item) => item.corporation_id
+      );
+      recruitUniqueCorporationIds = [...new Set(recruitCorporationIds)];
+    }
+  }, [recruitLists]);
+  useEffect(() => {
+    if (recruitUniqueCorporationIds.length) {
+      const getCorporations = async () => {
+        try {
+          const responseCorporations = await axios.get(
+            `${config().apiUrl}/corporations/recruitCorporationIds`,
+            {
+              params: { CorporationIds: recruitUniqueCorporationIds },
+            }
+          );
+
+          if (responseCorporations.statusText === "OK") {
+            setRrecruitCorporations(responseCorporations.data);
+          }
+        } catch (error) {
+          commonErrorCallback(error);
+        }
+      };
+      getCorporations();
+    }
+  }, [recruitUniqueCorporationIds]);
+  if (recruitCorporations.length && searchSearchClick === 5) {
+    newCrporationLists = recruitCorporations;
   }
 
   //Gridの中央の文章

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Footer from "src/components/Footer";
 import ActionHistoryListData from "../ActionHistory/ActionHistoryListData";
 import CorporationDetails1ListData from "../CorporationDetails1/CorporationDetails1ListData";
-import CorporationDetails1ReferenceListData from "../CorporationDetails1/CorporationDetails1ReferenceListData";
+import CorporationDetails1ReferenceListData from "../CorporationDetails1/CorporationDetails1Reference";
 import SalesCorpInfo from "./SalesCorpInfo";
 import { useState, useEffect } from "react";
 import { config } from "src/utility/config/AppConfig";
