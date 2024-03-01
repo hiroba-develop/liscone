@@ -85,7 +85,7 @@ const ActionLists: FC<ActionListProps> = ({ actionLists }) => {
           他のリストでの行動結果を確認するには
         </Typography>
         <Typography
-          sx={{
+          sx={{ 
             mt: 1,
             color: "blue",
             fontSize: 16,
