@@ -19,6 +19,8 @@ import { SalesList } from "src/models/sales_list";
 import { SalesListStatistic } from "src/models/sales_list_statistic";
 import { SalesListStaff } from "src/models/sales_list_staff";
 import AddIcon from "@mui/icons-material/Add";
+import { useRecoilValue } from "recoil";
+import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 
 interface StaffDetails2ListProps {
   className?: string;
@@ -145,6 +147,10 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
     window.open(params, "_blank");
   };
 
+  const members = useRecoilValue(membersAtom);
+
+  const disabled = members[0].company_code=="001" ? true:false;
+
   return (
     <Card>
       <CardHeader
@@ -155,6 +161,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
               fullWidth
               variant="contained"
               onClick={convertObjectsToCSV}
+              disabled={disabled}
             >
               <AddIcon />
               　csv出力

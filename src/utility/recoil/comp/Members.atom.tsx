@@ -6,7 +6,7 @@ import { sessionStorageEffect } from "../effect/Storage";
  * メンバー 회원
  */
 interface Memebers {
-  coId: string;
+  company_code: string;
   member_id: string;
   member_name: string;
 }

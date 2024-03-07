@@ -1556,7 +1556,7 @@ const Search = (props) => {
             <TextField
               label="フリーテキスト"
               size="small"
-              sx={{ m: 1, minWidth: 375 }}
+              sx={{ m: 1, minWidth: 300 }}
               onChange={freeTextChange}
             />
           </Grid>
@@ -1564,7 +1564,7 @@ const Search = (props) => {
             <TextField
               label="除外フリーテキスト"
               size="small"
-              sx={{ m: 1, minWidth: 375 }}
+              sx={{ m: 1, minWidth: 300 }}
               onChange={exclusionFreeTextChange}
             />
           </Grid>
@@ -1587,7 +1587,7 @@ const Search = (props) => {
           </Grid>
         </Grid>
       </Card>
-      <Card sx={{ mt: 1 }}>
+      {/*<Card sx={{ mt: 1 }}>
         <Stack sx={{ m: 1 }} direction="row">
           <ManageSearchIcon />
           <Typography fontWeight="bold" sx={{ fontSize: 16, pl: 1 }}>
@@ -1648,7 +1648,7 @@ const Search = (props) => {
             </Button>
           </Grid>
         </Grid>
-      </Card>
+      </Card>*/}
       {staffSearch}
     </>
   );

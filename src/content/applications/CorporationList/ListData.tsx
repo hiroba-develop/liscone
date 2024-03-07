@@ -11,7 +11,6 @@ function CorporationLists(props) {
   const [corporationLists, setCorporations] = useState<CorporationList[]>([]);
   const [localeTextValue, setLocaleTextValue] = useState<string>("");
   const searchSearchClick = props.searchSearchClick;
-  console.log(props);
 
   // 上場入力値の整形
   let searchCorporationListStatus;

@@ -12,6 +12,8 @@ import { SalesListStatistic } from "src/models/sales_list_statistic";
 import { CODE } from "src/utility/constants/Code";
 import { renderCellExpand } from "src/utility/renderexpand";
 import AddIcon from "@mui/icons-material/Add";
+import { useRecoilValue } from "recoil";
+import { membersAtom } from "src/utility/recoil/comp/Members.atom";
 
 interface SalesListsProps {
   className?: string;
@@ -294,6 +296,9 @@ const SalesLists: FC<SalesListsProps> = ({
     return csvRows;
   }
 
+  const members = useRecoilValue(membersAtom);
+  const disabled = members[0].company_code=="001" ? true:false;
+
   return (
     <Card>
       <CardHeader
@@ -304,6 +309,7 @@ const SalesLists: FC<SalesListsProps> = ({
               fullWidth
               variant="contained"
               onClick={convertObjectsToCSV}
+              disabled={disabled}
             >
               <AddIcon />
               　csv出力
