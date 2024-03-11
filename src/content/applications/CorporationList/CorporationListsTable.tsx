@@ -207,8 +207,7 @@ const CorporationLists: FC<CorporationListsProps> = ({
     {
       field: "corporation_name",
       headerName: "会社名・法人名",
-      width: 150,
-      maxWidth: 300,
+      width: 300,
       renderCell: (params) => {
         return (
           <Typography
@@ -226,15 +225,14 @@ const CorporationLists: FC<CorporationListsProps> = ({
     {
       field: "business_category",
       headerName: "業種",
-      maxWidth: 200,
+      width: 200,
       renderCell: renderCellExpand,
     },
-    { field: "zip_code", headerName: "郵便番号", width: 150 },
+    { field: "zip_code", headerName: "郵便番号", width: 100 },
     {
       field: "address",
       headerName: "本社住所",
-      width: 300,
-      maxWidth: 500,
+      width: 450,
       renderCell: renderCellExpand,
     },
     {
