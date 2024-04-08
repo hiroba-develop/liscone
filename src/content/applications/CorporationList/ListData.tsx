@@ -422,8 +422,8 @@ function CorporationLists(props) {
         setLocaleTextValue("検索中です。");
         const getRecruits = async () => {
           try {
-            const response = await axios.get(
-              `${config().apiUrl}/recruit/searchRecruitResult`,
+            const responseCount = await axios.get(
+              `${config().apiUrl}/recruit/searchRecruitResultCount`,
               {
                 params: {
                   searchRecruitBigResult: props.searchRecruitBigResult,
@@ -432,16 +432,45 @@ function CorporationLists(props) {
                 },
               }
             );
+            if (responseCount.statusText === "OK") {
+              const corporationIds = [...new Set(responseCount.data.map(item => item.corporation_id))];
+              if (corporationIds.length >= 1 && corporationIds.length <= 10000) {
+                setLocaleTextValue(
+                  ` ${corporationIds.length}件ヒットしました。データを表示しています。`
+                );
+                const response = await axios.get(
+                  `${config().apiUrl}/recruit/searchRecruitResult`,
+                  {
+                    params: {
+                      searchRecruitBigResult: props.searchRecruitBigResult,
+                      searchRecruitMiddleResult:
+                        props.searchRecruitMiddleResult,
+                      searchRecruitSmallResult: props.searchRecruitSmallResult,
+                    },
+                  }
+                );
 
-            if (response.statusText === "OK") {
-              corporationCount(response.data.length);
-              setRecruits(response.data);
+                if (response.statusText === "OK") {
+                  setRecruits(response.data);
+                }
+              } else if (responseCount.data > 10000) {
+                setLocaleTextValue(
+                  `検索結果は ${responseCount.data}件です。　検索条件を追加してください`
+                );
+              } else if (responseCount.data === 0) {
+                setLocaleTextValue(
+                  "検索結果は 0件です。　検索条件を変更してください"
+                );
+              }
             }
           } catch (error) {
             console.error(error);
           }
         };
+
         getRecruits();
+      } else {
+        setLocaleTextValue("データ件数が多すぎるため、条件を絞り込んで下さい");
       }
     } else {
       setLocaleTextValue(

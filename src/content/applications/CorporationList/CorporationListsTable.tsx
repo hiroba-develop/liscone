@@ -113,42 +113,20 @@ const CorporationLists: FC<CorporationListsProps> = ({
     }
   }
 
-  // 採用検索処理
-  const [recruitCorporations, setRrecruitCorporations] = useState<
-    RecruitList[]
-  >([]);
-  let recruitUniqueCorporationIds = [];
-  useEffect(() => {
-    if (recruitLists.length) {
-      const recruitCorporationIds = recruitLists.map(
-        (item) => item.corporation_id
-      );
-      recruitUniqueCorporationIds = [...new Set(recruitCorporationIds)];
+  // 採用検索処理  
+  let shapingrecruitCrporationLists = [];
+  if (recruitLists.length) {
+    let recruitCrporationLists = [];
+    for (const recruitList of recruitLists) {
+      recruitCrporationLists.push(recruitList.corporationEntity);
     }
-  }, [recruitLists]);
-  useEffect(() => {
-    if (recruitUniqueCorporationIds.length) {
-      const getCorporations = async () => {
-        try {
-          const responseCorporations = await axios.get(
-            `${config().apiUrl}/corporations/recruitCorporationIds`,
-            {
-              params: { CorporationIds: recruitUniqueCorporationIds },
-            }
-          );
-
-          if (responseCorporations.statusText === "OK") {
-            setRrecruitCorporations(responseCorporations.data);
-          }
-        } catch (error) {
-          commonErrorCallback(error);
-        }
-      };
-      getCorporations();
-    }
-  }, [recruitUniqueCorporationIds]);
-  if (recruitCorporations.length && searchSearchClick === 5) {
-    newCrporationLists = recruitCorporations;
+    shapingrecruitCrporationLists = recruitCrporationLists.filter((obj, index, self) =>
+    index === self.findIndex((currentObj) => (
+      currentObj.corporation_id === obj.corporation_id
+    )));
+  }
+  if (searchSearchClick === 5) {
+    newCrporationLists = shapingrecruitCrporationLists;
   }
 
   //Gridの中央の文章
