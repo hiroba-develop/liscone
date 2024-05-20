@@ -56,6 +56,9 @@ const SalesLists: FC<SalesListsProps> = ({
   const handleWebpage = (event, params) => {
     window.open(params, "_blank");
   };
+
+
+
   return (
     <Card>
       <TableContainer>
@@ -68,10 +71,21 @@ const SalesLists: FC<SalesListsProps> = ({
               <TableCell align="left">アカウントソース</TableCell>
               <TableCell align="left">プロフィールリンク</TableCell>
               <TableCell align="left">その他</TableCell>
+              <TableCell align="left">在籍状況</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {paginatedSalesLists.map((CorporationDetailsList) => {
+                let employee_status;
+                if (CorporationDetailsList.employee_status === 0) {
+                  employee_status="現職";
+                } else if (CorporationDetailsList.employee_status === 1) {
+                  employee_status="休職中";
+                } else if (CorporationDetailsList.employee_status === 2) {
+                  employee_status="離職済み";
+                } else {
+                  employee_status="不明なステータス";
+                }
               return (
                 <TableRow hover key={CorporationDetailsList.corporation_id}>
                   <TableCell align="left">
@@ -142,6 +156,16 @@ const SalesLists: FC<SalesListsProps> = ({
                       noWrap
                     >
                       {CorporationDetailsList.other_information}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Typography
+                      variant="body1"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {employee_status}
                     </Typography>
                   </TableCell>
                 </TableRow>

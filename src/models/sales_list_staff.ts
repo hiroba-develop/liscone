@@ -16,6 +16,7 @@ export interface SalesListStaff {
   staff_profile_source_type: string;
   staff_profile_link: string;
   staff_other_information: string;
+  staff_employee_status: number;
   corporation_corporate_number: string;
   corporation_corporation_name: string;
   corporation_business_category: string;

@@ -151,6 +151,8 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
 
   const disabled = members[0].company_code=="001" ? true:false;
 
+
+
   return (
     <Card>
       <CardHeader
@@ -179,10 +181,21 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
               <TableCell align="left">アカウントソース</TableCell>
               <TableCell align="left">プロフィールリンク</TableCell>
               <TableCell align="left">メモ</TableCell>
+              <TableCell align="left">在籍状況</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {paginatedSalesLists.map((staffList) => {
+              let employee_status;
+              if (staffList.staff_employee_status === 0) {
+                employee_status="現職";
+              } else if (staffList.staff_employee_status === 1) {
+                employee_status="休職中";
+              } else if (staffList.staff_employee_status === 2) {
+                employee_status="離職済み";
+              } else {
+                employee_status="不明なステータス";
+              }
               return (
                 <TableRow hover key={staffList.staff_staff_id}>
                   <TableCell align="left">
@@ -233,6 +246,7 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       color="text.primary"
                       gutterBottom
                       noWrap
+                      sx={{ minWidth:"75px" }}
                     >
                       {staffList.staff_profile_source_type}
                     </Typography>
@@ -259,8 +273,21 @@ const StaffLists: FC<StaffDetails2ListProps> = ({
                       color="text.primary"
                       gutterBottom
                       noWrap
+                      sx={{ minWidth:"75px" }}
                     >
                       {staffList.staff_other_information}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                      sx={{ minWidth:"75px" }}
+                    >
+                      {employee_status}
                     </Typography>
                   </TableCell>
                 </TableRow>

@@ -105,6 +105,28 @@ const StaffLists: FC<StaffListsProps> = ({ localeTextValue, staffLists }) => {
       headerName: "その他",
       flex: 2,
     },
+    {
+      field: "employee_status",
+      headerName: "在籍状況",
+      flex: 2,
+      renderCell: (params) => {
+        let employee_status;
+        if (params.value === 0) {
+          employee_status="現職";
+        } else if (params.value === 1) {
+          employee_status="休職中";
+        } else if (params.value === 2) {
+          employee_status="離職済み";
+        } else {
+          employee_status="不明なステータス";
+              }
+        return (
+          <Typography>
+            {employee_status}
+          </Typography>
+        );
+      },
+    },
   ];
 
   return (

@@ -46,7 +46,18 @@ const applyPagination = (
   return corporationLists.slice(page * limit, page * limit + limit);
 };
 
+
 const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
+  let employee_status;
+  if (staffList.employee_status === 0) {
+  	employee_status="現職";
+  } else if (staffList.employee_status === 1) {
+  	employee_status="休職中";
+  } else if (staffList.employee_status === 2) {
+  	employee_status="離職済み";
+  } else {
+  	employee_status="不明なステータス";
+  }
   return (
     <Card>
       <TableContainer>
@@ -60,6 +71,7 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
               <TableCell align="left">アカウントソース</TableCell>
               <TableCell align="left">プロフィールリンク</TableCell>
               <TableCell align="left">その他</TableCell>
+              <TableCell align="left">在籍状況</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -152,6 +164,17 @@ const StaffLists: FC<StaffListsProps> = ({ staffList }) => {
                   noWrap
                 >
                   {staffList.other_information}
+                </Typography>
+              </TableCell>
+              <TableCell align="left">
+                <Typography
+                  variant="body1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  gutterBottom
+                  noWrap
+                >
+                  {employee_status}
                 </Typography>
               </TableCell>
             </TableRow>

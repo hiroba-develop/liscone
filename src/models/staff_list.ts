@@ -14,6 +14,7 @@ export interface StaffList {
   profile_source_type: string;
   profile_link: string;
   other_information: string;
+  employee_status:number;
   corporationEntity: {
     corporation_name: string;
     corporation_id: string;

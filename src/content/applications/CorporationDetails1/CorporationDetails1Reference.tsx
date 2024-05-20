@@ -138,7 +138,6 @@ function CorporationDetails1Reference(corporationList) {
           }}
           rowHeight={70}
         />
-        <Box sx={{ height: 150, maxWidth: 2000 }}>テスト</Box>
       </Box>
     </Card>
   );

@@ -32,6 +32,7 @@ function ListLists({ salesList, salesListStatistic }) {
     getSalesDetailLists();
   }, [salesList.sales_list_number]);
 
+  console.log(staffLists)
   return (
     <Card sx={{ mt: 5 }}>
       <SalesListStaffDetailsTable
