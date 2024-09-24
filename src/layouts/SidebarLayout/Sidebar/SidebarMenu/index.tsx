@@ -3,6 +3,12 @@ import { useContext } from "react";
 import { Box, Button, List, ListItem, styled } from "@mui/material";
 import { NavLink as RouterLink } from "react-router-dom";
 import { SidebarContext } from "src/contexts/SidebarContext";
+import { useRecoilValue } from "recoil";
+import { authAtom } from "src/utility/recoil/auth/Auth.atom";
+import { commonErrorCallback } from "src/utility/http/ApiService";
+import { config } from "src/utility/config/AppConfig";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -149,6 +155,33 @@ const SubMenuWrapper = styled(Box)(
 function SidebarMenu() {
   const { closeSidebar } = useContext(SidebarContext);
 
+  const [companyList, setCompanyList] = useState<number>(0);
+  const authUser = useRecoilValue(authAtom);
+  useEffect(() => {
+    const getCompanyList = async () => {
+      try {
+        const response = await axios.get(
+          `${config().apiUrl}/company/byCompanycode`,
+          {
+            params: {
+              companyCode: authUser.coId,
+            },
+          }
+        );
+        if (response.statusText === "OK") {
+          setCompanyList(response.data[0].form_status);
+          console.log(response.data[0].form_status);
+        }
+      } catch (error) {
+        commonErrorCallback(error);
+      }
+    };
+    getCompanyList();
+  }, [authUser.userId]);
+
+  console.log(companyList);
+  const display = companyList == 1 ? true:false;
+
   return (
     <>
       <MenuWrapper>
@@ -236,17 +269,40 @@ function SidebarMenu() {
                   行動ログ
                 </Button>
               </ListItem>
-              {/* <ListItem component="div">
-                <Button
-                  disableRipple
-                  component={RouterLink}
-                  onClick={closeSidebar}
-                  to="/setting"
-                  startIcon={<SettingsTwoToneIcon />}
-                >
-                  設定
-                </Button>
-              </ListItem> */}
+              {display && (
+                <>
+                  <ListItem component="div">
+                    <Button
+                      component={RouterLink}
+                      onClick={closeSidebar}
+                      to="/autoFormSend"
+                      startIcon={
+                        <img
+                          src="/static/images/autoFormSend.svg"
+                          alt="autoFormSend"
+                        />
+                      }
+                    >
+                      自動フォーム送信
+                    </Button>
+                  </ListItem>
+                  <ListItem component="div">
+                    <Button
+                      component={RouterLink}
+                      onClick={closeSidebar}
+                      to="/autoFormSendLog"
+                      startIcon={
+                        <img
+                          src="/static/images/autoFormSendLog.svg"
+                          alt="autoFormSendLog"
+                        />
+                      }
+                    >
+                      自動フォーム送信履歴
+                    </Button>
+                  </ListItem>
+                </>
+              )}
             </List>
           </SubMenuWrapper>
         </List>

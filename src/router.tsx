@@ -54,7 +54,9 @@ const StaffDetails2 = Loader(
   lazy(() => import("src/content/applications/StaffDetails2"))
 );
 const Reports = Loader(lazy(() => import("src/content/applications/Reports")));
-// const Setting = Loader(lazy(() => import("src/content/applications/Setting")));
+const AutoFormSend = Loader(lazy(() => import("src/content/applications/AutoFormSend")));
+
+const AutoFormSendLog = Loader(lazy(() => import("src/content/applications/AutoFormSendLog")));
 
 const routes: RouteObject[] = [
   {
@@ -193,19 +195,33 @@ const routes: RouteObject[] = [
       },
     ],
   },
-  // {
-  //   path: "setting",
-  //   element: <SidebarLayout />,
-  //   children: [
-  //     {
-  //       path: "",
-  //       element: <Navigate to="setting" replace />,
-  //     },
-  //     {
-  //       path: "setting",
-  //       element: <Setting />,
-  //     },
-  //   ],
-  // },
+  {
+    path: "autoFormSend",
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: "",
+        element: <Navigate to="autoFormSend" replace />,
+      },
+      {
+        path: "autoFormSend",
+        element: <AutoFormSend />,
+      },
+    ],
+  },
+  {
+    path: "autoFormSendLog",
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: "",
+        element: <Navigate to="autoFormSendLog" replace />,
+      },
+      {
+        path: "autoFormSendLog",
+        element: <AutoFormSendLog />,
+      },
+    ],
+  },
 ];
 export default routes;
