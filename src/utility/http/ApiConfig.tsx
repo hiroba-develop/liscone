@@ -5,7 +5,7 @@ import { config } from '../config/AppConfig';
  * http client를 초기화 한다.
  */
 export const httpClient: AxiosInstance = axios.create({
-  baseURL: config().apiUrl,
+  baseURL: 'http://54.249.88.125/api/',
   responseType: 'json',
   headers: {
     'X-Env-Type': config().envCd,
