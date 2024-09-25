@@ -33,7 +33,7 @@ export const config = (): AppConfig => {
   };
 
   return {
-    apiUrl: get(`${prefix}_API_URL`) ?? '',
+    apiUrl: 'http://54.249.88.125/api/',
     envCd: (get(`${prefix}_ENV_CD`) as EnvCd) ?? EnvCd.LOCAL,
   };
 };
