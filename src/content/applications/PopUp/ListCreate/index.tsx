@@ -60,7 +60,6 @@ const ListCreate = ({
         sales_list_name: salesListNameValue,
         sales_list_type: salesListType,
       };
-      console.log(param.datas)
       return await post<any>(`${config().apiUrl}/saleslists/createlist`, param);
     },
     {

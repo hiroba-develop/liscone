@@ -170,7 +170,6 @@ function SidebarMenu() {
         );
         if (response.statusText === "OK") {
           setCompanyList(response.data[0].form_status);
-          console.log(response.data[0].form_status);
         }
       } catch (error) {
         commonErrorCallback(error);
@@ -179,7 +178,6 @@ function SidebarMenu() {
     getCompanyList();
   }, [authUser.userId]);
 
-  console.log(companyList);
   const display = companyList == 1 ? true:false;
 
   return (

@@ -297,7 +297,6 @@ const SalesLists: FC<SalesListsProps> = ({
   }
 
   const members = useRecoilValue(membersAtom);
-  console.log(members)
   const disabled = members[0].company_code=="001" ? true:false;
 
   return (

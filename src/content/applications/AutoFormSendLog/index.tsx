@@ -67,7 +67,6 @@ export default function Component() {
     };
     getAutoFormSendList();
   }, [authUser.userId]);
-  console.log(autoFormSendList);
 
   // 日付を yyyy/mm/dd 形式にフォーマットするヘルパー関数
   const formatDate = (dateString: string): string => {
@@ -166,7 +165,6 @@ export default function Component() {
       {autoFormSendList.map((formList) => {
         // send_status のカウントを取得
         const counts = countSendStatus(formList.autoFormSendLogs);
-        console.log(counts);
         const total = counts.reduce((sum, item) => sum + item.value, 0);
         // CSVダウンロードハンドラー
         const handleDownloadCSV = () => {

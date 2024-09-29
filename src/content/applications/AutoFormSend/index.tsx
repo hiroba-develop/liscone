@@ -30,13 +30,11 @@ function Lists() {
   };
   const handleRunSelenium = async (inquiryData) => {
     try {
-      console.log(inquiryData);
       const res = await axios.post(`${config().apiUrl}/autoFormSend/form`, {
         csvData,
         inquiryData,
         authUser,
       });
-      console.log(res.data.message);
     } catch (error) {
       console.error("Error calling the contant", error);
     }
@@ -100,8 +98,6 @@ function Lists() {
   };
   // ヘッダーと件数を取得
   const dataCount = csvData.length > 1 ? csvData.length - 1 : 0; // データ行数を取得（ヘッダーを除く）
-  // CSVファイルの中身取得
-  console.log(csvData);
 
   // フォームの入力情報を一つのオブジェクトにまとめる関数
   const InquiryDataObject = () => {
