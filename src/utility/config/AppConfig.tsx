@@ -33,7 +33,7 @@ export const config = (): AppConfig => {
   };
 
   return {
-    apiUrl: 'http://54.249.88.125/api/',
+    apiUrl: 'https://lisconne.jp/api',
     envCd: (get(`${prefix}_ENV_CD`) as EnvCd) ?? EnvCd.LOCAL,
   };
 };
