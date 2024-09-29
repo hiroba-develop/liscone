@@ -312,11 +312,14 @@ function Lists() {
 
   // 従業員規模ラベル
   const employeeSizeOptions = [
-    { label: "1" },
-    { label: "10" },
-    { label: "100" },
-    { label: "1000" },
-    { label: "10000" },
+    { label: "1~10" },
+    { label: "10~30" },
+    { label: "30~50" },
+    { label: "50~100" },
+    { label: "100~300" },
+    { label: "300~500" },
+    { label: "500~1000" },
+    { label: "1000~" },
   ];
 
   // 都道府県ラベル
