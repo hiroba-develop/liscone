@@ -85,7 +85,7 @@ export default function Component() {
     if (num === 1) return "フォーム検出エラー";
     if (num === 2) return "送信ボタンエラー";
     if (num === 3) return "入力項目エラー";
-    if (num === 4) return "自動送信エラー";
+    if (num === 4) return "送信成功(送信完了画面が確認できませんでした。)";
     if (num === 5) return "不明なエラー";
     return "未知のステータス"; // 未定義のステータス
   };
@@ -99,8 +99,8 @@ export default function Component() {
     SendLogs.forEach((SendLog) => {
       const num = parseInt(SendLog.send_status, 10);
       if (num === -1) 未送信 += 1;
-      else if (num === 0) 送信成功 += 1;
-      else if (num >= 1) 送信失敗 += 1;
+      else if (num === 0 || num === 4) 送信成功 += 1;
+      else if (num === 1 || num === 2|| num === 3|| num === 5) 送信失敗 += 1;
     });
 
     return [
