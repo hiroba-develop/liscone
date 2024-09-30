@@ -24,6 +24,7 @@ function Lists() {
   const formSendClick = () => {
     if (window.confirm("入力内容・CSVファイルに間違いはありませんか？")) {
       // 「はい」を選択した場合の処理
+      alert("処理を開始します。");
       const inquiryData = InquiryDataObject();
       handleRunSelenium(inquiryData);
     }
